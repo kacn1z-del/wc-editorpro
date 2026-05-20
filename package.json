@@ -4,10 +4,12 @@
   "description": "Editor de texto multilingüe",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-win": "electron-packager . wc-editorpro --platform=win32 --arch=x64 --out=dist --overwrite --icon=icon.ico"
   },
   "dependencies": {},
   "devDependencies": {
-    "electron": "^25.0.0"
+    "electron": "^25.0.0",
+    "electron-packager": "^17.1.0"
   }
 }
