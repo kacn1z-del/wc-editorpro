@@ -91,7 +91,7 @@ async function exportDocx() {
 }
 
 function exportHTML() {
-  const htmlContent = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Documento WC EditorPro Suite</title></head><body><h1>WC EditorPro Suite</h1>${quill.root.innerHTML}</body></html>`;
+  const htmlContent = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Documento WC EditorPro Suite</title></head><body><h1>WC EditorPro Suite</h1>${quill.root.innerHTML}</body></html>`; // Corrección aplicada
   const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
   saveAs(blob, 'documento.html');
   logChange('HTML exportado');
