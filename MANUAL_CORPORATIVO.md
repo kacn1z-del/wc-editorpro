@@ -1,0 +1,1 @@
+Este es el manual corporativo completo para **WC EditorPro Suite (Tsuö Tökö)**. Proporciona toda la información bilingüe, funciones, persistencia del backend y diseño de la interfaz. Por favor, consulta Google Drive para gestionar el archivo completo: 'Manual Corporativo - WC EditorPro Suite (Tsuö Tökö)' o envía instrucciones específicas.
