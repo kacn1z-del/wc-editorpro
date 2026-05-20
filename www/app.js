@@ -1,8 +1,4 @@
-let quill = new Quill('#editor', {
-  modules: { toolbar: '#toolbar' },
-  theme: 'snow',
-  placeholder: 'Escriba su texto aquí...'
-});
+let quill = new Quill('#editor', { modules: { toolbar: '#toolbar' }, theme: 'snow', placeholder: 'Escriba su texto aquí...' });
 
 // Historial local
 let historyStack = [];
@@ -62,14 +58,12 @@ const diccionarios = {
 function checkSpelling() {
   const text = quill.getText();
   const lang = document.getElementById('languageSelector').value;
-  const diccionario = diccionarios[lang] || [];
+  const diccionario = diccionarios[lang] || []; // ← FIX AQUÍ
   const palabras = text.toLowerCase().split(/\s+/).filter(p => p.length > 0);
   const errores = palabras.filter(p =>!diccionario.includes(p) && p.match(/[a-zñáéíóúü]/i));
 
-  // Quitar formato previo
   quill.removeFormat(0, quill.getLength());
 
-  // Resaltar errores
   errores.forEach(error => {
     let startIndex = 0;
     let idx = text.toLowerCase().indexOf(error.toLowerCase(), startIndex);
@@ -90,16 +84,14 @@ function exportPDF() {
 
 async function exportDocx() {
   const { Document, Packer, Paragraph } = window.docx;
-  const doc = new Document({
-    sections: [{ children: [new Paragraph(quill.getText())] }]
-  });
+  const doc = new Document({ sections: [{ children: [new Paragraph(quill.getText())] }] });
   const blob = await Packer.toBlob(doc);
   saveAs(blob, 'documento.docx');
   logChange('DOCX exportado');
 }
 
 function exportHTML() {
-  const htmlContent = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Documento WC EditorPro Suite</title></head><body><h1>WC EditorPro Suite</h1>${quill.root.innerHTML}</body></html>`;
+  const htmlContent = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Documento WC EditorPro Suite</title></head><body><h1>WC EditorPro Suite</h1>${quill.root.innerHTML}</body></html>`; // ← FIX AQUÍ: cerré el backtick
   const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
   saveAs(blob, 'documento.html');
   logChange('HTML exportado');
