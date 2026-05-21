@@ -1,5 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
+    <!-- WC CORPORATE ADDON - PEGAR ANTES DE </head> -->
+<style>
+   .wc-ia-panel {
+        background: linear-gradient(135deg, #252423 0%, #323130 100%);
+        color: #fff;
+        border-top: 3px solid #5c2d91;
+        padding: 12px 15px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+   .wc-ia-title {
+        font-weight: 700;
+        background: linear-gradient(45deg, #b4009e, #00d26a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 14px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+   .wc-promo {
+        background: #8B4513;
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 10px;
+        margin-left: auto;
+    }
+   .wc-ia-input {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+   .wc-ia-input input {
+        flex: 1;
+        background: #1b1a19;
+        border: 2px solid #5c2d91;
+        color: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+   .wc-ia-input button {
+        background: linear-gradient(45deg, #5c2d91, #b4009e);
+        border: none;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+   .wc-ia-actions {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+    }
+   .wc-ia-actions button {
+        background: #323130;
+        border: 1px solid #484644;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 11px;
+    }
+   .wc-ia-actions button:hover {
+        background: #484644;
+        border-color: #5c2d91;
+    }
+   .wc-ia-output {
+        background: #1b1a19;
+        border: 1px solid #484644;
+        border-radius: 6px;
+        padding: 12px;
+        min-height: 60px;
+        max-height: 100px;
+        overflow-y: auto;
+        font-size: 12px;
+    }
+   .wc-firma {
+        position: fixed;
+        bottom: 150px;
+        right: 20px;
+        font-size: 9px;
+        color: #a19f9d;
+        background: rgba(255,255,255,0.9);
+        padding: 4px 8px;
+        border-radius: 4px;
+        z-index: 999;
+    }
+    @media print {
+       .wc-ia-panel,.wc-firma { display: none!important; }
+        body::after {
+            content: "Desarrollado por Keny Chinchilla Navarro | Hecho en Costa Rica 🇨🇷";
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            font-size: 8pt;
+            color: #c0c0c0;
+        }
+    }
+</style>
+<!-- FIN WC CORPORATE HEAD -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
