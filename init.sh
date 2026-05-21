@@ -1,5 +1,7 @@
 #!/bin/bash
-
+cd /ruta/a/tu-repo
+chmod +x init.sh
+./init.sh
 # 🚀 Script de inicialización para WC EditorPro Suite
 
 # 1. Crear carpetas
@@ -94,5 +96,3 @@ git add .
 git commit -m "Inicialización de repo con estructura modular"
 git pull origin main --rebase
 git push origin main
-cd /ruta/a/tu/repo
-chmod +x init.sh
