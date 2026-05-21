@@ -1,130 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Word Web App Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WC EditorPro Suite</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<style>
-body{margin:0;font-family:Segoe UI;background:#e5e5e5;display:flex;flex-direction:column;height:100vh}
-.topbar{background:#185abd;color:#fff;padding:8px;display:flex;justify-content:space-between;align-items:center}
-.tabs{display:flex;background:#f3f3f3;border-bottom:1px solid #ccc;overflow-x:auto}
-.tabs button{padding:10px;border:none;background:none;cursor:pointer}
-.tabs button.active{background:#fff;border-bottom:2px solid #185abd}
-.ribbon{background:#fff;padding:8px;display:flex;gap:6px;flex-wrap:wrap}
-.ribbon button,select{padding:6px}
-.editor{
-  flex:1;background:#fff;margin:10px;padding:20px;
-  overflow:auto;outline:none
-}
-.ai{
-  background:#111;color:#fff;padding:10px
-}
-.ai input{width:80%;padding:8px}
-.ai button{padding:8px}
-</style>
+  <!-- Estilos corporativos -->
+  <link rel="stylesheet" href="public/estilo-corporativo.css">
 </head>
-
 <body>
 
-<div class="topbar">
-  <div>📄 WC Word Web App Pro</div>
-  <div>IA integrada</div>
-</div>
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div>📄 WC EditorPro Suite</div>
+    <div>IA integrada</div>
+  </header>
 
-<!-- TABS -->
-<div class="tabs">
-  <button onclick="changeTab(this)" class="active">Inicio</button>
-  <button onclick="changeTab(this)">Insertar</button>
-  <button onclick="changeTab(this)">Diseño</button>
-</div>
+  <!-- Navegación tipo pestañas -->
+  <nav class="tabs">
+    <button onclick="changeTab(this)" class="active" aria-label="Inicio">Inicio</button>
+    <button onclick="changeTab(this)" aria-label="Insertar">Insertar</button>
+    <button onclick="changeTab(this)" aria-label="Diseño">Diseño</button>
+  </nav>
 
-<!-- RIBBON -->
-<div class="ribbon">
-  <button onclick="execCmd('bold')"><b>B</b></button>
-  <button onclick="execCmd('italic')"><i>I</i></button>
-  <button onclick="execCmd('underline')"><u>U</u></button>
+  <!-- Ribbon -->
+  <section class="ribbon">
+    <button onclick="execCmd('bold')" aria-label="Negrita"><b>B</b></button>
+    <button onclick="execCmd('italic')" aria-label="Cursiva"><i>I</i></button>
+    <button onclick="execCmd('underline')" aria-label="Subrayado"><u>U</u></button>
 
-  <button onclick="execCmd('justifyLeft')">⬅</button>
-  <button onclick="execCmd('justifyCenter')">⬌</button>
-  <button onclick="execCmd('justifyRight')">➡</button>
+    <button onclick="execCmd('justifyLeft')" aria-label="Alinear izquierda">⬅</button>
+    <button onclick="execCmd('justifyCenter')" aria-label="Centrar">⬌</button>
+    <button onclick="execCmd('justifyRight')" aria-label="Alinear derecha">➡</button>
 
-  <select onchange="execCmd('fontName',this.value)">
-    <option>Arial</option>
-    <option>Verdana</option>
-    <option>Times New Roman</option>
-  </select>
+    <select onchange="execCmd('fontName',this.value)" aria-label="Fuente">
+      <option>Arial</option>
+      <option>Verdana</option>
+      <option>Times New Roman</option>
+    </select>
 
-  <button onclick="insertTable()">Tabla</button>
-  <button onclick="insertImage()">Imagen</button>
-</div>
+    <button onclick="insertTable()" aria-label="Insertar tabla">Tabla</button>
+    <button onclick="insertImage()" aria-label="Insertar imagen">Imagen</button>
+  </section>
 
-<!-- EDITOR -->
-<div id="editor" class="editor" contenteditable="true">
-Escribe aquí tu documento...
-</div>
+  <!-- Editor principal -->
+  <main>
+    <div id="editor" class="editor" contenteditable="true">
+      Escribe aquí tu documento...
+    </div>
+  </main>
 
-<!-- IA -->
-<div class="ai">
-  <input id="aiInput" placeholder="Pregunta a la IA...">
-  <button onclick="askAI()">Enviar</button>
-  <div id="aiOut"></div>
-</div>
+  <!-- Panel IA -->
+  <footer class="ai">
+    <input id="aiInput" placeholder="Pregunta a la IA..." aria-label="Entrada IA">
+    <button onclick="askAI()" aria-label="Enviar a IA">Enviar</button>
+    <div id="aiOut"></div>
+  </footer>
 
-<script>
-
-const editor = document.getElementById("editor");
-
-/* =========================
-   EDITOR CORE (FIX PRINCIPAL)
-========================= */
-function execCmd(cmd, value=null){
-  document.execCommand(cmd,false,value);
-  editor.focus();
-}
-
-/* =========================
-   TABS
-========================= */
-function changeTab(btn){
-  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-/* =========================
-   INSERTS
-========================= */
-function insertTable(){
-  editor.innerHTML += `
-  <table border="1" style="width:100%;border-collapse:collapse">
-    <tr><td>Col 1</td><td>Col 2</td></tr>
-  </table>`;
-}
-
-function insertImage(){
-  const url = prompt("URL de imagen:");
-  if(url){
-    editor.innerHTML += `<img src="${url}" style="max-width:100%">`;
-  }
-}
-
-/* =========================
-   IA SIMPLE (PUEDES CONECTAR OPENAI AQUÍ)
-========================= */
-function askAI(){
-  const input = document.getElementById("aiInput").value;
-  const out = document.getElementById("aiOut");
-
-  out.innerHTML = "Pensando...";
-
-  setTimeout(()=>{
-    out.innerHTML = "🤖 Respuesta simulada: " + input;
-  },1000);
-}
-
-</script>
-
+  <!-- Scripts -->
+  <script src="src/editor.js"></script>
 </body>
 </html>
