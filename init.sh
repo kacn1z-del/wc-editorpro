@@ -94,3 +94,5 @@ git add .
 git commit -m "Inicialización de repo con estructura modular"
 git pull origin main --rebase
 git push origin main
+cd /ruta/a/tu/repo
+chmod +x init.sh
