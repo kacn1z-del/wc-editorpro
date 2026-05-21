@@ -1,284 +1,592 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WC CORPORATE - Word Completo Pro + IA</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: #f3f2f1; font-family: 'Segoe UI', Arial, sans-serif; color: #323130; font-size: 14px; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
-       .ms-titlebar { background: linear-gradient(90deg, #185abd, #8B4513, #00d26a); color: #fff; padding: 8px 12px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-       .lang-selector { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-       .ms-tabs { background: #f3f2f1; border-bottom: 1px solid #d1d1d1; padding: 0 8px; display: flex; flex-wrap: nowrap; flex-shrink: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-       .ms-tabs::-webkit-scrollbar { height: 3px; }
-       .ms-tabs::-webkit-scrollbar-thumb { background: #c8c6c4; }
-       .ms-tabs button { background: none; border: 1px solid transparent; padding: 8px 10px; font-size: 12px; cursor: pointer; margin-top: 3px; white-space: nowrap; flex-shrink: 0; }
-       .ms-tabs button.active { background: #fff; border-color: #d1d1d1; border-bottom: #fff; font-weight: 600; }
-       .ms-ribbon { background: #fff; border-bottom: 1px solid #d1d1d1; padding: 8px; display: none; gap: 6px; flex-wrap: wrap; align-items: center; flex-shrink: 0; max-height: 140px; overflow-y: auto; }
-       .ms-ribbon.active { display: flex; }
-       .ms-ribbon button,.ms-ribbon select,.ms-ribbon input { background: #fff; border: 1px solid #d1d1d1; padding: 6px 8px; font-size: 12px; cursor: pointer; border-radius: 4px; height: 32px; min-width: 32px; }
-       .ms-ribbon button:hover { background: #e1dfdd; border-color: #c8c6c4; }
-       .ms-ribbon button:active, .ms-ribbon button.active-btn { background: #deecf9; border-color: #185abd; }
-       .ribbon-group { display: flex; gap: 4px; padding: 4px 8px; border-right: 1px solid #d1d1d1; align-items: center; flex-wrap: wrap; }
-       .ribbon-group:last-child { border: none; }
-       .ribbon-label { font-size: 9px; color: #605e5c; width: 100%; text-align: center; margin-top: 2px; }
-       .btn-indigena { background: #8B4513!important; color: #fff!important; font-weight: 600; border: none!important; }
-       .btn-wcart { background: linear-gradient(45deg, #185abd, #00d26a)!important; color: #fff!important; font-weight: 600; border: none!important; }
-       .btn-ia { background: linear-gradient(45deg, #5c2d91, #b4009e)!important; color: #fff!important; font-weight: 600; border: none!important; }
-       .main-container { display: flex; flex: 1; overflow: hidden; position: relative; }
-       .sidebar { width: 240px; background: #faf9f8; border-right: 1px solid #d1d1d1; overflow-y: auto; flex-shrink: 0; transition: transform 0.3s; }
-       .sidebar.mobile-hidden { transform: translateX(-100%); position: absolute; z-index: 100; height: 100%; box-shadow: 2px 0 8px rgba(0,0,0,0.2); }
-       .sidebar-toggle { display: none; position: fixed; bottom: 80px; left: 15px; background: #185abd; color: #fff; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; z-index: 99; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-       .sidebar-section { padding: 10px; border-bottom: 1px solid #e1dfdd; }
-       .sidebar-title { font-weight: 600; font-size: 11px; color: #605e5c; margin-bottom: 8px; text-transform: uppercase; }
-       .sidebar-item { padding: 10px; margin: 4px 0; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-       .sidebar-item:hover { background: #e1dfdd; }
-       .sidebar-item.active { background: #deecf9; color: #185abd; font-weight: 600; }
-       .sidebar-item i { width: 18px; text-align: center; color: #605e5c; font-size: 16px; }
-       .doc-area { flex: 1; background: #e5e5e5; padding: 10px; overflow: auto; -webkit-overflow-scrolling: touch; }
-       .page { background: #fff; width: 100%; max-width: 816px; min-height: 1056px; margin: 0 auto; box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132); padding: 96px; position: relative; }
-       .page[data-margins="estrecho"] { padding: 36px; }
-       .page[data-margins="normal"] { padding: 96px; }
-       .page[data-margins="ancho"] { padding: 144px; }
-       .header-page, .footer-page { position: absolute; left: 96px; right: 96px; font-size: 10pt; color: #605e5c; }
-       .page[data-margins="estrecho"] .header-page, .page[data-margins="estrecho"] .footer-page { left: 36px; right: 36px; }
-       .page[data-margins="ancho"] .header-page, .page[data-margins="ancho"] .footer-page { left: 144px; right: 144px; }
-       .header-page { top: 15px; border-bottom: 1px solid #d1d1d1; padding-bottom: 5px; min-height: 20px; }
-       .footer-page { bottom: 15px; border-top: 1px solid #d1d1d1; padding-top: 5px; text-align: center; min-height: 20px; }
-        #editor { outline: none; min-height: 600px; font-size: 11pt; line-height: 1.15; column-count: 1; column-gap: 40px; word-wrap: break-word; }
-       #editor[data-columns="2"] { column-count: 2; }
-       #editor[data-columns="3"] { column-count: 3; }
-       #editor[data-interlineado="1"] { line-height: 1.0; }
-       #editor[data-interlineado="1.15"] { line-height: 1.15; }
-       #editor[data-interlineado="1.5"] { line-height: 1.5; }
-       #editor[data-interlineado="2"] { line-height: 2.0; }
-       .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-       .modal-content { background: #fff; margin: 3% auto; padding: 20px; border-radius: 8px; width: 95%; max-width: 1100px; max-height: 90vh; overflow-y: auto; }
-       .modal-content h3 { color: #185abd; margin-bottom: 15px; }
-       .template-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 15px 0; }
-       .template-card { border: 2px solid #d1d1d1; border-radius: 8px; padding: 15px 10px; cursor: pointer; text-align: center; transition: all 0.2s; }
-       .template-card:hover { border-color: #5c2d91; background: #f3f2f1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-       .template-card i { font-size: 32px; color: #5c2d91; display: block; margin-bottom: 8px; }
-       .template-card span { font-weight: 600; font-size: 12px; display: block; }
-       .template-card small { display: block; color: #605e5c; font-size: 10px; margin-top: 4px; }
-       
-       /* SMARTART WC */
-       .smartart-wc { border: 3px solid #185abd; padding: 20px; margin: 15px 0; background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%); border-radius: 12px; position: relative; }
-       .smartart-wc::before { content: "WC SmartArt"; position: absolute; top: -12px; left: 15px; background: #185abd; color: #fff; padding: 2px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; }
-       .smartart-wc h4 { color: #185abd; margin-bottom: 15px; text-align: center; font-size: 14px; }
-       .smartart-lista-wc { display: flex; flex-direction: column; gap: 12px; }
-       .smartart-item-wc { display: flex; align-items: center; gap: 12px; background: #fff; padding: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-       .smartart-num-wc { background: linear-gradient(45deg, #185abd, #00d26a); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; box-shadow: 0 2px 6px rgba(24,90,189,0.3); }
-       .smartart-text-wc { flex: 1; }
-       .smartart-proceso-wc { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; padding: 10px 0; }
-       .smartart-paso-wc { flex: 1; min-width: 110px; background: linear-gradient(135deg, #107c10, #00d26a); color: #fff; padding: 18px 10px; border-radius: 10px; text-align: center; box-shadow: 0 4px 8px rgba(16,124,16,0.3); transform: translateY(0); transition: transform 0.2s; }
-       .smartart-paso-wc:hover { transform: translateY(-3px); }
-       .smartart-flecha-wc { color: #107c10; font-size: 28px; font-weight: bold; }
-       .smartart-ciclo-wc { position: relative; width: 280px; height: 280px; margin: 20px auto; }
-       .smartart-ciclo-item-wc { position: absolute; background: linear-gradient(135deg, #00bcf2, #185abd); color: #fff; padding: 15px; border-radius: 12px; width: 90px; text-align: center; font-size: 11px; box-shadow: 0 4px 10px rgba(0,188,242,0.4); }
-       .smartart-jerarquia-wc { text-align: center; }
-       .smartart-nodo-wc { background: linear-gradient(135deg, #d13438, #ff8c00); color: #fff; padding: 15px 25px; border-radius: 10px; display: inline-block; margin: 8px; box-shadow: 0 4px 8px rgba(209,52,56,0.3); }
-       .smartart-nodo-wc.hijo { background: linear-gradient(135deg, #f1707b, #ffb900); }
-       .smartart-venn-wc { position: relative; height: 200px; margin: 20px 0; }
-       .smartart-venn-circle { position: absolute; width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; }
-       .smartart-venn-a { left: 20%; top: 30px; background: rgba(24,90,189,0.7); }
-       .smartart-venn-b { right: 20%; top: 30px; background: rgba(0,210,106,0.7); }
-       .smartart-piramide-wc { text-align: center; }
-       .smartart-pir-nivel { margin: 8px auto; color: #fff; padding: 12px; font-weight: 600; }
-       
-       /* WC ART - ORIGINAL TICO */
-       .wcart { font-size: 56px; font-weight: 900; text-align: center; margin: 25px 0; padding: 15px; position: relative; }
-       .wcart::before { content: "WC Art"; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #185abd; color: #fff; padding: 3px 12px; border-radius: 4px; font-size: 10px; font-weight: 600; }
-       .wcart.cr-flag { background: linear-gradient(180deg, #002B7F 20%, #FFFFFF 20% 40%, #CE1126 40% 60%, #FFFFFF 60% 80%, #002B7F 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.4)); }
-       .wcart.coffee { background: linear-gradient(45deg, #6F4E37, #C4A484, #8B4513); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 2px 2px 4px rgba(111,78,55,0.3); }
-       .wcart.beach { background: linear-gradient(45deg, #00d26a, #00bcf2, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 10px rgba(0,210,106,0.5)); }
-       .wcart.volcano { color: #ff4500; text-shadow: 0 0 20px #ff8c00, 0 0 40px #ff4500, 3px 0px #8b0000; }
-       .wcart.pura-vida { background: linear-gradient(90deg, #185abd, #00d26a, #CE1126); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: wave 3s ease-in-out infinite; }
-       @keyframes wave { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(-2deg); } }
-       
-       /* TABLAS CON FÓRMULAS */
-       .wc-table { border-collapse: collapse; width: 100%; margin: 15px 0; }
-       .wc-table th { background: #185abd; color: #fff; padding: 10px; text-align: left; font-weight: 600; }
-       .wc-table td { border: 1px solid #d1d1d1; padding: 8px; }
-       .wc-table tr:nth-child(even) { background: #f3f2f1; }
-       .wc-table .formula { background: #fff4ce; font-weight: 600; color: #8B4513; }
-       
-       /* FORMAS */
-       .wc-shape { margin: 15px 0; display: inline-block; }
-       .wc-shape.rect { width: 150px; height: 100px; background: #185abd; border-radius: 4px; }
-       .wc-shape.circle { width: 100px; height: 100px; background: #00d26a; border-radius: 50%; }
-       .wc-shape.arrow { width: 0; height: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; border-bottom: 80px solid #d13438; }
-       
-       /* ASISTENTE IA WC */
-       .ai-panel { background: linear-gradient(135deg, #252423 0%, #323130 100%); color: #fff; border-top: 3px solid #5c2d91; padding: 12px 15px; flex-shrink: 0; }
-       .ai-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-       .ai-title { font-weight: 700; background: linear-gradient(45deg, #b4009e, #00d26a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-       .promo-banner { background: #8B4513; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 10px; }
-       .ai-input-area { display: flex; gap: 8px; margin-bottom: 10px; }
-       .ai-input-area input { flex: 1; background: #1b1a19; border: 2px solid #5c2d91; color: #fff; padding: 10px; border-radius: 6px; font-size: 13px; }
-       .ai-input-area input:focus { outline: none; border-color: #b4009e; box-shadow: 0 0 0 2px rgba(180,0,158,0.3); }
-       .ai-input-area button { background: linear-gradient(45deg, #5c2d91, #b4009e); border: none; color: #fff; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; }
-       .ai-input-area button:hover { background: linear-gradient(45deg, #6d3da5, #c700b0); }
-       .ai-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-       .ai-actions button { background: #323130; border: 1px solid #484644; color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; display: flex; align-items: center; gap: 6px; }
-       .ai-actions button:hover { background: #484644; border-color: #5c2d91; }
-       .ai-actions button i { font-size: 12px; }
-       .ai-output { background: #1b1a19; border: 1px solid #484644; border-radius: 6px; padding: 12px; min-height: 60px; max-height: 120px; overflow-y: auto; font-size: 12px; line-height: 1.6; }
-       .ai-output.loading { display: flex; align-items: center; justify-content: center; color: #b4009e; }
-       .ai-output.loading::after { content: "✨ WC IA pensando..."; animation: pulse 1.5s infinite; }
-       @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-       
-       /* BUSCAR/REEMPLAZAR */
-       .find-replace { background: #fff; border: 2px solid #5c2d91; border-radius: 8px; padding: 15px; margin: 10px 0; display: none; }
-       .find-replace.active { display: block; }
-       .find-replace-row { display: flex; gap: 10px; margin-bottom: 10px; }
-       .find-replace-row input { flex: 1; padding: 8px; border: 1px solid #d1d1d1; border-radius: 4px; }
-       .find-replace-row button { background: #5c2d91; color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
-       
-       @media (max-width: 768px) {
-           .sidebar { position: fixed; z-index: 100; height: 100%; transform: translateX(-100%); }
-           .sidebar.active { transform: translateX(0); }
-           .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-           .ms-tabs { font-size: 11px; }
-           .ms-tabs button { padding: 6px 8px; font-size: 11px; }
-           .ribbon-group { padding: 4px; }
-           .ms-ribbon button, .ms-ribbon select { height: 36px; font-size: 12px; }
-           .page { padding: 20px 15px; width: 100%; }
-           .header-page, .footer-page { left: 15px; right: 15px; }
-           .header-page { top: 10px; }
-           .footer-page { bottom: 10px; }
-           #editor { font-size: 14px; }
-           .template-grid { grid-template-columns: repeat(2, 1fr); }
-           .ai-input-area { flex-direction: column; }
-           .ai-input-area button { width: 100%; }
-       }
-       @media print { 
-           .page::after { content: "Desarrollado por Keny Chinchilla Navarro | Hecho en Costa Rica 🇨🇷"; position: fixed; bottom: 15px; right: 20px; font-size: 8pt; color: #c0c0c0; }
-           .ms-titlebar, .ms-tabs, .ms-ribbon, .sidebar, .sidebar-toggle, .ai-panel { display: none !important; }
-       }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="./">
+
+<title>WC Corporate Editor Pro</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Segoe UI,Arial,sans-serif;
+background:#f3f2f1;
+height:100vh;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+}
+
+/* TOPBAR */
+
+.topbar{
+background:linear-gradient(90deg,#185abd,#8B4513,#00d26a);
+color:white;
+padding:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
+}
+
+.tabs{
+display:flex;
+overflow-x:auto;
+background:white;
+border-bottom:1px solid #ccc;
+}
+
+.tabs button{
+background:none;
+border:none;
+padding:12px;
+cursor:pointer;
+font-size:13px;
+white-space:nowrap;
+}
+
+.tabs button.active{
+background:#eaeaea;
+font-weight:bold;
+}
+
+/* RIBBON */
+
+.ribbon{
+display:none;
+background:white;
+padding:10px;
+border-bottom:1px solid #ccc;
+flex-wrap:wrap;
+gap:6px;
+}
+
+.ribbon.active{
+display:flex;
+}
+
+.ribbon button,
+.ribbon select,
+.ribbon input{
+padding:8px;
+border:1px solid #ccc;
+border-radius:4px;
+cursor:pointer;
+background:white;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+overflow:auto;
+padding:20px;
+background:#ddd;
+}
+
+.page{
+background:white;
+max-width:900px;
+margin:auto;
+padding:80px;
+min-height:1200px;
+box-shadow:0 0 10px rgba(0,0,0,0.15);
+}
+
+#editor{
+min-height:900px;
+outline:none;
+font-size:16px;
+line-height:1.5;
+}
+
+/* IA PANEL */
+
+.ai-panel{
+background:#252423;
+padding:10px;
+color:white;
+border-top:3px solid #5c2d91;
+}
+
+.ai-row{
+display:flex;
+gap:10px;
+margin-top:10px;
+}
+
+.ai-row input{
+flex:1;
+padding:10px;
+border-radius:4px;
+border:none;
+}
+
+.ai-row button{
+background:#5c2d91;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.ai-output{
+margin-top:10px;
+background:#1b1a19;
+padding:10px;
+border-radius:4px;
+min-height:50px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.page{
+padding:20px;
+}
+
+.ribbon{
+overflow-x:auto;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-    <div class="ms-titlebar">
-        <span><i class="fa-solid fa-crown"></i> WC CORPORATE - Word Completo Pro + IA</span>
-        <select class="lang-selector" id="langSelect">
-            <option value="es">🇨🇷 Español</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="bribri">🪶 Bribri</option>
-            <option value="cabecar">🪶 Cabécar</option>
-        </select>
-    </div>
-    
-    <div class="ms-tabs">
-        <button class="ribbon-tab active" onclick="cambiarTab('inicio')">Inicio</button>
-        <button class="ribbon-tab" onclick="cambiarTab('insertar')">Insertar</button>
-        <button class="ribbon-tab" onclick="cambiarTab('diseno')">Diseño</button>
-        <button class="ribbon-tab" onclick="cambiarTab('disposicion')">Disposición</button>
-        <button class="ribbon-tab" onclick="cambiarTab('referencias')">Referencias</button>
-        <button class="ribbon-tab" onclick="cambiarTab('correspondencia')">Correspondencia</button>
-        <button class="ribbon-tab" onclick="cambiarTab('revisar')">Revisar</button>
-        <button class="ribbon-tab" onclick="cambiarTab('vista')">Vista</button>
-        <button class="ribbon-tab" onclick="cambiarTab('plantillas')">Plantillas</button>
-        <button class="ribbon-tab" onclick="cambiarTab('indigena')">Lenguas Indígenas</button>
-        <button class="ribbon-tab btn-indigena" onclick="mostrarPromoIndigena()">GRATIS Bribri/Cabécar</button>
-    </div>
 
-    <div class="ms-ribbon active" id="ribbon-inicio">
-        <div class="ribbon-group">
-            <button onclick="execCmd('undo')" title="Deshacer Ctrl+Z"><i class="fa-solid fa-rotate-left"></i></button>
-            <button onclick="execCmd('redo')" title="Rehacer Ctrl+Y"><i class="fa-solid fa-rotate-right"></i></button>
-            <button onclick="execCmd('copy')" title="Copiar Ctrl+C"><i class="fa-solid fa-copy"></i></button>
-            <button onclick="execCmd('cut')" title="Cortar Ctrl+X"><i class="fa-solid fa-scissors"></i></button>
-            <button onclick="execCmd('paste')" title="Pegar Ctrl+V"><i class="fa-solid fa-paste"></i></button>
-            <div class="ribbon-label">Portapapeles</div>
-        </div>
-        <div class="ribbon-group">
-            <select onchange="execCmd('fontName', this.value)" title="Fuente">
-                <option>Calibri</option><option>Arial</option><option>Times New Roman</option><option>Verdana</option>
-                <option>Georgia</option><option>Courier New</option><option>Trebuchet MS</option>
-            </select>
-            <select onchange="execCmd('fontSize', this.value)" title="Tamaño">
-                <option value="1">8</option><option value="2">9</option><option value="2">10</option>
-                <option value="3" selected>11</option><option value="3">12</option><option value="4">14</option>
-                <option value="5">16</option><option value="5">18</option><option value="6">20</option>
-                <option value="6">24</option><option value="7">28</option><option value="7">36</option>
-            </select>
-            <button onclick="aumentarFuente()" title="Aumentar"><i class="fa-solid fa-font"></i>+</button>
-            <button onclick="disminuirFuente()" title="Disminuir"><i class="fa-solid fa-font"></i>-</button>
-            <div class="ribbon-label">Fuente</div>
-        </div>
-        <div class="ribbon-group">
-            <button onclick="execCmd('bold')" id="btnBold" title="Negrita Ctrl+B"><i class="fa-solid fa-bold"></i></button>
-            <button onclick="execCmd('italic')" id="btnItalic" title="Cursiva Ctrl+I"><i class="fa-solid fa-italic"></i></button>
-            <button onclick="execCmd('underline')" id="btnUnderline" title="Subrayado Ctrl+U"><i class="fa-solid fa-underline"></i></button>
-            <button onclick="execCmd('strikeThrough')" title="Tachado"><i class="fa-solid fa-strikethrough"></i></button>
-            <input type="color" class="color-picker" onchange="execCmd('foreColor', this.value)" title="Color texto">
-            <input type="color" class="color-picker" onchange="execCmd('hiliteColor', this.value)" title="Resaltar">
-            <div class="ribbon-label">Fuente</div>
-        </div>
-        <div class="ribbon-group">
-            <button onclick="execCmd('justifyLeft')" id="btnLeft" title="Izquierda"><i class="fa-solid fa-align-left"></i></button>
-            <button onclick="execCmd('justifyCenter')" id="btnCenter" title="Centrar"><i class="fa-solid fa-align-center"></i></button>
-            <button onclick="execCmd('justifyRight')" id="btnRight" title="Derecha"><i class="fa-solid fa-align-right"></i></button>
-            <button onclick="execCmd('justifyFull')" id="btnJustify" title="Justificar"><i class="fa-solid fa-align-justify"></i></button>
-            <select onchange="cambiarInterlineado(this.value)" title="Interlineado">
-                <option value="1.0">1.0</option>
-                <option value="1.15" selected>1.15</option>
-                <option value="1.5">1.5</option>
-                <option value="2.0">2.0</option>
-            </select>
-            <div class="ribbon-label">Párrafo</div>
-        </div>
-        <div class="ribbon-group">
-            <button onclick="execCmd('insertUnorderedList')" title="Viñetas"><i class="fa-solid fa-list-ul"></i></button>
-            <button onclick="execCmd('insertOrderedList')" title="Numeración"><i class="fa-solid fa-list-ol"></i></button>
-            <button onclick="execCmd('outdent')" title="Disminuir sangría"><i class="fa-solid fa-outdent"></i></button>
-            <button onclick="execCmd('indent')" title="Aumentar sangría"><i class="fa-solid fa-indent"></i></button>
-            <div class="ribbon-label">Párrafo</div>
-        </div>
-    </div>
+<div class="topbar">
+<div>
+<i class="fa-solid fa-crown"></i>
+WC CORPORATE EDITOR PRO
+</div>
 
-    <div class="ms-ribbon" id="ribbon-insertar">
-        <div class="ribbon-group">
-            <button onclick="insertarSaltoPagina()"><i class="fa-solid fa-file-lines"></i><br>Salto Pág</button>
-            <button onclick="insertarTabla()"><i class="fa-solid fa-table"></i><br>Tabla</button>
-            <button onclick="insertarImagen()"><i class="fa-solid fa-image"></i><br>Imagen</button>
-            <button onclick="abrirSmartArt()"><i class="fa-solid fa-diagram-project"></i><br>SmartArt</button>
-            <button onclick="abrirWCArt()"><i class="fa-solid fa-star"></i><br>WC Art</button>
-            <button onclick="insertarForma()"><i class="fa-solid fa-shapes"></i><br>Formas</button>
-            <div class="ribbon-label">Insertar</div>
-        </div>
-        <div class="ribbon-group">
-            <button onclick="insertarEnlace()"><i class="fa-solid fa-link"></i><br>Vínculo</button>
-            <button onclick="insertarComentario()"><i class="fa-solid fa-comment"></i><br>Comentario</button>
-            <button onclick="insertarEncabezado()"><i class="fa-solid fa-heading"></i><br>Encabezado</button>
-            <button onclick="insertarPie()"><i class="fa-solid fa-shoe-prints"></i><br>Pie Pág</button>
-            <button onclick="insertarNumPagina()"><i class="fa-solid fa-1"></i><br>Núm. Pág</button>
-            <div class="ribbon-label">Elementos</div>
-        </div>
-    </div>
+<select>
+<option>🇨🇷 Español</option>
+<option>🇺🇸 English</option>
+</select>
+</div>
 
-    <div class="ms-ribbon" id="ribbon-diseno">
-        <div class="ribbon-group">
-            <button onclick="cambiarTema('claro')"><i class="fa-solid fa-sun"></i><br>Claro</button>
-            <button onclick="cambiarTema('oscuro')"><i class="fa-solid fa-moon"></i><br>Oscuro</button>
-            <button onclick="colorPagina()"><i class="fa-solid fa-fill-drip"></i><br>Color Pág</button>
-            <button onclick="insertarMarcaAgua()"><i class="fa-solid fa-stamp"></i><br>Marca Agua</button>
-            <div class="ribbon-label">Diseño</div>
-        </div>
-    </div>
+<!-- TABS -->
 
-    <div class="ms-ribbon" id="ribbon-disposicion">
-        <div class="ribbon-group">
-            <button onclick="cambiarMargenes('normal')"><i class="fa-solid fa-arrows-left-right-to-line"></i><br>Normal</button>
-            <button onclick="cambiarMargenes('estrecho')"><i class="fa-solid fa-compress"></i><br>Estrecho</button>
-            <button onclick="cambiarMargenes('ancho')"><i class="fa-solid fa-expand"></i><br>Ancho</button>
-            <button onclick="cambiarOrientacion()"><i class="fa-solid fa-rotate"></i><br>Orientación</button>
-            <div class="ribbon-label">Márgenes</div>
-        </div>
-        <div class="ribbon-group">
-            <button onclick="c
+<div class="tabs">
+
+<button class="tab active"
+onclick="changeTab('inicio',this)">
+Inicio
+</button>
+
+<button class="tab"
+onclick="changeTab('insertar',this)">
+Insertar
+</button>
+
+<button class="tab"
+onclick="changeTab('diseno',this)">
+Diseño
+</button>
+
+</div>
+
+<!-- RIBBON INICIO -->
+
+<div class="ribbon active"
+id="ribbon-inicio">
+
+<button onclick="execCmd('undo')">
+<i class="fa-solid fa-rotate-left"></i>
+</button>
+
+<button onclick="execCmd('redo')">
+<i class="fa-solid fa-rotate-right"></i>
+</button>
+
+<button onclick="execCmd('bold')">
+<i class="fa-solid fa-bold"></i>
+</button>
+
+<button onclick="execCmd('italic')">
+<i class="fa-solid fa-italic"></i>
+</button>
+
+<button onclick="execCmd('underline')">
+<i class="fa-solid fa-underline"></i>
+</button>
+
+<button onclick="execCmd('justifyLeft')">
+<i class="fa-solid fa-align-left"></i>
+</button>
+
+<button onclick="execCmd('justifyCenter')">
+<i class="fa-solid fa-align-center"></i>
+</button>
+
+<button onclick="execCmd('justifyRight')">
+<i class="fa-solid fa-align-right"></i>
+</button>
+
+<button onclick="execCmd('insertUnorderedList')">
+<i class="fa-solid fa-list-ul"></i>
+</button>
+
+<button onclick="execCmd('insertOrderedList')">
+<i class="fa-solid fa-list-ol"></i>
+</button>
+
+<select onchange="execCmd('fontName',this.value)">
+<option>Arial</option>
+<option>Calibri</option>
+<option>Verdana</option>
+<option>Georgia</option>
+</select>
+
+<input type="color"
+onchange="execCmd('foreColor',this.value)">
+
+</div>
+
+<!-- RIBBON INSERTAR -->
+
+<div class="ribbon"
+id="ribbon-insertar">
+
+<button onclick="insertTable()">
+<i class="fa-solid fa-table"></i>
+Tabla
+</button>
+
+<button onclick="insertImage()">
+<i class="fa-solid fa-image"></i>
+Imagen
+</button>
+
+<button onclick="insertLink()">
+<i class="fa-solid fa-link"></i>
+Enlace
+</button>
+
+<button onclick="insertShape()">
+<i class="fa-solid fa-shapes"></i>
+Forma
+</button>
+
+</div>
+
+<!-- RIBBON DISEÑO -->
+
+<div class="ribbon"
+id="ribbon-diseno">
+
+<button onclick="setTheme('light')">
+Claro
+</button>
+
+<button onclick="setTheme('dark')">
+Oscuro
+</button>
+
+<button onclick="downloadPDF()">
+PDF
+</button>
+
+<button onclick="saveDocument()">
+Guardar
+</button>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="page">
+
+<div id="editor"
+contenteditable="true">
+
+<h1>WC Corporate Editor</h1>
+
+<p>
+Escribe aquí tu documento...
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- IA -->
+
+<div class="ai-panel">
+
+<div>
+✨ WC IA Assistant
+</div>
+
+<div class="ai-row">
+
+<input type="text"
+id="aiInput"
+placeholder="Escribe una instrucción...">
+
+<button onclick="runAI()">
+Generar
+</button>
+
+</div>
+
+<div class="ai-output"
+id="aiOutput">
+
+La IA responderá aquí...
+
+</div>
+
+</div>
+
+<!-- SCRIPTS -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+
+/* EDITOR */
+
+function execCmd(cmd,value=null){
+
+document.execCommand(cmd,false,value);
+
+}
+
+/* TABS */
+
+function changeTab(tab,btn){
+
+document.querySelectorAll('.ribbon')
+.forEach(r=>r.classList.remove('active'));
+
+document.querySelectorAll('.tab')
+.forEach(t=>t.classList.remove('active'));
+
+document
+.getElementById('ribbon-'+tab)
+.classList.add('active');
+
+btn.classList.add('active');
+
+}
+
+/* TABLE */
+
+function insertTable(){
+
+const table=`
+
+<table border="1"
+style="
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+">
+
+<tr>
+<td>Celda 1</td>
+<td>Celda 2</td>
+</tr>
+
+<tr>
+<td>Celda 3</td>
+<td>Celda 4</td>
+</tr>
+
+</table>
+
+`;
+
+document.execCommand(
+'insertHTML',
+false,
+table
+);
+
+}
+
+/* IMAGE */
+
+function insertImage(){
+
+const url=prompt("URL imagen");
+
+if(url){
+
+document.execCommand(
+'insertImage',
+false,
+url
+);
+
+}
+
+}
+
+/* LINK */
+
+function insertLink(){
+
+const url=prompt("URL");
+
+if(url){
+
+document.execCommand(
+'createLink',
+false,
+url
+);
+
+}
+
+}
+
+/* SHAPE */
+
+function insertShape(){
+
+const shape=`
+
+<div style="
+width:150px;
+height:100px;
+background:#185abd;
+border-radius:8px;
+margin:10px 0;
+">
+</div>
+
+`;
+
+document.execCommand(
+'insertHTML',
+false,
+shape
+);
+
+}
+
+/* THEME */
+
+function setTheme(mode){
+
+if(mode==='dark'){
+
+document.body.style.background='#1b1a19';
+document.body.style.color='white';
+
+}else{
+
+document.body.style.background='#f3f2f1';
+document.body.style.color='black';
+
+}
+
+}
+
+/* PDF */
+
+function downloadPDF(){
+
+const element=document.querySelector('.page');
+
+html2pdf().from(element).save('documento.pdf');
+
+}
+
+/* SAVE */
+
+function saveDocument(){
+
+const content=
+document.getElementById('editor').innerHTML;
+
+localStorage.setItem(
+'wc_document',
+content
+);
+
+alert('Documento guardado');
+
+}
+
+/* LOAD */
+
+window.onload=function(){
+
+const saved=
+localStorage.getItem('wc_document');
+
+if(saved){
+
+document.getElementById('editor')
+.innerHTML=saved;
+
+}
+
+}
+
+/* IA */
+
+function runAI(){
+
+const input=
+document.getElementById('aiInput').value;
+
+const output=
+document.getElementById('aiOutput');
+
+if(!input){
+
+output.innerHTML=
+'Escribe algo primero';
+
+return;
+
+}
+
+output.innerHTML=
+'✨ Generando contenido...';
+
+setTimeout(()=>{
+
+output.innerHTML=`
+
+Sugerencia IA:
+
+"${input}"
+
+Puedes ampliar este texto,
+crear tablas, informes,
+cartas o contenido profesional.
+
+`;
+
+},1200);
+
+}
+
+</script>
+
+</body>
+</html>
