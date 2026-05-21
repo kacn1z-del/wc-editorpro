@@ -1,90 +1,379 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WC EditorPro Suite</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<title>WC EditorPro Suite</title>
 
-  <!-- Estilos corporativos -->
-  <link rel="stylesheet" href="public/estilo-corporativo.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Librerías externas para exportación -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.0.0/docx.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.0.0/docx.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f3f5f9;
+display:flex;
+flex-direction:column;
+height:100vh;
+}
+
+.topbar{
+background:#0d47a1;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:20px;
+font-weight:bold;
+}
+
+.tabs{
+display:flex;
+background:#1565c0;
+}
+
+.tabs button{
+flex:1;
+padding:12px;
+border:none;
+background:none;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.tabs button.active{
+background:#0d47a1;
+}
+
+.ribbon{
+display:flex;
+gap:10px;
+padding:10px;
+background:white;
+border-bottom:1px solid #ddd;
+flex-wrap:wrap;
+}
+
+.ribbon button,
+.ribbon select{
+padding:8px 12px;
+border:1px solid #ccc;
+background:white;
+cursor:pointer;
+border-radius:6px;
+}
+
+.export{
+padding:10px;
+display:flex;
+gap:10px;
+background:#eef2f7;
+}
+
+.export button{
+padding:10px 15px;
+border:none;
+background:#0d47a1;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.lang{
+padding:10px;
+background:white;
+}
+
+.editor{
+flex:1;
+padding:25px;
+background:white;
+margin:10px;
+border-radius:10px;
+overflow:auto;
+outline:none;
+font-size:18px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.ai{
+background:white;
+padding:10px;
+border-top:1px solid #ddd;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.ai input{
+padding:10px;
+font-size:16px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.ai button{
+padding:10px;
+border:none;
+background:#1565c0;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+#aiOut{
+background:#f3f5f9;
+padding:10px;
+border-radius:6px;
+min-height:40px;
+}
+
+table{
+border-collapse:collapse;
+width:100%;
+}
+
+td{
+border:1px solid #000;
+padding:8px;
+}
+
+img{
+max-width:100%;
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- Barra superior -->
-  <header class="topbar">
-    <div>📄 WC EditorPro Suite</div>
-    <div>IA integrada</div>
-  </header>
+<header class="topbar">
+<div>📄 WC EditorPro Suite</div>
+<div>IA Integrada</div>
+</header>
 
-  <!-- Tabs -->
-  <nav class="tabs">
-    <button onclick="changeTab(this)" class="active" aria-label="Inicio">Inicio</button>
-    <button onclick="changeTab(this)" aria-label="Insertar">Insertar</button>
-    <button onclick="changeTab(this)" aria-label="Diseño">Diseño</button>
-  </nav>
+<nav class="tabs">
+<button class="active">Inicio</button>
+<button>Insertar</button>
+<button>Diseño</button>
+</nav>
 
-  <!-- Ribbon -->
-  <section class="ribbon">
-    <button onclick="execCmd('bold')" aria-label="Negrita"><b>B</b></button>
-    <button onclick="execCmd('italic')" aria-label="Cursiva"><i>I</i></button>
-    <button onclick="execCmd('underline')" aria-label="Subrayado"><u>U</u></button>
+<section class="ribbon">
 
-    <button onclick="execCmd('justifyLeft')" aria-label="Alinear izquierda">⬅️</button>
-    <button onclick="execCmd('justifyCenter')" aria-label="Centrar">↔</button>
-    <button onclick="execCmd('justifyRight')" aria-label="Alinear derecha">➡️</button>
+<button onclick="execCmd('bold')"><b>B</b></button>
 
-    <select onchange="execCmd('fontName',this.value)" aria-label="Fuente">
-      <option>Arial</option>
-      <option>Verdana</option>
-      <option>Times New Roman</option>
-    </select>
+<button onclick="execCmd('italic')">
+<i>I</i>
+</button>
 
-    <button onclick="insertTable()" aria-label="Insertar tabla">Tabla</button>
-    <button onclick="insertImage()" aria-label="Insertar imagen">Imagen</button>
-  </section>
+<button onclick="execCmd('underline')">
+<u>U</u>
+</button>
 
-  <!-- Exportación -->
-  <section class="export">
-    <button onclick="exportPDF()" aria-label="Exportar PDF">Exportar PDF</button>
-    <button onclick="exportDOCX()" aria-label="Exportar DOCX">Exportar DOCX</button>
-  </section>
+<button onclick="execCmd('justifyLeft')">⬅️</button>
 
-  <!-- Selector de idioma -->
-  <section class="lang">
-    <select onchange="changeLanguage(this.value)" aria-label="Idioma">
-      <option value="es">Español</option>
-      <option value="en">English</option>
-      <option value="bribri">Bribri</option>
-      <option value="cabecar">Cabécar</option>
-    </select>
-  </section>
+<button onclick="execCmd('justifyCenter')">↔️</button>
 
-  <!-- Editor principal -->
-  <main>
-    <div id="editor" class="editor" contenteditable="true">
-      Escribe aquí tu documento...
-    </div>
-  </main>
+<button onclick="execCmd('justifyRight')">➡️</button>
 
-  <!-- Panel IA -->
-  <footer class="ai">
-    <input id="aiInput" placeholder="Pregunta a la IA..." aria-label="Entrada IA">
-    <button onclick="askAI()" aria-label="Enviar a IA">Enviar</button>
-    <div id="aiOut"></div>
-  </footer>
+<select onchange="execCmd('fontName',this.value)">
+<option>Arial</option>
+<option>Verdana</option>
+<option>Times New Roman</option>
+<option>Courier New</option>
+</select>
 
-  <!-- Scripts propios -->
-  <script src="src/editor.js"></script>
-  <script src="src/export.js"></script>
-  <script src="src/i18n.js"></script>
-  <script src="src/collaboration.js"></script>
+<button onclick="insertTable()">Tabla</button>
+
+<button onclick="insertImage()">Imagen</button>
+
+</section>
+
+<section class="export">
+<button onclick="exportPDF()">Exportar PDF</button>
+<button onclick="exportDOCX()">Exportar DOCX</button>
+</section>
+
+<section class="lang">
+<select onchange="changeLanguage(this.value)">
+<option value="es">Español</option>
+<option value="en">English</option>
+<option value="bribri">Bribri</option>
+<option value="cabecar">Cabécar</option>
+</select>
+</section>
+
+<div id="editor"
+class="editor"
+contenteditable="true">
+
+<h1>Bienvenido a WC EditorPro</h1>
+
+<p>Escribe aquí tu documento...</p>
+
+</div>
+
+<footer class="ai">
+
+<input id="aiInput"
+placeholder="Pregunta a la IA...">
+
+<button onclick="askAI()">
+Enviar
+</button>
+
+<div id="aiOut"></div>
+
+</footer>
+
+<script>
+
+function execCmd(command,value=null){
+document.execCommand(command,false,value);
+}
+
+function insertTable(){
+
+let table = `
+<table>
+<tr>
+<td>Celda 1</td>
+<td>Celda 2</td>
+</tr>
+<tr>
+<td>Celda 3</td>
+<td>Celda 4</td>
+</tr>
+</table>
+`;
+
+document.execCommand('insertHTML',false,table);
+
+}
+
+function insertImage(){
+
+let url = prompt("Ingrese URL de imagen:");
+
+if(url){
+
+let img = `<img src="${url}">`;
+
+document.execCommand('insertHTML',false,img);
+
+}
+
+}
+
+async function exportPDF(){
+
+const { jsPDF } = window.jspdf;
+
+let doc = new jsPDF();
+
+doc.html(document.getElementById("editor"),{
+
+callback:function(doc){
+
+doc.save("documento.pdf");
+
+},
+
+x:10,
+y:10
+
+});
+
+}
+
+async function exportDOCX(){
+
+const doc = new docx.Document({
+
+sections:[{
+
+properties:{},
+
+children:[
+
+new docx.Paragraph({
+
+text:document.getElementById("editor").innerText
+
+})
+
+]
+
+}]
+
+});
+
+docx.Packer.toBlob(doc).then(blob=>{
+
+saveAs(blob,"documento.docx");
+
+});
+
+}
+
+function changeLanguage(lang){
+
+let editor = document.getElementById("editor");
+
+if(lang==="en"){
+
+editor.innerHTML="<h1>Welcome</h1><p>Write your document here...</p>";
+
+}
+
+if(lang==="es"){
+
+editor.innerHTML="<h1>Bienvenido</h1><p>Escribe aquí tu documento...</p>";
+
+}
+
+if(lang==="bribri"){
+
+editor.innerHTML="<h1>Se' dör</h1><p>Bribri document...</p>";
+
+}
+
+if(lang==="cabecar"){
+
+editor.innerHTML="<h1>Kábe</h1><p>Cabécar document...</p>";
+
+}
+
+}
+
+function askAI(){
+
+let input =
+document.getElementById("aiInput").value;
+
+let out =
+document.getElementById("aiOut");
+
+if(input==="") return;
+
+out.innerHTML =
+"🤖 IA: Estoy analizando tu consulta sobre: <b>"
++ input +
+"</b>";
+
+}
+
+</script>
+
 </body>
 </html>
+`
