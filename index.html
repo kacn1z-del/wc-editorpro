@@ -3,587 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="./">
+<title>WC Word Web App Pro</title>
 
-<title>WC Corporate Editor Pro</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+body{margin:0;font-family:Segoe UI;background:#e5e5e5;display:flex;flex-direction:column;height:100vh}
+.topbar{background:#185abd;color:#fff;padding:8px;display:flex;justify-content:space-between;align-items:center}
+.tabs{display:flex;background:#f3f3f3;border-bottom:1px solid #ccc;overflow-x:auto}
+.tabs button{padding:10px;border:none;background:none;cursor:pointer}
+.tabs button.active{background:#fff;border-bottom:2px solid #185abd}
+.ribbon{background:#fff;padding:8px;display:flex;gap:6px;flex-wrap:wrap}
+.ribbon button,select{padding:6px}
+.editor{
+  flex:1;background:#fff;margin:10px;padding:20px;
+  overflow:auto;outline:none
 }
-
-body{
-font-family:Segoe UI,Arial,sans-serif;
-background:#f3f2f1;
-height:100vh;
-display:flex;
-flex-direction:column;
-overflow:hidden;
+.ai{
+  background:#111;color:#fff;padding:10px
 }
-
-/* TOPBAR */
-
-.topbar{
-background:linear-gradient(90deg,#185abd,#8B4513,#00d26a);
-color:white;
-padding:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-size:14px;
-}
-
-.tabs{
-display:flex;
-overflow-x:auto;
-background:white;
-border-bottom:1px solid #ccc;
-}
-
-.tabs button{
-background:none;
-border:none;
-padding:12px;
-cursor:pointer;
-font-size:13px;
-white-space:nowrap;
-}
-
-.tabs button.active{
-background:#eaeaea;
-font-weight:bold;
-}
-
-/* RIBBON */
-
-.ribbon{
-display:none;
-background:white;
-padding:10px;
-border-bottom:1px solid #ccc;
-flex-wrap:wrap;
-gap:6px;
-}
-
-.ribbon.active{
-display:flex;
-}
-
-.ribbon button,
-.ribbon select,
-.ribbon input{
-padding:8px;
-border:1px solid #ccc;
-border-radius:4px;
-cursor:pointer;
-background:white;
-}
-
-/* MAIN */
-
-.main{
-flex:1;
-overflow:auto;
-padding:20px;
-background:#ddd;
-}
-
-.page{
-background:white;
-max-width:900px;
-margin:auto;
-padding:80px;
-min-height:1200px;
-box-shadow:0 0 10px rgba(0,0,0,0.15);
-}
-
-#editor{
-min-height:900px;
-outline:none;
-font-size:16px;
-line-height:1.5;
-}
-
-/* IA PANEL */
-
-.ai-panel{
-background:#252423;
-padding:10px;
-color:white;
-border-top:3px solid #5c2d91;
-}
-
-.ai-row{
-display:flex;
-gap:10px;
-margin-top:10px;
-}
-
-.ai-row input{
-flex:1;
-padding:10px;
-border-radius:4px;
-border:none;
-}
-
-.ai-row button{
-background:#5c2d91;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:4px;
-cursor:pointer;
-}
-
-.ai-output{
-margin-top:10px;
-background:#1b1a19;
-padding:10px;
-border-radius:4px;
-min-height:50px;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-.page{
-padding:20px;
-}
-
-.ribbon{
-overflow-x:auto;
-}
-
-}
-
+.ai input{width:80%;padding:8px}
+.ai button{padding:8px}
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-<div>
-<i class="fa-solid fa-crown"></i>
-WC CORPORATE EDITOR PRO
-</div>
-
-<select>
-<option>🇨🇷 Español</option>
-<option>🇺🇸 English</option>
-</select>
+  <div>📄 WC Word Web App Pro</div>
+  <div>IA integrada</div>
 </div>
 
 <!-- TABS -->
-
 <div class="tabs">
-
-<button class="tab active"
-onclick="changeTab('inicio',this)">
-Inicio
-</button>
-
-<button class="tab"
-onclick="changeTab('insertar',this)">
-Insertar
-</button>
-
-<button class="tab"
-onclick="changeTab('diseno',this)">
-Diseño
-</button>
-
+  <button onclick="changeTab(this)" class="active">Inicio</button>
+  <button onclick="changeTab(this)">Insertar</button>
+  <button onclick="changeTab(this)">Diseño</button>
 </div>
 
-<!-- RIBBON INICIO -->
+<!-- RIBBON -->
+<div class="ribbon">
+  <button onclick="execCmd('bold')"><b>B</b></button>
+  <button onclick="execCmd('italic')"><i>I</i></button>
+  <button onclick="execCmd('underline')"><u>U</u></button>
 
-<div class="ribbon active"
-id="ribbon-inicio">
+  <button onclick="execCmd('justifyLeft')">⬅</button>
+  <button onclick="execCmd('justifyCenter')">⬌</button>
+  <button onclick="execCmd('justifyRight')">➡</button>
 
-<button onclick="execCmd('undo')">
-<i class="fa-solid fa-rotate-left"></i>
-</button>
+  <select onchange="execCmd('fontName',this.value)">
+    <option>Arial</option>
+    <option>Verdana</option>
+    <option>Times New Roman</option>
+  </select>
 
-<button onclick="execCmd('redo')">
-<i class="fa-solid fa-rotate-right"></i>
-</button>
-
-<button onclick="execCmd('bold')">
-<i class="fa-solid fa-bold"></i>
-</button>
-
-<button onclick="execCmd('italic')">
-<i class="fa-solid fa-italic"></i>
-</button>
-
-<button onclick="execCmd('underline')">
-<i class="fa-solid fa-underline"></i>
-</button>
-
-<button onclick="execCmd('justifyLeft')">
-<i class="fa-solid fa-align-left"></i>
-</button>
-
-<button onclick="execCmd('justifyCenter')">
-<i class="fa-solid fa-align-center"></i>
-</button>
-
-<button onclick="execCmd('justifyRight')">
-<i class="fa-solid fa-align-right"></i>
-</button>
-
-<button onclick="execCmd('insertUnorderedList')">
-<i class="fa-solid fa-list-ul"></i>
-</button>
-
-<button onclick="execCmd('insertOrderedList')">
-<i class="fa-solid fa-list-ol"></i>
-</button>
-
-<select onchange="execCmd('fontName',this.value)">
-<option>Arial</option>
-<option>Calibri</option>
-<option>Verdana</option>
-<option>Georgia</option>
-</select>
-
-<input type="color"
-onchange="execCmd('foreColor',this.value)">
-
+  <button onclick="insertTable()">Tabla</button>
+  <button onclick="insertImage()">Imagen</button>
 </div>
 
-<!-- RIBBON INSERTAR -->
-
-<div class="ribbon"
-id="ribbon-insertar">
-
-<button onclick="insertTable()">
-<i class="fa-solid fa-table"></i>
-Tabla
-</button>
-
-<button onclick="insertImage()">
-<i class="fa-solid fa-image"></i>
-Imagen
-</button>
-
-<button onclick="insertLink()">
-<i class="fa-solid fa-link"></i>
-Enlace
-</button>
-
-<button onclick="insertShape()">
-<i class="fa-solid fa-shapes"></i>
-Forma
-</button>
-
-</div>
-
-<!-- RIBBON DISEÑO -->
-
-<div class="ribbon"
-id="ribbon-diseno">
-
-<button onclick="setTheme('light')">
-Claro
-</button>
-
-<button onclick="setTheme('dark')">
-Oscuro
-</button>
-
-<button onclick="downloadPDF()">
-PDF
-</button>
-
-<button onclick="saveDocument()">
-Guardar
-</button>
-
-</div>
-
-<!-- MAIN -->
-
-<div class="main">
-
-<div class="page">
-
-<div id="editor"
-contenteditable="true">
-
-<h1>WC Corporate Editor</h1>
-
-<p>
+<!-- EDITOR -->
+<div id="editor" class="editor" contenteditable="true">
 Escribe aquí tu documento...
-</p>
-
-</div>
-
-</div>
-
 </div>
 
 <!-- IA -->
-
-<div class="ai-panel">
-
-<div>
-✨ WC IA Assistant
+<div class="ai">
+  <input id="aiInput" placeholder="Pregunta a la IA...">
+  <button onclick="askAI()">Enviar</button>
+  <div id="aiOut"></div>
 </div>
-
-<div class="ai-row">
-
-<input type="text"
-id="aiInput"
-placeholder="Escribe una instrucción...">
-
-<button onclick="runAI()">
-Generar
-</button>
-
-</div>
-
-<div class="ai-output"
-id="aiOutput">
-
-La IA responderá aquí...
-
-</div>
-
-</div>
-
-<!-- SCRIPTS -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
 
-/* EDITOR */
+const editor = document.getElementById("editor");
 
-function execCmd(cmd,value=null){
-
-document.execCommand(cmd,false,value);
-
+/* =========================
+   EDITOR CORE (FIX PRINCIPAL)
+========================= */
+function execCmd(cmd, value=null){
+  document.execCommand(cmd,false,value);
+  editor.focus();
 }
 
-/* TABS */
-
-function changeTab(tab,btn){
-
-document.querySelectorAll('.ribbon')
-.forEach(r=>r.classList.remove('active'));
-
-document.querySelectorAll('.tab')
-.forEach(t=>t.classList.remove('active'));
-
-document
-.getElementById('ribbon-'+tab)
-.classList.add('active');
-
-btn.classList.add('active');
-
+/* =========================
+   TABS
+========================= */
+function changeTab(btn){
+  document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
 
-/* TABLE */
-
+/* =========================
+   INSERTS
+========================= */
 function insertTable(){
-
-const table=`
-
-<table border="1"
-style="
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-">
-
-<tr>
-<td>Celda 1</td>
-<td>Celda 2</td>
-</tr>
-
-<tr>
-<td>Celda 3</td>
-<td>Celda 4</td>
-</tr>
-
-</table>
-
-`;
-
-document.execCommand(
-'insertHTML',
-false,
-table
-);
-
+  editor.innerHTML += `
+  <table border="1" style="width:100%;border-collapse:collapse">
+    <tr><td>Col 1</td><td>Col 2</td></tr>
+  </table>`;
 }
-
-/* IMAGE */
 
 function insertImage(){
-
-const url=prompt("URL imagen");
-
-if(url){
-
-document.execCommand(
-'insertImage',
-false,
-url
-);
-
+  const url = prompt("URL de imagen:");
+  if(url){
+    editor.innerHTML += `<img src="${url}" style="max-width:100%">`;
+  }
 }
 
-}
+/* =========================
+   IA SIMPLE (PUEDES CONECTAR OPENAI AQUÍ)
+========================= */
+function askAI(){
+  const input = document.getElementById("aiInput").value;
+  const out = document.getElementById("aiOut");
 
-/* LINK */
+  out.innerHTML = "Pensando...";
 
-function insertLink(){
-
-const url=prompt("URL");
-
-if(url){
-
-document.execCommand(
-'createLink',
-false,
-url
-);
-
-}
-
-}
-
-/* SHAPE */
-
-function insertShape(){
-
-const shape=`
-
-<div style="
-width:150px;
-height:100px;
-background:#185abd;
-border-radius:8px;
-margin:10px 0;
-">
-</div>
-
-`;
-
-document.execCommand(
-'insertHTML',
-false,
-shape
-);
-
-}
-
-/* THEME */
-
-function setTheme(mode){
-
-if(mode==='dark'){
-
-document.body.style.background='#1b1a19';
-document.body.style.color='white';
-
-}else{
-
-document.body.style.background='#f3f2f1';
-document.body.style.color='black';
-
-}
-
-}
-
-/* PDF */
-
-function downloadPDF(){
-
-const element=document.querySelector('.page');
-
-html2pdf().from(element).save('documento.pdf');
-
-}
-
-/* SAVE */
-
-function saveDocument(){
-
-const content=
-document.getElementById('editor').innerHTML;
-
-localStorage.setItem(
-'wc_document',
-content
-);
-
-alert('Documento guardado');
-
-}
-
-/* LOAD */
-
-window.onload=function(){
-
-const saved=
-localStorage.getItem('wc_document');
-
-if(saved){
-
-document.getElementById('editor')
-.innerHTML=saved;
-
-}
-
-}
-
-/* IA */
-
-function runAI(){
-
-const input=
-document.getElementById('aiInput').value;
-
-const output=
-document.getElementById('aiOutput');
-
-if(!input){
-
-output.innerHTML=
-'Escribe algo primero';
-
-return;
-
-}
-
-output.innerHTML=
-'✨ Generando contenido...';
-
-setTimeout(()=>{
-
-output.innerHTML=`
-
-Sugerencia IA:
-
-"${input}"
-
-Puedes ampliar este texto,
-crear tablas, informes,
-cartas o contenido profesional.
-
-`;
-
-},1200);
-
+  setTimeout(()=>{
+    out.innerHTML = "🤖 Respuesta simulada: " + input;
+  },1000);
 }
 
 </script>
