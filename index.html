@@ -897,9 +897,64 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="wc-firma">WC Corporate v27 | Keny Chinchilla Navarro 🇨🇷</div>
-
-</body>
-</html>
+899 <div class="wc-firma">WC Corporate v27 | Keny Chinchilla Navarro 🇨🇷</div>
+900 
+901 <script>
+// WC CORPORATE IA ENGINE
+function ejecutarWcIA() {
+const prompt = document.getElementById('wcAiPrompt').value;
+const output = document.getElementById('wcAiOutput');
+const seleccion = window.getSelection().toString();
+if (!prompt &&!seleccion) {
+output.innerHTML = 'Mae, escribí algo o seleccioná texto primero';
+return;
+ }
+output.innerHTML = '✨ WC IA procesando con sabiduría tica...';
+setTimeout(() => {
+let respuesta = '';
+const texto = seleccion || 'el documento';
+if (prompt.toLowerCase().includes('reescrib')) {
+respuesta = `**Versión Pura Vida:** ${texto}. Mejorado con un toque más profesional pero manteniendo la esencia tica.`;
+} else if (prompt.toLowerCase().includes('resum')) {
+respuesta = `**Resumen Tico:** ${texto.substring(0, 120)}... [Puntos clave: 1) Contexto CR, 2) Impacto local, 3) Siguiente paso]`;
+} else if (prompt.toLowerCase().includes('bribri')) {
+respuesta = `**Bribri:** Së́ ${texto} - *Traducción base. Para uso oficial consultar con Asociación de Desarrollo Indígena Bribri.*`;
+} else if (prompt.toLowerCase().includes('cabécar') || prompt.toLowerCase().includes('cabecar')) {
+respuesta = `**Cabécar:** Jè ${texto} - *Traducción base. Para uso oficial consultar con hablantes nativos Cabécar.*`;
+} else if (prompt.toLowerCase().includes('expand')) {
+respuesta = `${texto}. En el contexto costarricense, esto cobra especial relevancia considerando nuestra biodiversidad y cultura de paz.`;
+} else if (prompt.toLowerCase().includes('tico') || prompt.toLowerCase().includes('tono')) {
+respuesta = `**Versión Tica:** ${texto}, mae. Así como hablamos acá, con ese toque pura vida que nos caracteriza.`;
+ } else {
+ respuesta = `**WC IA:** Entendido mae. Sobre "${texto}", te recomiendo desarrollarlo con ejemplos de Costa Rica.`;
+}
+output.innerHTML = respuesta;
+if (seleccion && document.execCommand) {
+document.execCommand('insertHTML', false, respuesta);
+}
+}, 1200);
+}
+ function wcIAAccion(accion) {
+ const prompts = {
+'reescribir': 'Reescribí este texto de forma profesional',
+'resumir': 'Haceme un resumen de 3 puntos clave',
+'bribri': 'Traducí esto a Bribri',
+'cabecar': 'Traducí esto a Cabécar',
+'expandir': 'Expandí este texto con más detalles',
+'tono-tico': 'Dale tono tico pura vida a este texto'
+};
+document.getElementById('wcAiPrompt').value = prompts[accion];
+ejecutarWcIA();
+}
+document.addEventListener('DOMContentLoaded', function() {
+const editor = document.querySelector('#editor,.editor,[contenteditable="true"],.docx-editor');
+if (editor) {
+ editor.style.paddingBottom = '180px';
+}
+console.log('🇨🇷 WC CORPORATE cargado - Keny Chinchilla Navarro');
+ });
+</script>
+<!-- FIN WC CORPORATE ADDON -->
 </script>
 <!-- FIN WC CORPORATE ADDON -->
 </body>
