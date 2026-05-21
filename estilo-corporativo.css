@@ -1,72 +1,130 @@
+/* 🎨 Estilo Corporativo para WC EditorPro Suite */
+
+/* Base */
 body {
+  font-family: Arial, Verdana, sans-serif;
+  background: #f4f6f9;
   margin: 0;
-  font-family: Segoe UI, Arial, sans-serif;
-  background: #e5e5e5;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  padding: 0;
+  color: #333;
 }
 
+/* Barra superior */
 .topbar {
-  background: #185abd;
-  color: #fff;
-  padding: 8px;
+  background: #004080;
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+/* Tabs */
 .tabs {
-  display: flex;
-  background: #f3f3f3;
-  border-bottom: 1px solid #ccc;
-  overflow-x: auto;
-}
-
-.tabs button {
-  padding: 10px;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.tabs button.active {
-  background: #fff;
-  border-bottom: 2px solid #185abd;
-}
-
-.ribbon {
-  background: #fff;
+  background: #e0e0e0;
   padding: 8px;
+  display: flex;
+  gap: 8px;
+}
+.tabs button {
+  background: #d0d0d0;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.tabs button.active {
+  background: #004080;
+  color: white;
+}
+
+/* Ribbon */
+.ribbon {
+  background: #f0f0f0;
+  padding: 10px;
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
 }
-
 .ribbon button, .ribbon select {
-  padding: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  background: #004080;
+  color: white;
+  cursor: pointer;
+}
+.ribbon button:hover, .ribbon select:hover {
+  background: #0066cc;
 }
 
-.editor {
-  flex: 1;
-  background: #fff;
+/* Exportación */
+.export {
   margin: 10px;
-  padding: 20px;
-  overflow: auto;
-  outline: none;
+}
+.export button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #008000;
+  color: white;
+  cursor: pointer;
+}
+.export button:hover {
+  background: #00a000;
 }
 
-.ai {
-  background: #111;
-  color: #fff;
+/* Idioma */
+.lang {
+  margin: 10px;
+}
+.lang select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Editor principal */
+.editor {
+  border: 1px solid #ccc;
+  min-height: 300px;
+  margin: 15px;
+  padding: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Panel IA */
+footer.ai {
+  background: #f0f0f0;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+footer.ai input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+footer.ai button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #004080;
+  color: white;
+  cursor: pointer;
+}
+footer.ai button:hover {
+  background: #0066cc;
+}
+#aiOut {
+  margin-top: 10px;
   padding: 10px;
-}
-
-.ai input {
-  width: 80%;
-  padding: 8px;
-}
-
-.ai button {
-  padding: 8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
