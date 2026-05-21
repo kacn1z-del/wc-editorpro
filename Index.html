@@ -12,7 +12,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: #f3f2f1; font-family: 'Segoe UI', Arial, sans-serif; color: #323130; font-size: 14px; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
        .ms-titlebar { background: linear-gradient(90deg, #185abd, #8B4513, #00d26a); color: #fff; padding: 8px 12px; font-size: 11px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-       .lang-selector { background: rgba(255,255,0.2); border: 1px solid #fff; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+       .lang-selector { background: rgba(255,255,255,0.2); border: 1px solid #fff; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
        .ms-tabs { background: #f3f2f1; border-bottom: 1px solid #d1d1d1; padding: 0 8px; display: flex; flex-wrap: nowrap; flex-shrink: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
        .ms-tabs::-webkit-scrollbar { height: 3px; }
        .ms-tabs::-webkit-scrollbar-thumb { background: #c8c6c4; }
@@ -280,4 +280,5 @@
             <button onclick="cambiarOrientacion()"><i class="fa-solid fa-rotate"></i> Orientación</button>
             <div class="ribbon-label">Márgenes</div>
         </div>
-        <div class="ribbon
+        <div class="ribbon-group">
+            <button onclick="cambiarColumnas(1)"><i class="fa-solid fa-grip-lines"></i> 1 Col</button
