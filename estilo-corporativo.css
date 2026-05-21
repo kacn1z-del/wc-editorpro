@@ -1,51 +1,72 @@
 body {
-  font-family: Calibri, Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  font-family: Segoe UI, Arial, sans-serif;
+  background: #e5e5e5;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
 }
-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #1e3a8a;
-  color: white;
-}
-header h1 { margin: 0; font-size: 1.5rem; }
-#toolbar {
+
+.topbar {
+  background: #185abd;
+  color: #fff;
   padding: 8px;
-  background: #f8fafc;
-  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-#toolbar button {
-  margin: 2px;
-  padding: 6px 12px;
+
+.tabs {
+  display: flex;
+  background: #f3f3f3;
+  border-bottom: 1px solid #ccc;
+  overflow-x: auto;
+}
+
+.tabs button {
+  padding: 10px;
+  border: none;
+  background: none;
   cursor: pointer;
 }
-#editor {
-  height: 60vh;
-  flex: 1;
+
+.tabs button.active {
+  background: #fff;
+  border-bottom: 2px solid #185abd;
 }
-aside {
-  padding: 12px;
-  background: #f9f9f9;
-  border-top: 1px solid #ddd;
-}
-footer {
-  padding: 10px;
-  background: #f0f0f0;
-  text-align: center;
-  font-size: 14px;
-}
-.change-log {
-  max-height: 120px;
-  overflow-y: auto;
-  font-size: 13px;
-  background: white;
+
+.ribbon {
+  background: #fff;
   padding: 8px;
-  border: 1px solid #ddd;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
-.change-log div { margin-bottom: 4px; }
+
+.ribbon button, .ribbon select {
+  padding: 6px;
+}
+
+.editor {
+  flex: 1;
+  background: #fff;
+  margin: 10px;
+  padding: 20px;
+  overflow: auto;
+  outline: none;
+}
+
+.ai {
+  background: #111;
+  color: #fff;
+  padding: 10px;
+}
+
+.ai input {
+  width: 80%;
+  padding: 8px;
+}
+
+.ai button {
+  padding: 8px;
+}
