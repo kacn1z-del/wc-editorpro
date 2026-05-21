@@ -873,5 +873,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <!-- FIN WC CORPORATE ADDON -->
+
+<!-- PEGÁ ESTO JUSTO ARRIBA DE </body> línea 876 -->
+<div class="wc-ia-panel" id="wcIaPanel">
+    <div class="wc-ia-title">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        WC IA - Asistente Tico Inteligente
+        <span class="wc-promo">GRATIS para Bribri/Cabécar</span>
+    </div>
+    <div class="wc-ia-input">
+        <input type="text" id="wcAiPrompt" placeholder="Pedime: reescribí esto, traducí a Bribri, hacé un resumen tico...">
+        <button onclick="ejecutarWcIA()">Enviar</button>
+    </div>
+    <div class="wc-ia-actions">
+        <button onclick="wcIAAccion('reescribir')"><i class="fa-solid fa-pen"></i> Reescribir</button>
+        <button onclick="wcIAAccion('resumir')"><i class="fa-solid fa-compress"></i> Resumir</button>
+        <button onclick="wcIAAccion('bribri')"><i class="fa-solid fa-language"></i> Bribri</button>
+        <button onclick="wcIAAccion('cabecar')"><i class="fa-solid fa-language"></i> Cabécar</button>
+        <button onclick="wcIAAccion('expandir')"><i class="fa-solid fa-expand"></i> Expandir</button>
+        <button onclick="wcIAAccion('tono-tico')"><i class="fa-solid fa-flag"></i> Tono Tico</button>
+    </div>
+    <div class="wc-ia-output" id="wcAiOutput">Seleccioná texto y pedime que lo mejore. Sé Bribri y Cabécar 🇨🇷</div>
+</div>
+
+<div class="wc-firma">WC Corporate v27 | Keny Chinchilla Navarro 🇨🇷</div>
+
+</body>
+</html>
+</script>
+<!-- FIN WC CORPORATE ADDON -->
 </body>
 </html>
