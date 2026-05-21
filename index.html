@@ -8,6 +8,11 @@
   <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+  <!-- Librerías externas para exportación -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.0.0/docx.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <!-- Estilos corporativos -->
   <link rel="stylesheet" href="public/estilo-corporativo.css">
 </head>
@@ -44,6 +49,18 @@
 
     <button onclick="insertTable()" aria-label="Insertar tabla">Tabla</button>
     <button onclick="insertImage()" aria-label="Insertar imagen">Imagen</button>
+
+    <!-- NUEVO: Exportación -->
+    <button onclick="exportPDF()" aria-label="Exportar PDF">Exportar PDF</button>
+    <button onclick="exportDOCX()" aria-label="Exportar DOCX">Exportar DOCX</button>
+
+    <!-- NUEVO: Selector de idioma -->
+    <select onchange="changeLanguage(this.value)" aria-label="Idioma">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+      <option value="bribri">Bribri</option>
+      <option value="cabecar">Cabécar</option>
+    </select>
   </section>
 
   <!-- Editor principal -->
@@ -64,3 +81,4 @@
   <script src="src/editor.js"></script>
 </body>
 </html>
+
