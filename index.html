@@ -126,4 +126,174 @@
    .wc-ia-input { display: flex; gap: 10px; margin-bottom: 10px; }
    .wc-ia-input input { flex: 1; padding: 8px; border-radius: 8px; border: 2px solid #FFD700; }
    .wc-ia-input button { background: #FFD700; color: #002B7F; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-   .wc-ia-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom
+   .wc-ia-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+   .wc-ia-actions button { background: rgba(255,255,255,0.2); color: white; border: 1px solid #FFD700; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+   .wc-ia-output { background: white; padding: 10px; border-radius: 8px; min-height: 40px; color: #333; font-size: 14px; border: 2px solid #FFD700; }
+  </style>
+</head>
+<body>
+  
+  <!-- PANTALLA 1: GALERÍA DE PLANTILLAS -->
+  <div id="pantalla-inicio">
+    <div class="inicio-header">
+      <h1>Nuevo documento</h1>
+      <div class="logo-tico">WC PRO TICO 🇨🇷</div>
+    </div>
+    
+    <div class="busqueda-plantillas">
+      <input type="text" placeholder="Buscar plantillas ticas..." id="buscarPlantilla">
+    </div>
+
+    <div class="galeria-plantillas">
+      <div class="plantilla-card" onclick="abrirEditor('blanco')">
+        <div class="plantilla-preview en-blanco"></div>
+        <div class="plantilla-nombre">Documento en blanco</div>
+      </div>
+      
+      <div class="plantilla-card" onclick="abrirEditor('carta')">
+        <div class="plantilla-preview carta">
+          <div style="font-size:8px; color:#002B7F; font-weight:bold;">CARTA FORMAL</div>
+          <div style="height:2px; background:#eee; margin:3px 0;"></div>
+          <div style="height:2px; background:#eee; margin:3px 0; width:80%;"></div>
+        </div>
+        <div class="plantilla-nombre">Carta Formal CR</div>
+      </div>
+
+      <div class="plantilla-card" onclick="abrirEditor('cv')">
+        <div class="plantilla-preview cv">
+          <div style="font-size:8px; color:#FFD700; font-weight:bold; margin-top:5px;">CURRÍCULUM</div>
+          <div style="height:2px; background:#ddd; margin:8px 0;"></div>
+        </div>
+        <div class="plantilla-nombre">Currículum Tico</div>
+      </div>
+
+      <div class="plantilla-card" onclick="abrirEditor('reporte')">
+        <div class="plantilla-preview reporte">
+          <div style="font-size:8px; color:#CE1126; font-weight:bold;">REPORTE</div>
+          <div style="height:2px; background:#eee; margin:3px 0;"></div>
+        </div>
+        <div class="plantilla-nombre">Reporte Mensual</div>
+      </div>
+
+      <div class="plantilla-card" onclick="abrirEditor('acta')">
+        <div class="plantilla-preview">
+          <div style="font-size:8px; color:#002B7F; font-weight:bold;">ACTA REUNIÓN</div>
+          <div style="height:2px; background:#eee; margin:3px 0;"></div>
+        </div>
+        <div class="plantilla-nombre">Acta de Reunión</div>
+      </div>
+
+      <div class="plantilla-card" onclick="abrirEditor('constancia')">
+        <div class="plantilla-preview">
+          <div style="font-size:8px; color:#CE1126; font-weight:bold;">CONSTANCIA</div>
+          <div style="height:2px; background:#eee; margin:3px 0;"></div>
+        </div>
+        <div class="plantilla-nombre">Constancia Salarial</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: EDITOR -->
+  <div id="pantalla-editor">
+    <button class="btn-volver" onclick="volverInicio()">← Inicio</button>
+    
+    <div class="wc-toolbar">
+      <button onclick="formato('undo')" title="Deshacer">↶</button>
+      <button onclick="formato('redo')" title="Rehacer">↷</button>
+      <div class="separator"></div>
+      <select onchange="formato('fontName', this.value)">
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times</option>
+        <option value="Calibri">Calibri</option>
+      </select>
+      <select onchange="formato('fontSize', this.value)">
+        <option value="2">10</option>
+        <option value="3" selected>12</option>
+        <option value="4">14</option>
+        <option value="5">18</option>
+        <option value="6">24</option>
+      </select>
+      <div class="separator"></div>
+      <button onclick="formato('bold')"><b>B</b></button>
+      <button onclick="formato('italic')"><i>I</i></button>
+      <button onclick="formato('underline')"><u>S</u></button>
+      <div class="separator"></div>
+      <button onclick="formato('justifyLeft')">⬅️</button>
+      <button onclick="formato('justifyCenter')">↔️</button>
+      <button onclick="formato('justifyRight')">➡️</button>
+      <div class="separator"></div>
+      <button onclick="formato('insertUnorderedList')">•</button>
+      <button onclick="formato('insertOrderedList')">1.</button>
+    </div>
+
+    <div id="editor" contenteditable="true"></div>
+
+    <div class="wc-ia-panel">
+      <div class="wc-ia-title">WC Corporate IA <span class="wc-promo">TICO PRO</span></div>
+      <div class="wc-ia-input">
+        <input type="text" id="prompt" placeholder="Escribí tu consulta mae...">
+        <button onclick="enviar()">Enviar</button>
+      </div>
+      <div class="wc-ia-actions">
+        <button onclick="guardarPDF()">📥 PDF</button>
+        <button onclick="contarPalabras()">📊 Contar</button>
+        <button onclick="accion('resumir')">Resumir</button>
+        <button onclick="accion('mejorar')">Mejorar</button>
+        <button onclick="accion('corregir')">Corregir</button>
+      </div>
+      <div class="wc-ia-output" id="resultado">El resultado aparece aquí...</div>
+    </div>
+  </div>
+
+  <script>
+    const plantillasContenido = {
+      'blanco': `<h1>Documento en blanco</h1><p>Empezá a escribir...</p>`,
+      'carta': `<h2 style="color:#002B7F;">Carta Formal</h2><p>San José, ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Señores:<br>[Empresa]</strong></p><p>Presente</p><p>Estimados señores:</p><p>Por medio de la presente me permito...</p><br><p>Atentamente,</p><br><p>_________________________<br>[Tu nombre]<br>Cédula: X-XXXX-XXXX</p>`,
+      'cv': `<h1 style="color:#002B7F;">[Tu Nombre Completo]</h1><p><strong>Tel:</strong> 8888-8888 | <strong>Email:</strong> correo@email.com | <strong>San José, Costa Rica</strong></p><hr><h2 style="color:#CE1126;">Perfil Profesional</h2><p>Profesional con X años de experiencia en...</p><h2 style="color:#CE1126;">Experiencia Laboral</h2><p><strong>Empresa S.A.</strong> - Puesto<br><em>2020 - Presente</em></p><ul><li>Logro importante 1</li><li>Logro importante 2</li></ul>`,
+      'reporte': `<h2 style="color:#002B7F; border-bottom: 3px solid #CE1126; padding-bottom: 10px;">Reporte Mensual</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><h3 style="color:#CE1126;">1. Resumen Ejecutivo</h3><p>Durante este mes se logró...</p><h3 style="color:#CE1126;">2. Indicadores</h3><ul><li>Indicador 1: XX%</li><li>Indicador 2: XX%</li></ul>`,
+      'acta': `<h2 style="color:#002B7F; text-align: center;">ACTA DE REUNIÓN</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}<br><strong>Hora:</strong> <br><strong>Lugar:</strong> </p><p><strong>Asistentes:</strong></p><ol><li></li><li></li></ol><p><strong>Acuerdos:</strong></p><ol><li>Se acuerda que...</li></ol>`,
+      'constancia': `<h2 style="color:#002B7F; text-align: center;">CONSTANCIA SALARIAL</h2><p>Por medio de la presente se hace constar que el señor(a) <strong>[Nombre]</strong>, cédula <strong>X-XXXX-XXXX</strong>, labora para <strong>[Empresa]</strong> desde [fecha], desempeñando el cargo de <strong>[Puesto]</strong>, devengando un salario mensual de <strong>₡XXX,XXX.XX</strong>.</p><p>Se extiende en San José, ${new Date().toLocaleDateString('es-CR')}.</p><br><p style="text-align: center;">Atentamente,<br><br>_______________________<br><strong>Recursos Humanos</strong></p>`
+    };
+
+    function abrirEditor(tipo) {
+      document.getElementById('pantalla-inicio').style.display = 'none';
+      document.getElementById('pantalla-editor').style.display = 'block';
+      document.getElementById('editor').innerHTML = plantillasContenido;
+      window.scrollTo(0, 0);
+    }
+
+    function volverInicio() {
+      document.getElementById('pantalla-editor').style.display = 'none';
+      document.getElementById('pantalla-inicio').style.display = 'block';
+    }
+
+    function formato(comando, valor = null) {
+      document.execCommand(comando, false, valor);
+      document.getElementById('editor').focus();
+    }
+
+    function guardarPDF() {
+      window.print();
+      document.getElementById('resultado').innerText = 'Usá "Guardar como PDF" mae 📥';
+    }
+
+    function contarPalabras() {
+      const texto = document.getElementById('editor').innerText;
+      const palabras = texto.trim().split(/\s+/).filter(w => w.length > 0).length;
+      document.getElementById('resultado').innerText = `📊 Palabras: ${palabras} | Caracteres: ${texto.length}`;
+    }
+
+    function accion(tipo) {
+      document.getElementById('resultado').innerText = 'Función ' + tipo + ' ejecutada 🇨🇷';
+    }
+
+    document.getElementById('buscarPlantilla').addEventListener('input', function(e) {
+      const busqueda = e.target.value.toLowerCase();
+      document.querySelectorAll('.plantilla-card').forEach(card => {
+        const nombre = card.querySelector('.plantilla-nombre').innerText.toLowerCase();
+        card.style.display = nombre.includes(busqueda)? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
