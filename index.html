@@ -11,6 +11,58 @@
       background: #f5f5f5; 
       padding-bottom: 220px; 
     }
+    /* BARRA TIPO WORD */
+   .wc-toolbar {
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto 0 auto;
+      background: white;
+      padding: 8px;
+      border-radius: 8px 8px 0 0;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
+   .wc-toolbar button {
+      background: #f8f8f8;
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      min-width: 32px;
+    }
+   .wc-toolbar button:hover {
+      background: #FFD700;
+      border-color: #002B7F;
+    }
+   .wc-toolbar select {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+   .wc-toolbar .separator {
+      width: 1px;
+      background: #ddd;
+      margin: 0 4px;
+    }
+    #editor {
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto 20px auto;
+      min-height: 400px;
+      background: white;
+      padding: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 0 0 8px 8px;
+      border: 1px solid #ddd;
+      border-top: 4px solid #002B7F;
+      outline: none;
+    }
+    /* PANEL IA TICO */
    .wc-ia-panel {
       position: fixed;
       bottom: 0;
@@ -75,7 +127,6 @@
       cursor: pointer; 
       font-size: 12px;
     }
-   .wc-ia-actions button:hover { background: rgba(255,215,0,0.3); }
    .wc-ia-output { 
       background: white; 
       padding: 10px; 
@@ -84,17 +135,6 @@
       color: #333; 
       font-size: 14px;
       border: 2px solid #FFD700;
-    }
-    #editor {
-      width: 90%;
-      max-width: 800px;
-      margin: 20px auto;
-      min-height: 400px;
-      background: white;
-      padding: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 8px;
-      border-top: 4px solid #002B7F;
     }
    .wc-firma {
       position: fixed;
@@ -108,7 +148,6 @@
       z-index: 9998;
       border: 1px solid #FFD700;
     }
-    /* MENÚ DE PLANTILLAS */
    .plantillas-menu {
       display: none;
       position: absolute;
@@ -140,9 +179,32 @@
 <body>
   <div class="wc-firma">WC Corporate CR 🇨🇷</div>
   
+  <!-- BARRA TIPO WORD -->
+  <div class="wc-toolbar">
+    <button onclick="formato('bold')" title="Negrita"><b>B</b></button>
+    <button onclick="formato('italic')" title="Cursiva"><i>I</i></button>
+    <button onclick="formato('underline')" title="Subrayado"><u>S</u></button>
+    <div class="separator"></div>
+    <select onchange="formato('fontSize', this.value)" title="Tamaño">
+      <option value="3">Normal</option>
+      <option value="1">Pequeño</option>
+      <option value="5">Grande</option>
+      <option value="7">Título</option>
+    </select>
+    <div class="separator"></div>
+    <button onclick="formato('justifyLeft')" title="Izquierda">⬅️</button>
+    <button onclick="formato('justifyCenter')" title="Centro">↔️</button>
+    <button onclick="formato('justifyRight')" title="Derecha">➡️</button>
+    <div class="separator"></div>
+    <button onclick="formato('insertUnorderedList')" title="Viñetas">• Lista</button>
+    <button onclick="formato('insertOrderedList')" title="Numeración">1. Lista</button>
+    <div class="separator"></div>
+    <button onclick="formato('removeFormat')" title="Quitar formato">🧹</button>
+  </div>
+
   <div id="editor" contenteditable="true">
     <h1 style="color:#002B7F;">WC Editor Pro Tico</h1>
-    <p>¡Pura vida mae! Empezá a escribir tu documento aquí...</p>
+    <p>¡Pura vida mae! Ya tenés barra tipo Word. Probá la <b>negrita</b>, <i>cursiva</i> o las listas.</p>
   </div>
 
   <div class="wc-ia-panel">
@@ -169,6 +231,13 @@
   </div>
 
   <script>
+    // BARRA WORD
+    function formato(comando, valor = null) {
+      document.execCommand(comando, false, valor);
+      document.getElementById('editor').focus();
+    }
+
+    // IA PANEL
     function enviar() {
       const prompt = document.getElementById('prompt').value;
       document.getElementById('resultado').innerText = 'Pura vida mae, procesando: ' + prompt;
@@ -192,12 +261,11 @@
         'acta': `<h2 style="color:#002B7F;">Acta de Reunión</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Asistentes:</strong></p><p><strong>Acuerdos:</strong></p><ol><li></li></ol>`,
         'cv': `<h1 style="color:#002B7F;">[Tu Nombre]</h1><p><strong>Tel:</strong> | <strong>Email:</strong> | <strong>San José, CR</strong></p><h2 style="color:#CE1126;">Experiencia</h2><p><strong>Empresa</strong> - Puesto<br>2020 - Presente</p>`
       };
-      editor.innerHTML = plantillas[tipo];
+      editor.innerHTML = plantillas;
       document.getElementById('menuPlantillas').style.display = 'none';
       document.getElementById('resultado').innerText = 'Plantilla "' + tipo + '" cargada mae 🇨🇷';
     }
 
-    // Cerrar menú si hace click afuera
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.wc-ia-actions')) {
         document.getElementById('menuPlantillas').style.display = 'none';
