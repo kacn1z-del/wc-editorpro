@@ -3,25 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WC Editor Suite - Costa Rica 🇨🇷</title>
+  <title>WC Editor Suite</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', Calibri, Arial, sans-serif;
-      background: #f3f2f1;
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: #f3f2f1; 
       overflow: hidden;
       height: 100vh;
     }
-
-    /* BACKSTAGE */
-    #backstage {
-      display: flex;
-      height: 100vh;
-      background: white;
-    }
+    
+    #backstage { display: flex; height: 100vh; background: white; }
     #editor-view { display: none; height: 100vh; flex-direction: column; }
 
-    /* MENÚ AZUL */
   .backstage-nav {
       width: 220px;
       background: #2b579a;
@@ -45,7 +39,6 @@
       cursor: pointer;
       font-size: 18px;
     }
-  .back-btn:hover { background: rgba(255,255,255,0.1); }
   .nav-item {
       padding: 12px 20px;
       cursor: pointer;
@@ -61,13 +54,7 @@
       background: #1e3a5f;
       border-left: 3px solid #FFD700;
     }
-  .nav-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.2);
-      margin: 8px 0;
-    }
 
-    /* CONTENIDO */
   .backstage-content {
       flex: 1;
       padding: 32px 48px;
@@ -79,13 +66,236 @@
       color: #323130;
       margin-bottom: 24px;
     }
-  .search-templates {
-      width: 100%;
-      max-width: 600px;
-      padding: 8px 12px;
-      border: 1px solid #8a8886;
-      border-radius: 2px;
-      font-size: 14px;
-      margin-bottom: 16px;
+
+  .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
     }
-  .suggested-searches {
+  .template-card {
+      cursor: pointer;
+      border: 1px solid #e1dfdd;
+      background: white;
+    }
+  .template-card:hover {
+      border-color: #2b579a;
+      box-shadow: 0 0 0 1px #2b579a;
+    }
+  .template-preview {
+      aspect-ratio: 8.5/11;
+      background: white;
+      border-bottom: 1px solid #e1dfdd;
+      padding: 12px;
+    }
+  .template-name {
+      padding: 8px;
+      font-size: 12px;
+      text-align: center;
+      background: #faf9f8;
+    }
+
+    /* EDITOR */
+  .title-bar {
+      background: #2b579a;
+      color: white;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+  .title-bar-icons { display: flex; gap: 16px; }
+  .title-bar-icons span { cursor: pointer; padding: 4px; }
+  .title-bar-icons span:hover { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+  .ribbon-tabs {
+      background: #f3f2f1;
+      border-bottom: 1px solid #d2d0ce;
+      display: flex;
+      padding: 0 16px;
+    }
+  .ribbon-tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 14px;
+      color: #323130;
+    }
+  .ribbon-tab.active {
+      background: white;
+      border: 1px solid #d2d0ce;
+      border-bottom: 1px solid white;
+      margin-bottom: -1px;
+      color: #2b579a;
+      font-weight: 600;
+    }
+
+  .ribbon-toolbar {
+      background: white;
+      border-bottom: 1px solid #d2d0ce;
+      padding: 8px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+  .tool-group {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #e1dfdd;
+      padding-right: 8px;
+      margin-right: 8px;
+    }
+  .tool-group-title {
+      font-size: 11px;
+      color: #605e5c;
+      text-align: center;
+      margin-top: 4px;
+    }
+  .tool-buttons { display: flex; gap: 4px; align-items: center; }
+  .ribbon-toolbar button,.ribbon-toolbar select {
+      background: white;
+      border: 1px solid transparent;
+      padding: 4px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 13px;
+      height: 28px;
+    }
+  .ribbon-toolbar button:hover {
+      border: 1px solid #8a8886;
+      background: #f3f2f1;
+    }
+
+  .main-editor-area {
+      flex: 1;
+      background: #e6e6e6;
+      overflow-y: auto;
+      padding: 32px;
+      display: flex;
+      justify-content: center;
+    }
+    #editor {
+      width: 816px;
+      min-height: 1056px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      padding: 96px;
+      outline: none;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKSTAGE -->
+  <div id="backstage">
+    <div class="backstage-nav">
+      <div class="backstage-nav-header">
+        <button class="back-btn" onclick="cerrarBackstage()">←</button>
+        <span style="font-weight: 600;">Info</span>
+      </div>
+      <button class="nav-item active">Nuevo</button>
+      <button class="nav-item">Abrir</button>
+      <button class="nav-item">Guardar</button>
+      <button class="nav-item">Guardar como</button>
+      <button class="nav-item">Imprimir</button>
+      <button class="nav-item">Compartir</button>
+      <button class="nav-item">Exportar</button>
+      <button class="nav-item">Cerrar</button>
+    </div>
+
+    <div class="backstage-content">
+      <h1 class="backstage-title">Nuevo</h1>
+      
+      <div class="templates-grid">
+        <div class="template-card" onclick="abrirEditor('blanco')">
+          <div class="template-preview"></div>
+          <div class="template-name">Documento en blanco</div>
+        </div>
+
+        <div class="template-card" onclick="abrirEditor('carta')">
+          <div class="template-preview">
+            <div style="width:100%; height:2px; background:#000; margin:4px 0;"></div>
+            <div style="width:80%; height:1px; background:#ccc; margin:2px 0;"></div>
+          </div>
+          <div class="template-name">Carta formal</div>
+        </div>
+
+        <div class="template-card" onclick="abrirEditor('informe')">
+          <div class="template-preview">
+            <div style="width:100%; height:3px; background:#2b579a; margin:4px 0;"></div>
+            <div style="width:70%; height:1px; background:#ccc; margin:2px 0;"></div>
+          </div>
+          <div class="template-name">Informe</div>
+        </div>
+
+        <div class="template-card" onclick="abrirEditor('acta')">
+          <div class="template-preview">
+            <div style="width:100%; height:3px; background:#2b579a; margin:4px 0;"></div>
+            <div style="width:90%; height:1px; background:#ccc; margin:2px 0;"></div>
+          </div>
+          <div class="template-name">Acta</div>
+        </div>
+
+        <div class="template-card" onclick="abrirEditor('cv')">
+          <div class="template-preview">
+            <div style="width:50%; height:3px; background:#000; margin:4px auto;"></div>
+            <div style="width:80%; height:1px; background:#ccc; margin:2px auto;"></div>
+          </div>
+          <div class="template-name">Currículum</div>
+        </div>
+
+        <div class="template-card" onclick="abrirEditor('ensayo')">
+          <div class="template-preview">
+            <div style="width:70%; height:3px; background:#000; margin:4px auto;"></div>
+            <div style="width:90%; height:1px; background:#ccc; margin:2px auto;"></div>
+          </div>
+          <div class="template-name">Ensayo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor-view">
+    <div class="title-bar">
+      <div class="title-bar-icons">
+        <span onclick="abrirBackstage()">📄</span>
+        <span onclick="guardar()">💾</span>
+        <span onclick="deshacer()">↶</span>
+        <span onclick="rehacer()">↷</span>
+      </div>
+      <div id="nombreDoc">Documento1</div>
+      <div>— WC Editor Suite</div>
+    </div>
+
+    <div class="ribbon-tabs">
+      <button class="ribbon-tab" onclick="abrirBackstage()">Archivo</button>
+      <button class="ribbon-tab active">Inicio</button>
+      <button class="ribbon-tab">Revisar</button>
+      <button class="ribbon-tab">Vista</button>
+    </div>
+
+    <div class="ribbon-toolbar">
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button onclick="pegar()">📋 Pegar</button>
+          <button onclick="cortar()">✂️</button>
+          <button onclick="copiar()">📄</button>
+        </div>
+        <div class="tool-group-title">Portapapeles</div>
+      </div>
+
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <select onchange="cambiarFuente(this.value)">
+            <option value="Calibri">Calibri</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times</option>
+          </select>
+          <select onchange="cambiarTamano(this.value)">
+            <option value="1">8</option>
+            <option value="2">10</option>
