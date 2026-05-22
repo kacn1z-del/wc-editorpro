@@ -9,9 +9,9 @@
       margin: 0; 
       font-family: Arial, sans-serif; 
       background: #f5f5f5; 
-      padding-bottom: 200px; 
+      padding-bottom: 220px; 
     }
-    .wc-ia-panel {
+   .wc-ia-panel {
       position: fixed;
       bottom: 0;
       left: 0;
@@ -23,14 +23,14 @@
       z-index: 9999;
       box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
     }
-    .wc-ia-title { 
+   .wc-ia-title { 
       color: #FFD700; 
       font-weight: bold; 
       font-size: 18px; 
       margin-bottom: 10px;
       text-shadow: 1px 1px 2px #000;
     }
-    .wc-promo {
+   .wc-promo {
       background: #FFD700;
       color: #002B7F;
       padding: 2px 8px;
@@ -39,19 +39,19 @@
       margin-left: 10px;
       font-weight: bold;
     }
-    .wc-ia-input { 
+   .wc-ia-input { 
       display: flex; 
       gap: 10px; 
       margin-bottom: 10px; 
     }
-    .wc-ia-input input { 
+   .wc-ia-input input { 
       flex: 1; 
       padding: 8px; 
       border-radius: 8px; 
       border: 2px solid #FFD700; 
       font-size: 14px;
     }
-    .wc-ia-input button { 
+   .wc-ia-input button { 
       background: #FFD700; 
       color: #002B7F; 
       border: none; 
@@ -60,13 +60,13 @@
       cursor: pointer; 
       font-weight: bold;
     }
-    .wc-ia-actions { 
+   .wc-ia-actions { 
       display: flex; 
       gap: 8px; 
       flex-wrap: wrap; 
       margin-bottom: 10px; 
     }
-    .wc-ia-actions button { 
+   .wc-ia-actions button { 
       background: rgba(255,255,255,0.2); 
       color: white; 
       border: 1px solid #FFD700; 
@@ -75,7 +75,8 @@
       cursor: pointer; 
       font-size: 12px;
     }
-    .wc-ia-output { 
+   .wc-ia-actions button:hover { background: rgba(255,215,0,0.3); }
+   .wc-ia-output { 
       background: white; 
       padding: 10px; 
       border-radius: 8px; 
@@ -95,9 +96,9 @@
       border-radius: 8px;
       border-top: 4px solid #002B7F;
     }
-    .wc-firma {
+   .wc-firma {
       position: fixed;
-      bottom: 155px;
+      bottom: 175px;
       right: 10px;
       background: rgba(0,43,127,0.9);
       color: #FFD700;
@@ -106,6 +107,33 @@
       font-size: 10px;
       z-index: 9998;
       border: 1px solid #FFD700;
+    }
+    /* MENÚ DE PLANTILLAS */
+   .plantillas-menu {
+      display: none;
+      position: absolute;
+      bottom: 60px;
+      left: 15px;
+      background: white;
+      border: 2px solid #FFD700;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 10000;
+      min-width: 200px;
+    }
+   .plantillas-menu button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: white;
+      color: #002B7F;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+   .plantillas-menu button:hover {
+      background: #FFD700;
     }
   </style>
 </head>
@@ -124,10 +152,18 @@
       <button onclick="enviar()">Enviar</button>
     </div>
     <div class="wc-ia-actions">
+      <button onclick="togglePlantillas()">📄 Plantillas</button>
       <button onclick="accion('resumir')">Resumir</button>
       <button onclick="accion('mejorar')">Mejorar</button>
       <button onclick="accion('traducir')">Traducir</button>
       <button onclick="accion('corregir')">Corregir</button>
+    </div>
+    <div class="plantillas-menu" id="menuPlantillas">
+      <button onclick="usarPlantilla('carta')">📝 Carta Formal</button>
+      <button onclick="usarPlantilla('correo')">📧 Correo Tico</button>
+      <button onclick="usarPlantilla('reporte')">📊 Reporte</button>
+      <button onclick="usarPlantilla('acta')">📋 Acta Reunión</button>
+      <button onclick="usarPlantilla('cv')">💼 Currículum</button>
     </div>
     <div class="wc-ia-output" id="resultado">El resultado aparece aquí...</div>
   </div>
@@ -137,9 +173,36 @@
       const prompt = document.getElementById('prompt').value;
       document.getElementById('resultado').innerText = 'Pura vida mae, procesando: ' + prompt;
     }
+    
     function accion(tipo) {
       document.getElementById('resultado').innerText = 'Función ' + tipo + ' ejecutada con sabor tico 🇨🇷';
     }
+
+    function togglePlantillas() {
+      const menu = document.getElementById('menuPlantillas');
+      menu.style.display = menu.style.display === 'block'? 'none' : 'block';
+    }
+
+    function usarPlantilla(tipo) {
+      const editor = document.getElementById('editor');
+      const plantillas = {
+        'carta': `<h2 style="color:#002B7F;">Carta Formal</h2><p>San José, ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Estimado/a Sr./Sra.:</strong></p><p>Por medio de la presente...</p><p>Atentamente,</p><p>[Tu nombre]</p>`,
+        'correo': `<h2 style="color:#002B7F;">Correo</h2><p><strong>Asunto:</strong> </p><p>¡Pura vida!</p><p>Te escribo para...</p><p>Saludos,<br>[Tu nombre]</p>`,
+        'reporte': `<h2 style="color:#002B7F;">Reporte Mensual</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Resumen Ejecutivo:</strong></p><ul><li>Punto 1</li><li>Punto 2</li></ul>`,
+        'acta': `<h2 style="color:#002B7F;">Acta de Reunión</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Asistentes:</strong></p><p><strong>Acuerdos:</strong></p><ol><li></li></ol>`,
+        'cv': `<h1 style="color:#002B7F;">[Tu Nombre]</h1><p><strong>Tel:</strong> | <strong>Email:</strong> | <strong>San José, CR</strong></p><h2 style="color:#CE1126;">Experiencia</h2><p><strong>Empresa</strong> - Puesto<br>2020 - Presente</p>`
+      };
+      editor.innerHTML = plantillas[tipo];
+      document.getElementById('menuPlantillas').style.display = 'none';
+      document.getElementById('resultado').innerText = 'Plantilla "' + tipo + '" cargada mae 🇨🇷';
+    }
+
+    // Cerrar menú si hace click afuera
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.wc-ia-actions')) {
+        document.getElementById('menuPlantillas').style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>
