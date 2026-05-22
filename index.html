@@ -5,352 +5,125 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WC Editor Pro - Costa Rica 🇨🇷</title>
   <style>
+    * { box-sizing: border-box; }
     body { 
       margin: 0; 
-      font-family: Arial, sans-serif; 
+      font-family: 'Segoe UI', Arial, sans-serif; 
       background: #f5f5f5; 
-      padding-bottom: 220px; 
-    }
-    /* BARRA DE HERRAMIENTAS COMPLETA */
-   .wc-toolbar {
-      width: 90%;
-      max-width: 800px;
-      margin: 20px auto 0 auto;
-      background: #f3f2f1;
-      padding: 8px;
-      border-radius: 8px 8px 0 0;
-      border: 1px solid #ddd;
-      border-bottom: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-      align-items: center;
-    }
-   .wc-toolbar button, .wc-toolbar select, .wc-toolbar input {
-      background: white;
-      border: 1px solid #ccc;
-      padding: 6px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      height: 32px;
-    }
-   .wc-toolbar button:hover {
-      background: #FFD700;
-      border-color: #002B7F;
-    }
-   .wc-toolbar .separator {
-      width: 1px;
-      height: 24px;
-      background: #ccc;
-      margin: 0 4px;
-    }
-   .wc-toolbar input[type="color"] {
-      width: 32px;
-      padding: 2px;
-    }
-    #editor {
-      width: 90%;
-      max-width: 800px;
-      margin: 0 auto 20px auto;
-      min-height: 400px;
-      background: white;
-      padding: 40px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 0 0 8px 8px;
-      border: 1px solid #ddd;
-      border-top: 4px solid #002B7F;
-      outline: none;
-      font-size: 12pt;
-      line-height: 1.5;
-    }
-    #editor table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    #editor td, #editor th {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    /* PANEL IA TICO */
-   .wc-ia-panel {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(135deg, #002B7F 0%, #CE1126 100%);
-      color: #fff;
-      border-top: 3px solid #FFD700;
-      padding: 15px;
-      z-index: 9999;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
-    }
-   .wc-ia-title { 
-      color: #FFD700; 
-      font-weight: bold; 
-      font-size: 18px; 
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 2px #000;
-    }
-   .wc-promo {
-      background: #FFD700;
-      color: #002B7F;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      margin-left: 10px;
-      font-weight: bold;
-    }
-   .wc-ia-input { 
-      display: flex; 
-      gap: 10px; 
-      margin-bottom: 10px; 
-    }
-   .wc-ia-input input { 
-      flex: 1; 
-      padding: 8px; 
-      border-radius: 8px; 
-      border: 2px solid #FFD700; 
-      font-size: 14px;
-    }
-   .wc-ia-input button { 
-      background: #FFD700; 
-      color: #002B7F; 
-      border: none; 
-      padding: 8px 15px; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      font-weight: bold;
-    }
-   .wc-ia-actions { 
-      display: flex; 
-      gap: 8px; 
-      flex-wrap: wrap; 
-      margin-bottom: 10px; 
-    }
-   .wc-ia-actions button { 
-      background: rgba(255,255,255,0.2); 
-      color: white; 
-      border: 1px solid #FFD700; 
-      padding: 6px 12px; 
-      border-radius: 6px; 
-      cursor: pointer; 
-      font-size: 12px;
-    }
-   .wc-ia-output { 
-      background: white; 
-      padding: 10px; 
-      border-radius: 8px; 
-      min-height: 40px; 
-      color: #333; 
-      font-size: 14px;
-      border: 2px solid #FFD700;
-    }
-   .wc-firma {
-      position: fixed;
-      bottom: 175px;
-      right: 10px;
-      background: rgba(0,43,127,0.9);
-      color: #FFD700;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 10px;
-      z-index: 9998;
-      border: 1px solid #FFD700;
-    }
-   .plantillas-menu {
-      display: none;
-      position: absolute;
-      bottom: 60px;
-      left: 15px;
-      background: white;
-      border: 2px solid #FFD700;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 10000;
-      min-width: 220px;
-    }
-   .plantillas-menu button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: white;
-      color: #002B7F;
-      text-align: left;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-    }
-   .plantillas-menu button:hover {
-      background: #FFD700;
-    }
-  </style>
-</head>
-<body>
-  <div class="wc-firma">WC Corporate CR 🇨🇷</div>
-  
-  <!-- BARRA DE HERRAMIENTAS FULL -->
-  <div class="wc-toolbar">
-    <button onclick="formato('undo')" title="Deshacer">↶</button>
-    <button onclick="formato('redo')" title="Rehacer">↷</button>
-    <div class="separator"></div>
-    <select onchange="formato('fontName', this.value)" title="Tipo de letra">
-      <option value="Arial">Arial</option>
-      <option value="Times New Roman">Times</option>
-      <option value="Calibri">Calibri</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Courier New">Courier</option>
-    </select>
-    <select onchange="formato('fontSize', this.value)" title="Tamaño">
-      <option value="2">10</option>
-      <option value="3" selected>12</option>
-      <option value="4">14</option>
-      <option value="5">18</option>
-      <option value="6">24</option>
-      <option value="7">36</option>
-    </select>
-    <div class="separator"></div>
-    <button onclick="formato('bold')" title="Negrita"><b>B</b></button>
-    <button onclick="formato('italic')" title="Cursiva"><i>I</i></button>
-    <button onclick="formato('underline')" title="Subrayado"><u>S</u></button>
-    <input type="color" onchange="formato('foreColor', this.value)" title="Color texto">
-    <input type="color" onchange="formato('hiliteColor', this.value)" title="Resaltar" value="#FFFF00">
-    <div class="separator"></div>
-    <button onclick="formato('justifyLeft')" title="Izquierda">⬅️</button>
-    <button onclick="formato('justifyCenter')" title="Centro">↔️</button>
-    <button onclick="formato('justifyRight')" title="Derecha">➡️</button>
-    <button onclick="formato('justifyFull')" title="Justificar">☰</button>
-    <div class="separator"></div>
-    <button onclick="formato('insertUnorderedList')" title="Viñetas">•</button>
-    <button onclick="formato('insertOrderedList')" title="Numeración">1.</button>
-    <button onclick="formato('outdent')" title="Disminuir sangría">◀</button>
-    <button onclick="formato('indent')" title="Aumentar sangría">▶</button>
-    <div class="separator"></div>
-    <button onclick="insertarTabla()" title="Tabla">📊</button>
-    <button onclick="insertarLink()" title="Enlace">🔗</button>
-    <button onclick="insertarImagen()" title="Imagen">🖼️</button>
-    <button onclick="formato('removeFormat')" title="Limpiar formato">🧹</button>
-  </div>
-
-  <div id="editor" contenteditable="true">
-    <h1 style="color:#002B7F;">WC Editor Pro Tico v3.0</h1>
-    <p>¡Pura vida mae! Ahora tenés <b>negrita</b>, <i>cursiva</i>, <u>subrayado</u>, colores, tablas, imágenes y más.</p>
-    <p style="color:#CE1126;">Seleccioná texto y usá la barra de arriba para editar como los pros.</p>
-  </div>
-
-  <div class="wc-ia-panel">
-    <div class="wc-ia-title">WC Corporate IA <span class="wc-promo">TICO PRO</span></div>
-    <div class="wc-ia-input">
-      <input type="text" id="prompt" placeholder="Escribí tu consulta mae...">
-      <button onclick="enviar()">Enviar</button>
-    </div>
-    <div class="wc-ia-actions">
-      <button onclick="togglePlantillas()">📄 Plantillas</button>
-      <button onclick="guardarPDF()">📥 PDF</button>
-      <button onclick="contarPalabras()">📊 Contar</button>
-      <button onclick="accion('resumir')">Resumir</button>
-      <button onclick="accion('mejorar')">Mejorar</button>
-      <button onclick="accion('corregir')">Corregir</button>
-    </div>
-    <div class="plantillas-menu" id="menuPlantillas">
-      <button onclick="usarPlantilla('carta')">📝 Carta Formal</button>
-      <button onclick="usarPlantilla('correo')">📧 Correo Tico</button>
-      <button onclick="usarPlantilla('reporte')">📊 Reporte</button>
-      <button onclick="usarPlantilla('acta')">📋 Acta Reunión</button>
-      <button onclick="usarPlantilla('cv')">💼 Currículum</button>
-      <button onclick="usarPlantilla('constancia')">📃 Constancia Salarial</button>
-    </div>
-    <div class="wc-ia-output" id="resultado">El resultado aparece aquí...</div>
-  </div>
-
-  <script>
-    // HERRAMIENTAS DE EDICIÓN
-    function formato(comando, valor = null) {
-      document.execCommand(comando, false, valor);
-      document.getElementById('editor').focus();
-    }
-
-    function insertarTabla() {
-      const filas = prompt('¿Cuántas filas?', '3');
-      const cols = prompt('¿Cuántas columnas?', '3');
-      if(filas && cols) {
-        let tabla = '<table>';
-        for(let i=0; i<filas; i++) {
-          tabla += '<tr>';
-          for(let j=0; j<cols; j++) {
-            tabla += '<td>Texto</td>';
-          }
-          tabla += '</tr>';
-        }
-        tabla += '</table><br>';
-        formato('insertHTML', tabla);
-      }
-    }
-
-    function insertarLink() {
-      const url = prompt('Pegá el enlace:', 'https://');
-      if(url) formato('createLink', url);
-    }
-
-    function insertarImagen() {
-      const url = prompt('Pegá el URL de la imagen:', 'https://');
-      if(url) formato('insertImage', url);
-    }
-
-    // PANEL IA
-    function enviar() {
-      const prompt = document.getElementById('prompt').value;
-      document.getElementById('resultado').innerText = 'Pura vida mae, procesando: ' + prompt;
     }
     
-    function accion(tipo) {
-      const editor = document.getElementById('editor');
-      const texto = editor.innerText;
-      if(tipo === 'corregir') {
-        document.getElementById('resultado').innerText = 'Revisando ortografía... ✅ Texto corregido mae';
-      } else {
-        document.getElementById('resultado').innerText = 'Función ' + tipo + ' ejecutada con sabor tico 🇨🇷';
-      }
+    /* PANTALLA DE INICIO - GALERÍA */
+    #pantalla-inicio {
+      display: block;
+      min-height: 100vh;
+      background: white;
+    }
+    .inicio-header {
+      background: linear-gradient(135deg, #002B7F 0%, #CE1126 100%);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid #FFD700;
+    }
+    .inicio-header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 300;
+    }
+    .logo-tico {
+      background: #FFD700;
+      color: #002B7F;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .busqueda-plantillas {
+      padding: 30px 40px 20px 40px;
+      background: #fafafa;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .busqueda-plantillas input {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px 15px;
+      border: 2px solid #FFD700;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .galeria-plantillas {
+      padding: 20px 40px 40px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      max-width: 1400px;
+    }
+    .plantilla-card {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .plantilla-card:hover {
+      transform: translateY(-4px);
+    }
+    .plantilla-preview {
+      width: 100%;
+      aspect-ratio: 8.5/11;
+      background: white;
+      border: 1px solid #d0d0d0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      padding: 15px;
+      font-size: 7px;
+      overflow: hidden;
+    }
+    .plantilla-preview.en-blanco { background: white; }
+    .plantilla-preview.carta { border-top: 4px solid #002B7F; }
+    .plantilla-preview.cv { background: linear-gradient(to bottom, #002B7F 25%, white 25%); }
+    .plantilla-preview.reporte { border-left: 4px solid #CE1126; }
+    .plantilla-nombre {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #333;
+      font-weight: 500;
     }
 
-    function togglePlantillas() {
-      const menu = document.getElementById('menuPlantillas');
-      menu.style.display = menu.style.display === 'block'? 'none' : 'block';
+    /* EDITOR - OCULTO AL INICIO */
+    #pantalla-editor { display: none; padding-bottom: 220px; }
+   .wc-toolbar {
+      width: 90%; max-width: 800px; margin: 20px auto 0 auto;
+      background: #f3f2f1; padding: 8px; border-radius: 8px 8px 0 0;
+      border: 1px solid #ddd; border-bottom: none; display: flex;
+      flex-wrap: wrap; gap: 4px; align-items: center;
+    }
+   .wc-toolbar button, .wc-toolbar select {
+      background: white; border: 1px solid #ccc; padding: 6px 8px;
+      border-radius: 4px; cursor: pointer; font-size: 13px; height: 32px;
+    }
+   .wc-toolbar button:hover { background: #FFD700; border-color: #002B7F; }
+   .wc-toolbar .separator { width: 1px; height: 24px; background: #ccc; margin: 0 4px; }
+    #editor {
+      width: 90%; max-width: 800px; margin: 0 auto 20px auto; min-height: 500px;
+      background: white; padding: 60px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 0 0 8px 8px; border: 1px solid #ddd; border-top: 4px solid #002B7F;
+      outline: none; font-size: 12pt; line-height: 1.6;
+    }
+    .btn-volver {
+      position: fixed; top: 20px; left: 20px; background: #002B7F; color: #FFD700;
+      border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;
+      font-weight: bold; z-index: 10001; border: 2px solid #FFD700;
     }
 
-    function usarPlantilla(tipo) {
-      const editor = document.getElementById('editor');
-      const plantillas = {
-        'carta': `<h2 style="color:#002B7F;">Carta Formal</h2><p>San José, ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Señores:</strong></p><p>Por medio de la presente...</p><p>Atentamente,</p><p>[Tu nombre]<br>Cédula: </p>`,
-        'correo': `<h2 style="color:#002B7F;">Correo</h2><p><strong>Asunto:</strong> </p><p>¡Pura vida!</p><p>Espero que estés bien. Te escribo para...</p><p>Saludos,<br>[Tu nombre]</p>`,
-        'reporte': `<h2 style="color:#002B7F;">Reporte Mensual</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Resumen Ejecutivo:</strong></p><ul><li>Logro 1</li><li>Logro 2</li></ul><p><strong>Próximos pasos:</strong></p>`,
-        'acta': `<h2 style="color:#002B7F;">Acta de Reunión</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}<br><strong>Hora:</strong> <br><strong>Lugar:</strong> </p><p><strong>Asistentes:</strong></p><ol><li></li></ol><p><strong>Acuerdos:</strong></p><ol><li></li></ol>`,
-        'cv': `<h1 style="color:#002B7F;">[Tu Nombre Completo]</h1><p><strong>Tel:</strong> 8888-8888 | <strong>Email:</strong> correo@email.com | <strong>San José, CR</strong></p><h2 style="color:#CE1126;">Perfil Profesional</h2><p>Profesional con experiencia en...</p><h2 style="color:#CE1126;">Experiencia Laboral</h2><p><strong>Empresa S.A.</strong> - Puesto<br>2020 - Presente<br>• Logro 1</p>`,
-        'constancia': `<h2 style="color:#002B7F;">Constancia Salarial</h2><p>Por medio de la presente se hace constar que el señor(a) [Nombre], cédula [X-XXXX-XXXX], labora para [Empresa] desde [fecha], desempeñando el cargo de [Puesto], devengando un salario mensual de ₡[Monto].</p><p>Se extiende la presente a solicitud del interesado en San José, ${new Date().toLocaleDateString('es-CR')}.</p><p>Atentamente,<br><br>_______________________<br>Recursos Humanos</p>`
-      };
-      editor.innerHTML = plantillas;
-      document.getElementById('menuPlantillas').style.display = 'none';
-      document.getElementById('resultado').innerText = 'Plantilla "' + tipo + '" cargada mae 🇨🇷';
+    /* PANEL IA TICO */
+   .wc-ia-panel {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(135deg, #002B7F 0%, #CE1126 100%);
+      color: #fff; border-top: 3px solid #FFD700; padding: 15px; z-index: 9999;
     }
-
-    function guardarPDF() {
-      window.print();
-      document.getElementById('resultado').innerText = 'Usá "Guardar como PDF" en la ventana que se abrió mae 📥';
-    }
-
-    function contarPalabras() {
-      const texto = document.getElementById('editor').innerText;
-      const palabras = texto.trim().split(/\s+/).length;
-      const caracteres = texto.length;
-      document.getElementById('resultado').innerText = `📊 Palabras: ${palabras} | Caracteres: ${caracteres}`;
-    }
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.wc-ia-actions')) {
-        document.getElementById('menuPlantillas').style.display = 'none';
-      }
-    });
-  </script>
-</body>
-</html>
+   .wc-ia-title { color: #FFD700; font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+   .wc-promo { background: #FFD700; color: #002B7F; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 10px; font-weight: bold; }
+   .wc-ia-input { display: flex; gap: 10px; margin-bottom: 10px; }
+   .wc-ia-input input { flex: 1; padding: 8px; border-radius: 8px; border: 2px solid #FFD700; }
+   .wc-ia-input button { background: #FFD700; color: #002B7F; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+   .wc-ia-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom
