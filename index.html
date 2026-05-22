@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>WC Editor PRO 🇨🇷 v20.2</title>
+<title>WC Editor PRO 🇨🇷 v20.3 FINAL</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Raleway:wght@400;700&family=Poppins:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Oswald:wght@400;700&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Dancing+Script:wght@400;700&family=Indie+Flower&family=Shadows+Into+Light&family=Permanent+Marker&family=Bangers&family=Alfa+Slab+One&family=Black+Ops+One&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -45,14 +45,14 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 #editor td{border:1px solid #ccc;padding:8px}
 #editor mark{background:yellow}
 .wc-arte{display:inline-block;font-weight:900;font-size:48px;background:linear-gradient(45deg,#FF6B35,#F7931E,#FFD23F,#FCBF49);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:3px 3px 0px rgba(0,0,0,0.2),6px 6px 0px rgba(255,107,53,0.3);transform:perspective(500px) rotateX(15deg);margin:10px 0;padding:10px}
-.wc-arte-chonete{font-family:'Bangers',cursive!important;font-size:56px;background:linear-gradient(45deg,#002B7F,#CE1126,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(4px 4px 0px #000);transform:skew(-5deg);letter-spacing:2px}
+.wc-arte-chonete{font-family:'Bangers',cursive!important;font-size:56px;background:linear-gradient(45deg,#002B7F,#CE1126,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(4px 0px #000);transform:skew(-5deg);letter-spacing:2px}
 .pag-num{position:absolute;bottom:40px;right:80px;font-size:12px;color:#666}
 .stat{background:var(--azul);color:white;padding:4px 12px;font-size:12px;display:flex;justify-content:space-between}
 .docs{margin-top:20px;border-top:2px solid var(--rojo);padding-top:20px}
 .doc{padding:12px;border:1px solid #ccc;margin-bottom:8px;cursor:pointer;background:white;display:flex;justify-content:space-between;border-radius:6px}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}
 .modal.active{display:flex}
-.modal-c{background:white;padding:20px;border-radius:12px;width:90%;max-width:550px;max-height:85vh;overflow-y:auto}
+.modal-c{background:white;padding:20px;border-radius:12px;width:90%;max-width:550px;max-height:85vh;overflow-y:auto;position:relative}
 .modal-c input,.modal-c textarea,.modal-c select{width:100%;padding:10px;margin:12px 0;border:1px solid #ccc;border-radius:6px;font-size:14px}
 .modal-b{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
 .modal-b button{padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600}
@@ -95,7 +95,7 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 </div>
 <div class="cont">
 <div id="vn"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Nuevo</h1><div class="card" onclick="ae()">Documento en blanco</div><div class="card" onclick="ae('ensayo')">Ensayo Universitario</div><div class="card" onclick="ae('contrato')">Contrato Simple</div><div class="card" onclick="ae('indigena')">📜 Texto Indígena</div><div class="card" onclick="ae('chonete')">🎩 Chileras el Chonete</div></div>
-<div id="va" style="display:none"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Abrir</h1><div class="docs"><h3>Documentos</h3><div id="ld"></div></div>
+<div id="va" style="display:none"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Abrir</h1><div class="docs"><h3>Documentos</h3><div id="ld"></div></div></div>
 </div>
 </div>
 <div id="editor-view">
@@ -128,7 +128,7 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 <div class="stat"><span id="cp">Palabras: 0</span><span id="pg">Página: 1</span><span>Costa Rica 🇨🇷 WC ARTE</span></div>
 </div>
 <div class="modal" id="mb"><div class="modal-c"><button class="modal-close" onclick="cmb()">✕</button><h3>Buscar</h3><input id="ib" placeholder="Palabra..."><div class="modal-b"><button onclick="cmb()">Cancelar</button><button class="ok" onclick="eb()">Buscar</button></div></div></div>
-<div class="modal" id="mid"><div class="modal-c"><button class="modal-close" onclick="cmid()">✕</button><h3>🌿 Diccionario Indígena CR</h3><div class="idioma-tabs"><button class="idioma-tab active" onclick="ci('bribri')">Bribri</button><button class="idioma-tab" onclick="ci('cabecar')">Cabécar</button></div><input id="ibr" placeholder="Buscar palabra..." oninput="fb()"><div class="idioma-lista" id="lb"></div><div class="modal-b"><button onclick="cmid()">Cerrar</button><button class="ok" onclick="ib()">Insertar</button></div></div>
+<div class="modal" id="mid"><div class="modal-c"><button class="modal-close" onclick="cmid()">✕</button><h3>🌿 Diccionario Indígena CR</h3><div class="idioma-tabs"><button class="idioma-tab active" onclick="ci('bribri')">Bribri</button><button class="idioma-tab" onclick="ci('cabecar')">Cabécar</button></div><input id="ibr" placeholder="Buscar palabra..." oninput="fb()"><div class="idioma-lista" id="lb"></div><div class="modal-b"><button onclick="cmid()">Cerrar</button><button class="ok" onclick="ib()">Insertar</button></div></div></div>
 <div class="modal" id="mia"><div class="modal-c"><button class="modal-close" onclick="cmia()">✕</button><h3>🤖 Asistente IA Tico</h3><div class="ia-chat" id="iac"><div class="ia-msg ia-bot">¡Pura vida mae! Soy tu asistente IA. Puedo: corregir ortografía, resumir texto, expandir ideas, traducir, crear ensayos, o responder preguntas. ¿Qué ocupás?</div></div><div class="ia-input"><input id="iai" placeholder="Escribí tu pregunta..." onkeypress="if(event.key==='Enter')eia()"><button class="ok" onclick="eia()">Enviar</button></div></div></div>
 <div class="modal" id="mwc"><div class="modal-c"><button class="modal-close" onclick="cmwc()">✕</button><h3>🎨 WC ARTE - WordArt Tico</h3><input id="iwc" placeholder="Escribí tu texto..." value="Chileras el chonete"><div class="wcarte-grid">
 <div class="wcarte-item" style="background:linear-gradient(45deg,#FF6B35,#F7931E);color:white" onclick="wcc(document.getElementById('iwc').value,'fuego')">🔥 FUEGO</div>
@@ -138,7 +138,7 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 <div class="wcarte-item" style="background:linear-gradient(45deg,#000,#434343);color:white" onclick="wcc(document.getElementById('iwc').value,'metal')">⚙️ METAL</div>
 <div class="wcarte-item" style="background:linear-gradient(45deg,#FF006E,#FB5607,#FFBE0B);color:white" onclick="wcc(document.getElementById('iwc').value,'fiesta')">🎉 FIESTA</div>
 </div><div class="modal-b"><button onclick="cmwc()">Cancelar</button></div></div></div>
-<div class="modal" id="mfm"><div class="modal-c"><button class="modal-close" onclick="cmfm()">✕</button><h3>✍️ Firmar con el dedo</h3><canvas id="cfm" width="400" height="150" style="border:2px solid #ccc;width:100%;touch-action:none;border-radius:8px"></canvas><div class="modal-b"><button onclick="lfm()">Limpiar</button><button onclick="cmfm()">Cancelar</button><button class="ok" onclick="sfm()">Insertar Firma</button></div></div>
+<div class="modal" id="mfm"><div class="modal-c"><button class="modal-close" onclick="cmfm()">✕</button><h3>✍️ Firmar con el dedo</h3><canvas id="cfm" width="400" height="150" style="border:2px solid #ccc;width:100%;touch-action:none;border-radius:8px"></canvas><div class="modal-b"><button onclick="lfm()">Limpiar</button><button onclick="cmfm()">Cancelar</button><button class="ok" onclick="sfm()">Insertar Firma</button></div></div></div>
 <input type="file" id="ii" accept="image/*" style="display:none">
 <script>
 var u=[],r=[],pp='',vozActiva=false,recognition,margenActivo=false,pagNum=true,idiomaAct='bribri';
@@ -149,7 +149,7 @@ function ud(){if(u.length>0){var e=document.getElementById('editor');r.push(e.in
 function rd(){if(r.length>0){var e=document.getElementById('editor');u.push(e.innerHTML);e.innerHTML=r.pop();ac();ap()}}
 function cb(){document.getElementById('backstage').style.display='flex';document.getElementById('editor-view').style.display='none'}
 function ab(){document.getElementById('backstage').style.display='flex';document.getElementById('editor-view').style.display='none';document.getElementById('vn').style.display='none';document.getElementById('va').style.display='block';cd()}
-function ae(t){document.getElementById('backstage').style.display='none';document.getElementById('editor-view').style.display='flex';document.getElementById('editor').innerHTML=plantillas||'<p>Escribí aquí...</p>';document.getElementById('nd').innerText=t||'Documento1';gs();ac();ap();setTimeout(function(){document.getElementById('editor').focus()},100)}
+function ae(t){document.getElementById('backstage').style.display='none';document.getElementById('editor-view').style.display='flex';var tipo=t||'blanco';document.getElementById('editor').innerHTML=plantillas[tipo];document.getElementById('nd').innerText=t||'Documento1';gs();ac();ap();setTimeout(function(){document.getElementById('editor').focus()},100)}
 function g(){var n=document.getElementById('nd').innerText;var c=document.getElementById('editor').innerHTML;var d=JSON.parse(localStorage.getItem('wcd')||'{}');d[n]={c:c,f:new Date().toLocaleString('es-CR')};localStorage.setItem('wcd',JSON.stringify(d));alert('✅ Guardado: '+n)}
 function gc(){var n=prompt('Nombre:',document.getElementById('nd').innerText);if(n){document.getElementById('nd').innerText=n;g()}}
 function gn(srv){var n=document.getElementById('nd').innerText;var c=document.getElementById('editor').innerHTML;var b=new Blob([c],{type:'text/html'});var url=URL.createObjectURL(b);var a=document.createElement('a');a.href=url;a.download=n+'.html';a.click();if(srv==='onedrive'){alert('☁️ OneDrive: Archivo descargado. Abrí onedrive.live.com → Cargar')}else if(srv==='icloud'){alert('🍎 iCloud: Archivo descargado. Abrí icloud.com/iclouddrive → Cargar')}}
@@ -159,6 +159,7 @@ function dd(n){if(confirm('¿Borrar '+n+'?')){var d=JSON.parse(localStorage.getI
 function cp(){var s=window.getSelection();if(s.rangeCount>0){pp=s.toString();alert('📋 Copiado')}}
 function pt(){if(pp){gs();document.execCommand('insertText',false,pp);ac();ap()}else{alert('Vacío')}}
 function f(t){var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var e=document.createElement(t);e.appendChild(r.extractContents());r.insertNode(e);ac()}
+function cc(){var c=document.getElementById('ct').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var sp=document.createElement('span');sp.style.color=c;sp.appendChild(r.extractContents());r.insertNode
 function cc(){var c=document.getElementById('ct').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var sp=document.createElement('span');sp.style.color=c;sp.appendChild(r.extractContents());r.insertNode(sp);ac()}
 function cs(){var c=document.getElementById('cr').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var m=document.createElement('mark');m.style.backgroundColor=c;m.appendChild(r.extractContents());r.insertNode(m);ac()}
 function l(){var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);var ul=document.createElement('ul');var li=document.createElement('li');li.innerHTML=r.toString()||'&nbsp;';ul.appendChild(li);r.deleteContents();r.insertNode(ul);ac()}
@@ -168,8 +169,7 @@ document.getElementById('ii').onchange=function(e){var f=e.target.files[0];if(!f
 function it(){gs();var h='<table><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>';var ed=document.getElementById('editor');ed.focus();var s=window.getSelection();if(s.rangeCount){var r=s.getRangeAt(0);var d=document.createElement('div');d.innerHTML=h;r.insertNode(d.firstChild)}ac()}
 function rg(){margenActivo=!margenActivo;document.getElementById('regla').classList.toggle('active');document.getElementById('editor').style.padding=margenActivo?'96px 80px':'40px'}
 function np(){pagNum=!pagNum;ap()}
-function ap(){if(!pagNum)return;var e=document.getElementById('editor');var h=e.scrollHeight;var p=Math.ceil(h/1056);document.getElementById('pg').innerText='Página: '+p;var nums=e.querySelectorAll('.pag-num');nums.forEach(function(n){n.remove()});for(var i=1;i<=p;i++){var pn=document.createElement('div');pn.className='pag-num';pn.innerText=i;pn.style.top=(i*1056-60
-px';e.appendChild(pn)}}
+function ap(){if(!pagNum)return;var e=document.getElementById('editor');var h=e.scrollHeight;var p=Math.ceil(h/1056);document.getElementById('pg').innerText='Página: '+p;var nums=e.querySelectorAll('.pag-num');nums.forEach(function(n){n.remove()});for(var i=1;i<=p;i++){var pn=document.createElement('div');pn.className='pag-num';pn.innerText=i;pn.style.top=(i*1056-60)+'px';e.appendChild(pn)}}
 function ifm(){document.getElementById('mfm').classList.add('active');initFirma()}
 function cmfm(){document.getElementById('mfm').classList.remove('active')}
 function lfm(){var c=document.getElementById('cfm');var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height)}
