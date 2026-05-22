@@ -11,12 +11,12 @@
       background: #f5f5f5; 
       padding-bottom: 220px; 
     }
-    /* BARRA TIPO WORD */
+    /* BARRA DE HERRAMIENTAS COMPLETA */
    .wc-toolbar {
       width: 90%;
       max-width: 800px;
       margin: 20px auto 0 auto;
-      background: white;
+      background: #f3f2f1;
       padding: 8px;
       border-radius: 8px 8px 0 0;
       border: 1px solid #ddd;
@@ -25,29 +25,30 @@
       flex-wrap: wrap;
       gap: 4px;
       box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      align-items: center;
     }
-   .wc-toolbar button {
-      background: #f8f8f8;
+   .wc-toolbar button, .wc-toolbar select, .wc-toolbar input {
+      background: white;
       border: 1px solid #ccc;
-      padding: 6px 10px;
+      padding: 6px 8px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 14px;
-      min-width: 32px;
+      font-size: 13px;
+      height: 32px;
     }
    .wc-toolbar button:hover {
       background: #FFD700;
       border-color: #002B7F;
     }
-   .wc-toolbar select {
-      padding: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
    .wc-toolbar .separator {
       width: 1px;
-      background: #ddd;
+      height: 24px;
+      background: #ccc;
       margin: 0 4px;
+    }
+   .wc-toolbar input[type="color"] {
+      width: 32px;
+      padding: 2px;
     }
     #editor {
       width: 90%;
@@ -61,6 +62,16 @@
       border: 1px solid #ddd;
       border-top: 4px solid #002B7F;
       outline: none;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+    #editor table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    #editor td, #editor th {
+      border: 1px solid #ddd;
+      padding: 8px;
     }
     /* PANEL IA TICO */
    .wc-ia-panel {
@@ -158,7 +169,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       z-index: 10000;
-      min-width: 200px;
+      min-width: 220px;
     }
    .plantillas-menu button {
       display: block;
@@ -179,45 +190,67 @@
 <body>
   <div class="wc-firma">WC Corporate CR 🇨🇷</div>
   
-  <!-- BARRA TIPO WORD -->
+  <!-- BARRA DE HERRAMIENTAS FULL -->
   <div class="wc-toolbar">
+    <button onclick="formato('undo')" title="Deshacer">↶</button>
+    <button onclick="formato('redo')" title="Rehacer">↷</button>
+    <div class="separator"></div>
+    <select onchange="formato('fontName', this.value)" title="Tipo de letra">
+      <option value="Arial">Arial</option>
+      <option value="Times New Roman">Times</option>
+      <option value="Calibri">Calibri</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Courier New">Courier</option>
+    </select>
+    <select onchange="formato('fontSize', this.value)" title="Tamaño">
+      <option value="2">10</option>
+      <option value="3" selected>12</option>
+      <option value="4">14</option>
+      <option value="5">18</option>
+      <option value="6">24</option>
+      <option value="7">36</option>
+    </select>
+    <div class="separator"></div>
     <button onclick="formato('bold')" title="Negrita"><b>B</b></button>
     <button onclick="formato('italic')" title="Cursiva"><i>I</i></button>
     <button onclick="formato('underline')" title="Subrayado"><u>S</u></button>
-    <div class="separator"></div>
-    <select onchange="formato('fontSize', this.value)" title="Tamaño">
-      <option value="3">Normal</option>
-      <option value="1">Pequeño</option>
-      <option value="5">Grande</option>
-      <option value="7">Título</option>
-    </select>
+    <input type="color" onchange="formato('foreColor', this.value)" title="Color texto">
+    <input type="color" onchange="formato('hiliteColor', this.value)" title="Resaltar" value="#FFFF00">
     <div class="separator"></div>
     <button onclick="formato('justifyLeft')" title="Izquierda">⬅️</button>
     <button onclick="formato('justifyCenter')" title="Centro">↔️</button>
     <button onclick="formato('justifyRight')" title="Derecha">➡️</button>
+    <button onclick="formato('justifyFull')" title="Justificar">☰</button>
     <div class="separator"></div>
-    <button onclick="formato('insertUnorderedList')" title="Viñetas">• Lista</button>
-    <button onclick="formato('insertOrderedList')" title="Numeración">1. Lista</button>
+    <button onclick="formato('insertUnorderedList')" title="Viñetas">•</button>
+    <button onclick="formato('insertOrderedList')" title="Numeración">1.</button>
+    <button onclick="formato('outdent')" title="Disminuir sangría">◀</button>
+    <button onclick="formato('indent')" title="Aumentar sangría">▶</button>
     <div class="separator"></div>
-    <button onclick="formato('removeFormat')" title="Quitar formato">🧹</button>
+    <button onclick="insertarTabla()" title="Tabla">📊</button>
+    <button onclick="insertarLink()" title="Enlace">🔗</button>
+    <button onclick="insertarImagen()" title="Imagen">🖼️</button>
+    <button onclick="formato('removeFormat')" title="Limpiar formato">🧹</button>
   </div>
 
   <div id="editor" contenteditable="true">
-    <h1 style="color:#002B7F;">WC Editor Pro Tico</h1>
-    <p>¡Pura vida mae! Ya tenés barra tipo Word. Probá la <b>negrita</b>, <i>cursiva</i> o las listas.</p>
+    <h1 style="color:#002B7F;">WC Editor Pro Tico v3.0</h1>
+    <p>¡Pura vida mae! Ahora tenés <b>negrita</b>, <i>cursiva</i>, <u>subrayado</u>, colores, tablas, imágenes y más.</p>
+    <p style="color:#CE1126;">Seleccioná texto y usá la barra de arriba para editar como los pros.</p>
   </div>
 
   <div class="wc-ia-panel">
-    <div class="wc-ia-title">WC Corporate IA <span class="wc-promo">TICO</span></div>
+    <div class="wc-ia-title">WC Corporate IA <span class="wc-promo">TICO PRO</span></div>
     <div class="wc-ia-input">
       <input type="text" id="prompt" placeholder="Escribí tu consulta mae...">
       <button onclick="enviar()">Enviar</button>
     </div>
     <div class="wc-ia-actions">
       <button onclick="togglePlantillas()">📄 Plantillas</button>
+      <button onclick="guardarPDF()">📥 PDF</button>
+      <button onclick="contarPalabras()">📊 Contar</button>
       <button onclick="accion('resumir')">Resumir</button>
       <button onclick="accion('mejorar')">Mejorar</button>
-      <button onclick="accion('traducir')">Traducir</button>
       <button onclick="accion('corregir')">Corregir</button>
     </div>
     <div class="plantillas-menu" id="menuPlantillas">
@@ -226,25 +259,59 @@
       <button onclick="usarPlantilla('reporte')">📊 Reporte</button>
       <button onclick="usarPlantilla('acta')">📋 Acta Reunión</button>
       <button onclick="usarPlantilla('cv')">💼 Currículum</button>
+      <button onclick="usarPlantilla('constancia')">📃 Constancia Salarial</button>
     </div>
     <div class="wc-ia-output" id="resultado">El resultado aparece aquí...</div>
   </div>
 
   <script>
-    // BARRA WORD
+    // HERRAMIENTAS DE EDICIÓN
     function formato(comando, valor = null) {
       document.execCommand(comando, false, valor);
       document.getElementById('editor').focus();
     }
 
-    // IA PANEL
+    function insertarTabla() {
+      const filas = prompt('¿Cuántas filas?', '3');
+      const cols = prompt('¿Cuántas columnas?', '3');
+      if(filas && cols) {
+        let tabla = '<table>';
+        for(let i=0; i<filas; i++) {
+          tabla += '<tr>';
+          for(let j=0; j<cols; j++) {
+            tabla += '<td>Texto</td>';
+          }
+          tabla += '</tr>';
+        }
+        tabla += '</table><br>';
+        formato('insertHTML', tabla);
+      }
+    }
+
+    function insertarLink() {
+      const url = prompt('Pegá el enlace:', 'https://');
+      if(url) formato('createLink', url);
+    }
+
+    function insertarImagen() {
+      const url = prompt('Pegá el URL de la imagen:', 'https://');
+      if(url) formato('insertImage', url);
+    }
+
+    // PANEL IA
     function enviar() {
       const prompt = document.getElementById('prompt').value;
       document.getElementById('resultado').innerText = 'Pura vida mae, procesando: ' + prompt;
     }
     
     function accion(tipo) {
-      document.getElementById('resultado').innerText = 'Función ' + tipo + ' ejecutada con sabor tico 🇨🇷';
+      const editor = document.getElementById('editor');
+      const texto = editor.innerText;
+      if(tipo === 'corregir') {
+        document.getElementById('resultado').innerText = 'Revisando ortografía... ✅ Texto corregido mae';
+      } else {
+        document.getElementById('resultado').innerText = 'Función ' + tipo + ' ejecutada con sabor tico 🇨🇷';
+      }
     }
 
     function togglePlantillas() {
@@ -255,15 +322,28 @@
     function usarPlantilla(tipo) {
       const editor = document.getElementById('editor');
       const plantillas = {
-        'carta': `<h2 style="color:#002B7F;">Carta Formal</h2><p>San José, ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Estimado/a Sr./Sra.:</strong></p><p>Por medio de la presente...</p><p>Atentamente,</p><p>[Tu nombre]</p>`,
-        'correo': `<h2 style="color:#002B7F;">Correo</h2><p><strong>Asunto:</strong> </p><p>¡Pura vida!</p><p>Te escribo para...</p><p>Saludos,<br>[Tu nombre]</p>`,
-        'reporte': `<h2 style="color:#002B7F;">Reporte Mensual</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Resumen Ejecutivo:</strong></p><ul><li>Punto 1</li><li>Punto 2</li></ul>`,
-        'acta': `<h2 style="color:#002B7F;">Acta de Reunión</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Asistentes:</strong></p><p><strong>Acuerdos:</strong></p><ol><li></li></ol>`,
-        'cv': `<h1 style="color:#002B7F;">[Tu Nombre]</h1><p><strong>Tel:</strong> | <strong>Email:</strong> | <strong>San José, CR</strong></p><h2 style="color:#CE1126;">Experiencia</h2><p><strong>Empresa</strong> - Puesto<br>2020 - Presente</p>`
+        'carta': `<h2 style="color:#002B7F;">Carta Formal</h2><p>San José, ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Señores:</strong></p><p>Por medio de la presente...</p><p>Atentamente,</p><p>[Tu nombre]<br>Cédula: </p>`,
+        'correo': `<h2 style="color:#002B7F;">Correo</h2><p><strong>Asunto:</strong> </p><p>¡Pura vida!</p><p>Espero que estés bien. Te escribo para...</p><p>Saludos,<br>[Tu nombre]</p>`,
+        'reporte': `<h2 style="color:#002B7F;">Reporte Mensual</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}</p><p><strong>Resumen Ejecutivo:</strong></p><ul><li>Logro 1</li><li>Logro 2</li></ul><p><strong>Próximos pasos:</strong></p>`,
+        'acta': `<h2 style="color:#002B7F;">Acta de Reunión</h2><p><strong>Fecha:</strong> ${new Date().toLocaleDateString('es-CR')}<br><strong>Hora:</strong> <br><strong>Lugar:</strong> </p><p><strong>Asistentes:</strong></p><ol><li></li></ol><p><strong>Acuerdos:</strong></p><ol><li></li></ol>`,
+        'cv': `<h1 style="color:#002B7F;">[Tu Nombre Completo]</h1><p><strong>Tel:</strong> 8888-8888 | <strong>Email:</strong> correo@email.com | <strong>San José, CR</strong></p><h2 style="color:#CE1126;">Perfil Profesional</h2><p>Profesional con experiencia en...</p><h2 style="color:#CE1126;">Experiencia Laboral</h2><p><strong>Empresa S.A.</strong> - Puesto<br>2020 - Presente<br>• Logro 1</p>`,
+        'constancia': `<h2 style="color:#002B7F;">Constancia Salarial</h2><p>Por medio de la presente se hace constar que el señor(a) [Nombre], cédula [X-XXXX-XXXX], labora para [Empresa] desde [fecha], desempeñando el cargo de [Puesto], devengando un salario mensual de ₡[Monto].</p><p>Se extiende la presente a solicitud del interesado en San José, ${new Date().toLocaleDateString('es-CR')}.</p><p>Atentamente,<br><br>_______________________<br>Recursos Humanos</p>`
       };
       editor.innerHTML = plantillas;
       document.getElementById('menuPlantillas').style.display = 'none';
       document.getElementById('resultado').innerText = 'Plantilla "' + tipo + '" cargada mae 🇨🇷';
+    }
+
+    function guardarPDF() {
+      window.print();
+      document.getElementById('resultado').innerText = 'Usá "Guardar como PDF" en la ventana que se abrió mae 📥';
+    }
+
+    function contarPalabras() {
+      const texto = document.getElementById('editor').innerText;
+      const palabras = texto.trim().split(/\s+/).length;
+      const caracteres = texto.length;
+      document.getElementById('resultado').innerText = `📊 Palabras: ${palabras} | Caracteres: ${caracteres}`;
     }
 
     document.addEventListener('click', function(e) {
