@@ -3,30 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>WC Editor PRO 🇨🇷 v18</title>
+<title>WC Editor PRO 🇨🇷 v20 Chileras</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Raleway:wght@400;700&family=Poppins:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Oswald:wght@400;700&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Dancing+Script:wght@400;700&family=Indie+Flower&family=Shadows+Into+Light&family=Permanent+Marker&family=Bangers&family=Alfa+Slab+One&family=Black+Ops+One&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidden}
 #backstage{display:flex;height:100vh;background:white}
 #editor-view{display:none;height:100vh;flex-direction:column}
-:root{--azul:#002B7F;--rojo:#CE1126;--dorado:#FFD700;--verde:#006847}
+:root{--azul:#002B7F;--rojo:#CE1126;--dorado:#FFD700;--verde:#006847;--morado:#5C2D91;--naranja:#FF6B35}
 .nav{width:280px;background:var(--azul);color:white;overflow-y:auto}
 .nav-h{padding:16px;background:var(--rojo);display:flex;align-items:center;gap:12px;position:sticky;top:0}
 .btn{padding:12px 20px;border:none;background:none;color:white;text-align:left;width:100%;cursor:pointer;display:flex;align-items:center;gap:12px}
 .btn:active{background:rgba(255,255,255,0.2)}
+.btn-nube{background:linear-gradient(90deg,#0078D4,#50E6FF);font-weight:600}
+.btn-ia{background:linear-gradient(90deg,#5C2D91,#9B59B6);font-weight:600}
 .cont{flex:1;padding:24px;background:#faf9f8;overflow-y:auto}
-.card{border:1px solid #ccc;padding:20px;margin-bottom:12px;cursor:pointer;background:white;text-align:center}
+.card{border:1px solid #ccc;padding:20px;margin-bottom:12px;cursor:pointer;background:white;text-align:center;border-radius:8px}
 .card:active{border-color:var(--azul);transform:scale(0.98)}
 .bar{background:var(--azul);color:white;padding:6px 12px;display:flex;justify-content:space-between;font-size:14px}
 .icons{display:flex;gap:12px}
 .icons span{cursor:pointer;padding:4px;font-size:18px}
+.tabs{background:#f3f2f1;border-bottom:1px solid #d2d0ce;display:flex;padding:0 12px;overflow-x:auto}
+.tab{padding:8px 14px;cursor:pointer;border:none;background:none;font-size:14px;color:#323130;white-space:nowrap}
+.tab.active{background:white;border:1px solid #d2d0ce;border-bottom:1px solid white;margin-bottom:-1px;color:var(--azul);font-weight:600}
 .tools{background:white;border-bottom:1px solid #d2d0ce;padding:8px 12px;display:none;gap:8px;flex-wrap:wrap;align-items:center}
 .tools.active{display:flex}
 .tool-g{display:flex;flex-direction:column;border-right:1px solid #e1dfdd;padding-right:8px;margin-right:8px}
 .tool-t{font-size:10px;color:#605e5c;text-align:center;margin-top:2px}
 .tool-b{display:flex;gap:4px;align-items:center}
-.tools button,.tools select,.tools input{border:1px solid #ccc;padding:6px 10px;background:white;cursor:pointer;height:36px;min-width:36px;border-radius:3px}
+.tools button,.tools select,.tools input{border:1px solid #ccc;padding:6px 10px;background:white;cursor:pointer;height:36px;min-width:36px;border-radius:3px;font-size:14px}
 .tools input[type="color"]{width:36px;padding:2px}
+.btn-ia-tool{background:var(--morado)!important;color:white!important;border:none!important}
+.btn-wc-arte{background:linear-gradient(45deg,#FF6B35,#F7931E,#FFD23F)!important;color:white!important;border:none!important;font-weight:700}
 .regla{background:#d4d4d4;height:20px;position:relative;border-bottom:1px solid #999;font-size:10px;color:#333;display:none}
 .regla.active{display:block}
 .regla-num{position:absolute;top:2px}
@@ -36,23 +44,36 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 #editor table{border-collapse:collapse;width:100%;margin:10px 0}
 #editor td{border:1px solid #ccc;padding:8px}
 #editor mark{background:yellow}
+.wc-arte{display:inline-block;font-weight:900;font-size:48px;background:linear-gradient(45deg,#FF6B35,#F7931E,#FFD23F,#FCBF49);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:3px 3px 0px rgba(0,0,0,0.2),6px 6px 0px rgba(255,107,53,0.3);transform:perspective(500px) rotateX(15deg);margin:10px 0;padding:10px}
+.wc-arte-chonete{font-family:'Bangers',cursive!important;font-size:56px;background:linear-gradient(45deg,#002B7F,#CE1126,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(4px 4px 0px #000);transform:skew(-5deg);letter-spacing:2px}
 .pag-num{position:absolute;bottom:40px;right:80px;font-size:12px;color:#666}
-.firma{border:2px dashed #ccc;min-height:80px;margin:10px 0;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#999}
-.firma canvas{width:100%;height:80px}
 .stat{background:var(--azul);color:white;padding:4px 12px;font-size:12px;display:flex;justify-content:space-between}
 .docs{margin-top:20px;border-top:2px solid var(--rojo);padding-top:20px}
-.doc{padding:12px;border:1px solid #ccc;margin-bottom:8px;cursor:pointer;background:white;display:flex;justify-content:space-between}
+.doc{padding:12px;border:1px solid #ccc;margin-bottom:8px;cursor:pointer;background:white;display:flex;justify-content:space-between;border-radius:6px}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}
 .modal.active{display:flex}
-.modal-c{background:white;padding:20px;border-radius:8px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto}
-.modal-c input,.modal-c textarea{width:100%;padding:8px;margin:12px 0;border:1px solid #ccc;border-radius:3px}
-.modal-b{display:flex;gap:8px;justify-content:flex-end}
-.modal-b button{padding:8px 16px;border:none;border-radius:3px;cursor:pointer}
+.modal-c{background:white;padding:20px;border-radius:12px;width:90%;max-width:550px;max-height:85vh;overflow-y:auto}
+.modal-c input,.modal-c textarea,.modal-c select{width:100%;padding:10px;margin:12px 0;border:1px solid #ccc;border-radius:6px;font-size:14px}
+.modal-b{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.modal-b button{padding:10px 20px;border:none;border-radius:6px;cursor:pointer;font-weight:600}
 .ok{background:var(--azul);color:white}
 .grabando{background:var(--rojo)!important;color:white!important;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.bribri-lista{max-height:300px;overflow-y:auto;border:1px solid #ccc;padding:8px;margin:12px 0}
-.bribri-item{padding:6px;border-bottom:1px solid #eee;display:flex;justify-content:space-between}
+.idioma-tabs{display:flex;gap:8px;margin-bottom:12px}
+.idioma-tab{padding:8px 16px;border:2px solid #ccc;background:white;cursor:pointer;border-radius:6px;font-weight:600}
+.idioma-tab.active{border-color:var(--verde);background:var(--verde);color:white}
+.idioma-lista{max-height:350px;overflow-y:auto;border:1px solid #ccc;padding:8px;border-radius:6px}
+.idioma-item{padding:8px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;cursor:pointer}
+.idioma-item:hover{background:#f0f0f0}
+.ia-chat{max-height:300px;overflow-y:auto;border:1px solid #ccc;padding:12px;border-radius:8px;background:#f9f9f9;margin:12px 0}
+.ia-msg{margin-bottom:12px;padding:10px;border-radius:8px}
+.ia-user{background:#e3f2fd;margin-left:20px}
+.ia-bot{background:#f3e5f5;margin-right:20px}
+.ia-input{display:flex;gap:8px}
+.ia-input input{flex:1}
+.wcarte-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.wcarte-item{padding:20px;border:3px solid #ccc;border-radius:12px;cursor:pointer;text-align:center;font-size:24px;font-weight:900;transition:all 0.2s}
+.wcarte-item:active{transform:scale(0.95)}
 </style>
 </head>
 <body>
@@ -63,81 +84,95 @@ body{font-family:Arial,sans-serif;background:#f3f2f1;height:100vh;overflow:hidde
 <button class="btn" onclick="ab()">📂 Abrir</button>
 <button class="btn" onclick="g()">💾 Guardar</button>
 <button class="btn" onclick="gc()">💾 Guardar como</button>
-<button class="btn" onclick="gn()">☁️ Nube</button>
+<button class="btn btn-nube" onclick="gn('onedrive')">☁️ OneDrive</button>
+<button class="btn btn-nube" onclick="gn('icloud')">🍎 iCloud</button>
 <button class="btn" onclick="wa()">🔗 WhatsApp</button>
+<button class="btn btn-ia" onclick="mia()">🤖 Asistente IA</button>
 <button class="btn" onclick="ud()">↶ Deshacer</button>
 <button class="btn" onclick="rd()">↷ Rehacer</button>
 <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
 </div>
 <div class="cont">
-<div id="vn"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Nuevo</h1><div class="card" onclick="ae()">Documento en blanco</div><div class="card" onclick="ae('ensayo')">Ensayo Universitario</div><div class="card" onclick="ae('contrato')">Contrato Simple</div></div>
+<div id="vn"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Nuevo</h1><div class="card" onclick="ae()">Documento en blanco</div><div class="card" onclick="ae('ensayo')">Ensayo Universitario</div><div class="card" onclick="ae('contrato')">Contrato Simple</div><div class="card" onclick="ae('indigena')">📜 Texto Indígena</div><div class="card" onclick="ae('chonete')">🎩 Chileras el Chonete</div></div>
 <div id="va" style="display:none"><h1 style="font-size:32px;color:#002B7F;margin-bottom:20px">Abrir</h1><div class="docs"><h3>Documentos</h3><div id="ld"></div></div></div>
 </div>
 </div>
 <div id="editor-view">
-<div class="bar"><div class="icons"><span onclick="ab()">📄</span><span onclick="g()">💾</span><span onclick="ud()">↶</span><span onclick="rd()">↷</span><span onclick="tr()" id="btnVoz">🎙️</span></div><div id="nd">Documento1</div><div>WC PRO 🇨🇷</div></div>
+<div class="bar"><div class="icons"><span onclick="ab()">📄</span><span onclick="g()">💾</span><span onclick="ud()">↶</span><span onclick="rd()">↷</span><span onclick="tr()" id="btnVoz">🎙️</span><span onclick="mia()">🤖</span></div><div id="nd">Documento1</div><div>WC PRO 🇨🇷 CHONETE</div></div>
+<div class="tabs">
+<button class="tab active" data-tab="inicio">Inicio</button>
+<button class="tab" data-tab="insertar">Insertar</button>
+<button class="tab" data-tab="wcarte">WC Arte</button>
+<button class="tab" data-tab="revisar">Revisar</button>
+</div>
 <div class="tools active" id="tab-inicio">
 <div class="tool-g"><div class="tool-b"><button onclick="cp()">📋</button><button onclick="pt()">📄</button></div><div class="tool-t">Portapapeles</div></div>
 <div class="tool-g"><div class="tool-b"><button onclick="f('strong')"><b>B</b></button><button onclick="f('em')"><i>I</i></button><button onclick="f('u')"><u>U</u></button><input type="color" id="ct" value="#000000" onchange="cc()"><input type="color" id="cr" value="#FFFF00" onchange="cs()"></div><div class="tool-t">Fuente</div></div>
-<div class="tool-g"><div class="tool-b"><select id="sf" onchange="cf()"><option value="Calibri">Calibri</option><option value="Arial">Arial</option><option value="Times New Roman">Times</option></select><select id="st" onchange="ctm()"><option value="2">10</option><option value="3" selected>11</option><option value="4">12</option><option value="5">14</option><option value="6">18</option></select></div><div class="tool-t">Fuente</div></div>
+<div class="tool-g"><div class="tool-b"><select id="sf" onchange="cf()">
+<option value="Calibri">Calibri</option>
+<option value="Arial">Arial</option>
+<option value="Times New Roman">Times New Roman</option>
+<option value="Verdana">Verdana</option>
+<option value="Georgia">Georgia</option>
+<option value="Tahoma">Tahoma</option>
+<option value="Trebuchet MS">Trebuchet MS</option>
+<option value="Courier New">Courier New</option>
+<option value="Comic Sans MS">Comic Sans MS</option>
+<option value="Impact">Impact</option>
+<option value="Lucida Console">Lucida Console</option>
+<option value="Palatino">Palatino</option>
+<option value="Garamond">Garamond</option>
+<option value="Bookman">Bookman</option>
+<option value="Roboto">Roboto</option>
+<option value="Open Sans">Open Sans</option>
+<option value="Lato">Lato</option>
+<option value="Montserrat">Montserrat</option>
+<option value="Raleway">Raleway</option>
+<option value="Poppins">Poppins</option>
+<option value="Playfair Display">Playfair Display</option>
+<option value="Merriweather">Merriweather</option>
+<option value="Lora">Lora</option>
+<option value="Oswald">Oswald</option>
+<option value="Bebas Neue">Bebas Neue</option>
+<option value="Pacifico">Pacifico</option>
+<option value="Lobster">Lobster</option>
+<option value="Dancing Script">Dancing Script</option>
+<option value="Indie Flower">Indie Flower</option>
+<option value="Shadows Into Light">Shadows Into Light</option>
+<option value="Permanent Marker">Permanent Marker</option>
+<option value="Bangers">Bangers</option>
+<option value="Alfa Slab One">Alfa Slab One</option>
+<option value="Black Ops One">Black Ops One</option>
+<option value="Press Start 2P">Press Start 2P</option>
+</select><select id="st" onchange="ctm()"><option value="1">8</option><option value="2">10</option><option value="3" selected>11</option><option value="4">12</option><option value="5">14</option><option value="6">18</option><option value="7">24</option><option value="8">36</option><option value="9">48</option><option value="10">72</option></select></div><div class="tool-t">Fuente</div></div>
 <div class="tool-g"><div class="tool-b"><button onclick="l()">≡</button><button onclick="a('left')">⬅️</button><button onclick="a('center')">↔️</button><button onclick="a('right')">➡️</button></div><div class="tool-t">Párrafo</div></div>
-<div class="tool-g"><div class="tool-b"><button onclick="ii()">🖼️</button><button onclick="it()">📊</button><button onclick="rg()">📐</button><button onclick="np()">📑</button><button onclick="ifm()">✍️</button></div><div class="tool-t">Insertar</div></div>
-<div class="tool-g"><div class="tool-b"><button onclick="mb()">🔍</button><button onclick="mbr()">🌿</button></div><div class="tool-t">Revisar</div></div>
+</div>
+<div class="tools" id="tab-insertar">
+<div class="tool-g"><div class="tool-b"><button onclick="ii()">🖼️ Imagen</button><button onclick="it()">📊 Tabla</button><button onclick="rg()">📐 Regla</button><button onclick="np()">📑 Páginas</button><button onclick="ifm()">✍️ Firma</button></div><div class="tool-t">Insertar</div></div>
+</div>
+<div class="tools" id="tab-wcarte">
+<div class="tool-g"><div class="tool-b"><button class="btn-wc-arte" onclick="mwc()">🎨 WC ARTE</button><button class="btn-wc-arte" onclick="wcc('Chileras el chonete')">🎩 CHONETE</button></div><div class="tool-t">WC Arte</div></div>
+</div>
+<div class="tools" id="tab-revisar">
+<div class="tool-g"><div class="tool-b"><button onclick="mb()">🔍 Buscar</button><button onclick="mid()">🌿 Indígena</button><button class="btn-ia-tool" onclick="mia()">🤖 IA</button></div><div class="tool-t">Revisar</div></div>
 </div>
 <div class="regla" id="regla"><div class="regla-num" style="left:80px">1</div><div class="regla-num" style="left:180px">2</div><div class="regla-num" style="left:280px">3</div><div class="regla-num" style="left:380px">4</div><div class="regla-num" style="left:480px">5</div><div class="regla-num" style="left:580px">6</div><div class="regla-num" style="left:680px">7</div></div>
-<div class="area"><div id="editor" contenteditable="true"><p>Escribí aquí o usá 🎙️ para dictar...</p></div></div>
-<div class="stat"><span id="cp">Palabras: 0</span><span id="pg">Página: 1</span><span>Costa Rica 🇨🇷</span></div>
+<div class="area"><div id="editor" contenteditable="true"><p>Escribí aquí, usá 🎙️ para dictar, 🤖 para IA o 🎨 WC ARTE para <span class="wc-arte-chonete">Chileras el chonete</span>...</p></div></div>
+<div class="stat"><span id="cp">Palabras: 0</span><span id="pg">Página: 1</span><span>Costa Rica 🇨🇷 WC ARTE</span></div>
 </div>
 <div class="modal" id="mb"><div class="modal-c"><h3>Buscar</h3><input id="ib" placeholder="Palabra..."><div class="modal-b"><button onclick="cmb()">Cancelar</button><button class="ok" onclick="eb()">Buscar</button></div></div></div>
-<div class="modal" id="mbr"><div class="modal-c"><h3>🌿 Diccionario Bribri - Español (150+ palabras)</h3><input id="ibr" placeholder="Buscar palabra..." oninput="fb()"><div class="bribri-lista" id="lb"></div><div class="modal-b"><button onclick="cmbr()">Cerrar</button><button class="ok" onclick="ib()">Insertar</button></div></div></div>
-<div class="modal" id="mfm"><div class="modal-c"><h3>✍️ Firmar con el dedo</h3><canvas id="cfm" width="400" height="150" style="border:2px solid #ccc;width:100%;touch-action:none"></canvas><div class="modal-b"><button onclick="lfm()">Limpiar</button><button onclick="cmfm()">Cancelar</button><button class="ok" onclick="sfm()">Insertar Firma</button></div></div></div>
+<div class="modal" id="mid"><div class="modal-c"><h3>🌿 Diccionario Indígena CR</h3><div class="idioma-tabs"><button class="idioma-tab active" onclick="ci('bribri')">Bribri</button><button class="idioma-tab" onclick="ci('cabecar')">Cabécar</button></div><input id="ibr" placeholder="Buscar palabra..." oninput="fb()"><div class="idioma-lista" id="lb"></div><div class="modal-b"><button onclick="cmid()">Cerrar</button><button class="ok" onclick="ib()">Insertar</button></div></div></div>
+<div class="modal" id="mia"><div class="modal-c"><h3>🤖 Asistente IA Tico</h3><div class="ia-chat" id="iac"><div class="ia-msg ia-bot">¡Pura vida mae! Soy tu asistente IA. Puedo: corregir ortografía, resumir texto, expandir ideas, traducir, crear ensayos, o responder preguntas. ¿Qué ocupás?</div></div><div class="ia-input"><input id="iai" placeholder="Escribí tu pregunta..." onkeypress="if(event.key==='Enter')eia()"><button class="ok" onclick="eia()">Enviar</button></div></div></div>
+<div class="modal" id="mwc"><div class="modal-c"><h3>🎨 WC ARTE - WordArt Tico</h3><input id="iwc" placeholder="Escribí tu texto..." value="Chileras el chonete"><div class="wcarte-grid">
+<div class="wcarte-item" style="background:linear-gradient(45deg,#FF6B35,#F7931E);color:white" onclick="wcc(document.getElementById('iwc').value,'fuego')">🔥 FUEGO</div>
+<div class="wcarte-item" style="background:linear-gradient(45deg,#002B7F,#CE1126,#FFD700);color:white" onclick="wcc(document.getElementById('iwc').value,'tico')">🇨🇷 TICO</div>
+<div class="wcarte-item" style="background:linear-gradient(45deg,#5C2D91,#9B59B6);color:white" onclick="wcc(document.getElementById('iwc').value,'neon')">💜 NEÓN</div>
+<div class="wcarte-item" style="background:linear-gradient(45deg,#006847,#00A651);color:white" onclick="wcc(document.getElementById('iwc').value,'selva')">🌿 SELVA</div>
+<div class="wcarte-item" style="background:linear-gradient(45deg,#000,#434343);color:white" onclick="wcc(document.getElementById('iwc').value,'metal')">⚙️ METAL</div>
+<div class="wcarte-item" style="background:linear-gradient(45deg,#FF006E,#FB5607,#FFBE0B);color:white" onclick="wcc(document.getElementById('iwc').value,'fiesta')">🎉 FIESTA</div>
+</div><div class="modal-b"><button onclick="cmwc()">Cancelar</button></div></div></div>
+<div class="modal" id="mfm"><div class="modal-c"><h3>✍️ Firmar con el dedo</h3><canvas id="cfm" width="400" height="150" style="border:2px solid #ccc;width:100%;touch-action:none;border-radius:8px"></canvas><div class="modal-b"><button onclick="lfm()">Limpiar</button><button onclick="cmfm()">Cancelar</button><button class="ok" onclick="sfm()">Insertar Firma</button></div></div></div>
 <input type="file" id="ii" accept="image/*" style="display:none">
 <script>
-var u=[],r=[],pp='',vozActiva=false,recognition,margenActivo=false,pagNum=true;
-var db={'hola':'i shka','adiós':'i shkëna','buenos días':'i bua´ra','buenas tardes':'i bua´ki','buenas noches':'i bua´nami','gracias':'wëstela','muchas gracias':'wëstela sì','por favor':'tsuru´','de nada':'kë̀këpa','sí':'jë´','no':'ãã','tal vez':'ai','perdón':'tsuru´','bienvenido':'i kie','agua':'di´','fuego':'bök','tierra':'irìria','aire':'siwã','viento':'siwã','sol':'dí','luna':'si´wa','estrella':'bö','cielo':'káñí','nube':'mò','lluvia':'kãnì','río':'di´wo','mar':'di´pla','lago':'di´ tso´','montaña':'ká','cerro':'ká tsirì','valle':'jamo´','piedra':'àk','arena':'sãk','barro':'tsà','árbol':'kàl','hoja':'kàl kà','flor':'wö','fruta':'kua','semilla':'kua kà','raíz':'kàl tkö','madera':'kàl','hierba':'pà','maíz':'ik','frijol':'bè','arroz':'aò','plátano':'bata','cacao':'tsirú','café':'kafé','casa':'u','puerta':'u kà','ventana':'u wö','techo':'u kà','cama':'kàpë','silla':'tso´','mesa':'mès','cocina':'chkè u','comida':'chkè','carne':'chi','pescado':'namà','huevo':'ditsö','leche':'tsu´','sal':'sàl','azúcar':'sukà','persona':'se´','gente':'se´pa','niño':'alà','niña':'aláköl','bebé':'alà tsirì','joven':'dur','viejo':'kéköl','mujer':'aláköl','hombre':'wëm','mamá':'mì','papá':'yë','hermano':'ëköl','hermana':'kuk','abuelo':'kéköl','abuela':'nàna','tío':'yëköl','tía':'nàna','amigo':'yàmipa','enemigo':'bolò','jefe':'blu´','maestro':'uñé','doctor':'sèné','corazón':'wöbla','cabeza':'tsa','cara':'wö','ojo':'wö','nariz':'kì','boca':'kà','oreja':'kù','diente':'aká','lengua':'kué','cuello':'tso´','brazo':'ulà kà','mano':'ulà','dedo':'ulà kà','pierna':'klö kà','pie':'klö','uña':'akà','pelo':'tsà','sangre':'apè','hueso':'kàl','piel':'tö','perro':'tsí','gato':'mis','vaca':'baka','cerdo':'kùchi','gallina':'dù','caballo':'kàbà','pájaro':'dulù','pez':'namà','serpiente':'tkabè','tigre':'nàmu','mono':'kuö','venado':'sùli','tortuga':'köchi','rana':'pö','mosquito':'chò','araña':'sìk','mariposa':'wöbla dulù','abeja':'kò','uno':'éköl','dos':'böl','tres':'mañàt','cuatro':'tkël','cinco':'skël','seis':'tèröl','siete':'kúköl','ocho':'paiköl','nueve':'sùlitöm','diez':'dömi','cien':'dömi dömi','mil':'dömi dömi dömi','blanco':'surù','negro':'dulè','rojo':'to','verde':'sà','azul':'di´ kà','amarillo':'kãnè','café':'kàl kà','morado':'to dulè','bueno':'bua´ë','malo':'sĩ´','grande':'butsè','pequeño':'tsirì','largo':'taì','corto':'tsirì','alto':'kà','bajo':'irìria','gordo':'butsè','flaco':'tsirì','nuevo':'ji´','viejo':'kéköl','caliente':'bök','frío':'siwã','dulce':'kãnè','amargo':'ĩ´','rápido':'klö','lento':'nami','feliz':'bua´ë wöbla','triste':'sĩ´ wöbla','cansado':'dur','fuerte':'tsà','débil':'tsirì','costa rica':'tso´ irìria','talamanca':'talamanka','limón':'limò','san josé':'san josé'};
-var plantillas={blanco:'<p>Escribí aquí o usá 🎙️ para dictar...</p>',ensayo:'<h1 style="text-align:center;color:#002B7F;">Ensayo Universitario</h1><h2>Introducción</h2><p>El presente ensayo...</p><h2>Desarrollo</h2><p>...</p><h2>Conclusión</h2><p>...</p>',contrato:'<h1 style="text-align:center;color:#002B7F;">CONTRATO SIMPLE</h1><p>Entre las partes...</p><p><strong>PRIMERA:</strong>...</p><p><strong>SEGUNDA:</strong>...</p><p><br><br></p><div class="firma" onclick="mfm()">[Click para firmar]</div><p>Firma: _________________</p>'};
-function gs(){var e=document.getElementById('editor');u.push(e.innerHTML);if(u.length>50)u.shift();r=[]}
-function ud(){if(u.length>0){var e=document.getElementById('editor');r.push(e.innerHTML);e.innerHTML=undoStack.pop();ac();ap()}}
-function rd(){if(r.length>0){var e=document.getElementById('editor');u.push(e.innerHTML);e.innerHTML=r.pop();ac();ap()}}
-function cb(){document.getElementById('backstage').style.display='flex';document.getElementById('editor-view').style.display='none'}
-function ab(){document.getElementById('backstage').style.display='flex';document.getElementById('editor-view').style.display='none';document.getElementById('vn').style.display='none';document.getElementById('va').style.display='block';cd()}
-function ae(t){document.getElementById('backstage').style.display='none';document.getElementById('editor-view').style.display='flex';document.getElementById('editor').innerHTML=plantillas||'<p>Escribí aquí...</p>';document.getElementById('nd').innerText=t||'Documento1';gs();ac();ap();setTimeout(function(){document.getElementById('editor').focus()},100)}
-function g(){var n=document.getElementById('nd').innerText;var c=document.getElementById('editor').innerHTML;var d=JSON.parse(localStorage.getItem('wcd')||'{}');d[n]={c:c,f:new Date().toLocaleString('es-CR')};localStorage.setItem('wcd',JSON.stringify(d));alert('✅ Guardado: '+n)}
-function gc(){var n=prompt('Nombre:',document.getElementById('nd').innerText);if(n){document.getElementById('nd').innerText=n;g()}}
-function gn(){var n=document.getElementById('nd').innerText;var c=document.getElementById('editor').innerHTML;var b=new Blob([c],{type:'text/html'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=n+'.html';a.click();alert('☁️ Descargado para subir a Drive/Dropbox')}
-function wa(){var n=document.getElementById('nd').innerText;var t=document.getElementById('editor').innerText;var m='*'+n+'*%0A%0A'+encodeURIComponent(t.substring(0,1000));window.open('https://wa.me/?text='+m,'_blank')}
-function cd(){var l=document.getElementById('ld');var d=JSON.parse(localStorage.getItem('wcd')||'{}');l.innerHTML='';Object.keys(d).forEach(function(n){var dv=document.createElement('div');dv.className='doc';dv.innerHTML='<div><b>'+n+'</b><br><small>'+d[n].f+'</small></div><button onclick="dd(\''+n+'\');event.stopPropagation()">Borrar</button>';dv.onclick=function(){document.getElementById('nd').innerText=n;document.getElementById('editor').innerHTML=d[n].c;cb();ac();ap()};l.appendChild(dv)})}
-function dd(n){if(confirm('¿Borrar '+n+'?')){var d=JSON.parse(localStorage.getItem('wcd')||'{}');delete d[n];localStorage.setItem('wcd',JSON.stringify(d));cd()}}
-function cp(){var s=window.getSelection();if(s.rangeCount>0){pp=s.toString();alert('📋 Copiado')}}
-function pt(){if(pp){gs();document.execCommand('insertText',false,pp);ac();ap()}else{alert('Vacío')}}
-function f(t){var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var e=document.createElement(t);e.appendChild(r.extractContents());r.insertNode(e);ac()}
-function cc(){var c=document.getElementById('ct').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var sp=document.createElement('span');sp.style.color=c;sp.appendChild(r.extractContents());r.insertNode(sp);ac()}
-function cs(){var c=document.getElementById('cr').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var m=document.createElement('mark');m.style.backgroundColor=c;m.appendChild(r.extractContents());r.insertNode(m);ac()}
-function l(){var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);var ul=document.createElement('ul');var li=document.createElement('li');li.innerHTML=r.toString()||'&nbsp;';ul.appendChild(li);r.deleteContents();r.insertNode(ul);ac()}
-function a(d){var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);var n=r.commonAncestorContainer;while(n&&n.nodeType!==1){n=n.parentNode}while(n&&n.tagName!=='P'&&n.tagName!=='DIV'&&n.tagName!=='H1'&&n.tagName!=='H2'){n=n.parentNode}if(n&&n!==document.getElementById('editor')){n.style.textAlign=d}else{var dv=document.createElement('div');dv.style.textAlign=d;dv.appendChild(r.extractContents());r.insertNode(dv)}ac()}
-function ii(){document.getElementById('ii').click()}
-document.getElementById('ii').onchange=function(e){var f=e.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(e){gs();var i=document.createElement('img');i.src=e.target.result;i.style.maxWidth='100%';var ed=document.getElementById('editor');ed.focus();var s=window.getSelection();if(s.rangeCount){var r=s.getRangeAt(0);r.insertNode(i);r.setStartAfter(i);r.collapse(true);s.removeAllRanges();s.addRange(r)}ac()};rd.readAsDataURL(f)}
-function it(){gs();var h='<table><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></table>';var ed=document.getElementById('editor');ed.focus();var s=window.getSelection();if(s.rangeCount){var r=s.getRangeAt(0);var d=document.createElement('div');d.innerHTML=h;r.insertNode(d.firstChild)}ac()}
-function rg(){margenActivo=!margenActivo;document.getElementById('regla').classList.toggle('active');document.getElementById('editor').style.padding=margenActivo?'96px 80px':'40px'}
-function np(){pagNum=!pagNum;ap()}
-function ap(){if(!pagNum)return;var e=document.getElementById('editor');var h=e.scrollHeight;var p=Math.ceil(h/1056);document.getElementById('pg').innerText='Página: '+p;var nums=e.querySelectorAll('.pag-num');nums.forEach(function(n){n.remove()});for(var i=1;i<=p;i++){var pn=document.createElement('div');pn.className='pag-num';pn.innerText=i;pn.style.top=(i*1056-60)+'px';e.appendChild(pn)}}
-function ifm(){document.getElementById('mfm').classList.add('active');initFirma()}
-function cmfm(){document.getElementById('mfm').classList.remove('active')}
-function lfm(){var c=document.getElementById('cfm');var ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height)}
-function initFirma(){var c=document.getElementById('cfm');var ctx=c.getContext('2d');var d=false;ctx.strokeStyle='#000';ctx.lineWidth=2;ctx.lineCap='round';c.ontouchstart=function(e){d=true;var t=e.touches[0];var r=c.getBoundingClientRect();ctx.beginPath();ctx.moveTo(t.clientX-r.left,t.clientY-r.top);e.preventDefault()};c.ontouchmove=function(e){if(d){var t=e.touches[0];var r=c.getBoundingClientRect();ctx.lineTo(t.clientX-r.left,t.clientY-r.top);ctx.stroke();e.preventDefault()}};c.ontouchend=function(){d=false}}
-function sfm(){var c=document.getElementById('cfm');var d=c.toDataURL();var i=document.createElement('img');i.src=d;i.style.maxWidth='300px';i.style.display='block';i.style.margin='10px auto';var ed=document.getElementById('editor');ed.focus();var s=window.getSelection();if(s.rangeCount){var r=s.getRangeAt(0);r.insertNode(i)}cmfm();ac()}
-function tr(){if(!('webkitSpeechRecognition' in window)){alert('Tu navegador no soporta dictado. Usá Chrome.');return}if(!vozActiva){recognition=new webkitSpeechRecognition();recognition.continuous=true;recognition.interimResults=true;recognition.lang='es-CR';recognition.onresult=function(e){var t='';for(var i=e.resultIndex;i<e.results.length;i++){t+=e.results[i][0].transcript}if(t){gs();document.execCommand('insertText',false,t+' ');ac()}};recognition.onend=function(){vozActiva=false;document.getElementById('btnVoz').classList.remove('grabando')};recognition.start();vozActiva=true;document.getElementById('btnVoz').classList.add('grabando');alert('🎙️ Dictado activado. Hablá...')}else{recognition.stop();vozActiva=false;document.getElementById('btnVoz').classList.remove('grabando')}}
-function mb(){document.getElementById('mb').classList.add('active')}
-function cmb(){document.getElementById('mb').classList.remove('active')}
-function eb(){var t=document.getElementById('ib').value;if(!t)return;var e=document.getElementById('editor');var h=e.innerHTML;var r=new RegExp(t,'gi');var c=(h.match(r)||[]).length;e.innerHTML=h.replace(r,'<mark>$&</mark>');cmb();alert('🔍 Encontradas: '+c);setTimeout(function(){e.innerHTML=e.innerHTML.replace(/<mark>/g,'').replace(/<\/mark>/g,'')},3000)}
-function mbr(){document.getElementById('mbr').classList.add('active');fb()}
-function cmbr(){document.getElementById('mbr').classList.remove('active')}
-function fb(){var t=document.getElementById('ibr').value.toLowerCase();var l=document.getElementById('lb');l.innerHTML='';Object.keys(db).forEach(function(k){if(!t||k.includes(t)||db[k].includes(t)){var d=document.createElement('div');d.className='bribri-item';d.innerHTML='<span><b>'+k+'</b></span><span>'+db[k]+'</span>';d.onclick=function(){document.getElementById('ibr').value=k};l.appendChild(d)}})}
-function ib(){var t=document.getElementById('ibr').value;if(t&&db){gs();document.execCommand('insertText',false,t+' ('+db+') ');ac();cmbr()}}
-function cf(){var f=document.getElementById('sf').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var sp=document.createElement('span');sp.style.fontFamily=f;sp.appendChild(r.extractContents());r.insertNode(sp);ac()}
-function ctm(){var t=document.getElementById('st').value;var s=window.getSelection();if(!s.rangeCount)return;gs();var r=s.getRangeAt(0);if(r.collapsed)return;var f=document.createElement('font');f.size=t;f.appendChild(r.extractContents());r.insertNode(f);ac()}
-function ac(){var t=document.getElementById('editor').innerText||'';var p=t.trim().split(/\s+/).filter(function(p){return p.length>0}).length;document.getElementById('cp').innerText='Palabras: '+p}
-window.onload=function(){document.getElementById('editor').addEventListener('input',function(){ac();ap()});ac();ap();fb()}
-</script>
-</body>
-</html>
+var u=[],r=[],pp='',vozActiva=false,recognition,margenActivo=false,pagNum=true,idiomaAct='bribri';
+var db={'bribri':{'hola':'i shka','adiós':'i shkëna','buenos días':'i bua´ra','buenas tardes':'i bua´ki','buenas noches':'i bua´nami','gracias':'wëstela','muchas gracias':'wëstela sì','por favor':'tsuru´','de nada':'kë̀këpa','sí':'jë´','no':'ãã','tal vez':'ai','perdón':'tsuru´','bienvenido':'i kie','cómo estás':'be´ i','estoy bien':'jë´ bua´ë','agua':'di´','fuego':'bök','tierra':'irìria','aire':'siwã','viento':'siwã','sol':'dí','luna':'si´wa','estrella':'bö','cielo':'káñí','nube':'mò','lluvia':'kãnì','trueno':'kãnì butsè','río':'di´wo','mar':'di´pla','lago':'di´ tso´','montaña':'ká','cerro':'ká tsirì','valle':'jamo´','piedra':'àk','arena':'sãk','barro':'tsà','árbol':'kàl','hoja':'kàl kà','flor':'wö','fruta':'kua','semilla':'kua kà','raíz':'kàl tkö','madera':'kàl','hierba':'pà','maíz':'ik','frijol':'bè','arroz':'aò','plátano':'bata','cacao':'tsirú','café':'kafé','yuca':'wík','camote':'dùli','chile':'chì','cebolla':'sèbò','tomate':'tomàt','casa':'u','puerta':'u kà','ventana':'u wö','techo':'u kà','piso':'irìria','cama':'kàpë','silla':'tso´','mesa':'mès','cocina':'chkè u','baño':'di´ u','comida':'chkè','carne':'chi','pescado':'namà','huevo':'ditsö','leche':'tsu´','sal':'sàl','azúcar':'sukà','miel':'kò chkè','persona':'se´','gente':'se´pa','niño':'alà','niña':'aláköl','bebé':'alà tsirì','joven':'dur','viejo':'kéköl','mujer':'aláköl','hombre':'wëm','mamá':'mì','papá':'yë','hermano':'ëköl','hermana':'kuk','abuelo':'kéköl','abuela':'nàna','tío':'yëköl','tía':'nàna','primo':'ëköl','amigo':'yàmipa','enemigo':'bolò','jefe':'blu´','maestro':'uñé','doctor':'sèné','curandero':'awá','corazón':'wöbla','cabeza':'tsa','cara':'wö','ojo':'wö','nariz':'kì','boca':'kà','oreja':'kù','diente':'aká','lengua':'kué','cuello':'tso´','brazo':'ulà kà','mano':'ulà','dedo':'ulà kà','pierna':'klö kà','pie':'klö','uña':'akà','pelo':'tsà','sangre':'apè','hueso':'kàl','piel':'tö','perro':'tsí','gato':'mis','vaca':'baka','cerdo':'kùchi','gallina':'dù','caballo':'kàbà','pájaro':'dulù','pez':'namà','serpiente':'tkabè','tigre':'nàmu','jaguar':'nàmu','mono':'kuö','venado':'sùli','armadillo':'kalö','tortuga':'köchi','rana':'pö','sapo':'pö butsè','mosquito':'chò','araña':'sìk','mariposa':'wöbla dulù','abeja':'kò','hormiga':'siò','uno':'éköl','dos':'böl','tres':'mañàt','cuatro':'tkël','cinco':'skël','seis':'tèröl','siete':'kúköl','ocho':'paiköl','nueve':'sùlitöm','diez':'dömi','veinte':'böl dömi','cien':'dömi dömi','mil':'dömi dömi dömi','blanco':'surù','negro':'dulè','rojo':'to','verde':'sà','azul':'di´ kà','amarillo':'kãnè','café':'kàl kà','morado':'to dulè','naranja':'kãnè','gris':'dulè tsirì','bueno':'bua´ë','malo':'sĩ´','grande':'butsè','pequeño':'tsirì','largo':'taì','corto':'tsirì','alto':'kà','bajo':'irìria','gordo':'butsè','flaco':'tsirì','nuevo':'ji´','viejo':'kéköl','caliente':'bök','frío':'siwã','dulce':'kãnè','amargo':'ĩ´','salado':'sàl','rápido':'klö','lento':'nami','feliz':'bua´ë wöbla','triste':'sĩ´ wöbla','enojado':'bök wöbla','cansado':'dur','fuerte':'tsà','débil':'tsirì','hoy':'i','mañana':'búla','ayer':'bulù','ahora':'i','después':'kèkëpa','antes':'këpa','aquí':'i','allá':'ái','cerca':'kà','lejos':'taì','costa rica':'tso´ irìria','talamanca':'talamanka','limón':'limò','san josé':'san josé','cartago':'cartago','puerto viejo':'puerto viejo','trabajo':'kà','dinero':'kalì','escuela':'uñé u','iglesia':'sè u','fiesta':'kòsë','baile':'kòsë','canción':'kòsë','tambor':'sò','amor':'wöbla bua´ë','paz':'kë̀këpa wöbla','vida
