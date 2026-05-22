@@ -3,380 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>WC Editor Suite PRO - Costa Rica 🇨🇷</title>
+  <title>WC Editor PRO</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f3f2f1; overflow: hidden; height: 100vh; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial; height: 100vh; overflow: hidden; }
     #backstage { display: flex; height: 100vh; background: white; }
     #editor-view { display: none; height: 100vh; flex-direction: column; }
-.backstage-nav { width: 220px; background: #2b579a; color: white; display: flex; flex-direction: column; }
-.backstage-nav-header { padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.back-btn { width: 32px; height: 32px; border: 2px solid white; border-radius: 50%; background: none; color: white; cursor: pointer; font-size: 18px; }
-.nav-item { padding: 12px 20px; cursor: pointer; font-size: 14px; border: none; background: none; color: white; text-align: left; width: 100%; }
-.nav-item:active { background: rgba(255,255,255,0.2); }
-.nav-item.active { background: #1e3a5f; border-left: 3px solid #FFD700; }
-.backstage-content { flex: 1; padding: 24px; overflow-y: auto; }
-.backstage-title { font-size: 28px; font-weight: 300; color: #323130; margin-bottom: 20px; }
-.idioma-selector { margin-bottom: 20px; padding: 12px; background: #f3f2f1; border-radius: 4px; }
-.idioma-selector label { font-weight: 600; margin-right: 12px; }
-.idioma-selector select { padding: 6px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; }
-.templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; }
-.template-card { cursor: pointer; border: 1px solid #e1dfdd; background: white; transition: all 0.2s; }
-.template-card:active { border-color: #2b579a; box-shadow: 0 0 0 2px #2b579a; transform: scale(0.98); }
-.template-preview { aspect-ratio: 8.5/11; background: white; border-bottom: 1px solid #e1dfdd; padding: 8px; font-size: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-.template-name { padding: 8px; font-size: 11px; text-align: center; background: #faf9f8; font-weight: 600; }
-.docs-lista { margin-top: 32px; border-top: 2px solid #e1dfdd; padding-top: 24px; }
-.docs-lista h3 { font-size: 18px; margin-bottom: 16px; color: #323130; }
-.doc-item { padding: 12px; border: 1px solid #e1dfdd; margin-bottom: 8px; cursor: pointer; background: white; display: flex; justify-content: space-between; align-items: center; }
-.doc-item:active { background: #f3f2f1; }
-.doc-item-nombre { font-weight: 600; font-size: 14px; }
-.doc-item-fecha { font-size: 11px; color: #605e5c; }
-.doc-item-borrar { background: #CE1126; color: white; border: none; padding: 4px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; }
-.title-bar { background: #2b579a; color: white; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-.title-bar-icons { display: flex; gap: 12px; }
-.title-bar-icons span { cursor: pointer; padding: 4px; font-size: 18px; }
-.title-bar-icons span:active { background: rgba(255,255,255,0.3); border-radius: 3px; }
-.ribbon-tabs { background: #f3f2f1; border-bottom: 1px solid #d2d0ce; display: flex; padding: 0 12px; overflow-x: auto; }
-.ribbon-tab { padding: 8px 14px; cursor: pointer; border: none; background: none; font-size: 14px; color: #323130; white-space: nowrap; }
-.ribbon-tab.active { background: white; border: 1px solid #d2d0ce; border-bottom: 1px solid white; margin-bottom: -1px; color: #2b579a; font-weight: 600; }
-.ribbon-toolbar { background: white; border-bottom: 1px solid #d2d0ce; padding: 8px 12px; display: none; gap: 8px; align-items: center; flex-wrap: wrap; overflow-x: auto; }
-.ribbon-toolbar.active { display: flex; }
-.tool-group { display: flex; flex-direction: column; border-right: 1px solid #e1dfdd; padding-right: 8px; margin-right: 8px; }
-.tool-group-title { font-size: 10px; color: #605e5c; text-align: center; margin-top: 2px; }
-.tool-buttons { display: flex; gap: 4px; align-items: center; }
-.ribbon-toolbar button,.ribbon-toolbar select { background: white; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 14px; height: 36px; min-width: 36px; }
-.ribbon-toolbar button:active { background: #e1dfdd; border-color: #2b579a; }
-.ribbon-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
-.main-editor-area { flex: 1; background: #e6e6e6; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; align-items: center; }
-.page-header,.page-footer { width: 100%; max-width: 816px; background: #faf9f8; border: 1px dashed #ccc; padding: 12px 40px; font-size: 12px; color: #605e5c; text-align: center; display: none; }
-.page-header { border-bottom: none; }
-.page-footer { border-top: none; margin-top: -1px; }
-    #editor { width: 100%; max-width: 816px; min-height: 600px; background: white; box-shadow: 0 0 8px rgba(0,0,0,0.15); padding: 40px; outline: none; font-size: 16px; line-height: 1.5; -webkit-user-select: text; user-select: text; }
-    #editor img { max-width: 100%; height: auto; }
-    #editor table { border-collapse: collapse; width: 100%; margin: 10px 0; }
-    #editor table td, #editor table th { border: 1px solid #ccc; padding: 8px; }
-    #editor h1 { color: #2b579a; margin-top: 24px; margin-bottom: 12px; font-size: 28px; }
-    #editor h2 { color: #2b579a; margin-top: 20px; margin-bottom: 10px; font-size: 22px; border-bottom: 2px solid #2b579a; padding-bottom: 4px; }
-    #editor h3 { color: #CE1126; margin-top: 16px; margin-bottom: 8px; font-size: 18px; }
-    #editor.intro-box { border-left: 4px solid #2b579a; padding-left: 12px; margin: 12px 0; background: #f3f9ff; }
-    #editor.desarrollo-box { border-left: 4px solid #FFD700; padding-left: 12px; margin: 12px 0; background: #fffef3; }
-    #editor.conclusion-box { border-left: 4px solid #CE1126; padding-left: 12px; margin: 12px 0; background: #fff5f5; }
-    #editor.apa-ref { text-indent: -36px; padding-left: 36px; margin-bottom: 12px; font-size: 14px; }
-    #editor.bribri { font-style: italic; color: #006847; font-weight: 600; }
-    #editor.cabecar { font-style: italic; color: #8B4513; font-weight: 600; }
-    #editor.wc-arte-1 { font-size: 48px; font-weight: 900; background: linear-gradient(135deg, #2b579a 0%, #CE1126 50%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin: 20px 0; }
-    #editor.wc-arte-2 { font-size: 36px; font-weight: 800; color: #2b579a; text-align: center; letter-spacing: 3px; text-transform: uppercase; border: 4px double #CE1126; padding: 12px; margin: 20px 0; }
-    #editor.wc-arte-3 { font-size: 32px; font-weight: 700; color: white; background: linear-gradient(90deg, #006847 0%, #2b579a 100%); padding: 16px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin: 20px 0; }
-    #editor.wc-arte-4 { font-size: 28px; font-weight: 600; color: #CE1126; text-align: center; border-top: 3px solid #FFD700; border-bottom: 3px solid #FFD700; padding: 12px 0; margin: 20px 0; }
-.comentario { background: #FFF3CD; border-left: 3px solid #FFD700; padding: 8px; margin: 8px 0; font-size: 13px; }
-.status-bar { background: #f3f2f1; border-top: 1px solid #d2d0ce; padding: 4px 12px; font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; }
-.modal.active { display: flex; }
-.modal-content { background: white; padding: 20px; border-radius: 8px; max-width: 90%; width: 400px; }
-.modal-content h3 { margin-bottom: 16px; }
-.modal-content input,.modal-content textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 12px; font-size: 14px; }
-.modal-buttons { display: flex; gap: 8px; justify-content: flex-end; }
-.modal-buttons button { padding: 8px 16px; border: none; border-radius: 3px; cursor: pointer; font-size: 14px; }
-.btn-primary { background: #2b579a; color: white; }
-.btn-secondary { background: #e1dfdd; color: #323130; }
+   .backstage-nav { width: 200px; background: #2b579a; color: white; }
+   .nav-item { padding: 12px 20px; cursor: pointer; border: none; background: none; color: white; width: 100%; text-align: left; }
+   .nav-item:active { background: rgba(255,255,255,0.2); }
+   .backstage-content { flex: 1; padding: 24px; }
+   .templates-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+   .template-card { cursor: pointer; border: 1px solid #ccc; padding: 20px; text-align: center; background: white; }
+   .template-card:active { background: #e1dfdd; }
+   .title-bar { background: #2b579a; color: white; padding: 8px 12px; display: flex; justify-content: space-between; }
+   .title-bar span { cursor: pointer; padding: 4px 8px; }
+   .toolbar { background: white; border-bottom: 1px solid #ccc; padding: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+   .toolbar button { padding: 8px 12px; border: 1px solid #ccc; background: white; cursor: pointer; font-size: 14px; }
+   .toolbar button:active { background: #e1dfdd; }
+    #editor { flex: 1; padding: 40px; background: white; outline: none; overflow-y: auto; font-size: 16px; line-height: 1.5; }
+    #editor img { max-width: 100%; }
+    #editor table { border-collapse: collapse; width: 100%; }
+    #editor td { border: 1px solid #ccc; padding: 8px; }
   </style>
 </head>
 <body>
 
   <div id="backstage">
     <div class="backstage-nav">
-      <div class="backstage-nav-header">
-        <button class="back-btn" onclick="cerrarBackstage()">←</button>
-        <span style="font-weight: 600;">Info</span>
-      </div>
-      <button class="nav-item active" onclick="mostrarNuevo()">Nuevo</button>
-      <button class="nav-item" onclick="mostrarAbrir()">Abrir</button>
+      <button class="nav-item" onclick="cerrarBackstage()">← Volver</button>
+      <button class="nav-item" onclick="mostrarNuevo()">Nuevo</button>
       <button class="nav-item" onclick="guardar()">Guardar</button>
-      <button class="nav-item" onclick="guardarComo()">Guardar como</button>
-      <button class="nav-item" onclick="window.print()">Imprimir</button>
-      <button class="nav-item" onclick="compartir()">Compartir</button>
-      <button class="nav-item" onclick="exportarPDF()">Exportar PDF</button>
-      <button class="nav-item" onclick="cerrarDoc()">Cerrar</button>
     </div>
-
     <div class="backstage-content">
-      <div id="vistaNuevo">
-        <h1 class="backstage-title">Nuevo</h1>
-
-        <div class="idioma-selector">
-          <label>🌎 Idioma de plantillas:</label>
-          <select id="selectorIdioma" onchange="cambiarIdiomaPlantillas()">
-            <option value="es">🇨🇷 Español</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="bribri">🌿 Bribri</option>
-            <option value="cabecar">🏔️ Cabécar</option>
-          </select>
-        </div>
-
-        <div class="templates-grid">
-          <div class="template-card" onclick="abrirEditor('blanco')">
-            <div class="template-preview"></div>
-            <div class="template-name">Documento en blanco</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('carta')">
-            <div class="template-preview">
-              <div style="width:100%; height:2px; background:#000; margin:4px 0;"></div>
-              <div style="width:80%; height:1px; background:#ccc; margin:2px 0;"></div>
-            </div>
-            <div class="template-name">Carta formal</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('informe')">
-            <div class="template-preview">
-              <div style="width:100%; height:3px; background:#2b579a; margin:4px 0;"></div>
-              <div style="width:70%; height:1px; background:#ccc; margin:2px 0;"></div>
-            </div>
-            <div class="template-name">Informe</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('acta')">
-            <div class="template-preview">
-              <div style="width:100%; height:3px; background:#2b579a; margin:4px 0;"></div>
-              <div style="width:90%; height:1px; background:#ccc; margin:2px 0;"></div>
-            </div>
-            <div class="template-name">Acta</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('cv')">
-            <div class="template-preview">
-              <div style="width:50%; height:3px; background:#000; margin:4px auto;"></div>
-              <div style="width:80%; height:1px; background:#ccc; margin:2px auto;"></div>
-            </div>
-            <div class="template-name">Currículum</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('ensayoBasico')">
-            <div class="template-preview">
-              <div style="width:70%; height:3px; background:#000; margin:4px auto;"></div>
-              <div style="width:90%; height:1px; background:#ccc; margin:2px auto;"></div>
-            </div>
-            <div class="template-name">Ensayo Básico</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('ensayoUniversitario')">
-            <div class="template-preview">
-              <div style="width:100%; height:3px; background:#2b579a; margin:4px 0;"></div>
-              <div style="width:100%; height:1px; background:#FFD700; margin:2px 0;"></div>
-              <div style="width:100%; height:1px; background:#CE1126; margin:2px 0;"></div>
-            </div>
-            <div class="template-name">Ensayo Universitario</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('resumenUniversitario')">
-            <div class="template-preview">
-              <div style="width:100%; height:2px; background:#CE1126; margin:4px 0;"></div>
-              <div style="width:90%; height:1px; background:#ccc; margin:2px 0;"></div>
-              <div style="width:80%; height:1px; background:#ccc; margin:2px 0;"></div>
-            </div>
-            <div class="template-name">Resumen Universitario</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('wcArte1')">
-            <div class="template-preview" style="background: linear-gradient(135deg, #2b579a, #CE1126, #FFD700);">
-              <div style="color: white; font-weight: 900; text-align: center; margin-top: 20px;">WC</div>
-            </div>
-            <div class="template-name">WC Arte Tricolor</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('wcArte2')">
-            <div class="template-preview">
-              <div style="border: 2px double #CE1126; padding: 8px; margin-top: 15px; text-align: center; font-weight: 800; color: #2b579a;">PURA VIDA</div>
-            </div>
-            <div class="template-name">WC Arte Tico</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('wcArte3')">
-            <div class="template-preview" style="background: linear-gradient(90deg, #006847, #2b579a);">
-              <div style="color: white; font-weight: 700; text-align: center; margin-top: 20px;">COSTA RICA</div>
-            </div>
-            <div class="template-name">WC Arte Verde-Azul</div>
-          </div>
-          <div class="template-card" onclick="abrirEditor('wcArte4')">
-            <div class="template-preview">
-              <div style="border-top: 2px solid #FFD700; border-bottom: 2px solid #FFD700; color: #CE1126; text-align: center; font-weight: 600; margin-top: 18px; padding: 4px 0;">INDÍGENA</div>
-            </div>
-            <div class="template-name">WC Arte Dorado</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="vistaAbrir" style="display:none;">
-        <h1 class="backstage-title">Abrir</h1>
-        <div class="docs-lista">
-          <h3>Documentos guardados</h3>
-          <div id="listaDocs"></div>
-        </div>
+      <h1>Nuevo Documento</h1>
+      <div class="templates-grid">
+        <div class="template-card" onclick="abrirEditor('blanco')">Documento en blanco</div>
+        <div class="template-card" onclick="abrirEditor('ensayo')">Ensayo Universitario</div>
+        <div class="template-card" onclick="abrirEditor('resumen')">Resumen Académico</div>
+        <div class="template-card" onclick="abrirEditor('wcArte1')">WC Arte Tricolor</div>
       </div>
     </div>
   </div>
 
   <div id="editor-view">
     <div class="title-bar">
-      <div class="title-bar-icons">
+      <div>
         <span onclick="abrirBackstage()">📄</span>
         <span onclick="guardar()">💾</span>
-        <span onclick="deshacer()">↶</span>
-        <span onclick="rehacer()">↷</span>
       </div>
       <div id="nombreDoc">Documento1</div>
-      <div>— WC Editor PRO</div>
+      <div>WC Editor</div>
     </div>
 
-    <div class="ribbon-tabs">
-      <button class="ribbon-tab" onclick="abrirBackstage()">Archivo</button>
-      <button class="ribbon-tab active" onclick="mostrarTab('inicio')">Inicio</button>
-      <button class="ribbon-tab" onclick="mostrarTab('insertar')">Insertar</button>
-      <button class="ribbon-tab" onclick="mostrarTab('revisar')">Revisar</button>
-      <button class="ribbon-tab" onclick="mostrarTab('vista')">Vista</button>
+    <div class="toolbar">
+      <button onclick="ejecutar('bold')"><b>B</b></button>
+      <button onclick="ejecutar('italic')"><i>I</i></button>
+      <button onclick="ejecutar('underline')"><u>U</u></button>
+      <button onclick="ejecutar('insertUnorderedList')">≡</button>
+      <button onclick="ejecutar('insertOrderedList')">1≡</button>
+      <button onclick="ejecutar('justifyLeft')">⬅️</button>
+      <button onclick="ejecutar('justifyCenter')">↔️</button>
+      <button onclick="ejecutar('justifyRight')">➡️</button>
+      <button onclick="ejecutar('justifyFull')">▤</button>
+      <button onclick="insertarTabla()">📊 Tabla</button>
+      <button onclick="insertarImagen()">🖼️ Imagen</button>
     </div>
 
-    <div class="ribbon-toolbar active" id="tab-inicio">
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="alert('Usá Cmd+V en iPhone mae')" title="Pegar">📋</button>
-          <button onclick="alert('Usá Cmd+X en iPhone mae')" title="Cortar">✂️</button>
-          <button onclick="alert('Usá Cmd+C en iPhone mae')" title="Copiar">📄</button>
-        </div>
-        <div class="tool-group-title">Portapeles</div>
-      </div>
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <select onchange="cambiarFuente(this.value)">
-            <option value="Calibri">Calibri</option>
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times</option>
-            <option value="Georgia">Georgia</option>
-          </select>
-          <select onchange="cambiarTamano(this.value)">
-            <option value="2">10</option>
-            <option value="3" selected>11</option>
-            <option value="4">12</option>
-            <option value="5">14</option>
-            <option value="6">18</option>
-            <option value="7">24</option>
-          </select>
-        </div>
-        <div class="tool-group-title">Fuente</div>
-      </div>
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="ejecutar('bold')"><b>B</b></button>
-          <button onclick="ejecutar('italic')"><i>I</i></button>
-          <button onclick="ejecutar('underline')"><u>U</u></button>
-          <button onclick="resaltarAmarillo()">🖍️</button>
-        </div>
-        <div class="tool-group-title">Fuente</div>
-      </div>
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="ejecutar('insertUnorderedList')">≡</button>
-          <button onclick="ejecutar('insertOrderedList')">1≡</button>
-          <button onclick="ejecutar('justifyLeft')">⬅️</button>
-          <button onclick="ejecutar('justifyCenter')">↔️</button>
-          <button onclick="ejecutar('justifyRight')">➡️</button>
-          <button onclick="ejecutar('justifyFull')">▤</button>
-        </div>
-        <div class="tool-group-title">Párrafo</div>
-      </div>
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <select onchange="cambiarInterlineado(this.value)">
-            <option value="1">1.0</option>
-            <option value="1.5">1.5</option>
-            <option value="2">2.0</option>
-          </select>
-        </div>
-        <div class="tool-group-title">Espaciado</div>
-      </div>
-    </div>
-
-    <div class="ribbon-toolbar" id="tab-insertar">
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="insertarImagen()">🖼️ Imagen</button>
-          <button onclick="insertarTabla()">📊 Tabla</button>
-          <button onclick="insertarComentario()">💬 Comentario</button>
-        </div>
-        <div class="tool-group-title">Insertar</div>
-      </div>
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="insertarEncabezado()">📄 Encabezado</button>
-          <button onclick="insertarPiePagina()">📄 Pie página</button>
-          <button onclick="insertarNumPagina()"># Núm página</button>
-        </div>
-        <div class="tool-group-title">Encabezado/Pie</div>
-      </div>
-    </div>
-
-    <div class="ribbon-toolbar" id="tab-revisar">
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="revisarOrtografia()">✓ Ortografía</button>
-          <button onclick="buscar()">🔍 Buscar</button>
-          <button onclick="reemplazar()">🔄 Reemplazar</button>
-        </div>
-        <div class="tool-group-title">Revisión</div>
-      </div>
-    </div>
-
-    <div class="ribbon-toolbar" id="tab-vista">
-      <div class="tool-group">
-        <div class="tool-buttons">
-          <button onclick="window.print()">🖨️ Imprimir</button>
-          <button onclick="exportarPDF()">📄 PDF</button>
-        </div>
-        <div class="tool-group-title">Vista</div>
-      </div>
-    </div>
-
-    <div class="main-editor-area">
-      <div id="headerContainer" class="page-header" contenteditable="true"></div>
-      <div id="editor" contenteditable="true" spellcheck="true" onkeyup="actualizarContador()" onmouseup="actualizarContador()"></div>
-      <div id="footerContainer" class="page-footer" contenteditable="true"></div>
-    </div>
-
-    <div class="status-bar">
-      <span id="contadorPalabras">Palabras: 0 | Caracteres: 0</span>
-      <span id="paginaInfo">Página 1</span>
-    </div>
+    <div id="editor" contenteditable="true"></div>
   </div>
 
-  <div class="modal" id="modalTabla">
-    <div class="modal-content">
-      <h3>Insertar Tabla</h3>
-      <input type="number" id="tablaFilas" placeholder="Filas" value="3" min="1">
-      <input type="number" id="tablaCols" placeholder="Columnas" value="3" min="1">
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="cerrarModal('modalTabla')">Cancelar</button>
-        <button class="btn-primary" onclick="crearTabla()">Insertar</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="modalBuscar">
-    <div class="modal-content">
-      <h3>Buscar y Reemplazar</h3>
-      <input type="text" id="buscarTexto" placeholder="Buscar...">
-      <input type="text" id="reemplazarTexto" placeholder="Reemplazar con...">
-      <div class="modal-buttons">
-        <button class="btn-secondary" onclick="cerrarModal('modalBuscar')">Cancelar</button>
-        <button class="btn-primary" onclick="ejecutarReemplazo()">Reemplazar todo</button>
-      </div>
-    </div>
-  </div>
-
-  <input type="file" id="inputImagen" accept="image/*" style="display:none;" onchange="cargarImagen(event)">
+  <input type="file" id="inputImagen" accept="image/*" style="display:none;">
 
   <script>
-    var idiomaActual = 'es';
-
     var plantillas = {
       blanco: '<p>Escribí aquí...</p>',
-      carta: '<p>San José, Costa Rica</p><br><p><strong>Señores:</strong></p><p>[Empresa]</p><br><p>Estimados señores:</p><p>Por medio de la presente...</p><br><p>Atentamente,</p><br><p>_________________________<br>[Tu nombre]</p>',
-      informe: '<h2 style="color:#2b579a;">Informe</h2><p><strong>Fecha:</strong></p><h3>1. Resumen</h3><p>Contenido...</p><h3>2. Resultados</h3><ul><li>Resultado 1</li><li>Resultado 2</li></ul>',
-      acta: '<h2 style="text-align:center;">ACTA DE REUNIÓN</h2><p><strong>Fecha:</strong> <br><strong>Hora:</strong> <br><strong>Lugar:</strong> </p><strong>Asistentes:</strong></p><ol><li></ol><p><strong>Acuerdos:</strong></p><ol><li>Se acuerda que...</li></ol>',
-      cv: '<h1 style="text-align:center;">[TU NOMBRE]</h1><p style="text-align:center;">Tel: 8888-8888 | Email: correo@email.com</p><hr><h2>Perfil Profesional</h2><p>Profesional con experiencia en...</p>',
-      ensayoBasico: '<h1 style="text-align:center;">Título del Ensayo</h1><p style="text-align:center;"><em>[Tu nombre]</em></p><br><h2>Introducción</h2><p>El presente ensayo aborda...</p><h2>Desarrollo</h2><p>En primer lugar...</p><h2>Conclusión</h2><p>En conclusión...</p>',
+      ensayo: '<h1 style="text-align:center; color:#2b579a;">El Ejercicio y la Salud Mental</h1><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental...</p><h2>Desarrollo</h2><p>El ejercicio físico tiene numerosos efectos beneficiosos...</p><h2>Conclusión</h2><p>En conclusión, el ejercicio físico es una herramienta poderosa...</p>',
+      resumen: '<h2 style="color:#CE1126;">Guía para Resumen Académico</h2><h3>1. Lectura Comprensiva</h3><p>Lee el texto completo al menos dos veces...</p><h3>2. Reglas de Condensación</h3><ul><li><strong>Suprimir:</strong> Elimina detalles innecesarios</li><li><strong>Generalizar:</strong> Agrupa ideas específicas</li><li><strong>Seleccionar:</strong> Usa frases clave</li><li><strong>Construir:</strong> Crea nuevas oraciones</li></ul>',
+      wcArte1: '<h1 style="font-size:48px; font-weight:900; background: linear-gradient(135deg, #2b579a 0%, #CE1126 50%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin: 20px 0;">COSTA RICA</h1>'
+    };
 
-      // ENSAYO UNIVERSITARIO MULTILINGÜE
-      ensayoUniversitario: {
-        es: '<h1 style="text-align:center;">El Ejercicio y la Salud Mental: Un Análisis Integral</h1><p style="text-align:center;"><em>Universidad de Costa Rica | Escuela de Psicología</em></p><div class="intro-box"><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental, destacando la importancia de incorporar la actividad física en nuestra vida cotidiana. Se exploran los mecanismos neurobiológicos, psicológicos y sociales que sustentan esta relación.</p></div><div class="desarrollo-box"><h2>Desarrollo</h2><p>El ejercicio físico tiene numerosos efectos beneficiosos en la salud mental. En primer lugar, ayuda a liberar endorfinas, neurotransmisores que actúan como analgésicos naturales y generan una sensación de bienestar y euforia. Esto puede ser especialmente útil para las personas que luchan contra la depresión y la ansiedad.</p><p>Además, el ejercicio regular contribuye a reducir los niveles de estrés. Cuando nos enfrentamos a situaciones estresantes, nuestros cuerpos liberan hormonas del estrés como el cortisol. El ejercicio ayuda a regular estas hormonas, lo que puede disminuir la sensación de ansiedad y tensión.</p><p>El sueño es otro aspecto crucial de la salud mental, y el ejercicio puede desempeñar un papel importante en la mejora de la calidad del sueño. Las personas que hacen ejercicio con regularidad tienden a dormir mejor y experimentar menos problemas de insomnio.</p><p>Por último, el ejercicio promueve la autoestima y la confianza en uno mismo. Al alcanzar metas de acondicionamiento físico y superar desafíos, las personas pueden sentirse más empoderadas y satisfechas con su apariencia y capacidad física.</p></div><div class="conclusion-box"><h2>Conclusión</h2><p>En conclusión, el ejercicio físico es una herramienta poderosa para mejorar la salud mental. Sus beneficios van desde la liberación de endorfinas hasta la reducción del estrés y la mejora del sueño. Incorporar la actividad física en nuestra rutina diaria no solo fortalece el cuerpo, sino también la mente.</p></div><h3>Referencias (Formato APA 7)</h3><p class="apa-ref">Organización Mundial de la Salud. (2020). <em>Directrices de la OMS sobre actividad física y hábitos sedentarios</em>. OMS.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
-        en: '<h1 style="text-align:center;">Exercise and Mental Health: A Comprehensive Analysis</h1><p style="text-align:center;"><em>University of Costa Rica | School of Psychology</em></p><div class="intro-box"><h2>Introduction</h2><p>This essay analyzes the link between physical exercise and mental health, highlighting the importance of incorporating physical activity into our daily lives. The neurobiological, psychological, and social mechanisms underlying this relationship are explored.</p></div><div class="desarrollo-box"><h2>Development</h2><p>Physical exercise has numerous beneficial effects on mental health. First, it helps release endorphins, neurotransmitters that act as natural painkillers and generate a sense of well-being and euphoria. This can be especially useful for people struggling with depression and anxiety.</p><p>In addition, regular exercise contributes to reducing stress levels. When we face stressful situations, our bodies release stress hormones like cortisol. Exercise helps regulate these hormones, which can decrease feelings of anxiety and tension.</p><p>Sleep is another crucial aspect of mental health, and exercise can play an important role in improving sleep quality. People who exercise regularly tend to sleep better and experience fewer insomnia problems.</p><p>Finally, exercise promotes self-esteem and self-confidence. By achieving fitness goals and overcoming challenges, people can feel more empowered and satisfied with their appearance and physical capacity.</p></div><div class="conclusion-box"><h2>Conclusion</h2><p>In conclusion, physical exercise is a powerful tool for improving mental health. Its benefits range from the release of endorphins to stress reduction and improved sleep. Incorporating physical activity into our daily routine not only strengthens the body but also the mind.</p></div><h3>References (APA 7 Format)</h3><p class="apa-ref">World Health Organization. (2020). <em>WHO guidelines on physical activity and sedentary behaviour</em>. WHO.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
-        bribri: '<h1 style="text-align:center;">Wéjkëpa kë̀ Sú̱ Yö̀kë̀rö: Dör Së́</h1><p style="text-align:center;"><em class="bribri">Costa Rica Sibö̀ wéjkëpa | Yö̀kë̀rö ujtök</em></p><div class="intro-box"><h2>Iyuö́k</h2><p class="bribri">I tò éjkëpa wéjkëpa kë̀ sú̱ yö̀kë̀rö shtá̱, éna sú̱ dör wéjkëpa wë́ste ù ã iíyiwö tạ̀ ià ã. Iéjkëpa wéjkëpa, yö̀kë̀rö, ã wë́m tsá̱.</p></div><div class="desarrollo-box"><h2>Tsá
+    function mostrarNuevo() {
+      document.getElementById('backstage').style.display = 'flex';
+      document.getElementById('editor-view').style.display = 'none';
+    }
+
+    function abrirBackstage() {
+      document.getElementById('backstage').style.display = 'flex';
+      document.getElementById('editor-view').style.display = 'none';
+    }
+
+    function cerrarBackstage() {
+      document.getElementById('backstage').style.display = 'none';
+      document.getElementById('editor-view').style.display = 'flex';
+      document.getElementById('editor').focus();
+    }
+
+    function abrirEditor(tipo) {
+      document.getElementById('backstage').style.display = 'none';
+      document.getElementById('editor-view').style.display = 'flex';
+      document.getElementById('editor').innerHTML = plantillas[tipo];
+      document.getElementById('nombreDoc').innerText = tipo;
+      setTimeout(function() { document.getElementById('editor').focus(); }, 100);
+    }
+
+    function ejecutar(cmd) {
+      document.getElementById('editor').focus();
+      document.execCommand(cmd, false, null);
+    }
+
+    function insertarTabla() {
+      var filas = prompt('Filas:', '3');
+      var cols = prompt('Columnas:', '3');
+      if (filas && cols) {
+        var html = '<table>';
+        for (var i = 0; i < parseInt(filas); i++) {
+          html += '<tr>';
+          for (var j = 0; j < parseInt(cols); j++) { html += '<td>&nbsp;</td>'; }
+          html += '</tr>';
+        }
+        html += '</table><p><br></p>';
+        document.getElementById('editor').focus();
+        document.execCommand('insertHTML', false, html);
+      }
+    }
+
+    function insertarImagen() {
+      document.getElementById('inputImagen').click();
+    }
+
+    document.getElementById('inputImagen').addEventListener('change', function(e) {
+      var file = e.target.files[0];
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('editor').focus();
+          document.execCommand('insertImage', false, e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function guardar() {
+      var nombre = document.getElementById('nombreDoc').innerText;
+      var contenido = document.getElementById('editor').innerHTML;
+      localStorage.setItem('wc_' + nombre, contenido);
+      alert('✅ Guardado: ' + nombre);
+    }
+
+    window.onload = function() {
+      document.getElementById('backstage').style.display = 'flex';
+    };
+  </script>
+</body>
+</html>
