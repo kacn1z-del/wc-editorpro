@@ -1,169 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>WC Editor PRO - Costa Rica 🇨🇷</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: Arial, sans-serif; background: #f3f2f1; overflow: hidden; height: 100vh; }
-    #backstage { display: flex; height: 100vh; background: white; }
-    #editor-view { display: none; height: 100vh; flex-direction: column; }
-    :root { --azul: #002B7F; --rojo: #CE1126; }
-  .backstage-nav { width: 280px; background: var(--azul); color: white; display: flex; flex-direction: column; }
-  .backstage-nav-header { padding: 16px; display: flex; align-items: center; gap: 12px; background: var(--rojo); }
-  .back-btn { width: 32px; height: 32px; border: 2px solid white; border-radius: 50%; background: none; color: white; cursor: pointer; font-size: 18px; }
-  .nav-item { padding: 12px 20px; cursor: pointer; font-size: 14px; border: none; background: none; color: white; text-align: left; width: 100%; }
-  .nav-item:active { background: rgba(255,255,255,0.2); }
-  .backstage-content { flex: 1; padding: 24px; overflow-y: auto; background: #faf9f8; }
-  .backstage-title { font-size: 32px; font-weight: 300; color: var(--azul); margin-bottom: 20px; }
-  .template-card { cursor: pointer; border: 1px solid #e1dfdd; background: white; padding: 20px; margin-bottom: 12px; text-align: center; }
-  .template-card:active { border-color: var(--azul); transform: scale(0.98); }
-  .title-bar { background: var(--azul); color: white; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
-  .title-bar-icons { display: flex; gap: 12px; }
-  .title-bar-icons span { cursor: pointer; padding: 4px; font-size: 18px; }
-  .ribbon-toolbar { background: white; border-bottom: 1px solid #d2d0ce; padding: 8px 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .ribbon-toolbar button { background: white; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 14px; height: 36px; min-width: 36px; }
-  .ribbon-toolbar button:active { background: #e1dfdd; }
-  .main-editor-area { flex: 1; background: #e6e6e6; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; align-items: center; }
-    #editor { width: 100%; max-width: 816px; min-height: 600px; background: white; box-shadow: 0 8px rgba(0,0,0,0.15); padding: 40px; outline: none; font-size: 16px; line-height: 1.5; }
-    #editor strong { font-weight: bold; }
-    #editor em { font-style: italic; }
-    #editor u { text-decoration: underline; }
-  .status-bar { background: var(--azul); color: white; padding: 4px 12px; font-size: 12px; }
-  </style>
-</head>
-<body>
-  <div id="backstage">
-    <div class="backstage-nav">
-      <div class="backstage-nav-header">
-        <button class="back-btn" onclick="cerrarBackstage()">←</button>
-        <span style="font-weight: 600;">Archivo</span>
-      </div>
-      <button class="nav-item" onclick="abrirEditor()">📄 Nuevo Documento</button>
-      <button class="nav-item" onclick="guardar()">💾 Guardar</button>
-      <button class="nav-item" onclick="guardarComo()">💾 Guardar como</button>
-      <button class="nav-item" onclick="window.print()">🖨️ Imprimir</button>
-    </div>
-    <div class="backstage-content">
-      <h1 class="backstage-title">Nuevo</h1>
-      <div class="template-card" onclick="abrirEditor()">Documento en blanco</div>
-    </div>
-  </div>
-  <div id="editor-view">
-    <div class="title-bar">
-      <div class="title-bar-icons">
-        <span onclick="abrirBackstage()">📄</span>
-        <span onclick="guardar()">💾</span>
-      </div>
-      <div id="nombreDoc">Documento1</div>
-      <div>WC Editor PRO 🇨🇷</div>
-    </div>
-    <div class="ribbon-toolbar">
-      <button onclick="deshacer()">↶</button>
-      <button onclick="rehacer()">↷</button>
-      <button onclick="formato('strong')"><b>B</b></button>
-      <button onclick="formato('em')"><i>I</i></button>
-      <button onclick="formato('u')"><u>U</u></button>
-      <button onclick="lista()">≡</button>
-      <button onclick="alinear('left')">⬅️</button>
-      <button onclick="alinear('center')">↔️</button>
-      <button onclick="alinear('right')">➡️</button>
-    </div>
-    <div class="main-editor-area">
-      <div id="editor" contenteditable="true"><p>Escribí aquí...</p></div>
-    </div>
-    <div class="status-bar">
-      <span id="contadorPalabras">Palabras: 0</span>
-      <span>Costa Rica 🇨🇷</span>
-    </div>
-  </div>
-  <script>
-    var undoStack = [];
-    var redoStack = [];
-
-    function guardarEstado() {
-      var editor = document.getElementById('editor');
-      undoStack.push(editor.innerHTML);
-      if (undoStack.length > 50) undoStack.shift();
-      redoStack = [];
-    }
-
-    function deshacer() {
-      if (undoStack.length > 0) {
-        var editor = document.getElementById('editor');
-        redoStack.push(editor.innerHTML);
-        editor.innerHTML = undoStack.pop();
-        actualizarContador();
-      }
-    }
-
-    function rehacer() {
-      if (redoStack.length > 0) {
-        var editor = document.getElementById('editor');
-        undoStack.push(editor.innerHTML);
-        editor.innerHTML = redoStack.pop();
-        actualizarContador();
-      }
-    }
-
-    function cerrarBackstage() {
-      document.getElementById('backstage').style.display = 'none';
-      document.getElementById('editor-view').style.display = 'flex';
-      document.getElementById('editor').focus();
-    }
-    function abrirBackstage() {
-      document.getElementById('backstage').style.display = 'flex';
-      document.getElementById('editor-view').style.display = 'none';
-    }
-    function abrirEditor() {
-      document.getElementById('backstage').style.display = 'none';
-      document.getElementById('editor-view').style.display = 'flex';
-      guardarEstado();
-      document.getElementById('editor').focus();
-      actualizarContador();
-    }
-    function guardar() {
-      var nombre = document.getElementById('nombreDoc').innerText;
-      var contenido = document.getElementById('editor').innerHTML;
-      localStorage.setItem(nombre, contenido);
-      alert('✅ Guardado: ' + nombre);
-    }
-    function guardarComo() {
-      var nombreViejo = document.getElementById('nombreDoc').innerText;
-      var nombreNuevo = prompt('Nombre del documento:', nombreViejo);
-      if (nombreNuevo && nombreNuevo.trim() !== '') {
-        document.getElementById('nombreDoc').innerText = nombreNuevo.trim();
-        var contenido = document.getElementById('editor').innerHTML;
-        localStorage.setItem(nombreNuevo.trim(), contenido);
-        alert('✅ Guardado como: ' + nombreNuevo.trim());
-      }
-    }
-    function formato(tag) {
-      guardarEstado();
-      var sel = window.getSelection();
-      if (!sel.rangeCount) return;
-      var range = sel.getRangeAt(0);
-      if (range.collapsed) return;
-      var elemento = document.createElement(tag);
-      elemento.appendChild(range.extractContents());
-      range.insertNode(elemento);
-      actualizarContador();
-    }
-    function lista() {
-      guardarEstado();
-      var sel = window.getSelection();
-      if (!sel.rangeCount) return;
-      var range = sel.getRangeAt(0);
-      var ul = document.createElement('ul');
-      var li = document.createElement('li');
-      li.innerHTML = range.toString() || '&nbsp;';
-      ul.appendChild(li);
-      range.deleteContents();
-      range.insertNode(ul);
-      actualizarContador();
-    }
-    function alinear(dir) {
-      guardarEstado();
-      var sel = window.getSelection();
-      if (!sel.rangeCount
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC Editor PRO 🇨🇷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:#f3f2f1;overflow:hidden;height:100vh}
+#backstage{display:flex;height:100vh;background:white}
+#editor-view{display:none;height:100vh;flex-direction:column}
+:root{--azul:#002B7F;--rojo:#CE1126}
+.backstage-nav{width:280px;background:var(--azul);color:white;display:flex;flex-direction:column}
+.backstage-nav-header{padding:16px;display:flex;align-items:center;gap:12px;background:var(--rojo)}
+.back-btn{width:32px;height:32px;border:2px solid white;border-radius:50%;background:none;color:white;cursor:pointer;font-size:18px}
+.nav-item{padding:12px 20px;cursor:pointer;font-size:14px;border:none;background:none;color:white;text-align:left;width:100%}
+.nav-item:active{background:rgba(255,255,255,0.2)}
+.backstage-content{flex:1;padding:24px;overflow-y:auto;background:#faf9f8}
+.backstage-title{font-size:32px;font-weight:300;color:var(--azul);margin-bottom:20px}
+.template-card{cursor:pointer;border:1px solid #e1dfdd;background:white;padding:20px;margin-bottom:12px;text-align:center}
+.template-card:active{border-color:var(--azul);transform:scale(0.98)}
+.title-bar{background:var(--azul);color:white;padding:6px 12px;display:flex;align-items:center;justify-content:space-between;font-size:14px}
+.title-bar-icons{display:flex;gap:12px}
+.title-bar-icons span{cursor:pointer;padding:4px;font-size:18px}
+.ribbon-toolbar{background:white;border-bottom:1px solid #d2d0ce;padding:8px 12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ribbon-toolbar button{background:white;border:1px solid #ccc;padding:6px 10px;border-radius:3px;cursor:pointer;font-size:14px;height:36px;min-width:36px}
+.ribbon-toolbar button:active{background:#e1dfdd}
+.main-editor-area{flex:1;background:#e6e6e6;overflow-y:auto;padding:16px;display:flex;flex-direction:column;align-items:center}
+#editor{width:100%;max-width:816px;min-height:600px;background:white;box-shadow:0 8px rgba(0,0,
