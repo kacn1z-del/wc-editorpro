@@ -149,7 +149,7 @@
         </div>
         <div class="vocabulario-panel" id="panelVocabulario">
           <h3>🌿 Diccionario Bribri-Cabécar</h3>
-          <input type="text" class="vocabulario-buscar" id="buscarVocabulario" placeholder="Buscar palabra...">
+          <input type="text" class="vocabulario-buscar" id="buscarVocabulario" placeholder="Buscar palabra en español...">
           <div class="vocabulario-lista" id="listaVocabulario"></div>
         </div>
         <div class="templates-grid" id="gridPlantillas"></div>
@@ -397,45 +397,25 @@
   <input type="file" id="inputImagen" accept="image/*" style="display:none;">
 
   <script>
+    // VARIABLES GLOBALES
     var idiomaActual = 'es';
     var docActual = null;
     var zoomNivel = 100;
 
-    // DICCIONARIO BRIBRI - CABÉCAR
+    // DICCIONARIO BRIBRI - CABÉCAR (150+ PALABRAS)
     var diccionario = {
       bribri: [
-        { es: "hola", bribri: "i tò" },
-        { es: "adiós", bribri: "shkë̀k" },
-        { es: "gracias", bribri: "wë́ste" },
-        { es: "agua", bribri: "di'" },
-        { es: "tierra", bribri: "ì" },
-        { es: "cielo", bribri: "kàbë" },
-        { es: "sol", bribri: "ditsö̀" },
-        { es: "luna", bribri: "sì" },
-        { es: "estrella", bribri: "bè" },
-        { es: "árbol", bribri: "kàl" },
-        { es: "montaña", bribri: "kàbë" },
-        { es: "río", bribri: "di'" },
-        { es: "casa", bribri: "ù" },
-        { es: "comida", bribri: "chkö̀" },
-        { es: "maíz", bribri: "àl" },
-        { es: "frijol", bribri: "kù" },
-        { es: "niño", bribri: "alà" },
-        { es: "niña", bribri: "alàköl" },
-        { es: "hombre", bribri: "wë̀m" },
-        { es: "mujer", bribri: "aláköl" },
-        { es: "padre", bribri: "yë̀" },
-        { es: "madre", bribri: "mì" },
-        { es: "amigo", bribri: "yamì" },
-        { es: "familia", bribri: "së́" },
-        { es: "amor", bribri: "së̀" },
-        { es: "paz", bribri: "së̀k" },
-        { es: "vida", bribri: "së̀" },
-        { es: "muerte", bribri: "duö̀" },
-        { es: "corazón", bribri: "së̀köl" },
-        { es: "espíritu", bribri: "sibö̀" },
-        { es: "dios", bribri: "Sibö̀" },
-        { es: "trabajar", bribri: "wéjkëpa" },
-        { es: "estudiar", bribri: "ujtök" },
-        { es: "cantar", bribri: "kö̀" },
-       
+        { es: "hola", bribri: "i tò" }, { es: "adiós", bribri: "shkë̀k" }, { es: "gracias", bribri: "wë́ste" },
+        { es: "por favor", bribri: "yë̀r" }, { es: "sí", bribri: "tö́" }, { es: "no", bribri: "kè" },
+        { es: "agua", bribri: "di'" }, { es: "tierra", bribri: "ì" }, { es: "cielo", bribri: "kàbë" },
+        { es: "sol", bribri: "ditsö̀" }, { es: "luna", bribri: "sì" }, { es: "estrella", bribri: "bè" },
+        { es: "árbol", bribri: "kàl" }, { es: "montaña", bribri: "kàbë" }, { es: "río", bribri: "di'" },
+        { es: "mar", bribri: "di' tá" }, { es: "casa", bribri: "ù" }, { es: "comida", bribri: "chkö̀" },
+        { es: "maíz", bribri: "àl" }, { es: "frijol", bribri: "kù" }, { es: "yuca", bribri: "kà" },
+        { es: "plátano", bribri: "tö̀" }, { es: "cacao", bribri: "tsuru'" }, { es: "café", bribri: "kàpi" },
+        { es: "niño", bribri: "alà" }, { es: "niña", bribri: "alàköl" }, { es: "hombre", bribri: "wë̀m" },
+        { es: "mujer", bribri: "aláköl" }, { es: "padre", bribri: "yë̀" }, { es: "madre", bribri: "mì" },
+        { es: "hermano", bribri: "yàmi" }, { es: "hermana", bribri: "yàmiköl" }, { es: "amigo", bribri: "yamì" },
+        { es: "familia", bribri: "së́" }, { es: "pueblo", bribri: "së́köl" }, { es: "anciano", bribri: "së̀köla" },
+        { es: "joven", bribri: "alàla" }, { es: "bebé", bribri: "alàtsir" }, { es: "amor", bribri: "së̀" },
+        { es: "paz", bribri: "së̀k" }, { es: "vida", bribri:
