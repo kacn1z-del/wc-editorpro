@@ -1,112 +1,310 @@
-<script>
-var undoStack = []; var redoStack = [];
-var plantillas = {blanco: '<p>Escribí aquí...</p>',ensayo: '<h1 style="text-align:center;color:#002B7F;">El Ejercicio y la Salud Mental</h1><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental...</p>',resumen: '<h2 style="color:#CE1126;">Guía para Resumen Académico</h2><ul><li><strong>Suprimir:</strong> Elimina detalles innecesarios</li></ul>',wcArte1: '<h1 style="font-size:48px;font-weight:900;background:linear-gradient(135deg,#002B7F 0%,#CE1126 50%,#FFD700 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;">COSTA RICA</h1>'};
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>WC Editor Suite PRO - Costa Rica 🇨🇷</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f3f2f1; overflow: hidden; height: 100vh; }
+    #backstage { display: flex; height: 100vh; background: white; }
+    #editor-view { display: none; height: 100vh; flex-direction: column; }
+    :root { --azul: #002B7F; --rojo: #CE1126; --dorado: #FFD700; --verde: #006847; }
+  .backstage-nav { width: 280px; background: var(--azul); color: white; display: flex; flex-direction: column; overflow-y: auto; }
+  .backstage-nav-header { padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); background: var(--rojo); position: sticky; top: 0; }
+  .back-btn { width: 32px; height: 32px; border: 2px solid white; border-radius: 50%; background: none; color: white; cursor: pointer; font-size: 18px; }
+  .nav-item { padding: 12px 20px; cursor: pointer; font-size: 14px; border: none; background: none; color: white; text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; }
+  .nav-item:active { background: rgba(255,255,255,0.2); }
+  .nav-item.active { background: #001F5C; border-left: 3px solid var(--dorado); }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+  .nav-separator { height: 1px; background: rgba(255,255,255,0.2); margin: 8px 16px; }
+  .backstage-content { flex: 1; padding: 24px; overflow-y: auto; background: #faf9f8; }
+  .backstage-title { font-size: 32px; font-weight: 300; color: var(--azul); margin-bottom: 20px; }
+  .templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .template-card { cursor: pointer; border: 1px solid #e1dfdd; background: white; transition: all 0.2s; }
+  .template-card:active { border-color: var(--azul); box-shadow: 0 0 0 2px var(--azul); transform: scale(0.98); }
+  .template-name { padding: 10px 8px; font-size: 11px; text-align: center; background: #faf9f8; font-weight: 600; color: var(--azul); }
+  .docs-lista { margin-top: 32px; border-top: 2px solid var(--rojo); padding-top: 24px; }
+  .docs-lista h3 { font-size: 18px; margin-bottom: 16px; color: var(--azul); }
+  .doc-item { padding: 12px; border: 1px solid #e1dfdd; margin-bottom: 8px; cursor: pointer; background: white; display: flex; justify-content: space-between; align-items: center; }
+  .doc-item:active { background: #f3f2f1; }
+  .doc-item-nombre { font-weight: 600; font-size: 14px; color: var(--azul); }
+  .doc-item-fecha { font-size: 11px; color: #605e5c; }
+  .doc-item-borrar { background: var(--rojo); color: white; border: none; padding: 4px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; }
+  .title-bar { background: var(--azul); color: white; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+  .title-bar-icons { display: flex; gap: 12px; }
+  .title-bar-icons span { cursor: pointer; padding: 4px; font-size: 18px; }
+  .title-bar-icons span:active { background: rgba(255,255,255,0.3); border-radius: 3px; }
+  .ribbon-tabs { background: #f3f2f1; border-bottom: 1px solid #d2d0ce; display: flex; padding: 0 12px; overflow-x: auto; }
+  .ribbon-tab { padding: 8px 14px; cursor: pointer; border: none; background: none; font-size: 14px; color: #323130; white-space: nowrap; }
+  .ribbon-tab.active { background: white; border: 1px solid #d2d0ce; border-bottom: 1px solid white; margin-bottom: -1px; color: var(--azul); font-weight: 600; }
+  .ribbon-toolbar { background: white; border-bottom: 1px solid #d2d0ce; padding: 8px 12px; display: none; gap: 8px; align-items: center; flex-wrap: wrap; overflow-x: auto; }
+  .ribbon-toolbar.active { display: flex; }
+  .tool-group { display: flex; flex-direction: column; border-right: 1px solid #e1dfdd; padding-right: 8px; margin-right: 8px; }
+  .tool-group-title { font-size: 10px; color: #605e5c; text-align: center; margin-top: 2px; }
+  .tool-buttons { display: flex; gap: 4px; align-items: center; }
+  .ribbon-toolbar button,.ribbon-toolbar select { background: white; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 14px; height: 36px; min-width: 36px; }
+  .ribbon-toolbar button:active { background: #e1dfdd; border-color: var(--azul); }
+  .main-editor-area { flex: 1; background: #e6e6e6; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; align-items: center; }
+    #editor { width: 100%; max-width: 816px; min-height: 600px; background: white; box-shadow: 0 8px rgba(0,0,0,0.15); padding: 40px; outline: none; font-size: 16px; line-height: 1.5; -webkit-user-select: text; user-select: text; }
+    #editor img { max-width: 100%; height: auto; }
+    #editor table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    #editor table td, #editor table th { border: 1px solid #ccc; padding: 8px; }
+    #editor h1 { color: var(--azul); margin-top: 24px; margin-bottom: 12px; font-size: 28px; }
+    #editor h2 { color: var(--azul); margin-top: 20px; margin-bottom: 10px; font-size: 22px; border-bottom: 2px solid var(--azul); padding-bottom: 4px; }
+    #editor h3 { color: var(--rojo); margin-top: 16px; margin-bottom: 8px; font-size: 18px; }
+    #editor strong { font-weight: bold; }
+    #editor em { font-style: italic; }
+    #editor u { text-decoration: underline; }
+    #editor ul, #editor ol { margin: 10px 0 10px 30px; }
+  .status-bar { background: var(--azul); color: white; border-top: 1px solid #001F5C; padding: 4px 12px; font-size: 12px; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div id="backstage">
+    <div class="backstage-nav">
+      <div class="backstage-nav-header">
+        <button class="back-btn" id="btnCerrarBackstage">←</button>
+        <span style="font-weight: 600;">Archivo</span>
+      </div>
+      <button class="nav-item active" id="btnNuevo"><span class="nav-icon">📄</span>Nuevo</button>
+      <button class="nav-item" id="btnAbrir"><span class="nav-icon">📂</span>Abrir</button>
+      <div class="nav-separator"></div>
+      <button class="nav-item" id="btnGuardar"><span class="nav-icon">💾</span>Guardar</button>
+      <button class="nav-item" id="btnGuardarComo"><span class="nav-icon">💾</span>Guardar como</button>
+      <div class="nav-separator"></div>
+      <button class="nav-item" id="btnDeshacer"><span class="nav-icon">↶</span>Deshacer</button>
+      <button class="nav-item" id="btnRehacer"><span class="nav-icon">↷</span>Rehacer</button>
+      <div class="nav-separator"></div>
+      <button class="nav-item" id="btnImprimir"><span class="nav-icon">🖨️</span>Imprimir</button>
+      <button class="nav-item" id="btnPDF"><span class="nav-icon">📄</span>Exportar PDF</button>
+      <div class="nav-separator"></div>
+      <button class="nav-item" id="btnCerrar"><span class="nav-icon">❌</span>Cerrar</button>
+    </div>
+    <div class="backstage-content">
+      <div id="vistaNuevo">
+        <h1 class="backstage-title">Nuevo</h1>
+        <div class="templates-grid" id="gridPlantillas">
+          <div class="template-card" data-plantilla="blanco"><div class="template-name">Documento en blanco</div></div>
+          <div class="template-card" data-plantilla="ensayo"><div class="template-name">Ensayo Universitario</div></div>
+          <div class="template-card" data-plantilla="resumen"><div class="template-name">Resumen Académico</div></div>
+          <div class="template-card" data-plantilla="wcArte1"><div class="template-name">WC Arte Tricolor</div></div>
+        </div>
+      </div>
+      <div id="vistaAbrir" style="display:none;">
+        <h1 class="backstage-title">Abrir</h1>
+        <div class="docs-lista">
+          <h3>Documentos guardados</h3>
+          <div id="listaDocs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="editor-view">
+    <div class="title-bar">
+      <div class="title-bar-icons">
+        <span id="btnArchivo">📄</span>
+        <span id="btnGuardarTop">💾</span>
+        <span id="btnDeshacerTop">↶</span>
+        <span id="btnRehacerTop">↷</span>
+      </div>
+      <div id="nombreDoc">Documento1</div>
+      <div>WC Editor PRO 🇨🇷</div>
+    </div>
+    <div class="ribbon-tabs">
+      <button class="ribbon-tab" id="tabArchivo">Archivo</button>
+      <button class="ribbon-tab active" data-tab="inicio">Inicio</button>
+      <button class="ribbon-tab" data-tab="insertar">Insertar</button>
+    </div>
+    <div class="ribbon-toolbar active" id="tab-inicio">
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button id="btnBold"><b>B</b></button>
+          <button id="btnItalic"><i>I</i></button>
+          <button id="btnUnderline"><u>U</u></button>
+        </div>
+        <div class="tool-group-title">Fuente</div>
+      </div>
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <select id="selectFuente">
+            <option value="Calibri">Calibri</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times</option>
+          </select>
+          <select id="selectTamano">
+            <option value="2">10</option>
+            <option value="3" selected>11</option>
+            <option value="4">12</option>
+            <option value="5">14</option>
+          </select>
+        </div>
+        <div class="tool-group-title">Fuente</div>
+      </div>
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button id="btnUL">≡</button>
+          <button id="btnOL">1≡</button>
+          <button id="btnLeft">⬅️</button>
+          <button id="btnCenter">↔️</button>
+          <button id="btnRight">➡️</button>
+        </div>
+        <div class="tool-group-title">Párrafo</div>
+      </div>
+    <div class="ribbon-toolbar" id="tab-insertar">
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button id="btnImagen">🖼️ Imagen</button>
+          <button id="btnTabla">📊 Tabla</button>
+        </div>
+        <div class="tool-group-title">Insertar</div>
+      </div>
+    </div>
+    <div class="main-editor-area">
+      <div id="editor" contenteditable="true"></div>
+    </div>
+    <div class="status-bar">
+      <span id="contadorPalabras">Palabras: 0</span>
+      <span>Costa Rica 🇨🇷</span>
+    </div>
+  </div>
+  <input type="file" id="inputImagen" accept="image/*" style="display:none;">
+  <script>
+    var undoStack = []; var redoStack = [];
+    var plantillas = {blanco: '<p>Escribí aquí...</p>',ensayo: '<h1 style="text-align:center;color:#002B7F;">El Ejercicio y la Salud Mental</h1><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental...</p>',resumen: '<h2 style="color:#CE1126;">Guía para Resumen Académico</h2><ul><li><strong>Suprimir:</strong> Elimina detalles innecesarios</li></ul>',wcArte1: '<h1 style="font-size:48px;font-weight:900;background:linear-gradient(135deg,#002B7F 0%,#CE1126 50%,#FFD700 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;">COSTA RICA</h1>'};
 
-function aplicarFormato(tag) {
-  var sel = window.getSelection(); if (!sel.rangeCount) return;
-  guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return;
-  var contenido = range.extractContents(); var elemento = document.createElement(tag);
-  elemento.appendChild(contenido); range.insertNode(elemento);
-  sel.removeAllRanges(); var newRange = document.createRange();
-  newRange.selectNodeContents(elemento); sel.addRange(newRange); actualizarContador();
-}
-
-function insertarLista(ordenada) {
-  var sel = window.getSelection(); if (!sel.rangeCount) return;
-  guardarEstado(); var range = sel.getRangeAt(0); var tag = ordenada? 'ol' : 'ul';
-  var lista = document.createElement(tag); var item = document.createElement('li');
-  item.innerHTML = range.toString() || '&nbsp;'; lista.appendChild(item);
-  range.deleteContents(); range.insertNode(lista); actualizarContador();
-}
-
-function alinear(alineacion) {
-  var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado();
-  var range = sel.getRangeAt(0); var nodo = range.commonAncestorContainer;
-  while (nodo && nodo.nodeType!== 1) { nodo = nodo.parentNode; }
-  while (nodo && nodo.tagName!== 'P' && nodo.tagName!== 'DIV' && nodo.tagName!== 'H1' && nodo.tagName!== 'H2' && nodo.tagName!== 'H3') { nodo = nodo.parentNode; }
-  if (nodo && nodo!== document.getElementById('editor')) { nodo.style.textAlign = alineacion; }
-  else { var div = document.createElement('div'); div.style.textAlign = alineacion; div.appendChild(range.extractContents()); range.insertNode(div); }
-  actualizarContador();
-}
-
-function insertarImagen() { document.getElementById('inputImagen').click(); }
-
-function cargarImagen(e) {
-  var file = e.target.files[0]; if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    guardarEstado();
-    var img = document.createElement('img'); img.src = e.target.result; img.style.maxWidth = '100%';
-    var editor = document.getElementById('editor'); editor.focus();
-    var sel = window.getSelection(); if (sel.rangeCount) {
-      var range = sel.getRangeAt(0); range.insertNode(img);
-      range.setStartAfter(img); range.collapse(true); sel.removeAllRanges(); sel.addRange(range);
+    function aplicarFormato(tag) {
+      var sel = window.getSelection(); if (!sel.rangeCount) return;
+      guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return;
+      var contenido = range.extractContents(); var elemento = document.createElement(tag);
+      elemento.appendChild(contenido); range.insertNode(elemento);
+      sel.removeAllRanges(); var newRange = document.createRange();
+      newRange.selectNodeContents(elemento); sel.addRange(newRange); actualizarContador();
     }
-    actualizarContador();
-  };
-  reader.readAsDataURL(file);
-}
 
-function insertarTabla() {
-  guardarEstado();
-  var filas = 3, cols = 3;
-  var html = '<table>';
-  for (var i = 0; i < filas; i++) {
-    html += '<tr>';
-    for (var j = 0; j < cols; j++) { html += '<td>&nbsp;</td>'; }
-    html += '</tr>';
-  }
-  html += '</table><p><br></p>';
-  var editor = document.getElementById('editor'); editor.focus();
-  var sel = window.getSelection(); if (sel.rangeCount) {
-    var range = sel.getRangeAt(0); var div = document.createElement('div');
-    div.innerHTML = html; range.insertNode(div.firstChild);
-  }
-  actualizarContador();
-}
+    function insertarLista(ordenada) {
+      var sel = window.getSelection(); if (!sel.rangeCount) return;
+      guardarEstado(); var range = sel.getRangeAt(0); var tag = ordenada? 'ol' : 'ul';
+      var lista = document.createElement(tag); var item = document.createElement('li');
+      item.innerHTML = range.toString() || '&nbsp;'; lista.appendChild(item);
+      range.deleteContents(); range.insertNode(lista); actualizarContador();
+    }
 
-function guardarEstado() { var editor = document.getElementById('editor'); undoStack.push(editor.innerHTML); if (undoStack.length > 50) undoStack.shift(); redoStack = []; }
-function deshacer() { if (undoStack.length > 0) { var editor = document.getElementById('editor'); redoStack.push(editor.innerHTML); editor.innerHTML = undoStack.pop(); actualizarContador(); } }
-function rehacer() { if (redoStack.length > 0) { var editor = document.getElementById('editor'); undoStack.push(editor.innerHTML); editor.innerHTML = redoStack.pop(); actualizarContador(); } }
-function cerrarBackstage() { document.getElementById('backstage').style.display = 'none'; document.getElementById('editor-view').style.display = 'flex'; document.getElementById('editor').focus(); }
-function abrirBackstage() { document.getElementById('backstage').style.display = 'flex'; document.getElementById('editor-view').style.display = 'none'; }
-function abrirEditor(tipo) { document.getElementById('backstage').style.display = 'none'; document.getElementById('editor-view').style.display = 'flex'; document.getElementById('editor').innerHTML = plantillas; document.getElementById('nombreDoc').innerText = tipo; setTimeout(function() { document.getElementById('editor').focus(); actualizarContador(); }, 100); }
-function guardar() { var nombre = document.getElementById('nombreDoc').innerText; var contenido = document.getElementById('editor').innerHTML; var docs = JSON.parse(localStorage.getItem('wc_docs') || '{}'); docs[nombre] = { contenido: contenido, fecha: new Date().toLocaleString('es-CR') }; localStorage.setItem('wc_docs', JSON.stringify(docs)); alert('✅ Guardado: ' + nombre); }
-function actualizarContador() { var texto = document.getElementById('editor').innerText || ''; var palabras = texto.trim().split(/\s+/).filter(function(p) { return p.length > 0; }).length; document.getElementById('contadorPalabras').innerText = 'Palabras: ' + palabras; }
-function cambiarTab(tab) { document.querySelectorAll('.ribbon-tab').forEach(function(t) { t.classList.remove('active'); }); document.querySelectorAll('.ribbon-toolbar').forEach(function(t) { t.classList.remove('active'); }); document.querySelector('[data-tab="' + tab + '"]').classList.add('active'); document.getElementById('tab-' + tab).classList.add('active'); }
-function aplicarFuente() { var fuente = document.getElementById('selectFuente').value; var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return; var span = document.createElement('span'); span.style.fontFamily = fuente; span.appendChild(range.extractContents()); range.insertNode(span); actualizarContador(); }
-function aplicarTamano() { var tam = document.getElementById('selectTamano').value; var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return; var font = document.createElement('font'); font.size = tam; font.appendChild(range.extractContents()); range.insertNode(font); actualizarContador(); }
+    function alinear(alineacion) {
+      var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado();
+      var range = sel.getRangeAt(0); var nodo = range.commonAncestorContainer;
+      while (nodo && nodo.nodeType!== 1) { nodo = nodo.parentNode; }
+      while (nodo && nodo.tagName!== 'P' && nodo.tagName!== 'DIV' && nodo.tagName!== 'H1' && nodo.tagName!== 'H2' && nodo.tagName!== 'H3') { nodo = nodo.parentNode; }
+      if (nodo && nodo!== document.getElementById('editor')) { nodo.style.textAlign = alineacion; }
+      else { var div = document.createElement('div'); div.style.textAlign = alineacion; div.appendChild(range.extractContents()); range.insertNode(div); }
+      actualizarContador();
+    }
 
-window.onload = function() {
-  document.getElementById('btnCerrarBackstage').onclick = cerrarBackstage;
-  document.getElementById('btnNuevo').onclick = function() { abrirBackstage(); };
-  document.getElementById('btnGuardar').onclick = guardar;
-  document.getElementById('btnDeshacer').onclick = deshacer;
-  document.getElementById('btnRehacer').onclick = rehacer;
-  document.getElementById('btnImprimir').onclick = function() { window.print(); };
-  document.getElementById('btnArchivo').onclick = abrirBackstage;
-  document.getElementById('btnGuardarTop').onclick = guardar;
-  document.getElementById('btnDeshacerTop').onclick = deshacer;
-  document.getElementById('btnRehacerTop').onclick = rehacer;
-  document.getElementById('btnBold').onclick = function() { aplicarFormato('strong'); };
-  document.getElementById('btnItalic').onclick = function() { aplicarFormato('em'); };
-  document.getElementById('btnUnderline').onclick = function() { aplicarFormato('u'); };
-  document.getElementById('btnUL').onclick = function() { insertarLista(false); };
-  document.getElementById('btnOL').onclick = function() { insertarLista(true); };
-  document.getElementById('btnLeft').onclick = function() { alinear('left'); };
-  document.getElementById('btnCenter').onclick = function() { alinear('center'); };
-  document.getElementById('btnRight').onclick = function() { alinear('right'); };
-  document.getElementById('btnImagen').onclick = insertarImagen;
-  document.getElementById('btnTabla').onclick = insertarTabla;
-  document.getElementById('inputImagen').onchange = cargarImagen;
-  document.getElementById('selectFuente').onchange = aplicarFuente;
-  document.getElementById('selectTamano').onchange = aplicarTamano;
-  document.getElementById('tabArchivo').onclick = abrirBackstage;
-  document.querySelectorAll('[data-tab]').forEach(function(tab) { tab.onclick = function() { cambiarTab(this.dataset.tab); }; });
-  document.querySelectorAll('.template-card').forEach(function(card) { card.onclick = function() { abrirEditor(this.dataset.plantilla); }; });
-  document.getElementById('editor').addEventListener('input', actualizarContador);
-  document.getElementById('editor').addEventListener('keyup', actualizarContador);
-  document.getElementById('backstage').style.display = 'flex';
-  document.getElementById('editor-view').style.display = 'none';
-};
-</script>
+    function insertarImagen() { document.getElementById('inputImagen').click(); }
+
+    function cargarImagen(e) {
+      var file = e.target.files[0]; if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        guardarEstado();
+        var img = document.createElement('img'); img.src = e.target.result; img.style.maxWidth = '100%';
+        var editor = document.getElementById('editor'); editor.focus();
+        var sel = window.getSelection(); if (sel.rangeCount) {
+          var range = sel.getRangeAt(0); range.insertNode(img);
+          range.setStartAfter(img); range.collapse(true); sel.removeAllRanges(); sel.addRange(range);
+        }
+        actualizarContador();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function insertarTabla() {
+      guardarEstado();
+      var filas = 3, cols = 3;
+      var html = '<table>';
+      for (var i = 0; i < filas; i++) {
+        html += '<tr>';
+        for (var j = 0; j < cols; j++) { html += '<td>&nbsp;</td>'; }
+        html += '</tr>';
+      }
+      html += '</table><p><br></p>';
+      var editor = document.getElementById('editor'); editor.focus();
+      var sel = window.getSelection(); if (sel.rangeCount) {
+        var range = sel.getRangeAt(0); var div = document.createElement('div');
+        div.innerHTML = html; range.insertNode(div.firstChild);
+      }
+      actualizarContador();
+    }
+
+    function guardarEstado() { var editor = document.getElementById('editor'); undoStack.push(editor.innerHTML); if (undoStack.length > 50) undoStack.shift(); redoStack = []; }
+    function deshacer() { if (undoStack.length > 0) { var editor = document.getElementById('editor'); redoStack.push(editor.innerHTML); editor.innerHTML = undoStack.pop(); actualizarContador(); } }
+    function rehacer() { if (redoStack.length > 0) { var editor = document.getElementById('editor'); undoStack.push(editor.innerHTML); editor.innerHTML = redoStack.pop(); actualizarContador(); } }
+    function cerrarBackstage() { document.getElementById('backstage').style.display = 'none'; document.getElementById('editor-view').style.display = 'flex'; document.getElementById('editor').focus(); }
+    function abrirBackstage() { document.getElementById('backstage').style.display = 'flex'; document.getElementById('editor-view').style.display = 'none'; }
+    function mostrarNuevo() { document.getElementById('vistaNuevo').style.display = 'block'; document.getElementById('vistaAbrir').style.display = 'none'; document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); }); document.getElementById('btnNuevo').classList.add('active'); }
+    function mostrarAbrir() { document.getElementById('vistaNuevo').style.display = 'none'; document.getElementById('vistaAbrir').style.display = 'block'; document.querySelectorAll('.nav-item').forEach(function(el) { el.classList.remove('active'); }); document.getElementById('btnAbrir').classList.add('active'); cargarDocumentos(); }
+    function abrirEditor(tipo) { document.getElementById('backstage').style.display = 'none'; document.getElementById('editor-view').style.display = 'flex'; document.getElementById('editor').innerHTML = plantillas; document.getElementById('nombreDoc').innerText = tipo; setTimeout(function() { document.getElementById('editor').focus(); actualizarContador(); }, 100); }
+    function guardar() { var nombre = document.getElementById('nombreDoc').innerText; var contenido = document.getElementById('editor').innerHTML; var docs = JSON.parse(localStorage.getItem('wc_docs') || '{}'); docs[nombre] = { contenido: contenido, fecha: new Date().toLocaleString('es-CR') }; localStorage.setItem('wc_docs', JSON.stringify(docs)); alert('✅ Guardado: ' + nombre); }
+    function cargarDocumentos() { var lista = document.getElementById('listaDocs'); var docs = JSON.parse(localStorage.getItem('wc_docs') || '{}'); lista.innerHTML = ''; Object.keys(docs).forEach(function(nombre) { var div = document.createElement('div'); div.className = 'doc-item'; div.innerHTML = '<div><div class="doc-item-nombre">' + nombre + '</div><div class="doc-item-fecha">' + docs[nombre].fecha + '</div></div><button class="doc-item-borrar">Borrar</button>'; div.onclick = function(e) { if (e.target.className!== 'doc-item-borrar') { abrirEditor(nombre); document.getElementById('editor').innerHTML = docs[nombre].contenido; } else { delete docs[nombre]; localStorage.setItem('wc_docs', JSON.stringify(docs)); cargarDocumentos(); } }; lista.appendChild(div); }); }
+    function actualizarContador() { var texto = document.getElementById('editor').innerText || ''; var palabras = texto.trim().split(/\s+/).filter(function(p) { return p.length > 0; }).length; document.getElementById('contadorPalabras').innerText = 'Palabras: ' + palabras; }
+    function cambiarTab(tab) { document.querySelectorAll('.ribbon-tab').forEach(function(t) { t.classList.remove('active'); }); document.querySelectorAll('.ribbon-toolbar').forEach(function(t) { t.classList.remove('active'); }); document.querySelector('[data-tab="' + tab + '"]').classList.add('active'); document.getElementById('tab-' + tab).classList.add('active'); }
+    function aplicarFuente() { var fuente = document.getElementById('selectFuente').value; var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return; var span = document.createElement('span'); span.style.fontFamily = fuente; span.appendChild(range.extractContents()); range.insertNode(span); actualizarContador(); }
+    function aplicarTamano() { var tam = document.getElementById('selectTamano').value; var sel = window.getSelection(); if (!sel.rangeCount) return; guardarEstado(); var range = sel.getRangeAt(0); if (range.collapsed) return; var font = document.createElement('font'); font.size = tam; font.appendChild(range.extractContents()); range.insertNode(font); actualizarContador(); }
+
+    // CONEXIÓN DE BOTONES - COMPATIBLE CON iPHONE
+    function conectarEvento(id, fn) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('click', fn);
+        el.addEventListener('touchstart', fn);
+      }
+    }
+
+    window.onload = function() {
+      conectarEvento('btnCerrarBackstage', cerrarBackstage);
+      conectarEvento('btnNuevo', mostrarNuevo);
+      conectarEvento('btnAbrir', mostrarAbrir);
+      conectarEvento('btnGuardar', guardar);
+      conectarEvento('btnDeshacer', deshacer);
+      conectarEvento('btnRehacer', rehacer);
+      conectarEvento('btnImprimir', function() { window.print(); });
+      conectarEvento('btnPDF', function() { window.print(); });
+      conectarEvento('btnCerrar', function() { if(confirm('¿Cerrar WC Editor?')) window.close(); });
+      conectarEvento('btnArchivo', abrirBackstage);
+      conectarEvento('btnGuardarTop', guardar);
+      conectarEvento('btnDeshacerTop', deshacer);
+      conectarEvento('btnRehacerTop', rehacer);
+      conectarEvento('btnBold', function() { aplicarFormato('strong'); });
+      conectarEvento('btnItalic', function() { aplicarFormato('em'); });
+      conectarEvento('btnUnderline', function() { aplicarFormato('u'); });
+      conectarEvento('btnUL', function() { insertarLista(false); });
+      conectarEvento('btnOL', function() { insertarLista(true); });
+      conectarEvento('btnLeft', function() { alinear('left'); });
+      conectarEvento('btnCenter', function() { alinear('center'); });
+      conectarEvento('btnRight', function() { alinear('right'); });
+      conectarEvento('btnImagen', insertarImagen);
+      conectarEvento('btnTabla', insertarTabla);
+      conectarEvento('tabArchivo', abrirBackstage);
+      conectarEvento('selectFuente', aplicarFuente);
+      conectarEvento('selectTamano', aplicarTamano);
+
+      document.getElementById('inputImagen').onchange = cargarImagen;
+
+      document.querySelectorAll('[data-tab]').forEach(function(tab) {
+        tab.addEventListener('click', function() { cambiarTab(this.dataset.tab); });
+        tab.addEventListener('touchstart', function() { cambiarTab(this.dataset.tab); });
+      });
+
+      document.querySelectorAll('.template-card').forEach(function(card) {
+        card.addEventListener('click', function() { abrirEditor(this.dataset.plantilla); });
+        card.addEventListener('touchstart', function() { abrirEditor(this.dataset.plantilla); });
+      });
+
+      document.getElementById('editor').addEventListener('input', actualizarContador);
+      document.getElementById('editor').addEventListener('keyup', actualizarContador);
+      document.getElementById('backstage').style.display = 'flex';
+      document.getElementById('editor-view').style.display = 'none';
+    };
+  </script>
+</body>
+</html>
