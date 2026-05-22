@@ -9,17 +9,15 @@
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f3f2f1; overflow: hidden; height: 100vh; }
     #backstage { display: flex; height: 100vh; background: white; }
     #editor-view { display: none; height: 100vh; flex-direction: column; }
-
-    /* COLORES COSTA RICA */
-    :root {
-      --azul-tico: #002B7F;
-      --rojo-tico: #CE1126;
-      --blanco: #FFFFFF;
-      --dorado: #FFD700;
-      --verde-bribri: #006847;
-    }
-
-   .backstage-nav { width: 240px; background: var(--azul-tico); color: white; display: flex; flex-direction: column; }
+   :root {
+     --azul-tico: #002B7F;
+     --rojo-tico: #CE1126;
+     --blanco: #FFFFFF;
+     --dorado: #FFD700;
+     --verde-bribri: #006847;
+     --cafe-cabecar: #8B4513;
+   }
+   .backstage-nav { width: 260px; background: var(--azul-tico); color: white; display: flex; flex-direction: column; }
    .backstage-nav-header { padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.2); background: var(--rojo-tico); }
    .back-btn { width: 32px; height: 32px; border: 2px solid white; border-radius: 50%; background: none; color: white; cursor: pointer; font-size: 18px; }
    .nav-item { padding: 12px 20px; cursor: pointer; font-size: 14px; border: none; background: none; color: white; text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; }
@@ -32,6 +30,16 @@
    .idioma-selector { margin-bottom: 20px; padding: 12px; background: white; border-radius: 4px; border-left: 4px solid var(--rojo-tico); }
    .idioma-selector label { font-weight: 600; margin-right: 12px; color: var(--azul-tico); }
    .idioma-selector select { padding: 6px 12px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; }
+   .vocabulario-panel { background: white; border: 1px solid #e1dfdd; border-radius: 4px; padding: 16px; margin-bottom: 20px; display: none; }
+   .vocabulario-panel.active { display: block; }
+   .vocabulario-panel h3 { color: var(--verde-bribri); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+   .vocabulario-buscar { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 12px; }
+   .vocabulario-lista { max-height: 200px; overflow-y: auto; }
+   .vocabulario-item { padding: 8px; border-bottom: 1px solid #f3f2f1; cursor: pointer; }
+   .vocabulario-item:active { background: #f3f2f1; }
+   .vocabulario-es { font-weight: 600; color: var(--azul-tico); }
+   .vocabulario-bribri { color: var(--verde-bribri); font-style: italic; }
+   .vocabulario-cabecar { color: var(--cafe-cabecar); font-style: italic; }
    .templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin-bottom: 32px; }
    .template-card { cursor: pointer; border: 1px solid #e1dfdd; background: white; transition: all 0.2s; }
    .template-card:active { border-color: var(--azul-tico); box-shadow: 0 0 0 2px var(--azul-tico); transform: scale(0.98); }
@@ -74,7 +82,7 @@
     #editor.conclusion-box { border-left: 4px solid var(--rojo-tico); padding-left: 12px; margin: 12px 0; background: #fff5f5; }
     #editor.apa-ref { text-indent: -36px; padding-left: 36px; margin-bottom: 12px; font-size: 14px; }
     #editor.bribri { font-style: italic; color: var(--verde-bribri); font-weight: 600; }
-    #editor.cabecar { font-style: italic; color: #8B4513; font-weight: 600; }
+    #editor.cabecar { font-style: italic; color: var(--cafe-cabecar); font-weight: 600; }
     #editor.wc-arte-1 { font-size: 48px; font-weight: 900; background: linear-gradient(135deg, var(--azul-tico) 0%, var(--rojo-tico) 50%, var(--dorado) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin: 20px 0; }
     #editor.wc-arte-2 { font-size: 36px; font-weight: 800; color: var(--azul-tico); text-align: center; letter-spacing: 3px; text-transform: uppercase; border: 4px double var(--rojo-tico); padding: 12px; margin: 20px 0; }
     #editor.wc-arte-3 { font-size: 32px; font-weight: 700; color: white; background: linear-gradient(90deg, var(--verde-bribri) 0%, var(--azul-tico) 100%); padding: 16px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin: 20px 0; }
@@ -90,6 +98,15 @@
    .modal-buttons button { padding: 8px 16px; border: none; border-radius: 3px; cursor: pointer; font-size: 14px; }
    .btn-primary { background: var(--azul-tico); color: white; }
    .btn-secondary { background: #e1dfdd; color: #323130; }
+   .asistente-sibo { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: var(--verde-bribri); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 1000; }
+   .asistente-sibo:active { transform: scale(0.95); }
+   .asistente-panel { position: fixed; bottom: 90px; right: 20px; width: 320px; max-height: 400px; background: white; border: 2px solid var(--verde-bribri); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: none; flex-direction: column; z-index: 1000; }
+   .asistente-panel.active { display: flex; }
+   .asistente-header { background: var(--verde-bribri); color: white; padding: 12px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+   .asistente-cerrar { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+   .asistente-contenido { padding: 12px; overflow-y: auto; flex: 1; }
+   .asistente-sugerencia { padding: 8px; background: #f3f2f1; border-radius: 4px; margin-bottom: 8px; cursor: pointer; font-size: 13px; }
+   .asistente-sugerencia:active { background: #e1dfdd; }
   </style>
 </head>
 <body>
@@ -105,6 +122,8 @@
       <div class="nav-separator"></div>
       <button class="nav-item" id="btnGuardar"><span class="nav-icon">💾</span>Guardar</button>
       <button class="nav-item" id="btnGuardarComo"><span class="nav-icon">💾</span>Guardar como</button>
+      <div class="nav-separator"></div>
+      <button class="nav-item" id="btnVocabulario"><span class="nav-icon">🌿</span>Vocabulario Indígena</button>
       <div class="nav-separator"></div>
       <button class="nav-item" id="btnDeshacer"><span class="nav-icon">↶</span>Deshacer</button>
       <button class="nav-item" id="btnRehacer"><span class="nav-icon">↷</span>Rehacer</button>
@@ -127,6 +146,11 @@
             <option value="bribri">🌿 Bribri</option>
             <option value="cabecar">🏔️ Cabécar</option>
           </select>
+        </div>
+        <div class="vocabulario-panel" id="panelVocabulario">
+          <h3>🌿 Diccionario Bribri-Cabécar</h3>
+          <input type="text" class="vocabulario-buscar" id="buscarVocabulario" placeholder="Buscar palabra...">
+          <div class="vocabulario-lista" id="listaVocabulario"></div>
         </div>
         <div class="templates-grid" id="gridPlantillas"></div>
       </div>
@@ -161,6 +185,7 @@
       <button class="ribbon-tab" data-tab="referencias">Referencias</button>
       <button class="ribbon-tab" data-tab="revisar">Revisar</button>
       <button class="ribbon-tab" data-tab="vista">Vista</button>
+      <button class="ribbon-tab" data-tab="sibo">🌿 Sibö</button>
     </div>
 
     <div class="ribbon-toolbar active" id="tab-inicio">
@@ -251,6 +276,7 @@
           <button onclick="aplicarTema('azul')">🔵 Azul Tico</button>
           <button onclick="aplicarTema('rojo')">🔴 Rojo Tico</button>
           <button onclick="aplicarTema('verde')">🟢 Verde Bribri</button>
+          <button onclick="aplicarTema('cafe')">🟤 Café Cabécar</button>
         </div>
         <div class="tool-group-title">Temas</div>
       </div>
@@ -261,6 +287,7 @@
         <div class="tool-buttons">
           <button onclick="insertarAPA()">📚 Cita APA</button>
           <button onclick="insertarBibliografia()">📖 Bibliografía</button>
+          <button onclick="insertarIndice()">📑 Índice</button>
         </div>
         <div class="tool-group-title">Citas</div>
       </div>
@@ -276,6 +303,13 @@
         </div>
         <div class="tool-group-title">Revisión</div>
       </div>
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button id="btnTraducirSibo">🌿 Traducir a Bribri</button>
+          <button id="btnTraducirCabecar">🏔️ Traducir a Cabécar</button>
+        </div>
+        <div class="tool-group-title">Sibö</div>
+      </div>
     </div>
 
     <div class="ribbon-toolbar" id="tab-vista">
@@ -287,6 +321,17 @@
           <button id="btnZoomMenos">🔍-</button>
         </div>
         <div class="tool-group-title">Vista</div>
+      </div>
+    </div>
+
+    <div class="ribbon-toolbar" id="tab-sibo">
+      <div class="tool-group">
+        <div class="tool-buttons">
+          <button onclick="mostrarVocabulario()">📖 Diccionario</button>
+          <button onclick="sugerirPalabras()">💡 Sugerir palabras</button>
+          <button onclick="insertarProverbio()">🌿 Proverbio</button>
+        </div>
+        <div class="tool-group-title">Asistente Sibö</div>
       </div>
     </div>
 
@@ -338,6 +383,17 @@
     </div>
   </div>
 
+  <div class="asistente-sibo" id="btnAsistenteSibo" title="Asistente Sibö 🌿">🌿</div>
+  <div class="asistente-panel" id="panelAsistente">
+    <div class="asistente-header">
+      <span>🌿 Asistente Sibö</span>
+      <button class="asistente-cerrar" id="btnCerrarAsistente">×</button>
+    </div>
+    <div class="asistente-contenido" id="contenidoAsistente">
+      <div class="asistente-sugerencia">¡Pura vida! Soy Sibö, tu asistente de lenguas indígenas. Seleccioná texto y te ayudo a traducir.</div>
+    </div>
+  </div>
+
   <input type="file" id="inputImagen" accept="image/*" style="display:none;">
 
   <script>
@@ -345,14 +401,41 @@
     var docActual = null;
     var zoomNivel = 100;
 
-    var plantillas = {
-      blanco: { es: '<p>Escribí aquí...</p>', en: '<p>Write here...</p>', bribri: '<p class="bribri">I tò éjkëpa...</p>', cabecar: '<p class="cabecar">I tò éjkëpa...</p>' },
-      carta: { es: '<p>San José, Costa Rica</p><br><p><strong>Señores:</strong></p><p>[Empresa]</p><br><p>Estimados señores:</p><p>Por medio de la presente...</p><br><p>Atentamente,</p><br><p>_________________________<br>[Tu nombre]</p>', en: '<p>San José, Costa Rica</p><br><p><strong>Dear Sirs:</strong></p><p>[Company]</p><br><p>Dear Sirs:</p><p>Hereby...</p><br><p>Sincerely,</p><br><p>_________________________<br>[Your name]</p>' },
-      informe: { es: '<h2 style="color:#002B7F;">Informe Ejecutivo</h2><p><strong>Fecha:</strong> ' + new Date().toLocaleDateString('es-CR') + '</p><h3>1. Resumen Ejecutivo</h3><p>Contenido...</p><h3>2. Resultados</h3><ul><li>Resultado 1</li><li>Resultado 2</li></ul><h3>3. Conclusiones</h3><p>Se concluye que...</p>', en: '<h2 style="color:#002B7F;">Executive Report</h2><p><strong>Date:</strong> ' + new Date().toLocaleDateString('en-US') + '</p><h3>1. Executive Summary</h3><p>Content...</p>' },
-      acta: { es: '<h2 style="text-align:center;">ACTA DE REUNIÓN</h2><p><strong>Fecha:</strong> <br><strong>Hora:</strong> <br><strong>Lugar:</strong> </p><p><strong>Asistentes:</strong></p><ol><li></li></ol><p><strong>Orden del día:</strong></p><ol><li></li></ol><p><strong>Acuerdos:</strong></p><ol><li>Se acuerda que...</li></ol><p><strong>Firmas:</strong></p><br><p>_________________________ &nbsp;&nbsp;&nbsp; _________________________</p>' },
-      cv: { es: '<h1 style="text-align:center;">[TU NOMBRE]</h1><p style="text-align:center;">Tel: 8888-8888 | Email: correo@email.com | San José, Costa Rica</p><hr><h2>Perfil Profesional</h2><p>Profesional con experiencia en...</p><h2>Experiencia Laboral</h2><p><strong>Empresa</strong> - Puesto (2020-2024)</p><ul><li>Logro 1</li><li>Logro 2</li></ul><h2>Educación</h2><p><strong>Universidad de Costa Rica</strong> - Título (2016-2020)</p><h2>Habilidades</h2><p>• Español (Nativo) • Inglés (Avanzado) • Microsoft Office</p>' },
-      ensayoBasico: { es: '<h1 style="text-align:center;">Título del Ensayo</h1><p style="text-align:center;"><em>[Tu nombre]</em></p><br><h2>Introducción</h2><p>El presente ensayo aborda...</p><h2>Desarrollo</h2><p>En primer lugar...</p><h2>Conclusión</h2><p>En conclusión...</p>' },
-      ensayoUniversitario: {
-        es: '<h1 style="text-align:center;">El Ejercicio y la Salud Mental: Un Análisis Integral</h1><p style="text-align:center;"><em>Universidad de Costa Rica | Escuela de Psicología</em></p><div class="intro-box"><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental, destacando la importancia de incorporar la actividad física en nuestra vida cotidiana. Se exploran los mecanismos neurobiológicos, psicológicos y sociales que sustentan esta relación.</p></div><div class="desarrollo-box"><h2>Desarrollo</h2><p>El ejercicio físico tiene numerosos efectos beneficiosos en la salud mental. En primer lugar, ayuda a liberar endorfinas, neurotransmisores que actúan como analgésicos naturales y generan una sensación de bienestar y euforia. Esto puede ser especialmente útil para las personas que luchan contra la depresión y la ansiedad.</p><p>Además, el ejercicio regular contribuye a reducir los niveles de estrés. Cuando nos enfrentamos a situaciones estresantes, nuestros cuerpos liberan hormonas del estrés como el cortisol. El ejercicio ayuda a regular estas hormonas, lo que puede disminuir la sensación de ansiedad y tensión.</p><p>El sueño es otro aspecto crucial de la salud mental, y el ejercicio puede desempeñar un papel importante en la mejora de la calidad del sueño. Las personas que hacen ejercicio con regularidad tienden a dormir mejor y experimentar menos problemas de insomnio.</p><p>Por último, el ejercicio promueve la autoestima y la confianza en uno mismo. Al alcanzar metas de acondicionamiento físico y superar desafíos, las personas pueden sentirse más empoderadas y satisfechas con su apariencia y capacidad física.</p></div><div class="conclusion-box"><h2>Conclusión</h2><p>En conclusión, el ejercicio físico es una herramienta poderosa para mejorar la salud mental. Sus beneficios van desde la liberación de endorfinas hasta la reducción del estrés y la mejora del sueño. Incorporar la actividad física en nuestra rutina diaria no solo fortalece el cuerpo, sino también la mente.</p></div><h3>Referencias (Formato APA 7)</h3><p class="apa-ref">Organización Mundial de la Salud. (2020). <em>Directrices de la OMS sobre actividad física y hábitos sedentarios</em>. OMS.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
-        en: '<h1 style="text-align:center;">Exercise and Mental Health: A Comprehensive Analysis</h1><p style="text-align:center;"><em>University of Costa Rica | School of Psychology</em></p><div class="intro-box"><h2>Introduction</h2><p>This essay analyzes the link between physical exercise and mental health, highlighting the importance of incorporating physical activity into our daily lives. The neurobiological, psychological, and social mechanisms underlying this relationship are explored.</p></div><div class="desarrollo-box"><h2>Development</h2><p>Physical exercise has numerous beneficial effects on mental health. First, it helps release endorphins, neurotransmitters that act as natural painkillers and generate a sense of well-being and euphoria. This can be especially useful for people struggling with depression and anxiety.</p><p>In addition, regular exercise contributes to reducing stress levels. When we face stressful situations, our bodies release stress hormones like cortisol. Exercise helps regulate these hormones, which can decrease feelings of anxiety and tension.</p><p>Sleep is another crucial aspect of mental health, and exercise can play an important role in improving sleep quality. People who exercise regularly tend to sleep better and experience fewer insomnia problems.</p><p>Finally, exercise promotes self-esteem and self-confidence. By achieving fitness goals and overcoming challenges, people can feel more empowered and satisfied with their appearance and physical capacity.</p></div><div class="conclusion-box"><h2>Conclusion</h2><p>In conclusion, physical exercise is a powerful tool for improving mental health. Its benefits range from the release of endorphins to stress reduction and improved sleep. Incorporating physical activity into our daily routine not only strengthens the body but also the mind.</p></div><h3>References (APA 7 Format)</h3><p class="apa-ref">World Health Organization. (2020). <em>WHO guidelines on physical activity and sedentary behaviour</em>. WHO.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
-        bribri: '<h1 style="text-align:center;">Wéjkëpa kë̀ Sú̱ Yö̀kë̀rö: Dör Së́</h1><p style="text-align:center;"><em class="bribri">Costa Rica Sibö̀ wéjkëpa | Y
+    // DICCIONARIO BRIBRI - CABÉCAR
+    var diccionario = {
+      bribri: [
+        { es: "hola", bribri: "i tò" },
+        { es: "adiós", bribri: "shkë̀k" },
+        { es: "gracias", bribri: "wë́ste" },
+        { es: "agua", bribri: "di'" },
+        { es: "tierra", bribri: "ì" },
+        { es: "cielo", bribri: "kàbë" },
+        { es: "sol", bribri: "ditsö̀" },
+        { es: "luna", bribri: "sì" },
+        { es: "estrella", bribri: "bè" },
+        { es: "árbol", bribri: "kàl" },
+        { es: "montaña", bribri: "kàbë" },
+        { es: "río", bribri: "di'" },
+        { es: "casa", bribri: "ù" },
+        { es: "comida", bribri: "chkö̀" },
+        { es: "maíz", bribri: "àl" },
+        { es: "frijol", bribri: "kù" },
+        { es: "niño", bribri: "alà" },
+        { es: "niña", bribri: "alàköl" },
+        { es: "hombre", bribri: "wë̀m" },
+        { es: "mujer", bribri: "aláköl" },
+        { es: "padre", bribri: "yë̀" },
+        { es: "madre", bribri: "mì" },
+        { es: "amigo", bribri: "yamì" },
+        { es: "familia", bribri: "së́" },
+        { es: "amor", bribri: "së̀" },
+        { es: "paz", bribri: "së̀k" },
+        { es: "vida", bribri: "së̀" },
+        { es: "muerte", bribri: "duö̀" },
+        { es: "corazón", bribri: "së̀köl" },
+        { es: "espíritu", bribri: "sibö̀" },
+        { es: "dios", bribri: "Sibö̀" },
+        { es: "trabajar", bribri: "wéjkëpa" },
+        { es: "estudiar", bribri: "ujtök" },
+        { es: "cantar", bribri: "kö̀" },
+       
