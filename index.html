@@ -6,14 +6,14 @@
   <title>WC Editor Suite - Costa Rica 🇨🇷</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: 'Segoe UI', Calibri, Arial, sans-serif; 
-      background: #f3f2f1; 
+    body {
+      font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+      background: #f3f2f1;
       overflow: hidden;
       height: 100vh;
     }
-    
-    /* PANTALLA BACKSTAGE */
+
+    /* BACKSTAGE */
     #backstage {
       display: flex;
       height: 100vh;
@@ -21,7 +21,7 @@
     }
     #editor-view { display: none; height: 100vh; flex-direction: column; }
 
-    /* MENÚ LATERAL AZUL */
+    /* MENÚ AZUL */
   .backstage-nav {
       width: 220px;
       background: #2b579a;
@@ -67,7 +67,7 @@
       margin: 8px 0;
     }
 
-    /* CONTENIDO BACKSTAGE */
+    /* CONTENIDO */
   .backstage-content {
       flex: 1;
       padding: 32px 48px;
@@ -89,148 +89,3 @@
       margin-bottom: 16px;
     }
   .suggested-searches {
-      font-size: 13px;
-      color: #605e5c;
-      margin-bottom: 24px;
-    }
-  .suggested-searches span {
-      color: #2b579a;
-      cursor: pointer;
-      margin-right: 16px;
-    }
-  .suggested-searches span:hover { text-decoration: underline; }
-   
-  .template-tabs {
-      display: flex;
-      gap: 24px;
-      border-bottom: 1px solid #e1dfdd;
-      margin-bottom: 24px;
-    }
-  .template-tab {
-      padding: 8px 0;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-size: 14px;
-      color: #605e5c;
-      border-bottom: 2px solid transparent;
-    }
-  .template-tab.active {
-      color: #2b579a;
-      border-bottom-color: #2b579a;
-      font-weight: 600;
-    }
-
-  .templates-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-    }
-  .template-card {
-      cursor: pointer;
-      border: 1px solid #e1dfdd;
-      background: white;
-      transition: all 0.1s;
-    }
-  .template-card:hover {
-      border-color: #2b579a;
-      box-shadow: 0 0 0 1px #2b579a;
-    }
-  .template-preview {
-      aspect-ratio: 8.5/11;
-      background: white;
-      border-bottom: 1px solid #e1dfdd;
-      padding: 12px;
-      font-size: 5px;
-      overflow: hidden;
-    }
-  .template-name {
-      padding: 8px;
-      font-size: 12px;
-      text-align: center;
-      background: #faf9f8;
-    }
-
-    /* VISTA EDITOR */
-  .title-bar {
-      background: #2b579a;
-      color: white;
-      padding: 6px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 14px;
-    }
-  .title-bar-icons { display: flex; gap: 16px; }
-  .title-bar-icons span { cursor: pointer; padding: 4px; }
-  .title-bar-icons span:hover { background: rgba(255,255,255,0.2); border-radius: 2px; }
-
-  .ribbon-tabs {
-      background: #f3f2f1;
-      border-bottom: 1px solid #d2d0ce;
-      display: flex;
-      padding: 0 16px;
-    }
-  .ribbon-tab {
-      padding: 8px 16px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      font-size: 14px;
-      color: #323130;
-    }
-  .ribbon-tab.active {
-      background: white;
-      border: 1px solid #d2d0ce;
-      border-bottom: 1px solid white;
-      margin-bottom: -1px;
-      color: #2b579a;
-      font-weight: 600;
-    }
-    
-  .ribbon-toolbar {
-      background: white;
-      border-bottom: 1px solid #d2d0ce;
-      padding: 8px 16px;
-      display: flex;
-      gap: 8px;
-      align-items: flex-end;
-      flex-wrap: wrap;
-    }
-  .tool-group {
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid #e1dfdd;
-      padding-right: 8px;
-      margin-right: 8px;
-    }
-  .tool-group-title {
-      font-size: 11px;
-      color: #605e5c;
-      text-align: center;
-      margin-top: 4px;
-    }
-  .tool-buttons { display: flex; gap: 4px; align-items: center; }
-  .ribbon-toolbar button,.ribbon-toolbar select {
-      background: white;
-      border: 1px solid transparent;
-      padding: 4px 8px;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 13px;
-      height: 28px;
-    }
-  .ribbon-toolbar button:hover, .ribbon-toolbar button.active {
-      border: 1px solid #8a8886;
-      background: #f3f2f1;
-    }
-
-  .main-editor-area {
-      flex: 1;
-      background: #e6e6e6;
-      overflow-y: auto;
-      padding: 32px;
-      display: flex;
-      justify-content: center;
-    }
-    #editor {
