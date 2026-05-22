@@ -42,6 +42,7 @@
       </div>
       <button class="nav-item" onclick="abrirEditor()">📄 Nuevo Documento</button>
       <button class="nav-item" onclick="guardar()">💾 Guardar</button>
+      <button class="nav-item" onclick="guardarComo()">💾 Guardar como</button>
       <button class="nav-item" onclick="window.print()">🖨️ Imprimir</button>
     </div>
     <div class="backstage-content">
@@ -59,6 +60,8 @@
       <div>WC Editor PRO 🇨🇷</div>
     </div>
     <div class="ribbon-toolbar">
+      <button onclick="deshacer()">↶</button>
+      <button onclick="rehacer()">↷</button>
       <button onclick="formato('strong')"><b>B</b></button>
       <button onclick="formato('em')"><i>I</i></button>
       <button onclick="formato('u')"><u>U</u></button>
@@ -76,6 +79,34 @@
     </div>
   </div>
   <script>
+    var undoStack = [];
+    var redoStack = [];
+
+    function guardarEstado() {
+      var editor = document.getElementById('editor');
+      undoStack.push(editor.innerHTML);
+      if (undoStack.length > 50) undoStack.shift();
+      redoStack = [];
+    }
+
+    function deshacer() {
+      if (undoStack.length > 0) {
+        var editor = document.getElementById('editor');
+        redoStack.push(editor.innerHTML);
+        editor.innerHTML = undoStack.pop();
+        actualizarContador();
+      }
+    }
+
+    function rehacer() {
+      if (redoStack.length > 0) {
+        var editor = document.getElementById('editor');
+        undoStack.push(editor.innerHTML);
+        editor.innerHTML = redoStack.pop();
+        actualizarContador();
+      }
+    }
+
     function cerrarBackstage() {
       document.getElementById('backstage').style.display = 'none';
       document.getElementById('editor-view').style.display = 'flex';
@@ -88,6 +119,7 @@
     function abrirEditor() {
       document.getElementById('backstage').style.display = 'none';
       document.getElementById('editor-view').style.display = 'flex';
+      guardarEstado();
       document.getElementById('editor').focus();
       actualizarContador();
     }
@@ -97,7 +129,18 @@
       localStorage.setItem(nombre, contenido);
       alert('✅ Guardado: ' + nombre);
     }
+    function guardarComo() {
+      var nombreViejo = document.getElementById('nombreDoc').innerText;
+      var nombreNuevo = prompt('Nombre del documento:', nombreViejo);
+      if (nombreNuevo && nombreNuevo.trim() !== '') {
+        document.getElementById('nombreDoc').innerText = nombreNuevo.trim();
+        var contenido = document.getElementById('editor').innerHTML;
+        localStorage.setItem(nombreNuevo.trim(), contenido);
+        alert('✅ Guardado como: ' + nombreNuevo.trim());
+      }
+    }
     function formato(tag) {
+      guardarEstado();
       var sel = window.getSelection();
       if (!sel.rangeCount) return;
       var range = sel.getRangeAt(0);
@@ -108,6 +151,7 @@
       actualizarContador();
     }
     function lista() {
+      guardarEstado();
       var sel = window.getSelection();
       if (!sel.rangeCount) return;
       var range = sel.getRangeAt(0);
@@ -120,21 +164,6 @@
       actualizarContador();
     }
     function alinear(dir) {
+      guardarEstado();
       var sel = window.getSelection();
-      if (!sel.rangeCount) return;
-      var range = sel.getRangeAt(0);
-      var div = document.createElement('div');
-      div.style.textAlign = dir;
-      div.appendChild(range.extractContents());
-      range.insertNode(div);
-      actualizarContador();
-    }
-    function actualizarContador() {
-      var texto = document.getElementById('editor').innerText || '';
-      var palabras = texto.trim().split(/\s+/).filter(function(p) { return p.length > 0; }).length;
-      document.getElementById('contadorPalabras').innerText = 'Palabras: ' + palabras;
-    }
-    document.getElementById('editor').addEventListener('input', actualizarContador);
-  </script>
-</body>
-</html>
+      if (!sel.rangeCount
