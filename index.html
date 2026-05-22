@@ -188,3 +188,6 @@ function gc(){var n=prompt('Nombre:',document.getElementById('nd').innerText);if
 function gn(srv){var n=document.getElementById('nd').innerText;var c=document.getElementById('editor').innerHTML;var b=new Blob([c],{type:'text/html'});var url=URL.createObjectURL(b);var a=document.createElement('a');a.href=url;a.download=n+'.html';a.click();if(srv==='onedrive'){alert('☁️ OneDrive: Archivo descargado. Abrí onedrive.live.com → Cargar → Subí el archivo')}else if(srv==='icloud'){alert('🍎 iCloud: Archivo descargado. Abrí icloud.com/iclouddrive → Cargar → Subí el archivo')}}
 function wa(){var n=document.getElementById('nd').innerText;var t=document.getElementById('editor').innerText;var m='*'+n+'*%0A%0A'+encodeURIComponent(t.substring(0,1000));window.open('https://wa.me/?text='+m,'_blank')}
 function cd(){var l=document.getElementById('ld');var d=JSON.parse(localStorage.getItem('wcd')||'{}');l.innerHTML='';Object.keys(d).forEach(function(n){var dv=document.createElement('div');dv.className='doc';dv.innerHTML='<div><
+</script>
+</body>
+</html>
