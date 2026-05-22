@@ -3,106 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WC Editor Pro - Costa Rica 🇨🇷</title>
+  <title>Documento1 - WC Editor Suite</title>
   <style>
-    * { box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
-      margin: 0; 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      background: #f5f5f5; 
+      font-family: 'Segoe UI', Calibri, Arial, sans-serif; 
+      background: #f3f2f1; 
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     
-    /* PANTALLA DE INICIO - GALERÍA */
-    #pantalla-inicio {
-      display: block;
-      min-height: 100vh;
-      background: white;
-    }
-    .inicio-header {
-      background: linear-gradient(135deg, #002B7F 0%, #CE1126 100%);
+    /* BARRA SUPERIOR AZUL */
+   .title-bar {
+      background: #2b579a;
       color: white;
-      padding: 20px 40px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 3px solid #FFD700;
-    }
-    .inicio-header h1 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 300;
-    }
-    .logo-tico {
-      background: #FFD700;
-      color: #002B7F;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 12px;
-    }
-    .busqueda-plantillas {
-      padding: 30px 40px 20px 40px;
-      background: #fafafa;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .busqueda-plantillas input {
-      width: 100%;
-      max-width: 500px;
-      padding: 12px 15px;
-      border: 2px solid #FFD700;
-      border-radius: 4px;
       font-size: 14px;
     }
-    .galeria-plantillas {
-      padding: 20px 40px 40px 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 20px;
-      max-width: 1400px;
-    }
-    .plantilla-card {
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .plantilla-card:hover {
-      transform: translateY(-4px);
-    }
-    .plantilla-preview {
-      width: 100%;
-      aspect-ratio: 8.5/11;
-      background: white;
-      border: 1px solid #d0d0d0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      padding: 15px;
-      font-size: 7px;
-      overflow: hidden;
-    }
-    .plantilla-preview.en-blanco { background: white; }
-    .plantilla-preview.carta { border-top: 4px solid #002B7F; }
-    .plantilla-preview.cv { background: linear-gradient(to bottom, #002B7F 25%, white 25%); }
-    .plantilla-preview.reporte { border-left: 4px solid #CE1126; }
-    .plantilla-nombre {
-      text-align: center;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #333;
-      font-weight: 500;
+   .title-bar .left-icons { display: flex; gap: 16px; }
+   .title-bar .doc-name { font-weight: 400; }
+   .title-bar .right-logo { 
+      background: rgba(255,255,255,0.15); 
+      padding: 4px 12px; 
+      border-radius: 4px; 
+      font-size: 12px;
     }
 
-    /* EDITOR - OCULTO AL INICIO */
-    #pantalla-editor { display: none; padding-bottom: 220px; }
-   .wc-toolbar {
-      width: 90%; max-width: 800px; margin: 20px auto 0 auto;
-      background: #f3f2f1; padding: 8px; border-radius: 8px 8px 0 0;
-      border: 1px solid #ddd; border-bottom: none; display: flex;
-      flex-wrap: wrap; gap: 4px; align-items: center;
+    /* CINTA DE PESTAÑAS */
+   .ribbon-tabs {
+      background: #f3f2f1;
+      border-bottom: 1px solid #d2d0ce;
+      display: flex;
+      padding: 0 16px;
     }
-   .wc-toolbar button, .wc-toolbar select {
-      background: white; border: 1px solid #ccc; padding: 6px 8px;
-      border-radius: 4px; cursor: pointer; font-size: 13px; height: 32px;
+   .ribbon-tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 14px;
+      color: #323130;
     }
-   .wc-toolbar button:hover { background: #FFD700; border-color: #002B7F; }
-   .wc-toolbar .separator { width: 1px; height: 24px; background: #ccc; margin: 0 4px; }
-    #editor {
-      width: 90%; max-width: 800px; margin: 0 auto 20px auto; min-height: 500px;
-      background: white; padding: 60
+   .ribbon-tab.active {
+      background: white;
+      border: 1px solid #d2d0ce;
+      border-bottom: 1px solid white;
+      margin-bottom: -1px;
+      color: #2b579a;
+      font-weight: 600;
+    }
+    
+    /* BARRA DE HERRAMIENTAS */
+   .ribbon-toolbar {
+      background: white;
+      border-bottom: 1px solid #d2d0ce;
+      padding: 8px 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+   .tool-group {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #e1dfdd;
+      padding-right: 8px;
+      margin-right: 8px;
+    }
+   .tool-group-title {
+      font-size: 11px;
+      color: #605e5c;
+      text-align: center;
+      margin-top: 4px;
+    }
+   .tool-buttons { display: flex; gap: 4px; }
+   .ribbon-toolbar button, .ribbon-toolbar select {
+      background: white;
+      border: 1px solid transparent;
+      padding: 4px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 13px;
+      height: 28px;
+    }
+   .ribbon-toolbar button:hover {
+      border: 1px solid #8a8886;
+      background: #f3f2f1;
+    }
+   .ribbon-toolbar select { height: 28px; }
+
+    /* ÁREA PRINCIPAL: 3 COLUMNAS */
+   .main-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    /* PANEL PLANTILLAS IZQUIERDA */
+   .plantillas-panel {
+      width: 280px;
+      background: white;
+      border-right: 1px solid #d2d0ce;
+      overflow-y: auto;
+      padding: 16px;
+    }
+   .plantillas-panel h3 {
+      font-size: 12px;
+      color: #605e5c;
+      margin-bottom: 12px;
+      font-weight: 600;
+   
