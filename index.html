@@ -44,9 +44,9 @@
 .tool-group { display: flex; flex-direction: column; border-right: 1px solid #e1dfdd; padding-right: 8px; margin-right: 8px; }
 .tool-group-title { font-size: 10px; color: #605e5c; text-align: center; margin-top: 2px; }
 .tool-buttons { display: flex; gap: 4px; align-items: center; }
-.ribbon-toolbar button,.ribbon-toolbar select,.ribbon-toolbar input[type="color"] { background: white; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 14px; height: 36px; min-width: 36px; }
+.ribbon-toolbar button,.ribbon-toolbar select { background: white; border: 1px solid #ccc; padding: 6px 10px; border-radius: 3px; cursor: pointer; font-size: 14px; height: 36px; min-width: 36px; }
 .ribbon-toolbar button:active { background: #e1dfdd; border-color: #2b579a; }
-.ribbon-toolbar input[type="color"] { padding: 2px; width: 36px; }
+.ribbon-toolbar button:disabled { opacity: 0.4; cursor: not-allowed; }
 .main-editor-area { flex: 1; background: #e6e6e6; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; align-items: center; }
 .page-header,.page-footer { width: 100%; max-width: 816px; background: #faf9f8; border: 1px dashed #ccc; padding: 12px 40px; font-size: 12px; color: #605e5c; text-align: center; display: none; }
 .page-header { border-bottom: none; }
@@ -64,7 +64,7 @@
     #editor.apa-ref { text-indent: -36px; padding-left: 36px; margin-bottom: 12px; font-size: 14px; }
     #editor.bribri { font-style: italic; color: #006847; font-weight: 600; }
     #editor.cabecar { font-style: italic; color: #8B4513; font-weight: 600; }
-    #editor.wc-arte-1 { font-size: 48px; font-weight: 900; background: linear-gradient(135deg, #2b579a 0%, #CE1126 50%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    #editor.wc-arte-1 { font-size: 48px; font-weight: 900; background: linear-gradient(135deg, #2b579a 0%, #CE1126 50%, #FFD700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin: 20px 0; }
     #editor.wc-arte-2 { font-size: 36px; font-weight: 800; color: #2b579a; text-align: center; letter-spacing: 3px; text-transform: uppercase; border: 4px double #CE1126; padding: 12px; margin: 20px 0; }
     #editor.wc-arte-3 { font-size: 32px; font-weight: 700; color: white; background: linear-gradient(90deg, #006847 0%, #2b579a 100%); padding: 16px; text-align: center; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); margin: 20px 0; }
     #editor.wc-arte-4 { font-size: 28px; font-weight: 600; color: #CE1126; text-align: center; border-top: 3px solid #FFD700; border-bottom: 3px solid #FFD700; padding: 12px 0; margin: 20px 0; }
@@ -229,9 +229,9 @@
     <div class="ribbon-toolbar active" id="tab-inicio">
       <div class="tool-group">
         <div class="tool-buttons">
-          <button onclick="pegar()">📋</button>
-          <button onclick="cortar()">✂️</button>
-          <button onclick="copiar()">📄</button>
+          <button onclick="alert('Usá Cmd+V en iPhone mae')" title="Pegar">📋</button>
+          <button onclick="alert('Usá Cmd+X en iPhone mae')" title="Cortar">✂️</button>
+          <button onclick="alert('Usá Cmd+C en iPhone mae')" title="Copiar">📄</button>
         </div>
         <div class="tool-group-title">Portapeles</div>
       </div>
@@ -259,7 +259,7 @@
           <button onclick="ejecutar('bold')"><b>B</b></button>
           <button onclick="ejecutar('italic')"><i>I</i></button>
           <button onclick="ejecutar('underline')"><u>U</u></button>
-          <input type="color" onchange="resaltar(this.value)" title="Resaltar">
+          <button onclick="resaltarAmarillo()">🖍️</button>
         </div>
         <div class="tool-group-title">Fuente</div>
       </div>
@@ -379,4 +379,4 @@
       ensayoUniversitario: {
         es: '<h1 style="text-align:center;">El Ejercicio y la Salud Mental: Un Análisis Integral</h1><p style="text-align:center;"><em>Universidad de Costa Rica | Escuela de Psicología</em></p><div class="intro-box"><h2>Introducción</h2><p>El presente ensayo analiza el vínculo entre el ejercicio físico y la salud mental, destacando la importancia de incorporar la actividad física en nuestra vida cotidiana. Se exploran los mecanismos neurobiológicos, psicológicos y sociales que sustentan esta relación.</p></div><div class="desarrollo-box"><h2>Desarrollo</h2><p>El ejercicio físico tiene numerosos efectos beneficiosos en la salud mental. En primer lugar, ayuda a liberar endorfinas, neurotransmisores que actúan como analgésicos naturales y generan una sensación de bienestar y euforia. Esto puede ser especialmente útil para las personas que luchan contra la depresión y la ansiedad.</p><p>Además, el ejercicio regular contribuye a reducir los niveles de estrés. Cuando nos enfrentamos a situaciones estresantes, nuestros cuerpos liberan hormonas del estrés como el cortisol. El ejercicio ayuda a regular estas hormonas, lo que puede disminuir la sensación de ansiedad y tensión.</p><p>El sueño es otro aspecto crucial de la salud mental, y el ejercicio puede desempeñar un papel importante en la mejora de la calidad del sueño. Las personas que hacen ejercicio con regularidad tienden a dormir mejor y experimentar menos problemas de insomnio.</p><p>Por último, el ejercicio promueve la autoestima y la confianza en uno mismo. Al alcanzar metas de acondicionamiento físico y superar desafíos, las personas pueden sentirse más empoderadas y satisfechas con su apariencia y capacidad física.</p></div><div class="conclusion-box"><h2>Conclusión</h2><p>En conclusión, el ejercicio físico es una herramienta poderosa para mejorar la salud mental. Sus beneficios van desde la liberación de endorfinas hasta la reducción del estrés y la mejora del sueño. Incorporar la actividad física en nuestra rutina diaria no solo fortalece el cuerpo, sino también la mente.</p></div><h3>Referencias (Formato APA 7)</h3><p class="apa-ref">Organización Mundial de la Salud. (2020). <em>Directrices de la OMS sobre actividad física y hábitos sedentarios</em>. OMS.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
         en: '<h1 style="text-align:center;">Exercise and Mental Health: A Comprehensive Analysis</h1><p style="text-align:center;"><em>University of Costa Rica | School of Psychology</em></p><div class="intro-box"><h2>Introduction</h2><p>This essay analyzes the link between physical exercise and mental health, highlighting the importance of incorporating physical activity into our daily lives. The neurobiological, psychological, and social mechanisms underlying this relationship are explored.</p></div><div class="desarrollo-box"><h2>Development</h2><p>Physical exercise has numerous beneficial effects on mental health. First, it helps release endorphins, neurotransmitters that act as natural painkillers and generate a sense of well-being and euphoria. This can be especially useful for people struggling with depression and anxiety.</p><p>In addition, regular exercise contributes to reducing stress levels. When we face stressful situations, our bodies release stress hormones like cortisol. Exercise helps regulate these hormones, which can decrease feelings of anxiety and tension.</p><p>Sleep is another crucial aspect of mental health, and exercise can play an important role in improving sleep quality. People who exercise regularly tend to sleep better and experience fewer insomnia problems.</p><p>Finally, exercise promotes self-esteem and self-confidence. By achieving fitness goals and overcoming challenges, people can feel more empowered and satisfied with their appearance and physical capacity.</p></div><div class="conclusion-box"><h2>Conclusion</h2><p>In conclusion, physical exercise is a powerful tool for improving mental health. Its benefits range from the release of endorphins to stress reduction and improved sleep. Incorporating physical activity into our daily routine not only strengthens the body but also the mind.</p></div><h3>References (APA 7 Format)</h3><p class="apa-ref">World Health Organization. (2020). <em>WHO guidelines on physical activity and sedentary behaviour</em>. WHO.</p><p class="apa-ref">Stubbs, B., et al. (2018). Exercise and mental health. <em>The Lancet Psychiatry, 5</em>(2), 134-135.</p>',
-        bribri: '<h1 style="text-align:center;">Wéjkëpa kë̀ Sú̱ Yö̀kë̀rö: Dör Së́</h1><p style="text-align:center;"><em class="bribri">Costa Rica Sibö̀ wéjkëpa | Yö̀kë̀rö ujtök</em></p><div class="intro-box"><h2>Iyuö́k</h2><p class="bribri">I tò éjkëpa wéjkëpa kë̀ sú̱ yö̀kë̀rö shtá̱, éna sú̱ dör wéjkëpa wë́ste ù ã iíyiwö tạ̀ ià ã. Iéjkëpa wéjkëpa, yö̀kë̀rö, ã wë́m tsá̱.</p></div><div class="desarrollo-box"><h2>Tsá̱</h2><p class="bribri">Wéjkëpa dör buaë sú̱ yö̀kë̀rö a̱. Iéjkëpa wéjkëpa wë́
+        bribri: '<h1 style="text-align:center;">Wéjkëpa kë̀ Sú̱ Yö̀kë̀rö: Dör Së́</h1><p style="text-align:center;"><em class="bribri">Costa Rica Sibö̀ wéjkëpa | Yö̀kë̀rö ujtök</em></p><div class="intro-box"><h2>Iyuö́k</h2><p class="bribri">I tò éjkëpa wéjkëpa kë̀ sú̱ yö̀kë̀rö shtá̱, éna sú̱ dör wéjkëpa wë́ste ù ã iíyiwö tạ̀ ià ã. Iéjkëpa wéjkëpa, yö̀kë̀rö, ã wë́m tsá̱.</p></div><div class="desarrollo-box"><h2>Tsá
