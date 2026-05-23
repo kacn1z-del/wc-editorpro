@@ -1,136 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>WC EditorPro Suite</title>
+<title>EditorPro SaaS AI Cloud</title>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-:root{
-  --bg:#0f172a;
-  --panel:#111c33;
-  --card:#16223f;
-  --text:#e5e7eb;
-  --accent:#3b82f6;
-  --border:#26314f;
-}
-
-[data-theme="light"]{
-  --bg:#f3f4f6;
-  --panel:#ffffff;
-  --card:#e5e7eb;
-  --text:#111827;
-  --accent:#2563eb;
-  --border:#d1d5db;
-}
-
-*{box-sizing:border-box;font-family:Arial, sans-serif;}
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  display:flex;
-  height:100vh;
+ margin:0;
+ font-family:Arial;
+ display:flex;
+ height:100vh;
+ background:#0f172a;
+ color:white;
 }
 
-/* SIDEBAR */
 .sidebar{
-  width:250px;
-  background:var(--panel);
-  padding:15px;
-  border-right:1px solid var(--border);
+ width:260px;
+ background:#111c33;
+ padding:15px;
 }
 
-.logo{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:20px;
-}
-
-.btn{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  border:none;
-  background:var(--card);
-  color:var(--text);
-  cursor:pointer;
-  border-radius:8px;
-  text-align:left;
-}
-
-.btn:hover{background:var(--accent); color:white;}
-
-/* MAIN */
-.main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-/* TOPBAR */
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px;
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
+.editor{
+ flex:1;
+ padding:20px;
+ outline:none;
+ background:#0f172a;
 }
 
 .toolbar button{
-  margin-right:5px;
-  border:none;
-  padding:8px;
-  border-radius:6px;
-  background:var(--card);
-  color:var(--text);
-  cursor:pointer;
-}
-
-.toolbar button:hover{background:var(--accent);color:white;}
-
-/* EDITOR */
-.editor{
-  flex:1;
-  padding:20px;
-  outline:none;
-  overflow:auto;
-}
-
-/* AI PANEL */
-.ai-panel{
-  position:absolute;
-  right:20px;
-  bottom:20px;
-  width:280px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:10px;
-}
-
-.ai-panel textarea{
-  width:100%;
-  height:80px;
-  background:var(--card);
-  border:none;
-  color:var(--text);
-  padding:8px;
-  border-radius:8px;
-}
-
-.ai-panel button{
-  width:100%;
-  margin-top:5px;
-  padding:8px;
-  background:var(--accent);
-  border:none;
-  color:white;
-  border-radius:8px;
-  cursor:pointer;
+ margin:3px;
+ padding:8px;
 }
 </style>
 </head>
@@ -138,96 +41,67 @@ body{
 <body>
 
 <div class="sidebar">
-  <div class="logo">🧠 EditorPro</div>
-  <button class="btn" onclick="newDoc()">📄 Nuevo</button>
-  <button class="btn" onclick="saveDoc()">💾 Guardar</button>
-  <button class="btn" onclick="loadDoc()">📂 Cargar</button>
-  <button class="btn" onclick="exportHTML()">⬇ Exportar HTML</button>
-  <button class="btn" onclick="toggleTheme()">🌙 Modo</button>
-</div>
+<h3>☁ EditorPro SaaS</h3>
 
-<div class="main">
+<button onclick="loginGoogle()">🔐 Login Google</button>
+<button onclick="saveCloud()">☁ Guardar nube</button>
+<button onclick="loadCloud()">📂 Cargar</button>
+<button onclick="saveDrive()">📁 Google Drive</button>
 
-  <div class="topbar">
-    <div class="toolbar">
-      <button onclick="cmd('bold')"><b>B</b></button>
-      <button onclick="cmd('italic')"><i>I</i></button>
-      <button onclick="cmd('underline')"><u>U</u></button>
-      <button onclick="cmd('insertUnorderedList')">• Lista</button>
-      <button onclick="cmd('justifyCenter')">Centro</button>
-      <button onclick="cmd('justifyLeft')">Izq</button>
-    </div>
-  </div>
+<hr>
 
-  <div id="editor" class="editor" contenteditable="true">
-    <h1>Bienvenido a EditorPro Suite</h1>
-    <p>Escribe aquí tu contenido...</p>
-  </div>
+<textarea id="aiPrompt" placeholder="IA prompt"></textarea>
+<button onclick="runAI()">🤖 IA</button>
 
 </div>
 
-<!-- IA PANEL -->
-<div class="ai-panel">
-  <b>IA Integrada (Beta)</b>
-  <textarea id="aiInput" placeholder="Escribe tu prompt..."></textarea>
-  <button onclick="fakeAI()">Generar</button>
+<div class="editor" contenteditable="true" id="editor">
+<h1>Documento SaaS</h1>
 </div>
 
 <script>
+let user = null;
 
-let editor = document.getElementById("editor");
-
-/* comandos editor */
-function cmd(command){
-  document.execCommand(command, false, null);
+/* ===== GOOGLE LOGIN (BASE) ===== */
+function loginGoogle(){
+  alert("Aquí se conecta Google OAuth (te lo armo en el siguiente paso completo)");
 }
 
-/* nuevo documento */
-function newDoc(){
-  editor.innerHTML = "";
+/* ===== FIREBASE PLACEHOLDER ===== */
+function saveCloud(){
+  localStorage.setItem("doc", document.getElementById("editor").innerHTML);
+  alert("Guardado local (Firebase se conecta en backend)");
 }
 
-/* guardar local */
-function saveDoc(){
-  localStorage.setItem("doc", editor.innerHTML);
-  alert("Documento guardado");
+function loadCloud(){
+  document.getElementById("editor").innerHTML = localStorage.getItem("doc");
 }
 
-/* cargar */
-function loadDoc(){
-  editor.innerHTML = localStorage.getItem("doc") || "";
+/* ===== GOOGLE DRIVE ===== */
+function saveDrive(){
+  alert("Aquí se integra Google Drive API (upload file real)");
 }
 
-/* exportar HTML */
-function exportHTML(){
-  let blob = new Blob([editor.innerHTML], {type:"text/html"});
-  let a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "documento.html";
-  a.click();
+/* ===== IA REAL ===== */
+async function runAI(){
+  let text = document.getElementById("aiPrompt").value;
+
+  let res = await fetch("https://api.openai.com/v1/chat/completions",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer TU_OPENAI_API_KEY"
+    },
+    body:JSON.stringify({
+      model:"gpt-4o-mini",
+      messages:[{role:"user",content:text}]
+    })
+  });
+
+  let data = await res.json();
+  document.getElementById("editor").innerHTML +=
+  "<p><b>IA:</b> "+data.choices[0].message.content+"</p>";
 }
-
-/* modo oscuro */
-function toggleTheme(){
-  let current = document.documentElement.getAttribute("data-theme");
-  document.documentElement.setAttribute("data-theme", current === "light" ? "dark" : "light");
-}
-
-/* IA simulada */
-function fakeAI(){
-  let input = document.getElementById("aiInput").value;
-  editor.innerHTML += `<p><b>IA:</b> ${input} → respuesta generada (conectar API aquí)</p>`;
-}
-
-/* autosave */
-setInterval(()=>{
-  localStorage.setItem("autosave", editor.innerHTML);
-}, 3000);
-
-window.onload = ()=>{
-  editor.innerHTML = localStorage.getItem("autosave") || editor.innerHTML;
-};
-
 </script>
 
 </body>
