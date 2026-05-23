@@ -6,31 +6,48 @@
 <title>WC Corporate Editor Pro</title>
 
 <style>
+
+/* =========================
+   🌈 FONDO PREMIUM
+========================= */
 body{
   margin:0;
   font-family:Arial;
-  background:#eef3f8;
+  background: linear-gradient(135deg, #1b75ed, #ff6b00);
+  min-height:100vh;
 }
 
-/* ===== TOP BAR ===== */
+/* =========================
+   🧊 TOPBAR
+========================= */
 .topbar{
-  background:#2f6fa3;
-  color:white;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
   padding:12px;
-  font-weight:bold;
   font-size:18px;
+  font-weight:bold;
+  color:#1b1b1b;
+  border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
-/* ===== RIBBON ===== */
+/* =========================
+   🎛️ RIBBON GLASS
+========================= */
 .ribbon{
-  background:rgba(47,111,163,0.9);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
   display:flex;
   flex-wrap:wrap;
-  padding:8px;
+  padding:10px;
   gap:10px;
+  border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
-/* MENU */
+/* =========================
+   📁 MENÚS
+========================= */
 .menu{
   position:relative;
 }
@@ -38,21 +55,31 @@ body{
 .menu button{
   background:white;
   border:none;
-  padding:8px 12px;
-  border-radius:6px;
+  padding:9px 14px;
+  border-radius:10px;
   font-weight:bold;
   cursor:pointer;
+  transition:0.2s;
+}
+
+.menu button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
 }
 
 .menu-content{
   display:none;
   position:absolute;
-  top:40px;
+  top:42px;
   left:0;
-  background:white;
-  min-width:180px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-  border-radius:8px;
+
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+
+  min-width:200px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  overflow:hidden;
   z-index:1000;
 }
 
@@ -61,48 +88,77 @@ body{
   text-align:left;
   padding:10px;
   border:none;
-  background:white;
+  background:transparent;
   cursor:pointer;
 }
 
 .menu-content button:hover{
-  background:#e6f0ff;
+  background:rgba(27,117,237,0.1);
 }
 
-/* show menu */
 .menu:hover .menu-content{
   display:block;
 }
 
-/* ===== EDITOR ===== */
+/* =========================
+   ✍️ EDITOR
+========================= */
 #editor{
   margin:20px;
   padding:20px;
   min-height:500px;
   background:white;
-  border-radius:10px;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
   outline:none;
 }
 
-/* ===== WC ARTE ===== */
-.wc-arte-1{color:#00e5ff;text-shadow:0 0 10px #00e5ff;font-size:26px;font-weight:bold;}
-.wc-arte-2{color:#d4af37;text-shadow:1px 1px 0 #8a6d1f;font-size:26px;font-weight:bold;}
-.wc-arte-3{color:#fff;text-shadow:3px 3px 8px rgba(0,0,0,0.6);font-size:26px;font-weight:bold;}
-.wc-arte-4{color:#1e90ff;text-shadow:2px 2px 0 #0b3d91,4px 4px 0 #062a63;font-size:26px;font-weight:bold;}
+/* =========================
+   ✨ WC ARTE
+========================= */
+.wc-arte-1{
+  color:#fff;
+  text-shadow:0 0 12px #1b75ed;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.wc-arte-2{
+  color:#fff;
+  text-shadow:0 0 10px #ffb347;
+  font-size:26px;
+  font-weight:bold;
+}
+
+.wc-arte-3{
+  color:#fff;
+  text-shadow:3px 3px 10px rgba(0,0,0,0.4);
+  font-size:26px;
+  font-weight:bold;
+}
+
+.wc-arte-4{
+  color:#fff;
+  text-shadow:0 0 15px #1b75ed, 0 0 25px #ff6b00;
+  font-size:26px;
+  font-weight:bold;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-WC CORPORATE EDITOR PRO
+WC CORPORATE EDITOR PRO + IA
 </div>
 
-<!-- ===== RIBBON ===== -->
+<!-- =========================
+     🎛️ RIBBON
+========================= -->
 <div class="ribbon">
 
-  <!-- ARCHIVO -->
+  <!-- 📁 ARCHIVO -->
   <div class="menu">
     <button>Archivo</button>
     <div class="menu-content">
@@ -112,7 +168,7 @@ WC CORPORATE EDITOR PRO
     </div>
   </div>
 
-  <!-- EDITAR -->
+  <!-- ✏️ EDITAR -->
   <div class="menu">
     <button>Editar</button>
     <div class="menu-content">
@@ -123,7 +179,7 @@ WC CORPORATE EDITOR PRO
     </div>
   </div>
 
-  <!-- FORMATO -->
+  <!-- 🎨 FORMATO -->
   <div class="menu">
     <button>Formato</button>
     <div class="menu-content">
@@ -136,17 +192,17 @@ WC CORPORATE EDITOR PRO
     </div>
   </div>
 
-  <!-- INSERTAR -->
+  <!-- ➕ INSERTAR -->
   <div class="menu">
     <button>Insertar</button>
     <div class="menu-content">
       <button onclick="insertText('📌 Nota')">Nota</button>
-      <button onclick="insertText('📷 Imagen')">Imagen placeholder</button>
+      <button onclick="insertText('📷 Imagen')">Imagen</button>
       <button onclick="insertTable()">Tabla</button>
     </div>
   </div>
 
-  <!-- WC ARTE -->
+  <!-- ✨ WC ARTE -->
   <div class="menu">
     <button>WC Arte</button>
     <div class="menu-content">
@@ -155,13 +211,13 @@ WC CORPORATE EDITOR PRO
         <option value="1">Neón azul</option>
         <option value="2">Dorado</option>
         <option value="3">Sombra</option>
-        <option value="4">3D azul</option>
+        <option value="4">Glow mixto</option>
       </select>
-      <button onclick="insertarArte()">Insertar estilo</button>
+      <button onclick="insertarArte()">Insertar</button>
     </div>
   </div>
 
-  <!-- HERRAMIENTAS -->
+  <!-- 🛠️ HERRAMIENTAS -->
   <div class="menu">
     <button>Herramientas</button>
     <div class="menu-content">
@@ -173,26 +229,35 @@ WC CORPORATE EDITOR PRO
 
 </div>
 
-<!-- EDITOR -->
+<!-- =========================
+     ✍️ EDITOR
+========================= -->
 <div id="editor" contenteditable="true">
 Escribe aquí tu documento...
 </div>
 
 <script>
+
 let zoom = 100;
 
-/* ===== BASIC COMMANDS ===== */
-function cmd(c){
-  document.execCommand(c,false,null);
+/* =========================
+   ⚙️ COMANDOS EDITOR
+========================= */
+function cmd(command){
+  document.execCommand(command,false,null);
   document.getElementById("editor").focus();
 }
 
-/* ===== INSERT TEXT ===== */
+/* =========================
+   ➕ INSERTAR TEXTO
+========================= */
 function insertText(text){
   document.execCommand("insertText", false, text);
 }
 
-/* ===== TABLE ===== */
+/* =========================
+   📊 TABLA
+========================= */
 function insertTable(){
   const table = `
   <table border="1" style="width:100%;border-collapse:collapse;">
@@ -202,53 +267,60 @@ function insertTable(){
   document.execCommand("insertHTML", false, table);
 }
 
-/* ===== WC ARTE ===== */
+/* =========================
+   ✨ WC ARTE
+========================= */
 function insertarArte(){
-  const texto=document.getElementById("textoArte").value;
-  const estilo=document.getElementById("estiloArte").value;
+  const texto = document.getElementById("textoArte").value;
+  const estilo = document.getElementById("estiloArte").value;
 
   if(!texto) return;
 
-  const span=document.createElement("span");
-  span.className="wc-arte-"+estilo;
-  span.textContent=texto;
+  const span = document.createElement("span");
+  span.className = "wc-arte-" + estilo;
+  span.textContent = texto;
 
-  const editor=document.getElementById("editor");
+  const editor = document.getElementById("editor");
   editor.appendChild(span);
   editor.appendChild(document.createElement("br"));
 }
 
-/* ===== FILE ===== */
+/* =========================
+   📁 ARCHIVO
+========================= */
 function guardar(){
-  const blob=new Blob([document.getElementById("editor").innerHTML],{type:"text/html"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="wc-documento.html";
+  const blob = new Blob([document.getElementById("editor").innerHTML], {type:"text/html"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "wc-documento.html";
   a.click();
 }
 
 function nuevo(){
-  document.getElementById("editor").innerHTML="";
+  document.getElementById("editor").innerHTML = "";
 }
 
 function imprimir(){
   window.print();
 }
 
-/* ===== HERRAMIENTAS ===== */
+/* =========================
+   🧹 HERRAMIENTAS
+========================= */
 function limpiar(){
-  document.getElementById("editor").innerHTML="";
+  document.getElementById("editor").innerHTML = "";
 }
 
 function zoomIn(){
-  zoom+=10;
-  document.getElementById("editor").style.fontSize=zoom+"%";
+  zoom += 10;
+  document.getElementById("editor").style.fontSize = zoom + "%";
 }
 
 function zoomOut(){
-  zoom-=10;
-  document.getElementById("editor").style.fontSize=zoom+"%";
+  zoom -= 10;
+  document.getElementById("editor").style.fontSize = zoom + "%";
 }
+
 </script>
 
 </body>
