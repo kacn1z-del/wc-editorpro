@@ -1,306 +1,315 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor Pro</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WC Corporate Editor v22</title>
 
 <style>
+:root{
+  --bg:#0b1220;
+  --paper:#ffffff;
+  --text:#111827;
+
+  /* 🌈 azul más suave + naranja elegante */
+  --grad: linear-gradient(90deg,#3b82f6,#fb923c);
+  --panel: rgba(15, 23, 42, 0.85);
+}
+
+/* RESET */
+*{
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial;
+}
+
 body{
   margin:0;
-  font-family:Segoe UI, Arial;
-  background:#e9edf2;
-}
-
-/* ===== TOP BAR CORPORATIVA ===== */
-.topbar{
-  background:#244c6e;
-  color:white;
+  background:var(--bg);
+  height:100vh;
   display:flex;
-  justify-content:space-between;
+  flex-direction:column;
+}
+
+/* =========================
+   🌈 TOP BAR MÁS GRANDE
+========================= */
+.topbar{
+  background:var(--grad);
+  padding:18px 20px;
+  display:flex;
   align-items:center;
-  padding:10px 15px;
-}
-
-.topbar h1{
-  font-size:15px;
-  margin:0;
-  letter-spacing:0.5px;
-}
-
-.menu button{
-  background:transparent;
-  border:none;
+  justify-content:space-between;
   color:white;
-  margin:0 5px;
-  padding:8px 10px;
-  border-radius:6px;
-  cursor:pointer;
+  font-weight:bold;
+  font-size:15px;
 }
 
-.menu button:hover{
-  background:rgba(255,255,255,0.2);
+.topbar .title{
+  font-size:16px;
 }
 
-/* ===== TOOLBAR ===== */
-.toolbar{
-  background:white;
-  padding:8px;
+.user-card{
+  background:rgba(255,255,255,0.15);
+  padding:6px 12px;
+  border-radius:10px;
+  backdrop-filter:blur(10px);
+}
+
+/* =========================
+   📌 RIBBON PRINCIPAL
+========================= */
+.ribbon{
+  background:var(--panel);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:10px 12px;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* MENÚ PRINCIPAL EN UNA FILA */
+.menu-row{
   display:flex;
   gap:8px;
-  border-bottom:1px solid #ddd;
+  flex-wrap:wrap;
 }
 
-.toolbar button{
-  border:none;
-  background:#f3f3f3;
-  padding:6px 10px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.toolbar button:hover{
-  background:#dcdcdc;
-}
-
-/* ===== LAYOUT ===== */
-.container{
-  display:flex;
-  height:calc(100vh - 105px);
-}
-
-/* SIDEBAR */
-.sidebar{
-  width:300px;
-  background:white;
-  padding:10px;
-  overflow:auto;
-  border-right:1px solid #ddd;
-}
-
-/* CARD */
-.card{
-  background:#fff;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.08);
-}
-
-.card h3{
-  margin:5px 0;
-  font-size:14px;
-}
-
-/* INPUTS */
-input,textarea,select{
-  width:100%;
-  padding:8px;
-  margin-top:5px;
-  border:1px solid #ccc;
-  border-radius:6px;
-}
-
-button.action{
-  width:100%;
-  margin-top:6px;
-  padding:8px;
-  border:none;
-  background:#244c6e;
+/* BOTÓN PRINCIPAL */
+.menu-btn{
+  background:rgba(255,255,255,0.08);
   color:white;
-  border-radius:6px;
+  border:none;
+  padding:8px 10px;
+  border-radius:8px;
   cursor:pointer;
+  font-size:13px;
 }
 
-/* EDITOR */
-.editor{
+.menu-btn:hover{
+  background:var(--grad);
+}
+
+/* =========================
+   📂 PANEL DROPDOWN GRANDE
+========================= */
+.dropdown{
+  position:relative;
+}
+
+.dropdown-content{
+  display:none;
+  position:absolute;
+  top:40px;
+  left:0;
+  background:white;
+  color:#111;
+  min-width:220px;
+  border-radius:10px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+  overflow:hidden;
+  z-index:10;
+}
+
+.dropdown:hover .dropdown-content{
+  display:block;
+}
+
+.dropdown-content div{
+  padding:10px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.dropdown-content div:hover{
+  background:#f3f4f6;
+}
+
+/* =========================
+   🧩 BLOQUE VERTICAL TRANSPARENTE
+========================= */
+.side-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:8px;
+  background:rgba(255,255,255,0.06);
+  border-radius:10px;
+  backdrop-filter:blur(8px);
+}
+
+/* =========================
+   📝 WORKSPACE
+========================= */
+.workspace{
   flex:1;
   display:flex;
   justify-content:center;
-  padding:20px;
+  padding:25px;
+  overflow:auto;
 }
 
 .page{
   width:850px;
   min-height:1100px;
-  background:white;
-  padding:50px;
+  background:var(--paper);
+  color:var(--text);
+  padding:70px;
   outline:none;
-  box-shadow:0 0 20px rgba(0,0,0,0.15);
-  border-radius:6px;
+  border-radius:8px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
 }
 
-/* STATUS */
-.status{
-  background:#244c6e;
+/* =========================
+   🤖 IA PANEL
+========================= */
+.ai{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:300px;
+  background:rgba(15,23,42,0.95);
+  border-radius:12px;
+  padding:10px;
   color:white;
-  padding:6px;
-  font-size:12px;
-  text-align:center;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-  .sidebar{display:none;}
-  .page{width:95%;}
+.ai textarea{
+  width:100%;
+  height:70px;
+  border:none;
+  border-radius:8px;
+  padding:8px;
+  background:#111827;
+  color:white;
+}
+
+.ai button{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  border:none;
+  border-radius:8px;
+  background:var(--grad);
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
+<!-- 🌈 TOP BAR GRANDE -->
 <div class="topbar">
-  <h1>📄 WC Corporate Editor Pro</h1>
-  <div class="menu">
-    <button onclick="save()">Guardar</button>
-    <button onclick="exportDoc()">Exportar</button>
-    <button onclick="voice()">🎤 Voz</button>
-    <button onclick="speak()">🔊 Leer</button>
+  <div class="title">WC Corporate Editor v22</div>
+  <div class="user-card">Hola Keny 👤</div>
+</div>
+
+<!-- 📌 RIBBON -->
+<div class="ribbon">
+
+  <!-- MENÚ EN UNA FILA -->
+  <div class="menu-row">
+
+    <div class="dropdown">
+      <button class="menu-btn">Archivo</button>
+      <div class="dropdown-content">
+        <div>Nuevo</div>
+        <div>Abrir</div>
+        <div>Guardar</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Editar</button>
+      <div class="dropdown-content">
+        <div>Deshacer</div>
+        <div>Copiar</div>
+        <div>Pegar</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Insertar</button>
+      <div class="dropdown-content">
+        <div>Imagen</div>
+        <div>Tabla</div>
+        <div>Lista</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Formato</button>
+      <div class="dropdown-content">
+        <div>Negrita</div>
+        <div>Cursiva</div>
+        <div>Subrayado</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">WC Arte</button>
+      <div class="dropdown-content">
+        <div>WordArt</div>
+        <div>Formas</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Herramientas</button>
+      <div class="dropdown-content">
+        <div>Exportar</div>
+        <div>Importar</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Desarrollador Keny Chinchilla Navarro</button>
+      <div class="dropdown-content">
+        <div>Info sistema</div>
+        <div>Versión v22</div>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="menu-btn">Ayuda</button>
+      <div class="dropdown-content">
+        <div>Soporte</div>
+        <div>Documentación</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BLOQUE VERTICAL TRANSPARENTE -->
+  <div class="side-group">
+    <button class="menu-btn">Acceso rápido</button>
+    <button class="menu-btn">Plantillas</button>
+    <button class="menu-btn">IA Tools</button>
+  </div>
+
+</div>
+
+<!-- 📝 DOCUMENTO -->
+<div class="workspace">
+  <div id="page" class="page" contenteditable="true">
+    <h1>WC Corporate Editor v22</h1>
+    <p>Editor corporativo con interfaz estilo Word profesional...</p>
   </div>
 </div>
 
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <button onclick="cmd('bold')"><b>B</b></button>
-  <button onclick="cmd('italic')"><i>I</i></button>
-  <button onclick="cmd('underline')"><u>U</u></button>
+<!-- 🤖 IA -->
+<div class="ai">
+  <b>IA Asistente</b>
+  <textarea id="ai"></textarea>
+  <button onclick="aiGen()">Generar</button>
 </div>
-
-<div class="container">
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-<div class="card">
-<h3>🧠 IA Corporativa</h3>
-<input id="ia">
-<button class="action" onclick="ai()">Enviar</button>
-<div id="iaOut"></div>
-</div>
-
-<div class="card">
-<h3>🌍 Traductor</h3>
-<textarea id="txt"></textarea>
-
-<select id="lang">
-<option value="en">ES → EN</option>
-<option value="es">EN → ES</option>
-<option value="bribri">ES → Bribri</option>
-<option value="cabecar">ES → Cabécar</option>
-</select>
-
-<button class="action" onclick="translate()">Traducir</button>
-<div id="out"></div>
-</div>
-
-<div class="card">
-<h3>📚 Diccionario</h3>
-<input id="word">
-<button class="action" onclick="dict()">Buscar</button>
-<div id="dictOut"></div>
-</div>
-
-</div>
-
-<!-- EDITOR -->
-<div class="editor">
-<div class="page" contenteditable="true" id="editor">
-Escribe tu documento en WC Corporate Editor Pro...
-</div>
-</div>
-
-</div>
-
-<div class="status">WC Corporate Editor Pro • Sistema activo</div>
 
 <script>
 
-/* ===== BASE LINGÜÍSTICA ===== */
-const db = {
-hola:{en:"hello",bribri:"sulá",cabecar:"shkö"},
-casa:{en:"house",bribri:"yë",cabecar:"yö"},
-agua:{en:"water",bribri:"itsá",cabecar:"itsá"}
-};
-
-/* ===== IA BASE ===== */
-function ai(){
-  let q=document.getElementById("ia").value;
-  document.getElementById("iaOut").innerHTML=
-  "🤖 WC IA: analizando → "+q;
-}
-
-/* ===== TRADUCTOR ===== */
-function translate(){
-  let t=document.getElementById("txt").value.toLowerCase();
-  let l=document.getElementById("lang").value;
-
-  Object.keys(db).forEach(k=>{
-    let v=db[k];
-    if(l==="en") t=t.replace(k,v.en);
-    if(l==="es") t=t.replace(v.en,k);
-    if(l==="bribri") t=t.replace(k,v.bribri);
-    if(l==="cabecar") t=t.replace(k,v.cabecar);
-  });
-
-  document.getElementById("out").innerText=t;
-}
-
-/* ===== DICCIONARIO ===== */
-function dict(){
-  let w=document.getElementById("word").value.toLowerCase();
-  let d=db[w];
-
-  document.getElementById("dictOut").innerHTML=
-  d?
-  `EN: ${d.en}<br>Bribri: ${d.bribri}<br>Cabécar: ${d.cabecar}`
-  :"No encontrado";
-}
-
-/* ===== FORMATO ===== */
-function cmd(c){
-  document.execCommand(c,false,null);
-}
-
-/* ===== GUARDAR ===== */
-function save(){
-  localStorage.setItem("wc_doc",
-  document.getElementById("editor").innerHTML);
-  alert("Documento guardado");
-}
-
-/* ===== AUTOCARGA ===== */
-window.onload=()=>{
-  let d=localStorage.getItem("wc_doc");
-  if(d)document.getElementById("editor").innerHTML=d;
-}
-
-/* ===== EXPORTAR ===== */
-function exportDoc(){
-  let blob=new Blob([document.getElementById("editor").innerHTML],
-  {type:"text/html"});
-  let a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="wc-documento.html";
-  a.click();
-}
-
-/* ===== VOZ ===== */
-function voice(){
-  let r=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
-  r.lang="es-CR";
-  r.start();
-  r.onresult=e=>{
-    document.getElementById("editor").innerText+=" "+e.results[0][0].transcript;
-  }
-}
-
-/* ===== LEER ===== */
-function speak(){
-  let s=new SpeechSynthesisUtterance(
-  document.getElementById("editor").innerText);
-  s.lang="es-CR";
-  speechSynthesis.speak(s);
+function aiGen(){
+  let t=document.getElementById("ai").value;
+  document.getElementById("page").innerHTML += "<p><b>IA:</b> "+t+"</p>";
 }
 
 </script>
