@@ -3,177 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor Pro + IA</title>
+<title>WC Corporate Editor Pro</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #eef3f8;
+body{
+  margin:0;
+  font-family:Arial;
+  background:#eef3f8;
 }
 
 /* ===== TOP BAR ===== */
-.topbar {
-  background: #2f6fa3;
-  color: white;
-  padding: 14px;
-  font-size: 18px;
-  font-weight: bold;
+.topbar{
+  background:#2f6fa3;
+  color:white;
+  padding:12px;
+  font-weight:bold;
+  font-size:18px;
 }
 
-/* ===== TOOLBAR ===== */
-.toolbar {
-  background: rgba(47, 111, 163, 0.85);
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-  gap: 8px;
+/* ===== RIBBON ===== */
+.ribbon{
+  background:rgba(47,111,163,0.9);
+  display:flex;
+  flex-wrap:wrap;
+  padding:8px;
+  gap:10px;
 }
 
-.toolbar button {
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 6px;
-  background: white;
-  font-weight: bold;
+/* MENU */
+.menu{
+  position:relative;
 }
 
-.toolbar button:hover {
-  background: #dcecff;
+.menu button{
+  background:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.menu-content{
+  display:none;
+  position:absolute;
+  top:40px;
+  left:0;
+  background:white;
+  min-width:180px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  border-radius:8px;
+  z-index:1000;
+}
+
+.menu-content button{
+  width:100%;
+  text-align:left;
+  padding:10px;
+  border:none;
+  background:white;
+  cursor:pointer;
+}
+
+.menu-content button:hover{
+  background:#e6f0ff;
+}
+
+/* show menu */
+.menu:hover .menu-content{
+  display:block;
 }
 
 /* ===== EDITOR ===== */
-#editor {
-  margin: 20px;
-  padding: 20px;
-  min-height: 500px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  outline: none;
+#editor{
+  margin:20px;
+  padding:20px;
+  min-height:500px;
+  background:white;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+  outline:none;
 }
 
-/* ===== WC ARTE STYLES ===== */
-.wc-arte-1 {
-  color: #00e5ff;
-  text-shadow: 0 0 10px #00e5ff, 0 0 20px #0099ff;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.wc-arte-2 {
-  color: #d4af37;
-  text-shadow: 1px 1px 0 #8a6d1f;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.wc-arte-3 {
-  color: #ffffff;
-  text-shadow: 3px 3px 8px rgba(0,0,0,0.6);
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.wc-arte-4 {
-  color: #1e90ff;
-  text-shadow: 2px 2px 0 #0b3d91, 4px 4px 0 #062a63;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-/* PANEL WC ARTE */
-#wcArtePanel {
-  margin: 10px 20px;
-  display: flex;
-  gap: 10px;
-}
-
-#wcArtePanel input, #wcArtePanel select {
-  padding: 8px;
-}
-
-#wcArtePanel button {
-  padding: 8px 12px;
-  border: none;
-  background: #2f6fa3;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-}
+/* ===== WC ARTE ===== */
+.wc-arte-1{color:#00e5ff;text-shadow:0 0 10px #00e5ff;font-size:26px;font-weight:bold;}
+.wc-arte-2{color:#d4af37;text-shadow:1px 1px 0 #8a6d1f;font-size:26px;font-weight:bold;}
+.wc-arte-3{color:#fff;text-shadow:3px 3px 8px rgba(0,0,0,0.6);font-size:26px;font-weight:bold;}
+.wc-arte-4{color:#1e90ff;text-shadow:2px 2px 0 #0b3d91,4px 4px 0 #062a63;font-size:26px;font-weight:bold;}
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-  WC CORPORATE EDITOR PRO + IA
+WC CORPORATE EDITOR PRO
 </div>
 
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <button onclick="cmd('bold')">Negrita</button>
-  <button onclick="cmd('italic')">Cursiva</button>
-  <button onclick="cmd('underline')">Subrayado</button>
+<!-- ===== RIBBON ===== -->
+<div class="ribbon">
 
-  <button onclick="cmd('justifyLeft')">Izquierda</button>
-  <button onclick="cmd('justifyCenter')">Centro</button>
-  <button onclick="cmd('justifyRight')">Derecha</button>
+  <!-- ARCHIVO -->
+  <div class="menu">
+    <button>Archivo</button>
+    <div class="menu-content">
+      <button onclick="guardar()">Guardar</button>
+      <button onclick="nuevo()">Nuevo</button>
+      <button onclick="imprimir()">Imprimir</button>
+    </div>
+  </div>
 
-  <button onclick="cmd('insertUnorderedList')">Lista</button>
+  <!-- EDITAR -->
+  <div class="menu">
+    <button>Editar</button>
+    <div class="menu-content">
+      <button onclick="cmd('undo')">Deshacer</button>
+      <button onclick="cmd('redo')">Rehacer</button>
+      <button onclick="cmd('copy')">Copiar</button>
+      <button onclick="cmd('paste')">Pegar</button>
+    </div>
+  </div>
 
-  <button onclick="guardar()">Guardar</button>
-</div>
+  <!-- FORMATO -->
+  <div class="menu">
+    <button>Formato</button>
+    <div class="menu-content">
+      <button onclick="cmd('bold')">Negrita</button>
+      <button onclick="cmd('italic')">Cursiva</button>
+      <button onclick="cmd('underline')">Subrayado</button>
+      <button onclick="cmd('justifyLeft')">Izquierda</button>
+      <button onclick="cmd('justifyCenter')">Centro</button>
+      <button onclick="cmd('justifyRight')">Derecha</button>
+    </div>
+  </div>
 
-<!-- WC ARTE -->
-<div id="wcArtePanel">
-  <input id="textoArte" placeholder="Escribe WC Arte">
-  <select id="estiloArte">
-    <option value="1">Neón azul</option>
-    <option value="2">Dorado</option>
-    <option value="3">Sombra</option>
-    <option value="4">3D azul</option>
-  </select>
-  <button onclick="insertarArte()">Insertar</button>
+  <!-- INSERTAR -->
+  <div class="menu">
+    <button>Insertar</button>
+    <div class="menu-content">
+      <button onclick="insertText('📌 Nota')">Nota</button>
+      <button onclick="insertText('📷 Imagen')">Imagen placeholder</button>
+      <button onclick="insertTable()">Tabla</button>
+    </div>
+  </div>
+
+  <!-- WC ARTE -->
+  <div class="menu">
+    <button>WC Arte</button>
+    <div class="menu-content">
+      <input id="textoArte" placeholder="Texto" style="width:90%;margin:5px;">
+      <select id="estiloArte" style="width:95%;margin:5px;">
+        <option value="1">Neón azul</option>
+        <option value="2">Dorado</option>
+        <option value="3">Sombra</option>
+        <option value="4">3D azul</option>
+      </select>
+      <button onclick="insertarArte()">Insertar estilo</button>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="menu">
+    <button>Herramientas</button>
+    <div class="menu-content">
+      <button onclick="limpiar()">Limpiar</button>
+      <button onclick="zoomIn()">Zoom +</button>
+      <button onclick="zoomOut()">Zoom -</button>
+    </div>
+  </div>
+
 </div>
 
 <!-- EDITOR -->
 <div id="editor" contenteditable="true">
-  Escribe aquí tu documento...
+Escribe aquí tu documento...
 </div>
 
 <script>
-function cmd(command) {
-  document.execCommand(command, false, null);
+let zoom = 100;
+
+/* ===== BASIC COMMANDS ===== */
+function cmd(c){
+  document.execCommand(c,false,null);
   document.getElementById("editor").focus();
 }
 
+/* ===== INSERT TEXT ===== */
+function insertText(text){
+  document.execCommand("insertText", false, text);
+}
+
+/* ===== TABLE ===== */
+function insertTable(){
+  const table = `
+  <table border="1" style="width:100%;border-collapse:collapse;">
+    <tr><td>Col 1</td><td>Col 2</td></tr>
+    <tr><td>Dato</td><td>Dato</td></tr>
+  </table>`;
+  document.execCommand("insertHTML", false, table);
+}
+
 /* ===== WC ARTE ===== */
-function insertarArte() {
-  const texto = document.getElementById("textoArte").value;
-  const estilo = document.getElementById("estiloArte").value;
+function insertarArte(){
+  const texto=document.getElementById("textoArte").value;
+  const estilo=document.getElementById("estiloArte").value;
 
-  if (!texto) return;
+  if(!texto) return;
 
-  const span = document.createElement("span");
-  span.className = "wc-arte-" + estilo;
-  span.textContent = texto;
+  const span=document.createElement("span");
+  span.className="wc-arte-"+estilo;
+  span.textContent=texto;
 
-  const editor = document.getElementById("editor");
+  const editor=document.getElementById("editor");
   editor.appendChild(span);
   editor.appendChild(document.createElement("br"));
 }
 
-/* ===== GUARDAR ===== */
-function guardar() {
-  const contenido = document.getElementById("editor").innerHTML;
-  const blob = new Blob([contenido], { type: "text/html" });
-
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "wc-documento.html";
+/* ===== FILE ===== */
+function guardar(){
+  const blob=new Blob([document.getElementById("editor").innerHTML],{type:"text/html"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="wc-documento.html";
   a.click();
+}
+
+function nuevo(){
+  document.getElementById("editor").innerHTML="";
+}
+
+function imprimir(){
+  window.print();
+}
+
+/* ===== HERRAMIENTAS ===== */
+function limpiar(){
+  document.getElementById("editor").innerHTML="";
+}
+
+function zoomIn(){
+  zoom+=10;
+  document.getElementById("editor").style.fontSize=zoom+"%";
+}
+
+function zoomOut(){
+  zoom-=10;
+  document.getElementById("editor").style.fontSize=zoom+"%";
 }
 </script>
 
