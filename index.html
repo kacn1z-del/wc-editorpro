@@ -7,12 +7,11 @@
 
 <style>
 
-/* 🌈 FONDO PREMIUM */
+/* 🌈 FONDO */
 body{
   margin:0;
   font-family:Arial;
   background: linear-gradient(135deg, #1b75ed, #ff6b00);
-  min-height:100vh;
 }
 
 /* 🧊 TOPBAR */
@@ -20,11 +19,10 @@ body{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   padding:12px;
-  font-size:18px;
   font-weight:bold;
 }
 
-/* 🎛️ RIBBON */
+/* 🎛️ RIBBON COMPLETO */
 .ribbon{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
@@ -44,6 +42,8 @@ body{
   font-weight:bold;
   cursor:pointer;
 }
+.menu:hover .menu-content{display:block;}
+
 .menu-content{
   display:none;
   position:absolute;
@@ -56,7 +56,6 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
   z-index:999;
 }
-.menu:hover .menu-content{display:block;}
 .menu-content button{
   width:100%;
   text-align:left;
@@ -66,7 +65,7 @@ body{
 }
 .menu-content button:hover{background:#e6f0ff;}
 
-/* 📄 HOJA A4 REAL */
+/* 📄 HOJA A4 */
 .page{
   width:210mm;
   min-height:297mm;
@@ -84,19 +83,32 @@ body{
 }
 
 /* ✨ WC ARTE */
-.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-size:26px;font-weight:bold;}
-.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-size:26px;font-weight:bold;}
-.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-size:26px;font-weight:bold;}
-.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-size:26px;font-weight:bold;}
+.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-weight:bold;font-size:26px;}
+.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-weight:bold;font-size:26px;}
+.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-weight:bold;font-size:26px;}
+.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-weight:bold;font-size:26px;}
 
-/* 🤖 IA PANEL */
-.ai-box{
-  margin:15px auto;
-  width:210mm;
-  background: rgba(255,255,255,0.8);
+/* 🤖 IA (FLOTANTE NO INVASIVA) */
+.ai-float{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:260px;
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(20px);
   padding:10px;
-  border-radius:10px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+.ai-float input{
+  width:100%;
+  padding:6px;
+}
+
+.ai-float button{
+  margin-top:5px;
+  width:100%;
 }
 </style>
 </head>
@@ -105,9 +117,10 @@ body{
 
 <div class="topbar">WC CORPORATE EDITOR PRO + IA</div>
 
-<!-- RIBBON -->
+<!-- 🎛️ RIBBON RESTAURADO COMPLETO -->
 <div class="ribbon">
 
+  <!-- ARCHIVO -->
   <div class="menu">
     <button>Archivo</button>
     <div class="menu-content">
@@ -117,6 +130,18 @@ body{
     </div>
   </div>
 
+  <!-- EDITAR -->
+  <div class="menu">
+    <button>Editar</button>
+    <div class="menu-content">
+      <button onclick="cmd('undo')">Deshacer</button>
+      <button onclick="cmd('redo')">Rehacer</button>
+      <button onclick="cmd('copy')">Copiar</button>
+      <button onclick="cmd('paste')">Pegar</button>
+    </div>
+  </div>
+
+  <!-- FORMATO -->
   <div class="menu">
     <button>Formato</button>
     <div class="menu-content">
@@ -127,6 +152,7 @@ body{
     </div>
   </div>
 
+  <!-- INSERTAR -->
   <div class="menu">
     <button>Insertar</button>
     <div class="menu-content">
@@ -135,6 +161,7 @@ body{
     </div>
   </div>
 
+  <!-- WC ARTE -->
   <div class="menu">
     <button>WC Arte</button>
     <div class="menu-content">
@@ -149,105 +176,78 @@ body{
     </div>
   </div>
 
-</div>
+  <!-- HERRAMIENTAS -->
+  <div class="menu">
+    <button>Herramientas</button>
+    <div class="menu-content">
+      <button onclick="limpiar()">Limpiar</button>
+      <button onclick="zoomIn()">Zoom +</button>
+      <button onclick="zoomOut()">Zoom -</button>
+    </div>
+  </div>
 
-<!-- 🤖 IA SIMPLE -->
-<div class="ai-box">
-  <b>IA WC (modo básico)</b><br>
-  <input id="aiInput" placeholder="Escribe una idea..." style="width:80%">
-  <button onclick="usarIA()">Generar</button>
-  <div id="aiOutput"></div>
 </div>
 
 <!-- 📄 DOCUMENTO -->
 <div class="page">
-  <div id="editor" contenteditable="true">
-    Escribe aquí tu documento...
-  </div>
+  <div id="editor" contenteditable="true">Escribe aquí...</div>
+</div>
+
+<!-- 🤖 IA FLOTANTE -->
+<div class="ai-float">
+  <b>IA WC</b>
+  <input id="aiInput" placeholder="Escribe...">
+  <button onclick="usarIA()">Generar</button>
+  <div id="aiOutput"></div>
 </div>
 
 <script>
 
-let zoom = 100;
+/* EDITOR */
+function cmd(c){document.execCommand(c,false,null);}
 
-/* ⚙️ EDITOR */
-function cmd(c){
-  document.execCommand(c,false,null);
-}
+/* INSERT */
+function insertText(t){document.execCommand("insertText",false,t);}
 
-/* ➕ TEXTO */
-function insertText(t){
-  document.execCommand("insertText",false,t);
-}
-
-/* 📊 TABLA */
 function insertTable(){
   document.execCommand("insertHTML",false,
   "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
 }
 
-/* ✨ WC ARTE EN CURSOR */
+/* WC ARTE EN CURSOR */
 function insertarArte(){
-  const texto=document.getElementById("textoArte").value;
-  const estilo=document.getElementById("estiloArte").value;
-
+  const t=document.getElementById("textoArte").value;
+  const e=document.getElementById("estiloArte").value;
   const span=document.createElement("span");
-  span.className="wc-arte-"+estilo;
-  span.textContent=texto;
-
-  insertNodeAtCursor(span);
+  span.className="wc-arte-"+e;
+  span.textContent=t;
+  insertNode(span);
 }
 
-/* 📍 INSERTAR EN CURSOR REAL */
-function insertNodeAtCursor(node){
+function insertNode(node){
   let sel=window.getSelection();
   if(!sel.rangeCount) return;
-  let range=sel.getRangeAt(0);
-  range.deleteContents();
-  range.insertNode(node);
-  range.setStartAfter(node);
-  sel.removeAllRanges();
-  sel.addRange(range);
+  let r=sel.getRangeAt(0);
+  r.deleteContents();
+  r.insertNode(node);
 }
 
-/* 💾 GUARDADO */
+/* ARCHIVO */
 function guardar(){
-  localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
-  alert("Guardado automático WC");
+  localStorage.setItem("wc",document.getElementById("editor").innerHTML);
 }
+function nuevo(){document.getElementById("editor").innerHTML="";}
+function imprimir(){window.print();}
 
-/* 📂 CARGA */
-function cargar(){
-  const data=localStorage.getItem("wc_doc");
-  if(data) document.getElementById("editor").innerHTML=data;
-}
+/* HERRAMIENTAS */
+function limpiar(){document.getElementById("editor").innerHTML="";}
+function zoomIn(){document.body.style.zoom="110%";}
+function zoomOut(){document.body.style.zoom="100%";}
 
-/* 🆕 NUEVO */
-function nuevo(){
-  document.getElementById("editor").innerHTML="";
-}
-
-/* 🖨️ IMPRIMIR */
-function imprimir(){
-  window.print();
-}
-
-/* 🤖 IA SIMULADA */
+/* IA */
 function usarIA(){
-  let txt=document.getElementById("aiInput").value;
-  document.getElementById("aiOutput").innerHTML=
-  "✨ Resultado WC IA: " + txt.toUpperCase();
-}
-
-/* 💾 AUTOSAVE */
-setInterval(()=>{
-  localStorage.setItem("wc_auto",document.getElementById("editor").innerHTML);
-},3000);
-
-/* 🔄 RESTORE AUTO */
-window.onload=()=>{
-  let data=localStorage.getItem("wc_auto");
-  if(data) document.getElementById("editor").innerHTML=data;
+  let t=document.getElementById("aiInput").value;
+  document.getElementById("aiOutput").innerHTML="Resultado: "+t;
 }
 
 </script>
