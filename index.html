@@ -3,105 +3,270 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>EditorPro SaaS AI Cloud</title>
+<title>EditorPro SaaS v2</title>
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
+:root{
+  --bg:#0b1220;
+  --panel:#111c33;
+  --card:#16223f;
+  --text:#e5e7eb;
+  --accent:#3b82f6;
+  --border:#26314f;
+  --paper:#ffffff;
+  --paperText:#111827;
+}
+
+/* RESET */
+*{box-sizing:border-box;font-family:Arial;}
 body{
- margin:0;
- font-family:Arial;
- display:flex;
- height:100vh;
- background:#0f172a;
- color:white;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  height:100vh;
+  display:flex;
 }
 
+/* SIDEBAR */
 .sidebar{
- width:260px;
- background:#111c33;
- padding:15px;
+  width:260px;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  padding:15px;
 }
 
-.editor{
- flex:1;
- padding:20px;
- outline:none;
- background:#0f172a;
+.logo{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.sidebtn{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border:none;
+  border-radius:8px;
+  background:var(--card);
+  color:var(--text);
+  cursor:pointer;
+  text-align:left;
+}
+.sidebtn:hover{background:var(--accent);}
+
+/* MAIN */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* TOPBAR (tipo Google Docs) */
+.topbar{
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .toolbar button{
- margin:3px;
- padding:8px;
+  border:none;
+  background:var(--card);
+  color:var(--text);
+  padding:7px 10px;
+  margin-right:5px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.toolbar button:hover{background:var(--accent);}
+
+/* DOCUMENT AREA (tipo Word real) */
+.doc-wrapper{
+  flex:1;
+  overflow:auto;
+  display:flex;
+  justify-content:center;
+  padding:30px;
+}
+
+.paper{
+  width:800px;
+  min-height:1000px;
+  background:var(--paper);
+  color:var(--paperText);
+  padding:60px;
+  border-radius:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  outline:none;
+}
+
+/* LOGIN */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
+}
+
+.login-box{
+  width:320px;
+  background:var(--panel);
+  padding:20px;
+  border-radius:12px;
+  border:1px solid var(--border);
+}
+
+.login-box input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border:none;
+  border-radius:6px;
+}
+
+/* AI FLOAT */
+.ai-box{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:300px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+}
+
+.ai-box textarea{
+  width:100%;
+  height:80px;
+  border:none;
+  border-radius:8px;
+  padding:8px;
+  background:var(--card);
+  color:var(--text);
+}
+
+.ai-box button{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+<div class="modal" id="loginModal">
+  <div class="login-box">
+    <h3>🔐 EditorPro Login</h3>
+    <input id="email" placeholder="Email">
+    <input id="pass" type="password" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
 <div class="sidebar">
-<h3>☁ EditorPro SaaS</h3>
+  <div class="logo">📄 EditorPro SaaS</div>
 
-<button onclick="loginGoogle()">🔐 Login Google</button>
-<button onclick="saveCloud()">☁ Guardar nube</button>
-<button onclick="loadCloud()">📂 Cargar</button>
-<button onclick="saveDrive()">📁 Google Drive</button>
+  <button class="sidebtn" onclick="newDoc()">➕ Nuevo documento</button>
+  <button class="sidebtn" onclick="saveLocal()">💾 Guardar</button>
+  <button class="sidebtn" onclick="loadLocal()">📂 Cargar</button>
+  <button class="sidebtn" onclick="exportDoc()">⬇ Exportar</button>
+</div>
 
-<hr>
+<!-- MAIN -->
+<div class="main">
 
-<textarea id="aiPrompt" placeholder="IA prompt"></textarea>
-<button onclick="runAI()">🤖 IA</button>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="toolbar">
+      <button onclick="cmd('bold')"><b>B</b></button>
+      <button onclick="cmd('italic')"><i>I</i></button>
+      <button onclick="cmd('underline')"><u>U</u></button>
+      <button onclick="cmd('insertUnorderedList')">• Lista</button>
+      <button onclick="cmd('justifyCenter')">Centro</button>
+      <button onclick="cmd('justifyLeft')">Izq</button>
+    </div>
+  </div>
+
+  <!-- DOCUMENT -->
+  <div class="doc-wrapper">
+    <div id="paper" class="paper" contenteditable="true">
+      <h1>Documento SaaS Pro</h1>
+      <p>Empieza a escribir como en Word...</p>
+    </div>
+  </div>
 
 </div>
 
-<div class="editor" contenteditable="true" id="editor">
-<h1>Documento SaaS</h1>
+<!-- AI -->
+<div class="ai-box">
+  <b>🤖 IA Assistant</b>
+  <textarea id="ai"></textarea>
+  <button onclick="ai()">Generar</button>
 </div>
 
 <script>
-let user = null;
 
-/* ===== GOOGLE LOGIN (BASE) ===== */
-function loginGoogle(){
-  alert("Aquí se conecta Google OAuth (te lo armo en el siguiente paso completo)");
+/* LOGIN SIMPLE */
+function login(){
+  document.getElementById("loginModal").style.display="none";
 }
 
-/* ===== FIREBASE PLACEHOLDER ===== */
-function saveCloud(){
-  localStorage.setItem("doc", document.getElementById("editor").innerHTML);
-  alert("Guardado local (Firebase se conecta en backend)");
+/* EDITOR COMMANDS */
+function cmd(c){
+  document.execCommand(c,false,null);
 }
 
-function loadCloud(){
-  document.getElementById("editor").innerHTML = localStorage.getItem("doc");
+/* NEW DOC */
+function newDoc(){
+  document.getElementById("paper").innerHTML="";
 }
 
-/* ===== GOOGLE DRIVE ===== */
-function saveDrive(){
-  alert("Aquí se integra Google Drive API (upload file real)");
+/* LOCAL SAVE */
+function saveLocal(){
+  localStorage.setItem("doc", document.getElementById("paper").innerHTML);
+  alert("Guardado");
 }
 
-/* ===== IA REAL ===== */
-async function runAI(){
-  let text = document.getElementById("aiPrompt").value;
-
-  let res = await fetch("https://api.openai.com/v1/chat/completions",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer TU_OPENAI_API_KEY"
-    },
-    body:JSON.stringify({
-      model:"gpt-4o-mini",
-      messages:[{role:"user",content:text}]
-    })
-  });
-
-  let data = await res.json();
-  document.getElementById("editor").innerHTML +=
-  "<p><b>IA:</b> "+data.choices[0].message.content+"</p>";
+/* LOAD */
+function loadLocal(){
+  document.getElementById("paper").innerHTML = localStorage.getItem("doc") || "";
 }
+
+/* EXPORT */
+function exportDoc(){
+  let blob = new Blob([document.getElementById("paper").innerHTML],{type:"text/html"});
+  let a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="documento.html";
+  a.click();
+}
+
+/* IA MOCK */
+function ai(){
+  let t = document.getElementById("ai").value;
+  document.getElementById("paper").innerHTML += `<p><b>IA:</b> ${t}</p>`;
+}
+
 </script>
 
 </body>
