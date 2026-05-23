@@ -213,3 +213,239 @@
     padding:10px 16px;
   }
 }
+
+/* =========================================================
+   🌈 WC CORPORATE EDITOR PRO — PREMIUM CORPORATE UI
+========================================================= */
+
+/* ===== FONDO GENERAL ===== */
+body{
+  background:
+    linear-gradient(
+      135deg,
+      #1B75ED 0%,
+      #3B82F6 25%,
+      #8B5CF6 50%,
+      #F59E8B 70%,
+      #FF6B00 100%
+    );
+
+  min-height:100vh;
+  background-attachment:fixed;
+  font-family:'Segoe UI', sans-serif;
+}
+
+
+/* =========================================================
+   🟦 RIBBON CORPORATIVO
+========================================================= */
+.ribbon{
+  background:rgba(255,255,255,0.15);
+
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.25);
+
+  border-radius:18px;
+
+  padding:16px;
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.15);
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  margin:12px;
+}
+
+
+/* =========================================================
+   📂 MENÚ SUPERIOR
+========================================================= */
+.menu{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.menu button{
+
+  background:rgba(255,255,255,0.75);
+
+  color:#1f2937;
+
+  border:none;
+
+  padding:10px 16px;
+
+  border-radius:12px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:all 0.3s ease;
+
+  backdrop-filter:blur(12px);
+}
+
+.menu button:hover{
+
+  transform:translateY(-2px);
+
+  background:white;
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.12);
+}
+
+
+/* =========================================================
+   🔘 BOTONES DEL RIBBON
+========================================================= */
+.ribbon-buttons{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.ribbon-buttons button{
+
+  background:rgba(255,255,255,0.72);
+
+  border:none;
+
+  padding:10px 14px;
+
+  border-radius:12px;
+
+  font-size:13px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  color:#1e293b;
+
+  transition:all .25s ease;
+
+  backdrop-filter:blur(10px);
+}
+
+.ribbon-buttons button:hover{
+
+  background:white;
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 6px 18px rgba(0,0,0,0.12);
+}
+
+
+/* =========================================================
+   📄 DOCUMENTO WORD STYLE
+========================================================= */
+.page{
+
+  background:rgba(255,255,255,0.92);
+
+  backdrop-filter:blur(10px);
+
+  border-radius:20px;
+
+  width:816px;
+
+  min-height:1056px;
+
+  margin:30px auto;
+
+  padding:70px;
+
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.18);
+}
+
+
+/* =========================================================
+   ✨ EDITOR
+========================================================= */
+#editor{
+
+  min-height:900px;
+
+  outline:none;
+
+  color:#1f2937;
+
+  font-size:16px;
+
+  line-height:1.8;
+}
+
+
+/* =========================================================
+   🤖 PANEL IA WC
+========================================================= */
+.ai{
+
+  position:fixed;
+
+  right:20px;
+
+  bottom:20px;
+
+  width:360px;
+
+  background:rgba(255,255,255,0.18);
+
+  backdrop-filter:blur(20px);
+
+  -webkit-backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.25);
+
+  border-radius:20px;
+
+  padding:18px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.18);
+
+  z-index:9999;
+}
+
+
+/* =========================================================
+   🟠 TITULOS
+========================================================= */
+.ribbon-title,
+.ai-title{
+
+  font-size:15px;
+
+  font-weight:700;
+
+  color:white;
+
+  text-shadow:
+    0 2px 4px rgba(0,0,0,0.15);
+}
+
+
+/* =========================================================
+   🌟 EFECTOS PREMIUM
+========================================================= */
+.glass{
+
+  background:rgba(255,255,255,0.12);
+
+  backdrop-filter:blur(20px);
+
+  border:1px solid rgba(255,255,255,0.2);
+
+  border-radius:18px;
+}
