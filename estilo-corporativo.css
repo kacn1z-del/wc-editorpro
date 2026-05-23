@@ -1,148 +1,215 @@
-:root{
-  --bg:#0f172a;
-  --panel:#0b1220;
-  --paper:#ffffff;
-  --text:#111827;
+/* =========================================================
+   🌍 WC CORPORATE EDITOR PRO — RESPONSIVE PRO EDITION
+   📱 MOBILE + 📲 TABLET + 🖥 DESKTOP SUPPORT
+   👉 PEGAR AL FINAL DE TU CSS
+========================================================= */
 
-  /* 🌈 NUEVO BRANDING */
-  --gradient: linear-gradient(135deg,#2563eb,#f97316);
-  --blue:#2563eb;
-  --orange:#f97316;
+
+/* =========================
+   📱 MOBILE (0px - 768px)
+========================= */
+@media (max-width: 768px){
+
+  /* ===== GENERAL ===== */
+  body{
+    overflow-x:hidden;
+  }
+
+  /* ===== MENÚ ===== */
+  .menu{
+    display:none;
+  }
+
+  /* ===== RIBBON ===== */
+  .ribbon{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:12px;
+    border-radius:12px;
+  }
+
+  .ribbon-title{
+    width:100%;
+    text-align:center;
+    font-size:14px;
+    font-weight:600;
+  }
+
+  /* ===== BOTONES DEL RIBBON ===== */
+  .ribbon-buttons{
+    display:flex;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:8px;
+    padding-bottom:5px;
+    scrollbar-width:none;
+  }
+
+  .ribbon-buttons::-webkit-scrollbar{
+    display:none;
+  }
+
+  .ribbon-buttons button{
+    flex:0 0 auto;
+    white-space:nowrap;
+    padding:8px 12px;
+    font-size:12px;
+    border-radius:8px;
+  }
+
+  /* ===== TOOLBAR ===== */
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  .toolbar button{
+    font-size:12px;
+    padding:8px 10px;
+  }
+
+  /* ===== DOCUMENTO ===== */
+  .page{
+    width:100%;
+    min-height:100vh;
+    padding:18px;
+    border-radius:0;
+    box-shadow:none;
+    margin:0;
+  }
+
+  /* ===== EDITOR ===== */
+  #editor{
+    font-size:15px;
+    line-height:1.6;
+  }
+
+  /* ===== IA ===== */
+  .ai{
+    width:95%;
+    right:2.5%;
+    bottom:10px;
+    max-height:40vh;
+    border-radius:14px;
+    font-size:13px;
+    overflow:auto;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar{
+    display:none;
+  }
+
+  /* ===== TABLAS ===== */
+  table{
+    display:block;
+    overflow-x:auto;
+    width:100%;
+  }
+
+  /* ===== IMÁGENES ===== */
+  img{
+    max-width:100%;
+    height:auto;
+  }
 }
 
-/* BASE */
-*{box-sizing:border-box;font-family:Segoe UI, Arial;}
 
-body{
-  margin:0;
-  background:var(--bg);
-  height:100vh;
-  display:flex;
-  flex-direction:column;
+
+/* =========================
+   📲 TABLET (769px - 1024px)
+========================= */
+@media (min-width:769px) and (max-width:1024px){
+
+  /* ===== GENERAL ===== */
+  body{
+    overflow-x:hidden;
+  }
+
+  /* ===== MENÚ ===== */
+  .menu{
+    gap:8px;
+    font-size:12px;
+  }
+
+  /* ===== RIBBON ===== */
+  .ribbon{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:14px;
+  }
+
+  .ribbon-title{
+    width:100%;
+    font-size:16px;
+    text-align:center;
+  }
+
+  /* ===== BOTONES ===== */
+  .ribbon-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .ribbon-buttons button{
+    padding:10px 14px;
+    font-size:13px;
+  }
+
+  /* ===== DOCUMENTO ===== */
+  .page{
+    width:92%;
+    padding:40px;
+    min-height:100vh;
+  }
+
+  /* ===== TOOLBAR ===== */
+  .toolbar{
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  /* ===== IA ===== */
+  .ai{
+    width:60%;
+    right:20px;
+    bottom:20px;
+    border-radius:16px;
+  }
+
+  /* ===== TABLAS ===== */
+  table{
+    width:100%;
+  }
+
+  /* ===== IMÁGENES ===== */
+  img{
+    max-width:100%;
+    height:auto;
+  }
 }
 
-/* TOP RIBBON */
-.ribbon{
-  background:var(--panel);
-  color:white;
-  padding:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:3px solid transparent;
-  border-image: var(--gradient) 1;
-}
 
-.ribbon-left{
-  font-weight:bold;
-  background:var(--gradient);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
 
-/* BOTONES TIPO WORD MODERNO */
-.ribbon-tools button{
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.1);
-  color:white;
-  padding:6px 10px;
-  margin:0 3px;
-  border-radius:6px;
-  cursor:pointer;
-  transition:.2s;
-}
+/* =========================
+   🖥 DESKTOP EXTRA LARGE
+========================= */
+@media (min-width:1400px){
 
-.ribbon-tools button:hover{
-  background:var(--gradient);
-  transform:translateY(-1px);
-}
+  .page{
+    max-width:1000px;
+  }
 
-/* AREA DE TRABAJO */
-.workspace{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  padding:30px;
-  overflow:auto;
-}
+  .ribbon{
+    padding:18px;
+  }
 
-/* HOJA WORD */
-.page{
-  width:850px;
-  min-height:1100px;
-  background:var(--paper);
-  color:var(--text);
-  padding:80px;
-  border-radius:10px;
-
-  /* sombra más SaaS */
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.4),
-    0 0 0 2px rgba(37,99,235,0.1);
-  outline:none;
-}
-
-/* STATUS BAR */
-.status{
-  background:var(--panel);
-  color:white;
-  padding:6px 10px;
-  font-size:12px;
-  display:flex;
-  justify-content:space-between;
-  border-top:2px solid transparent;
-  border-image: var(--gradient) 1;
-}
-
-/* IA PANEL */
-.ai{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  width:290px;
-
-  background:rgba(15,23,42,0.95);
-  backdrop-filter:blur(10px);
-
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:12px;
-  padding:10px;
-}
-
-.ai b{
-  background:var(--gradient);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-.ai textarea{
-  width:100%;
-  height:70px;
-  border:none;
-  padding:8px;
-  border-radius:8px;
-  background:#111827;
-  color:white;
-}
-
-.ai button{
-  width:100%;
-  margin-top:6px;
-  padding:9px;
-  border:none;
-  border-radius:8px;
-  background:var(--gradient);
-  color:white;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-/* SCROLL BAR MODERNA */
-::-webkit-scrollbar{
-  width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-  background:var(--gradient);
-  border-radius:10px;
+  .ribbon-buttons button{
+    font-size:14px;
+    padding:10px 16px;
+  }
 }
