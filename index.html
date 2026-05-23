@@ -3,30 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC EditorPro Suite ULTRA</title>
+<title>WC Corporate Editor Pro</title>
 
 <style>
-:root{
-  --azul:#2d5f86;
-  --azul2:#1e3f5c;
-  --gris:#f4f6f8;
-  --blanco:#fff;
-}
-
 body{
   margin:0;
-  font-family:Arial;
-  background:var(--gris);
+  font-family:Segoe UI, Arial;
+  background:#e9edf2;
 }
 
-/* TOP */
+/* ===== TOP BAR CORPORATIVA ===== */
 .topbar{
-  background:var(--azul);
+  background:#244c6e;
   color:white;
   display:flex;
   justify-content:space-between;
-  padding:10px;
   align-items:center;
+  padding:10px 15px;
+}
+
+.topbar h1{
+  font-size:15px;
+  margin:0;
+  letter-spacing:0.5px;
 }
 
 .menu button{
@@ -34,13 +33,40 @@ body{
   border:none;
   color:white;
   margin:0 5px;
+  padding:8px 10px;
+  border-radius:6px;
   cursor:pointer;
 }
 
-/* LAYOUT */
+.menu button:hover{
+  background:rgba(255,255,255,0.2);
+}
+
+/* ===== TOOLBAR ===== */
+.toolbar{
+  background:white;
+  padding:8px;
+  display:flex;
+  gap:8px;
+  border-bottom:1px solid #ddd;
+}
+
+.toolbar button{
+  border:none;
+  background:#f3f3f3;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.toolbar button:hover{
+  background:#dcdcdc;
+}
+
+/* ===== LAYOUT ===== */
 .container{
   display:flex;
-  height:calc(100vh - 110px);
+  height:calc(100vh - 105px);
 }
 
 /* SIDEBAR */
@@ -52,6 +78,41 @@ body{
   border-right:1px solid #ddd;
 }
 
+/* CARD */
+.card{
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card h3{
+  margin:5px 0;
+  font-size:14px;
+}
+
+/* INPUTS */
+input,textarea,select{
+  width:100%;
+  padding:8px;
+  margin-top:5px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+
+button.action{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  border:none;
+  background:#244c6e;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* EDITOR */
 .editor{
   flex:1;
   display:flex;
@@ -61,88 +122,49 @@ body{
 
 .page{
   width:850px;
-  min-height:1000px;
+  min-height:1100px;
   background:white;
-  padding:40px;
+  padding:50px;
   outline:none;
-  box-shadow:0 0 12px rgba(0,0,0,0.15);
-}
-
-/* WC BAR */
-.wcbar{
-  background:var(--azul2);
-  color:white;
-  display:flex;
-  gap:10px;
-  padding:10px;
-  flex-wrap:wrap;
-}
-
-.wcbar button{
-  background:rgba(255,255,255,0.15);
-  border:none;
-  color:white;
-  padding:8px;
-  cursor:pointer;
+  box-shadow:0 0 20px rgba(0,0,0,0.15);
   border-radius:6px;
 }
 
-/* BOX */
-.box{
-  background:#fff;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:8px;
-  box-shadow:0 0 5px rgba(0,0,0,0.1);
-}
-
-textarea,input,select{
-  width:100%;
-  margin:5px 0;
-  padding:8px;
-}
-
-button.action{
-  width:100%;
-  padding:8px;
-  background:var(--azul);
+/* STATUS */
+.status{
+  background:#244c6e;
   color:white;
-  border:none;
-  cursor:pointer;
-  border-radius:6px;
-}
-
-/* CHAT IA */
-.chat{
-  height:200px;
-  overflow:auto;
-  background:#f1f1f1;
-  padding:5px;
-  font-size:14px;
-}
-
-.msg{
-  margin:5px 0;
+  padding:6px;
+  font-size:12px;
+  text-align:center;
 }
 
 /* MOBILE */
 @media(max-width:768px){
   .sidebar{display:none;}
+  .page{width:95%;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <h2>📄 WC EditorPro ULTRA</h2>
+  <h1>📄 WC Corporate Editor Pro</h1>
   <div class="menu">
-    <button>Archivo</button>
-    <button>Editar</button>
-    <button>Insertar</button>
-    <button>Formato</button>
+    <button onclick="save()">Guardar</button>
+    <button onclick="exportDoc()">Exportar</button>
+    <button onclick="voice()">🎤 Voz</button>
+    <button onclick="speak()">🔊 Leer</button>
   </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button onclick="cmd('bold')"><b>B</b></button>
+  <button onclick="cmd('italic')"><i>I</i></button>
+  <button onclick="cmd('underline')"><u>U</u></button>
 </div>
 
 <div class="container">
@@ -150,45 +172,33 @@ button.action{
 <!-- SIDEBAR -->
 <div class="sidebar">
 
-<!-- IA -->
-<div class="box">
-<h3>🧠 IA Asistente</h3>
-<div class="chat" id="chat"></div>
-<input id="iaInput" placeholder="Preguntar a la IA...">
-<button class="action" onclick="ia()">Enviar</button>
+<div class="card">
+<h3>🧠 IA Corporativa</h3>
+<input id="ia">
+<button class="action" onclick="ai()">Enviar</button>
+<div id="iaOut"></div>
 </div>
 
-<!-- TRADUCTOR -->
-<div class="box">
+<div class="card">
 <h3>🌍 Traductor</h3>
-<textarea id="text"></textarea>
+<textarea id="txt"></textarea>
 
 <select id="lang">
 <option value="en">ES → EN</option>
 <option value="es">EN → ES</option>
 <option value="bribri">ES → Bribri</option>
 <option value="cabecar">ES → Cabécar</option>
-<option value="maleku">ES → Maleku</option>
-<option value="boruca">ES → Boruca</option>
 </select>
 
-<button class="action" onclick="traducir()">Traducir</button>
+<button class="action" onclick="translate()">Traducir</button>
 <div id="out"></div>
 </div>
 
-<!-- DICCIONARIO -->
-<div class="box">
+<div class="card">
 <h3>📚 Diccionario</h3>
 <input id="word">
-<button class="action" onclick="buscar()">Buscar</button>
-<div id="dict"></div>
-</div>
-
-<!-- VOZ -->
-<div class="box">
-<h3>🎤 Voz</h3>
-<button class="action" onclick="grabar()">Dictado por voz</button>
-<button class="action" onclick="leer()">Leer texto</button>
+<button class="action" onclick="dict()">Buscar</button>
+<div id="dictOut"></div>
 </div>
 
 </div>
@@ -196,97 +206,101 @@ button.action{
 <!-- EDITOR -->
 <div class="editor">
 <div class="page" contenteditable="true" id="editor">
-Escribe aquí tu documento...
+Escribe tu documento en WC Corporate Editor Pro...
 </div>
 </div>
 
 </div>
 
-<!-- BAR -->
-<div class="wcbar">
-<button onclick="insertText('Negrita')">Negrita</button>
-<button onclick="insertText('Título')">Título</button>
-<button onclick="insertText('Subrayado')">Subrayado</button>
-</div>
+<div class="status">WC Corporate Editor Pro • Sistema activo</div>
 
 <script>
 
-/* ===== DICCIONARIO BASE ===== */
-const dict = {
-  hola:{en:"hello",bribri:"sulá",cabecar:"shkö",maleku:"tiok",boruca:"shö"},
-  casa:{en:"house",bribri:"yë",cabecar:"yö",maleku:"tuk",boruca:"bo"},
-  agua:{en:"water",bribri:"itsá",cabecar:"itsá",maleku:"ná",boruca:"na"}
+/* ===== BASE LINGÜÍSTICA ===== */
+const db = {
+hola:{en:"hello",bribri:"sulá",cabecar:"shkö"},
+casa:{en:"house",bribri:"yë",cabecar:"yö"},
+agua:{en:"water",bribri:"itsá",cabecar:"itsá"}
 };
 
-/* ===== IA SIMPLE ===== */
-function ia(){
-  let input = document.getElementById("iaInput").value;
-  let chat = document.getElementById("chat");
-
-  let response =
-  "🤖 IA: He analizado -> " + input +
-  ". (Modo demo, se puede conectar a API real después)";
-
-  chat.innerHTML += "<div class='msg'><b>Tú:</b> "+input+"</div>";
-  chat.innerHTML += "<div class='msg'>"+response+"</div>";
+/* ===== IA BASE ===== */
+function ai(){
+  let q=document.getElementById("ia").value;
+  document.getElementById("iaOut").innerHTML=
+  "🤖 WC IA: analizando → "+q;
 }
 
 /* ===== TRADUCTOR ===== */
-function traducir(){
-  let txt = document.getElementById("text").value.toLowerCase();
-  let lang = document.getElementById("lang").value;
+function translate(){
+  let t=document.getElementById("txt").value.toLowerCase();
+  let l=document.getElementById("lang").value;
 
-  Object.keys(dict).forEach(k=>{
-    let v = dict[k];
-
-    if(lang==="en") txt = txt.replace(k,v.en);
-    if(lang==="es") txt = txt.replace(v.en,k);
-    if(lang==="bribri") txt = txt.replace(k,v.bribri);
-    if(lang==="cabecar") txt = txt.replace(k,v.cabecar);
-    if(lang==="maleku") txt = txt.replace(k,v.maleku);
-    if(lang==="boruca") txt = txt.replace(k,v.boruca);
+  Object.keys(db).forEach(k=>{
+    let v=db[k];
+    if(l==="en") t=t.replace(k,v.en);
+    if(l==="es") t=t.replace(v.en,k);
+    if(l==="bribri") t=t.replace(k,v.bribri);
+    if(l==="cabecar") t=t.replace(k,v.cabecar);
   });
 
-  document.getElementById("out").innerText = txt;
+  document.getElementById("out").innerText=t;
 }
 
 /* ===== DICCIONARIO ===== */
-function buscar(){
-  let w = document.getElementById("word").value.toLowerCase();
-  let d = dict[w];
+function dict(){
+  let w=document.getElementById("word").value.toLowerCase();
+  let d=db[w];
 
-  if(d){
-    document.getElementById("dict").innerHTML =
-    "EN: "+d.en+"<br>Bribri: "+d.bribri+
-    "<br>Cabécar: "+d.cabecar+
-    "<br>Maleku: "+d.maleku+
-    "<br>Boruca: "+d.boruca;
-  }else{
-    document.getElementById("dict").innerText="No encontrado";
-  }
+  document.getElementById("dictOut").innerHTML=
+  d?
+  `EN: ${d.en}<br>Bribri: ${d.bribri}<br>Cabécar: ${d.cabecar}`
+  :"No encontrado";
+}
+
+/* ===== FORMATO ===== */
+function cmd(c){
+  document.execCommand(c,false,null);
+}
+
+/* ===== GUARDAR ===== */
+function save(){
+  localStorage.setItem("wc_doc",
+  document.getElementById("editor").innerHTML);
+  alert("Documento guardado");
+}
+
+/* ===== AUTOCARGA ===== */
+window.onload=()=>{
+  let d=localStorage.getItem("wc_doc");
+  if(d)document.getElementById("editor").innerHTML=d;
+}
+
+/* ===== EXPORTAR ===== */
+function exportDoc(){
+  let blob=new Blob([document.getElementById("editor").innerHTML],
+  {type:"text/html"});
+  let a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="wc-documento.html";
+  a.click();
 }
 
 /* ===== VOZ ===== */
-function grabar(){
-  let rec = new(window.SpeechRecognition||window.webkitSpeechRecognition)();
-  rec.lang="es-CR";
-  rec.start();
-
-  rec.onresult=function(e){
-    document.getElementById("editor").innerText += " "+e.results[0][0].transcript;
+function voice(){
+  let r=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
+  r.lang="es-CR";
+  r.start();
+  r.onresult=e=>{
+    document.getElementById("editor").innerText+=" "+e.results[0][0].transcript;
   }
 }
 
-function leer(){
-  let text = document.getElementById("editor").innerText;
-  let speech = new SpeechSynthesisUtterance(text);
-  speech.lang="es-CR";
-  speechSynthesis.speak(speech);
-}
-
-/* ===== INSERTAR TEXTO ===== */
-function insertText(t){
-  document.getElementById("editor").innerText += " ["+t+"] ";
+/* ===== LEER ===== */
+function speak(){
+  let s=new SpeechSynthesisUtterance(
+  document.getElementById("editor").innerText);
+  s.lang="es-CR";
+  speechSynthesis.speak(s);
 }
 
 </script>
