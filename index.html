@@ -3,19 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>WC Corporate Editor v20</title>
+<title>WC Corporate Editor v21</title>
 
 <style>
 :root{
-  --paper:#ffffff;
-  --text:#111827;
+  --paper:#fff;
   --bg:#0b1220;
-  --dark:#0f172a;
-
+  --text:#111;
   --grad: linear-gradient(90deg,#2563eb,#f97316);
 }
 
-*{box-sizing:border-box;font-family:Segoe UI, Arial;}
+*{box-sizing:border-box;font-family:Segoe UI;}
 
 body{
   margin:0;
@@ -25,78 +23,79 @@ body{
   flex-direction:column;
 }
 
-/* TOP HEADER */
-.topbar{
+/* ===== RIBBON GRANDE ===== */
+.ribbon{
   background:var(--grad);
   color:white;
-  padding:10px 15px;
+  padding:12px 15px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* TITULO */
+.ribbon-title{
   font-weight:bold;
+  margin-right:20px;
+  white-space:nowrap;
 }
 
-.title{
-  font-size:15px;
+/* DROPDOWN */
+.dropdown{
+  position:relative;
 }
 
-.subtitle{
-  font-size:12px;
-  opacity:0.9;
-}
-
-/* MENU BAR */
-.menu{
-  background:#0f172a;
+.dropbtn{
+  background:rgba(255,255,255,0.15);
+  border:none;
   color:white;
-  display:flex;
-  gap:18px;
-  padding:8px 15px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
   font-size:13px;
 }
 
-.menu div{
+.dropbtn:hover{
+  background:rgba(255,255,255,0.3);
+}
+
+/* MENU OCULTO */
+.dropdown-content{
+  display:none;
+  position:absolute;
+  top:40px;
+  left:0;
+  background:white;
+  color:#111;
+  min-width:180px;
+  border-radius:8px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  overflow:hidden;
+  z-index:10;
+}
+
+.dropdown-content div{
+  padding:10px;
   cursor:pointer;
-  padding:5px 8px;
-  border-radius:6px;
+  font-size:13px;
 }
 
-.menu div:hover{
-  background:rgba(255,255,255,0.08);
+.dropdown-content div:hover{
+  background:#f3f4f6;
 }
 
-/* WORKSPACE */
-.workspace{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  padding:30px;
-  overflow:auto;
+/* mostrar dropdown */
+.dropdown:hover .dropdown-content{
+  display:block;
 }
 
-/* DOCUMENT */
-.page{
-  width:850px;
-  min-height:1100px;
-  background:var(--paper);
-  color:var(--text);
-  padding:70px;
-  outline:none;
-  border-radius:6px;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.5),
-    0 0 0 1px rgba(0,0,0,0.05);
-}
-
-/* TOOLBAR SIMPLE */
+/* TOOLBAR SECUNDARIA */
 .toolbar{
-  background:#111c33;
+  background:#0f172a;
   padding:8px;
   display:flex;
   gap:6px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .toolbar button{
@@ -112,6 +111,26 @@ body{
   background:var(--grad);
 }
 
+/* AREA DOCUMENTO */
+.workspace{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  padding:30px;
+  overflow:auto;
+}
+
+.page{
+  width:850px;
+  min-height:1100px;
+  background:var(--paper);
+  color:var(--text);
+  padding:70px;
+  outline:none;
+  border-radius:6px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+
 /* STATUS */
 .status{
   background:#0f172a;
@@ -120,7 +139,6 @@ body{
   padding:6px 12px;
   display:flex;
   justify-content:space-between;
-  border-top:1px solid rgba(255,255,255,0.08);
 }
 
 /* AI */
@@ -130,15 +148,9 @@ body{
   bottom:20px;
   width:290px;
   background:#0f172a;
-  border:1px solid rgba(255,255,255,0.1);
   border-radius:12px;
   padding:10px;
-}
-
-.ai b{
-  background:var(--grad);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  border:1px solid rgba(255,255,255,0.1);
 }
 
 .ai textarea{
@@ -146,9 +158,9 @@ body{
   height:70px;
   border:none;
   border-radius:8px;
-  padding:8px;
   background:#111827;
   color:white;
+  padding:8px;
 }
 
 .ai button{
@@ -159,29 +171,85 @@ body{
   border-radius:8px;
   background:var(--grad);
   color:white;
-  cursor:pointer;
-  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR CORPORATIVO -->
-<div class="topbar">
-  <div class="title">WC Corporate Editor v20</div>
-  <div class="subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</div>
-</div>
+<!-- RIBBON GRANDE -->
+<div class="ribbon">
 
-<!-- MENÚ TIPO WORD -->
-<div class="menu">
-  <div>Archivo</div>
-  <div>Editar</div>
-  <div>Insertar</div>
-  <div>WC Arte</div>
-  <div>Herramientas</div>
-  <div>Desarrollador Keny Chinchilla Navarro</div>
-  <div>Ayuda</div>
+  <div class="ribbon-title">WC Corporate Editor v21</div>
+
+  <!-- ARCHIVO -->
+  <div class="dropdown">
+    <button class="dropbtn">Archivo</button>
+    <div class="dropdown-content">
+      <div onclick="save()">Guardar</div>
+      <div onclick="load()">Abrir</div>
+      <div onclick="newDoc()">Nuevo</div>
+    </div>
+  </div>
+
+  <!-- EDITAR -->
+  <div class="dropdown">
+    <button class="dropbtn">Editar</button>
+    <div class="dropdown-content">
+      <div onclick="cmd('bold')">Negrita</div>
+      <div onclick="cmd('italic')">Cursiva</div>
+      <div onclick="cmd('underline')">Subrayado</div>
+    </div>
+  </div>
+
+  <!-- INSERTAR -->
+  <div class="dropdown">
+    <button class="dropbtn">Insertar</button>
+    <div class="dropdown-content">
+      <div onclick="cmd('insertUnorderedList')">Lista</div>
+      <div onclick="cmd('insertParagraph')">Párrafo</div>
+    </div>
+  </div>
+
+  <!-- WC ARTE -->
+  <div class="dropdown">
+    <button class="dropbtn">WC Arte</button>
+    <div class="dropdown-content">
+      <div>WordArt básico</div>
+      <div>Formas</div>
+      <div>Estilos WC</div>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="dropdown">
+    <button class="dropbtn">Herramientas</button>
+    <div class="dropdown-content">
+      <div>Exportar</div>
+      <div>Importar</div>
+      <div>Modo oscuro</div>
+    </div>
+  </div>
+
+  <!-- DESARROLLADOR -->
+  <div class="dropdown">
+    <button class="dropbtn">Desarrollador Keny Chinchilla Navarro</button>
+    <div class="dropdown-content">
+      <div>Info sistema</div>
+      <div>Versión v21</div>
+    </div>
+  </div>
+
+  <!-- AYUDA -->
+  <div class="dropdown">
+    <button class="dropbtn">Ayuda</button>
+    <div class="dropdown-content">
+      <div>Documentación</div>
+      <div>Atajos</div>
+      <div>Soporte</div>
+    </div>
+  </div>
+
 </div>
 
 <!-- TOOLBAR -->
@@ -189,28 +257,25 @@ body{
   <button onclick="cmd('bold')"><b>B</b></button>
   <button onclick="cmd('italic')"><i>I</i></button>
   <button onclick="cmd('underline')"><u>U</u></button>
-  <button onclick="cmd('insertUnorderedList')">Lista</button>
-  <button onclick="save()">💾</button>
-  <button onclick="load()">📂</button>
 </div>
 
 <!-- WORKSPACE -->
 <div class="workspace">
   <div id="page" class="page" contenteditable="true">
-    <h1>WC Corporate Editor v20</h1>
-    <p>Documento ejecutivo listo para edición profesional...</p>
+    <h1>WC Corporate Editor v21</h1>
+    <p>Ribbon estilo Word corporativo listo...</p>
   </div>
 </div>
 
 <!-- STATUS -->
 <div class="status">
   <div>Estado: listo</div>
-  <div>Modo Corporativo Activo</div>
+  <div>Modo WC Corporate activo</div>
 </div>
 
-<!-- IA -->
+<!-- AI -->
 <div class="ai">
-  <b>IA Asistente</b>
+  <b>IA</b>
   <textarea id="ai"></textarea>
   <button onclick="aiGen()">Generar</button>
 </div>
@@ -222,19 +287,23 @@ function cmd(c){
 }
 
 function save(){
-  localStorage.setItem("wc_doc", document.getElementById("page").innerHTML);
+  localStorage.setItem("wc", document.getElementById("page").innerHTML);
 }
 
 function load(){
-  document.getElementById("page").innerHTML = localStorage.getItem("wc_doc") || "";
+  document.getElementById("page").innerHTML = localStorage.getItem("wc") || "";
+}
+
+function newDoc(){
+  document.getElementById("page").innerHTML = "";
 }
 
 function aiGen(){
-  let t = document.getElementById("ai").value;
+  let t=document.getElementById("ai").value;
   document.getElementById("page").innerHTML += "<p><b>IA:</b> "+t+"</p>";
 }
 
-setInterval(()=>save(),3000);
+setInterval(save,3000);
 window.onload=load;
 
 </script>
