@@ -1,248 +1,65 @@
-/* =========================================================
-   🌍 WC CORPORATE EDITOR PRO — RESPONSIVE PRO EDITION
-   📱 MOBILE + 📲 TABLET + 🖥 DESKTOP SUPPORT
-   👉 PEGAR AL FINAL DE TU CSS
-========================================================= */
+from pathlib import Path
 
-
-/* =========================
-   📱 MOBILE (0px - 768px)
-========================= */
-@media (max-width: 768px){
-
-  /* ===== GENERAL ===== */
-  body{
-    overflow-x:hidden;
-  }
-
-  /* ===== MENÚ ===== */
-  .menu{
-    display:none;
-  }
-
-  /* ===== RIBBON ===== */
-  .ribbon{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding:12px;
-    border-radius:12px;
-  }
-
-  .ribbon-title{
-    width:100%;
-    text-align:center;
-    font-size:14px;
-    font-weight:600;
-  }
-
-  /* ===== BOTONES DEL RIBBON ===== */
-  .ribbon-buttons{
-    display:flex;
-    flex-wrap:nowrap;
-    overflow-x:auto;
-    gap:8px;
-    padding-bottom:5px;
-    scrollbar-width:none;
-  }
-
-  .ribbon-buttons::-webkit-scrollbar{
-    display:none;
-  }
-
-  .ribbon-buttons button{
-    flex:0 0 auto;
-    white-space:nowrap;
-    padding:8px 12px;
-    font-size:12px;
-    border-radius:8px;
-  }
-
-  /* ===== TOOLBAR ===== */
-  .toolbar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-  }
-
-  .toolbar button{
-    font-size:12px;
-    padding:8px 10px;
-  }
-
-  /* ===== DOCUMENTO ===== */
-  .page{
-    width:100%;
-    min-height:100vh;
-    padding:18px;
-    border-radius:0;
-    box-shadow:none;
-    margin:0;
-  }
-
-  /* ===== EDITOR ===== */
-  #editor{
-    font-size:15px;
-    line-height:1.6;
-  }
-
-  /* ===== IA ===== */
-  .ai{
-    width:95%;
-    right:2.5%;
-    bottom:10px;
-    max-height:40vh;
-    border-radius:14px;
-    font-size:13px;
-    overflow:auto;
-  }
-
-  /* ===== SIDEBAR ===== */
-  .sidebar{
-    display:none;
-  }
-
-  /* ===== TABLAS ===== */
-  table{
-    display:block;
-    overflow-x:auto;
-    width:100%;
-  }
-
-  /* ===== IMÁGENES ===== */
-  img{
-    max-width:100%;
-    height:auto;
-  }
-}
-
-
-
-/* =========================
-   📲 TABLET (769px - 1024px)
-========================= */
-@media (min-width:769px) and (max-width:1024px){
-
-  /* ===== GENERAL ===== */
-  body{
-    overflow-x:hidden;
-  }
-
-  /* ===== MENÚ ===== */
-  .menu{
-    gap:8px;
-    font-size:12px;
-  }
-
-  /* ===== RIBBON ===== */
-  .ribbon{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    padding:14px;
-  }
-
-  .ribbon-title{
-    width:100%;
-    font-size:16px;
-    text-align:center;
-  }
-
-  /* ===== BOTONES ===== */
-  .ribbon-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-  }
-
-  .ribbon-buttons button{
-    padding:10px 14px;
-    font-size:13px;
-  }
-
-  /* ===== DOCUMENTO ===== */
-  .page{
-    width:92%;
-    padding:40px;
-    min-height:100vh;
-  }
-
-  /* ===== TOOLBAR ===== */
-  .toolbar{
-    flex-wrap:wrap;
-    gap:8px;
-  }
-
-  /* ===== IA ===== */
-  .ai{
-    width:60%;
-    right:20px;
-    bottom:20px;
-    border-radius:16px;
-  }
-
-  /* ===== TABLAS ===== */
-  table{
-    width:100%;
-  }
-
-  /* ===== IMÁGENES ===== */
-  img{
-    max-width:100%;
-    height:auto;
-  }
-}
-
-
-
-/* =========================
-   🖥 DESKTOP EXTRA LARGE
-========================= */
-@media (min-width:1400px){
-
-  .page{
-    max-width:1000px;
-  }
-
-  .ribbon{
-    padding:18px;
-  }
-
-  .ribbon-buttons button{
-    font-size:14px;
-    padding:10px 16px;
-  }
-}
+css = r'''
 
 /* =========================================================
-   🌈 WC CORPORATE EDITOR PRO — PREMIUM CORPORATE UI
+
+   WC CORPORATE EDITOR PRO — CONSOLIDATED PREMIUM CSS
+
+   Compatible con:
+
+   .ribbon / .ms-ribbon
+
+   .menu / .ms-tabs
+
 ========================================================= */
 
 /* ===== FONDO GENERAL ===== */
+
 body{
+
   background:
+
     linear-gradient(
+
       135deg,
+
       #1B75ED 0%,
+
       #3B82F6 25%,
+
       #8B5CF6 50%,
+
       #F59E8B 70%,
+
       #FF6B00 100%
+
     );
 
   min-height:100vh;
+
   background-attachment:fixed;
+
   font-family:'Segoe UI', sans-serif;
+
+  overflow-x:hidden;
+
 }
 
-
 /* =========================================================
-   🟦 RIBBON CORPORATIVO
+
+   🟦 RIBBON
+
 ========================================================= */
-.ribbon{
+
+.ribbon,
+
+.ms-ribbon{
+
   background:rgba(255,255,255,0.15);
 
   backdrop-filter:blur(20px);
+
   -webkit-backdrop-filter:blur(20px);
 
   border:1px solid rgba(255,255,255,0.25);
@@ -252,26 +69,42 @@ body{
   padding:16px;
 
   box-shadow:
+
     0 8px 32px rgba(0,0,0,0.15);
 
   display:flex;
+
   align-items:center;
+
   gap:12px;
 
   margin:12px;
-}
 
+}
 
 /* =========================================================
+
    📂 MENÚ SUPERIOR
+
 ========================================================= */
-.menu{
+
+.menu,
+
+.ms-tabs{
+
   display:flex;
+
   align-items:center;
+
   gap:18px;
+
+  flex-wrap:wrap;
+
 }
 
-.menu button{
+.menu button,
+
+.ms-tabs button{
 
   background:rgba(255,255,255,0.75);
 
@@ -290,26 +123,37 @@ body{
   transition:all 0.3s ease;
 
   backdrop-filter:blur(12px);
+
 }
 
-.menu button:hover{
+.menu button:hover,
+
+.ms-tabs button:hover{
 
   transform:translateY(-2px);
 
   background:white;
 
   box-shadow:
+
     0 6px 18px rgba(0,0,0,0.12);
+
 }
 
-
 /* =========================================================
-   🔘 BOTONES DEL RIBBON
+
+   🔘 BOTONES
+
 ========================================================= */
+
 .ribbon-buttons{
+
   display:flex;
+
   gap:10px;
+
   flex-wrap:wrap;
+
 }
 
 .ribbon-buttons button{
@@ -333,22 +177,15 @@ body{
   transition:all .25s ease;
 
   backdrop-filter:blur(10px);
+
 }
-
-.ribbon-buttons button:hover{
-
-  background:white;
-
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 6px 18px rgba(0,0,0,0.12);
-}
-
 
 /* =========================================================
-   📄 DOCUMENTO WORD STYLE
+
+   📄 DOCUMENTO
+
 ========================================================= */
+
 .page{
 
   background:rgba(255,255,255,0.92);
@@ -366,13 +203,17 @@ body{
   padding:70px;
 
   box-shadow:
+
     0 12px 40px rgba(0,0,0,0.18);
+
 }
 
-
 /* =========================================================
+
    ✨ EDITOR
+
 ========================================================= */
+
 #editor{
 
   min-height:900px;
@@ -384,12 +225,15 @@ body{
   font-size:16px;
 
   line-height:1.8;
+
 }
 
-
 /* =========================================================
-   🤖 PANEL IA WC
+
+   🤖 IA
+
 ========================================================= */
+
 .ai{
 
   position:fixed;
@@ -404,8 +248,6 @@ body{
 
   backdrop-filter:blur(20px);
 
-  -webkit-backdrop-filter:blur(20px);
-
   border:1px solid rgba(255,255,255,0.25);
 
   border-radius:20px;
@@ -413,39 +255,95 @@ body{
   padding:18px;
 
   box-shadow:
+
     0 10px 35px rgba(0,0,0,0.18);
 
   z-index:9999;
-}
 
+}
 
 /* =========================================================
-   🟠 TITULOS
+
+   📱 MOBILE
+
 ========================================================= */
-.ribbon-title,
-.ai-title{
 
-  font-size:15px;
+@media (max-width:768px){
 
-  font-weight:700;
+  .menu,
 
-  color:white;
+  .ms-tabs{
 
-  text-shadow:
-    0 2px 4px rgba(0,0,0,0.15);
+    display:none;
+
+  }
+
+  .ribbon,
+
+  .ms-ribbon{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+  }
+
+  .page{
+
+    width:100%;
+
+    min-height:100vh;
+
+    padding:18px;
+
+    border-radius:0;
+
+    margin:0;
+
+  }
+
+  .ai{
+
+    width:95%;
+
+    right:2.5%;
+
+    bottom:10px;
+
+  }
+
 }
-
 
 /* =========================================================
-   🌟 EFECTOS PREMIUM
+
+   📲 TABLET
+
 ========================================================= */
-.glass{
 
-  background:rgba(255,255,255,0.12);
+@media (min-width:769px) and (max-width:1024px){
 
-  backdrop-filter:blur(20px);
+  .page{
 
-  border:1px solid rgba(255,255,255,0.2);
+    width:92%;
 
-  border-radius:18px;
+    padding:40px;
+
+  }
+
+  .menu,
+
+  .ms-tabs{
+
+    gap:10px;
+
+  }
+
 }
+
+'''
+
+path = Path("/mnt/data/wc-corporate-editor-pro-consolidado.css")
+
+path.write_text(css, encoding="utf-8")
+
+print(f"Archivo generado: {path}")
