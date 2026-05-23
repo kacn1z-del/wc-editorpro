@@ -7,9 +7,7 @@
 
 <style>
 
-/* =========================
-   🌈 FONDO PREMIUM
-========================= */
+/* 🌈 FONDO PREMIUM */
 body{
   margin:0;
   font-family:Arial;
@@ -17,41 +15,27 @@ body{
   min-height:100vh;
 }
 
-/* =========================
-   🧊 TOPBAR
-========================= */
+/* 🧊 TOPBAR */
 .topbar{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   padding:12px;
   font-size:18px;
   font-weight:bold;
-  color:#1b1b1b;
-  border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
-/* =========================
-   🎛️ RIBBON GLASS
-========================= */
+/* 🎛️ RIBBON */
 .ribbon{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
   display:flex;
   flex-wrap:wrap;
   padding:10px;
   gap:10px;
-  border-bottom:1px solid rgba(0,0,0,0.1);
 }
 
-/* =========================
-   📁 MENÚS
-========================= */
-.menu{
-  position:relative;
-}
-
+/* MENÚ */
+.menu{position:relative;}
 .menu button{
   background:white;
   border:none;
@@ -59,106 +43,71 @@ body{
   border-radius:10px;
   font-weight:bold;
   cursor:pointer;
-  transition:0.2s;
 }
-
-.menu button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 18px rgba(0,0,0,0.15);
-}
-
 .menu-content{
   display:none;
   position:absolute;
   top:42px;
   left:0;
-
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(20px);
-
   min-width:200px;
   border-radius:12px;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  overflow:hidden;
-  z-index:1000;
+  z-index:999;
 }
-
+.menu:hover .menu-content{display:block;}
 .menu-content button{
   width:100%;
   text-align:left;
   padding:10px;
   border:none;
   background:transparent;
-  cursor:pointer;
 }
+.menu-content button:hover{background:#e6f0ff;}
 
-.menu-content button:hover{
-  background:rgba(27,117,237,0.1);
-}
-
-.menu:hover .menu-content{
-  display:block;
-}
-
-/* =========================
-   ✍️ EDITOR
-========================= */
-#editor{
-  margin:20px;
-  padding:20px;
-  min-height:500px;
+/* 📄 HOJA A4 REAL */
+.page{
+  width:210mm;
+  min-height:297mm;
   background:white;
-  border-radius:12px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  margin:20px auto;
+  padding:20mm;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  border-radius:8px;
+}
+
+/* ✍️ EDITOR */
+#editor{
+  min-height:250mm;
   outline:none;
 }
 
-/* =========================
-   ✨ WC ARTE
-========================= */
-.wc-arte-1{
-  color:#fff;
-  text-shadow:0 0 12px #1b75ed;
-  font-size:26px;
-  font-weight:bold;
-}
+/* ✨ WC ARTE */
+.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-size:26px;font-weight:bold;}
+.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-size:26px;font-weight:bold;}
+.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-size:26px;font-weight:bold;}
+.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-size:26px;font-weight:bold;}
 
-.wc-arte-2{
-  color:#fff;
-  text-shadow:0 0 10px #ffb347;
-  font-size:26px;
-  font-weight:bold;
+/* 🤖 IA PANEL */
+.ai-box{
+  margin:15px auto;
+  width:210mm;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(20px);
+  padding:10px;
+  border-radius:10px;
 }
-
-.wc-arte-3{
-  color:#fff;
-  text-shadow:3px 3px 10px rgba(0,0,0,0.4);
-  font-size:26px;
-  font-weight:bold;
-}
-
-.wc-arte-4{
-  color:#fff;
-  text-shadow:0 0 15px #1b75ed, 0 0 25px #ff6b00;
-  font-size:26px;
-  font-weight:bold;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-WC CORPORATE EDITOR PRO + IA
-</div>
+<div class="topbar">WC CORPORATE EDITOR PRO + IA</div>
 
-<!-- =========================
-     🎛️ RIBBON
-========================= -->
+<!-- RIBBON -->
 <div class="ribbon">
 
-  <!-- 📁 ARCHIVO -->
   <div class="menu">
     <button>Archivo</button>
     <div class="menu-content">
@@ -168,157 +117,137 @@ WC CORPORATE EDITOR PRO + IA
     </div>
   </div>
 
-  <!-- ✏️ EDITAR -->
-  <div class="menu">
-    <button>Editar</button>
-    <div class="menu-content">
-      <button onclick="cmd('undo')">Deshacer</button>
-      <button onclick="cmd('redo')">Rehacer</button>
-      <button onclick="cmd('copy')">Copiar</button>
-      <button onclick="cmd('paste')">Pegar</button>
-    </div>
-  </div>
-
-  <!-- 🎨 FORMATO -->
   <div class="menu">
     <button>Formato</button>
     <div class="menu-content">
       <button onclick="cmd('bold')">Negrita</button>
       <button onclick="cmd('italic')">Cursiva</button>
       <button onclick="cmd('underline')">Subrayado</button>
-      <button onclick="cmd('justifyLeft')">Izquierda</button>
       <button onclick="cmd('justifyCenter')">Centro</button>
-      <button onclick="cmd('justifyRight')">Derecha</button>
     </div>
   </div>
 
-  <!-- ➕ INSERTAR -->
   <div class="menu">
     <button>Insertar</button>
     <div class="menu-content">
-      <button onclick="insertText('📌 Nota')">Nota</button>
-      <button onclick="insertText('📷 Imagen')">Imagen</button>
+      <button onclick="insertText('📌 Nota ')">Nota</button>
       <button onclick="insertTable()">Tabla</button>
     </div>
   </div>
 
-  <!-- ✨ WC ARTE -->
   <div class="menu">
     <button>WC Arte</button>
     <div class="menu-content">
-      <input id="textoArte" placeholder="Texto" style="width:90%;margin:5px;">
-      <select id="estiloArte" style="width:95%;margin:5px;">
-        <option value="1">Neón azul</option>
+      <input id="textoArte" placeholder="Texto">
+      <select id="estiloArte">
+        <option value="1">Neón</option>
         <option value="2">Dorado</option>
         <option value="3">Sombra</option>
-        <option value="4">Glow mixto</option>
+        <option value="4">Glow</option>
       </select>
       <button onclick="insertarArte()">Insertar</button>
     </div>
   </div>
 
-  <!-- 🛠️ HERRAMIENTAS -->
-  <div class="menu">
-    <button>Herramientas</button>
-    <div class="menu-content">
-      <button onclick="limpiar()">Limpiar</button>
-      <button onclick="zoomIn()">Zoom +</button>
-      <button onclick="zoomOut()">Zoom -</button>
-    </div>
-  </div>
-
 </div>
 
-<!-- =========================
-     ✍️ EDITOR
-========================= -->
-<div id="editor" contenteditable="true">
-Escribe aquí tu documento...
+<!-- 🤖 IA SIMPLE -->
+<div class="ai-box">
+  <b>IA WC (modo básico)</b><br>
+  <input id="aiInput" placeholder="Escribe una idea..." style="width:80%">
+  <button onclick="usarIA()">Generar</button>
+  <div id="aiOutput"></div>
+</div>
+
+<!-- 📄 DOCUMENTO -->
+<div class="page">
+  <div id="editor" contenteditable="true">
+    Escribe aquí tu documento...
+  </div>
 </div>
 
 <script>
 
 let zoom = 100;
 
-/* =========================
-   ⚙️ COMANDOS EDITOR
-========================= */
-function cmd(command){
-  document.execCommand(command,false,null);
-  document.getElementById("editor").focus();
+/* ⚙️ EDITOR */
+function cmd(c){
+  document.execCommand(c,false,null);
 }
 
-/* =========================
-   ➕ INSERTAR TEXTO
-========================= */
-function insertText(text){
-  document.execCommand("insertText", false, text);
+/* ➕ TEXTO */
+function insertText(t){
+  document.execCommand("insertText",false,t);
 }
 
-/* =========================
-   📊 TABLA
-========================= */
+/* 📊 TABLA */
 function insertTable(){
-  const table = `
-  <table border="1" style="width:100%;border-collapse:collapse;">
-    <tr><td>Col 1</td><td>Col 2</td></tr>
-    <tr><td>Dato</td><td>Dato</td></tr>
-  </table>`;
-  document.execCommand("insertHTML", false, table);
+  document.execCommand("insertHTML",false,
+  "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
 }
 
-/* =========================
-   ✨ WC ARTE
-========================= */
+/* ✨ WC ARTE EN CURSOR */
 function insertarArte(){
-  const texto = document.getElementById("textoArte").value;
-  const estilo = document.getElementById("estiloArte").value;
+  const texto=document.getElementById("textoArte").value;
+  const estilo=document.getElementById("estiloArte").value;
 
-  if(!texto) return;
+  const span=document.createElement("span");
+  span.className="wc-arte-"+estilo;
+  span.textContent=texto;
 
-  const span = document.createElement("span");
-  span.className = "wc-arte-" + estilo;
-  span.textContent = texto;
-
-  const editor = document.getElementById("editor");
-  editor.appendChild(span);
-  editor.appendChild(document.createElement("br"));
+  insertNodeAtCursor(span);
 }
 
-/* =========================
-   📁 ARCHIVO
-========================= */
+/* 📍 INSERTAR EN CURSOR REAL */
+function insertNodeAtCursor(node){
+  let sel=window.getSelection();
+  if(!sel.rangeCount) return;
+  let range=sel.getRangeAt(0);
+  range.deleteContents();
+  range.insertNode(node);
+  range.setStartAfter(node);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+/* 💾 GUARDADO */
 function guardar(){
-  const blob = new Blob([document.getElementById("editor").innerHTML], {type:"text/html"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "wc-documento.html";
-  a.click();
+  localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
+  alert("Guardado automático WC");
 }
 
+/* 📂 CARGA */
+function cargar(){
+  const data=localStorage.getItem("wc_doc");
+  if(data) document.getElementById("editor").innerHTML=data;
+}
+
+/* 🆕 NUEVO */
 function nuevo(){
-  document.getElementById("editor").innerHTML = "";
+  document.getElementById("editor").innerHTML="";
 }
 
+/* 🖨️ IMPRIMIR */
 function imprimir(){
   window.print();
 }
 
-/* =========================
-   🧹 HERRAMIENTAS
-========================= */
-function limpiar(){
-  document.getElementById("editor").innerHTML = "";
+/* 🤖 IA SIMULADA */
+function usarIA(){
+  let txt=document.getElementById("aiInput").value;
+  document.getElementById("aiOutput").innerHTML=
+  "✨ Resultado WC IA: " + txt.toUpperCase();
 }
 
-function zoomIn(){
-  zoom += 10;
-  document.getElementById("editor").style.fontSize = zoom + "%";
-}
+/* 💾 AUTOSAVE */
+setInterval(()=>{
+  localStorage.setItem("wc_auto",document.getElementById("editor").innerHTML);
+},3000);
 
-function zoomOut(){
-  zoom -= 10;
-  document.getElementById("editor").style.fontSize = zoom + "%";
+/* 🔄 RESTORE AUTO */
+window.onload=()=>{
+  let data=localStorage.getItem("wc_auto");
+  if(data) document.getElementById("editor").innerHTML=data;
 }
 
 </script>
