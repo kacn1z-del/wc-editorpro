@@ -3,166 +3,115 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>EditorPro SaaS v2</title>
+<title>EditorPro - Word Mode</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
 :root{
-  --bg:#0b1220;
-  --panel:#111c33;
-  --card:#16223f;
-  --text:#e5e7eb;
-  --accent:#3b82f6;
-  --border:#26314f;
+  --bg:#1e1e1e;
+  --panel:#2b2b2b;
+  --toolbar:#333333;
   --paper:#ffffff;
-  --paperText:#111827;
+  --text:#111;
+  --accent:#2b579a;
 }
 
-/* RESET */
-*{box-sizing:border-box;font-family:Arial;}
+*{box-sizing:border-box;font-family:Segoe UI, Arial;}
+
 body{
   margin:0;
   background:var(--bg);
-  color:var(--text);
   height:100vh;
-  display:flex;
-}
-
-/* SIDEBAR */
-.sidebar{
-  width:260px;
-  background:var(--panel);
-  border-right:1px solid var(--border);
-  padding:15px;
-}
-
-.logo{
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:15px;
-}
-
-.sidebtn{
-  width:100%;
-  padding:10px;
-  margin:6px 0;
-  border:none;
-  border-radius:8px;
-  background:var(--card);
-  color:var(--text);
-  cursor:pointer;
-  text-align:left;
-}
-.sidebtn:hover{background:var(--accent);}
-
-/* MAIN */
-.main{
-  flex:1;
   display:flex;
   flex-direction:column;
 }
 
-/* TOPBAR (tipo Google Docs) */
-.topbar{
-  height:50px;
+/* TOP WORD RIBBON */
+.ribbon{
+  background:var(--panel);
+  color:white;
+  padding:8px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 10px;
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:10;
 }
 
-.toolbar button{
+.ribbon-left{
+  font-weight:bold;
+}
+
+.ribbon-tools button{
+  background:var(--toolbar);
   border:none;
-  background:var(--card);
-  color:var(--text);
-  padding:7px 10px;
-  margin-right:5px;
-  border-radius:6px;
+  color:white;
+  padding:6px 10px;
+  margin:0 2px;
+  border-radius:4px;
   cursor:pointer;
 }
-.toolbar button:hover{background:var(--accent);}
 
-/* DOCUMENT AREA (tipo Word real) */
-.doc-wrapper{
-  flex:1;
-  overflow:auto;
-  display:flex;
-  justify-content:center;
-  padding:30px;
+.ribbon-tools button:hover{
+  background:var(--accent);
 }
 
-.paper{
-  width:800px;
-  min-height:1000px;
+/* MAIN AREA */
+.workspace{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+  overflow:auto;
+}
+
+/* WORD PAGE */
+.page{
+  width:820px;
+  min-height:1100px;
   background:var(--paper);
-  color:var(--paperText);
-  padding:60px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  color:var(--text);
+  padding:80px;
+  box-shadow:0 0 20px rgba(0,0,0,.4);
   outline:none;
 }
 
-/* LOGIN */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:100;
-}
-
-.login-box{
-  width:320px;
+/* STATUS BAR */
+.status{
   background:var(--panel);
-  padding:20px;
-  border-radius:12px;
-  border:1px solid var(--border);
+  color:white;
+  padding:6px 10px;
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
 }
 
-.login-box input{
-  width:100%;
-  padding:10px;
-  margin:6px 0;
-  border:none;
-  border-radius:6px;
-}
-
-/* AI FLOAT */
-.ai-box{
+/* AI BOX */
+.ai{
   position:fixed;
   right:20px;
   bottom:20px;
-  width:300px;
+  width:280px;
   background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
+  color:white;
+  border-radius:10px;
   padding:10px;
 }
 
-.ai-box textarea{
+.ai textarea{
   width:100%;
-  height:80px;
+  height:70px;
   border:none;
-  border-radius:8px;
-  padding:8px;
-  background:var(--card);
-  color:var(--text);
+  padding:6px;
+  border-radius:6px;
 }
 
-.ai-box button{
+.ai button{
   width:100%;
-  margin-top:6px;
+  margin-top:5px;
   padding:8px;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   background:var(--accent);
   color:white;
   cursor:pointer;
@@ -172,100 +121,86 @@ body{
 
 <body>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-  <div class="login-box">
-    <h3>🔐 EditorPro Login</h3>
-    <input id="email" placeholder="Email">
-    <input id="pass" type="password" placeholder="Contraseña">
-    <button onclick="login()">Entrar</button>
+<!-- WORD RIBBON -->
+<div class="ribbon">
+  <div class="ribbon-left">📄 EditorPro Word Mode</div>
+
+  <div class="ribbon-tools">
+    <button onclick="cmd('bold')"><b>B</b></button>
+    <button onclick="cmd('italic')"><i>I</i></button>
+    <button onclick="cmd('underline')"><u>U</u></button>
+    <button onclick="cmd('insertUnorderedList')">• Lista</button>
+    <button onclick="cmd('justifyLeft')">Izq</button>
+    <button onclick="cmd('justifyCenter')">Centro</button>
+    <button onclick="save()">💾</button>
+    <button onclick="load()">📂</button>
+    <button onclick="exportDoc()">⬇</button>
   </div>
 </div>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="logo">📄 EditorPro SaaS</div>
-
-  <button class="sidebtn" onclick="newDoc()">➕ Nuevo documento</button>
-  <button class="sidebtn" onclick="saveLocal()">💾 Guardar</button>
-  <button class="sidebtn" onclick="loadLocal()">📂 Cargar</button>
-  <button class="sidebtn" onclick="exportDoc()">⬇ Exportar</button>
+<!-- EDITOR -->
+<div class="workspace">
+  <div id="page" class="page" contenteditable="true">
+    <h1>Título del documento</h1>
+    <p>Escribe aquí como en Microsoft Word...</p>
+  </div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
-
-  <!-- TOPBAR -->
-  <div class="topbar">
-    <div class="toolbar">
-      <button onclick="cmd('bold')"><b>B</b></button>
-      <button onclick="cmd('italic')"><i>I</i></button>
-      <button onclick="cmd('underline')"><u>U</u></button>
-      <button onclick="cmd('insertUnorderedList')">• Lista</button>
-      <button onclick="cmd('justifyCenter')">Centro</button>
-      <button onclick="cmd('justifyLeft')">Izq</button>
-    </div>
-  </div>
-
-  <!-- DOCUMENT -->
-  <div class="doc-wrapper">
-    <div id="paper" class="paper" contenteditable="true">
-      <h1>Documento SaaS Pro</h1>
-      <p>Empieza a escribir como en Word...</p>
-    </div>
-  </div>
-
+<!-- STATUS -->
+<div class="status">
+  <div>Estado: listo</div>
+  <div>Word Mode - EditorPro</div>
 </div>
 
 <!-- AI -->
-<div class="ai-box">
+<div class="ai">
   <b>🤖 IA Assistant</b>
-  <textarea id="ai"></textarea>
+  <textarea id="aiText"></textarea>
   <button onclick="ai()">Generar</button>
 </div>
 
 <script>
 
-/* LOGIN SIMPLE */
-function login(){
-  document.getElementById("loginModal").style.display="none";
-}
-
-/* EDITOR COMMANDS */
+/* COMMANDS */
 function cmd(c){
   document.execCommand(c,false,null);
 }
 
-/* NEW DOC */
-function newDoc(){
-  document.getElementById("paper").innerHTML="";
-}
-
-/* LOCAL SAVE */
-function saveLocal(){
-  localStorage.setItem("doc", document.getElementById("paper").innerHTML);
+/* SAVE */
+function save(){
+  localStorage.setItem("worddoc", document.getElementById("page").innerHTML);
   alert("Guardado");
 }
 
 /* LOAD */
-function loadLocal(){
-  document.getElementById("paper").innerHTML = localStorage.getItem("doc") || "";
+function load(){
+  document.getElementById("page").innerHTML =
+    localStorage.getItem("worddoc") || "";
 }
 
 /* EXPORT */
 function exportDoc(){
-  let blob = new Blob([document.getElementById("paper").innerHTML],{type:"text/html"});
+  let blob = new Blob([document.getElementById("page").innerHTML], {type:"text/html"});
   let a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download="documento.html";
+  a.download="documento-word.html";
   a.click();
 }
 
 /* IA MOCK */
 function ai(){
-  let t = document.getElementById("ai").value;
-  document.getElementById("paper").innerHTML += `<p><b>IA:</b> ${t}</p>`;
+  let t=document.getElementById("aiText").value;
+  document.getElementById("page").innerHTML += `<p><b>IA:</b> ${t}</p>`;
 }
+
+/* AUTOSAVE */
+setInterval(()=>{
+  localStorage.setItem("worddoc", document.getElementById("page").innerHTML);
+},3000);
+
+window.onload=()=>{
+  load();
+};
 
 </script>
 
