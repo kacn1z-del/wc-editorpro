@@ -10,6 +10,7 @@
   --bg-tab-active: #ffffff;
   --text-tab-active: #0f172a;
   --border-color: #cbd5e1;
+  --dark-dropdown-bg: #111827; /* Fondo oscuro elegante para los desplegables */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -68,52 +69,112 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .font-bar::-webkit-scrollbar { display: none; }
 .font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
 
-/* 🏛️ MENÚ SUPERIOR FIJO INFERIOR - HERRAMIENTAS CORPORATIVAS */
+/* LIENZO DE TRABAJO */
+.workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; }
+.paper { width: 100%; max-width: 650px; background: white; min-height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 40px; border-radius: 6px; outline: none; line-height: 1.6; }
+
+/* 🏛️ MENÚ SUPERIOR FIJO INFERIOR - BARRA DE ACCESO LIMPIA */
 .corporate-ribbon-dock {
-  background: rgba(255, 255, 255, 0.92);
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-color);
-  padding: 10px 14px;
+  padding: 12px 16px;
   display: flex;
-  gap: 18px;
-  overflow-x: auto;
+  justify-content: center;
+  align-items: center;
   flex-shrink: 0;
   box-shadow: 0 -4px 14px rgba(0,0,0,0.06);
-  scrollbar-width: none;
+  z-index: 1000;
 }
-.corporate-ribbon-dock::-webkit-scrollbar { display: none; }
-.ribbon-group { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #e2e8f0; padding-right: 14px; gap: 6px; }
-.ribbon-group:last-child { border-right: none; padding-right: 0; }
-.group-row { display: flex; gap: 5px; align-items: center; }
-.group-label { font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* BOTONES DE FORMATO */
-.icon-btn {
-  background: white; border: 1px solid var(--border-color);
-  width: 34px; height: 34px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 600; cursor: pointer; color: #334155; transition: 0.15s;
+/* BOTÓN DISPARADOR PRINCIPAL */
+.trigger-menu-btn {
+  background: var(--bg-gradient);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(146, 50, 79, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-.icon-btn:active { background: #e2e8f0; transform: scale(0.95); }
-.icon-btn-large { width: auto; padding: 0 12px; font-size: 12px; gap: 4px; }
+.trigger-menu-btn:active {
+  transform: scale(0.96);
+}
+
+/* 📂 MENÚ DESPLEGABLE POPUP (HACIA ARRIBA) al estilo Oscuro Corporativo */
+.dropdown-up-panel {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--dark-dropdown-bg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  width: 92%;
+  max-width: 440px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-bottom: 10px;
+}
+.dropdown-up-panel.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* FILAS Y GRUPOS INTERNOS DEL DESPLEGABLE */
+.ribbon-group { display: flex; flex-direction: column; gap: 6px; }
+.group-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.group-label { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+
+/* SEPARADOR SUTIL EN EL MENÚ OSCURO */
+.dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2px 0;
+}
+
+/* BOTONES DE ACCIÓN DENTRO DEL DESPLEGABLE */
+.icon-btn {
+  background: rgba(255, 255, 255, 0.08); 
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 38px; height: 38px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; cursor: pointer; color: #f8fafc; transition: 0.15s;
+}
+.icon-btn:active { background: rgba(255, 255, 255, 0.2); transform: scale(0.95); }
+.icon-btn-large { width: auto; padding: 0 14px; font-size: 12px; gap: 6px; height: 38px; border-radius: 8px; }
 .icon-btn-mic.recording { background: #ef4444 !important; color: white !important; animation: pulse 1.5s infinite; }
 
-/* 🎨 PALETA INTEGRADA DE ACCIÓN DIRECTA (RETIENE EL FOCO) */
+/* 🎨 CONTENEDOR DE LA PALETA FLUIDA */
 .corporate-palette-container {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: #f1f5f9;
-  padding: 4px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .palette-btn {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   cursor: pointer;
   transition: transform 0.1s ease;
   padding: 0;
@@ -121,29 +182,25 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .palette-btn:active { transform: scale(0.8); }
 
-/* Selector cromático nativo avanzado */
+/* Selector cromático circular nativo */
 .native-color-wrapper {
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   background: conic-gradient(red, yellow, green, cyan, blue, magenta, red);
 }
 .native-color-picker {
   position: absolute;
   top: -5px; left: -5px;
-  width: 34px; height: 34px;
+  width: 38px; height: 38px;
   opacity: 0;
   cursor: pointer;
 }
 
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
-
-/* LIENZO DE TRABAJO */
-.workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; }
-.paper { width: 100%; max-width: 650px; background: white; min-height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 40px; border-radius: 6px; outline: none; line-height: 1.6; }
 
 /* BARRA DE ESTADO INFERIOR */
 .footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
@@ -221,50 +278,64 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 
   <div class="corporate-ribbon-dock">
     
-    <div class="ribbon-group">
-      <div class="group-row">
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
+    <div class="dropdown-up-panel" id="corporateDropdown">
+      
+      <div class="ribbon-group">
+        <div class="group-label" id="lblG1">Fuente</div>
+        <div class="group-row">
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
+        </div>
       </div>
-      <div class="group-label" id="lblG1">Fuente</div>
-    </div>
 
-    <div class="ribbon-group">
-      <div class="group-row">
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyLeft')">⟨=</button>
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyCenter')">=⌵=</button>
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyRight')">=⟩</button>
+      <div class="dropdown-divider"></div>
+
+      <div class="ribbon-group">
+        <div class="group-label" id="lblG2">Párrafo</div>
+        <div class="group-row">
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyLeft')">⟨=</button>
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyCenter')">=⌵=</button>
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyRight')">=⟩</button>
+        </div>
       </div>
-      <div class="group-label" id="lblG2">Párrafo</div>
-    </div>
 
-    <div class="ribbon-group">
-      <div class="group-row">
-        <div class="corporate-palette-container">
-          <button class="palette-btn" style="background: #1d5270;" onmousedown="event.preventDefault(); execCmd('foreColor', '#1d5270')"></button>
-          <button class="palette-btn" style="background: #92324f;" onmousedown="event.preventDefault(); execCmd('foreColor', '#92324f')"></button>
-          <button class="palette-btn" style="background: #d94e18;" onmousedown="event.preventDefault(); execCmd('foreColor', '#d94e18')"></button>
-          <button class="palette-btn" style="background: #0f172a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#0f172a')"></button>
-          <button class="palette-btn" style="background: #16a34a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#16a34a')"></button>
-          
-          <div class="native-color-wrapper">
-            <input type="color" class="native-color-picker" id="chromaPicker" oninput="execCmd('foreColor', this.value)">
+      <div class="dropdown-divider"></div>
+
+      <div class="ribbon-group">
+        <div class="group-label" id="lblGColor">Paleta Corporativa</div>
+        <div class="group-row">
+          <div class="corporate-palette-container">
+            <button class="palette-btn" style="background: #1d5270;" onmousedown="event.preventDefault(); execCmd('foreColor', '#1d5270')"></button>
+            <button class="palette-btn" style="background: #92324f;" onmousedown="event.preventDefault(); execCmd('foreColor', '#92324f')"></button>
+            <button class="palette-btn" style="background: #d94e18;" onmousedown="event.preventDefault(); execCmd('foreColor', '#d94e18')"></button>
+            <button class="palette-btn" style="background: #0f172a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#0f172a')"></button>
+            <button class="palette-btn" style="background: #16a34a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#16a34a')"></button>
+            
+            <div class="native-color-wrapper">
+              <input type="color" class="native-color-picker" id="chromaPicker" oninput="execCmd('foreColor', this.value)">
+            </div>
           </div>
         </div>
       </div>
-      <div class="group-label" id="lblGColor">Herramientas Corporativas</div>
+
+      <div class="dropdown-divider"></div>
+
+      <div class="ribbon-group">
+        <div class="group-label" id="lblG3">Flujo</div>
+        <div class="group-row">
+          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('insertUnorderedList')">•=</button>
+          <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
+            🎙️ <span id="lblMic">Dictar</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <div class="ribbon-group">
-      <div class="group-row">
-        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('insertUnorderedList')">•=</button>
-        <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
-          🎙️ <span id="lblMic">Dictar</span>
-        </button>
-      </div>
-      <div class="group-label" id="lblG3">Flujo</div>
-    </div>
+    <button class="trigger-menu-btn" onclick="toggleCorporateMenu(event)">
+      💼 <span id="lblMainTriggerBtn">Herramientas Corporativas</span> ▾
+    </button>
 
   </div>
 
@@ -286,11 +357,28 @@ let currentLang = 'es';
 let recognition = null;
 let isRecording = false;
 
+// Manejo del menú desplegable hacia arriba
+function toggleCorporateMenu(event) {
+  event.stopPropagation();
+  const dropdown = document.getElementById('corporateDropdown');
+  dropdown.classList.toggle('show');
+}
+
+// Cerrar el menú si se hace clic fuera de él en el lienzo
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('corporateDropdown');
+  const trigger = document.querySelector('.trigger-menu-btn');
+  if (dropdown && !dropdown.contains(e.target) && e.target !== trigger) {
+    dropdown.classList.remove('show');
+  }
+});
+
 const translationsDb = {
   es: {
     eco: "Ecosistema Activo: Español 🇨🇷", hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
-    g1: "Fuente", g2: "Párrafo", gColor: "Herramientas Corporativas", g3: "Flujo", micStart: "Dictar", micStop: "Grabando...",
+    g1: "Fuente", g2: "Párrafo", gColor: "Paleta Corporativa", g3: "Flujo", micStart: "Dictar", micStop: "Grabando...",
+    mainTrigger: "Herramientas Corporativas",
     tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
       inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
@@ -309,7 +397,8 @@ const translationsDb = {
   en: {
     eco: "Active Ecosystem: English 🇺🇸", hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
-    g1: "Font", g2: "Paragraph", gColor: "Corporate Tools", g3: "Workflow", micStart: "Dictate", micStop: "Listening...",
+    g1: "Font", g2: "Paragraph", gColor: "Corporate Palette", g3: "Workflow", micStart: "Dictate", micStop: "Listening...",
+    mainTrigger: "Corporate Tools",
     tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
       inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
@@ -329,6 +418,7 @@ const translationsDb = {
     eco: "Ecosistema Activo: Bribri pakö 🌱", hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
     g1: "Ká̱ jë", g2: "Ujtëk já̱", gColor: "Herramientas Sán", g3: "Flujo", micStart: "Pakö", micStop: "Katö...",
+    mainTrigger: "Herramientas Sán",
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
       inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
@@ -348,6 +438,7 @@ const translationsDb = {
     eco: "Ecosistema Activo: Cabécar jula 🐾", hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
     g1: "Jula", g2: "Márgenes", gColor: "Ká Corporate", g3: "Flujo", micStart: "Jula pak", micStop: "Sáwá...",
+    mainTrigger: "Ká Corporate Tools",
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
       inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
@@ -536,6 +627,7 @@ function switchEcosystem(lang) {
   document.getElementById('lblGColor').textContent = db.gColor;
   document.getElementById('lblG3').textContent = db.g3;
   document.getElementById('lblMic').textContent = isRecording ? db.micStop : db.micStart;
+  document.getElementById('lblMainTriggerBtn').textContent = db.mainTrigger;
 
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`l-${lang}`).classList.add('active');
