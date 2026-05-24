@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Word Mode</title>
+<title>WC Corporate Editor v20 - Multi-Device Word Mode</title>
 <style>
 /* ── PALETA DE COLORES Y VARIABLES PREMIUM ── */
 :root {
@@ -66,24 +66,27 @@ body {
 .win-btn { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); }
 .win-btn.close:hover { background: #ef4444; }
 
-/* ── BARRA DE MENÚS DESPLEGABLES COMPLETOS DE WORD ── */
+/* ── BARRA DE MENÚS (RESPONSIVA DESLIZABLE) ── */
 .menu-bar {
   height: 36px; background-color: #0b1120;
   display: flex; align-items: center; padding: 0 12px; gap: 4px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: relative; z-index: 500;
+  overflow-x: auto; white-space: nowrap;
 }
+.menu-bar::-webkit-scrollbar { display: none; } /* Ocultar barra de scroll feia en móvil */
 .menu-btn {
   padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
-  color: #cbd5e1; cursor: pointer; transition: 0.2s;
+  color: #cbd5e1; cursor: pointer; transition: 0.2s; inline-size: max-content;
 }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.06); color: white; }
 
+/* Menús Desplegables flotantes */
 .dropdown-menu {
   position: absolute; top: 34px; width: 280px;
   background: var(--glass-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-radius: 10px; border: 1px solid var(--glass-border);
   box-shadow: 0 20px 45px rgba(0,0,0,0.6); padding: 6px; display: none; flex-direction: column; gap: 1px;
-  z-index: 999;
+  z-index: 999; white-space: normal;
 }
 .dropdown-menu.show { display: flex; }
 
@@ -101,13 +104,17 @@ body {
 #menu-insertar { left: 144px; }
 #menu-formato { left: 212px; }
 
-/* ── CINTA O RIBBON DE HERRAMIENTAS RÁPIDAS ── */
+/* ── CINTA O RIBBON DE HERRAMIENTAS (DESLIZABLE EN MÓVIL) ── */
 .ribbon {
   background-color: var(--ribbon-bg); border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 6px 16px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; overflow-x: auto;
+  padding: 6px 16px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; 
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
 }
-.ribbon-group { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.01); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); }
-.ribbon-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.08); }
+.ribbon::-webkit-scrollbar { height: 4px; }
+.ribbon::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+.ribbon-group { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.01); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); flex-shrink: 0; }
+.ribbon-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
 
 .btn-paste-large { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
 .btn-paste-large:hover { background: rgba(255,255,255,0.05); }
@@ -118,23 +125,23 @@ body {
 .tool-icon-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; color: #cbd5e1; }
 .tool-icon-btn:hover { background: rgba(255,255,255,0.08); color: white; }
 
-.style-box-container { display: flex; gap: 4px; }
+.style-box-container { display: flex; gap: 4px; flex-shrink: 0; }
 .style-item-card { padding: 4px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500; }
 .style-item-card.active { background: rgba(59,130,246,0.15); border-color: #3b82f6; color: #60a5fa; }
 
 /* ── ÁREA DE TRABAJO PRINCIPAL ── */
-.workspace { display: flex; flex: 1; overflow: hidden; background-color: #080d16; }
+.workspace { display: flex; flex: 1; overflow: hidden; background-color: #080d16; position: relative; }
 
-/* Barra Lateral Izquierda */
+/* Barra Lateral Izquierda (Documentos) */
 .sidebar-left {
   width: 220px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04);
-  display: flex; flex-direction: column; padding: 14px; gap: 14px; flex-shrink: 0;
+  display: flex; flex-direction: column; padding: 14px; gap: 14px; flex-shrink: 0; transition: 0.3s;
 }
 .sb-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 .doc-item-link { padding: 7px 10px; border-radius: 6px; font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 .doc-item-link.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
 
-/* ── INTERFAZ DE HOJA CON REGLAS Y MÁRGENES DE WORD ── */
+/* ── ENTORNO DE TRABAJO DEL LIENZO ── */
 .canvas-outer {
   flex: 1; background-color: #0e1626; display: flex; flex-direction: column; overflow: hidden; position: relative;
 }
@@ -142,48 +149,47 @@ body {
   height: 20px; background: #16223f; border-bottom: 1px solid rgba(255,255,255,0.05);
   display: flex; align-items: center; padding-left: 110px; font-size: 9px; color: #64748b; letter-spacing: 14px; overflow: hidden; pointer-events: none;
 }
-.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; position: relative; }
+.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; position: relative; width: 100%; }
 
 .ruler-vertical {
   width: 20px; background: #16223f; border-right: 1px solid rgba(255,255,255,0.05);
   display: flex; flex-direction: column; align-items: center; padding-top: 110px; font-size: 9px; color: #64748b; line-height: 3.1; overflow: hidden; pointer-events: none; position: absolute; left: 0; top: 0; bottom: 0; z-index: 10;
 }
 
-.canvas-container { flex: 1; display: flex; justify-content: center; padding: 40px; min-width: 850px; }
+.canvas-container { flex: 1; display: flex; justify-content: center; padding: 40px; width: 100%; }
 
-/* ── ÁREA EXCLUSIVA PARA DIGITAR (HOJA BLANCA CON MÁRGENES REALES) ── */
+/* ── LA HOJA INTELIGENTE DE TRABAJO (MÁRGENES ADAPTABLES NATIVOS) ── */
 .paper {
   width: 100%; max-width: 780px; min-height: 1020px; background: white; color: #1e293b;
   border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.45); position: relative;
   outline: none;
   
-  /* Márgenes Físicos Configurables de un documento Word (Padding interno) */
+  /* Configuración base para computadoras */
   padding: 95px 110px;
   font-size: 14px; line-height: 1.6;
   text-align: left;
   word-wrap: break-word;
 }
 
-/* Delimitadores Visuales de Margen (Líneas guía sutiles al estilo Word) */
+/* Guías visuales de márgenes */
 .paper::before {
   content: ""; position: absolute; top: 95px; bottom: 95px; left: 110px; right: 110px;
-  border: 1px dashed rgba(37, 99, 235, 0.04); pointer-events: none;
+  border: 1px dashed rgba(37, 99, 235, 0.04); pointer-events: none; transition: 0.2s;
 }
 
-/* Línea vertical decorativa de marca */
 .paper-decor-line { position: absolute; left: 45px; top: 95px; bottom: 95px; width: 4px; background: #ea580c; border-radius: 2px; pointer-events: none; }
 
 .paper h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
 .paper h2 { font-size: 13px; color: #ea580c; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 24px; text-transform: uppercase; }
 .paper p { margin-bottom: 14px; color: #334155; text-align: justify; }
 
-/* Estilos de tablas dinámicas insertadas */
+/* Estilos de tablas */
 .paper table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
 .paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
 .paper th { background-color: #f1f5f9; font-weight: bold; }
 
 /* ── BARRA LATERAL DERECHA (IA ASISTENTE) ── */
-.sidebar-ai { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; }
+.sidebar-ai { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; transition: 0.3s; }
 .ai-title { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .ai-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.1); }
 .ai-tab-btn { flex: 1; text-align: center; padding: 8px 0; font-size: 11px; color: var(--text-muted); cursor: pointer; }
@@ -204,11 +210,11 @@ body {
 .st-right-section { margin-left: auto; display: flex; align-items: center; gap: 12px; color: #10b981; }
 .st-pulse-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
 
-/* Ventanas Modales */
+/* Ventanas Modales y Toasts */
 .wcarte-modal {
   position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
   background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
-  padding: 20px; width: 325px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000;
+  padding: 20px; width: 320px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000;
   display: none; flex-direction: column; gap: 12px;
 }
 .wcarte-modal.open { display: flex; }
@@ -221,6 +227,35 @@ body {
   opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; border: 1px solid rgba(255,255,255,0.1);
 }
 #toast.visible { opacity: 1; }
+
+/* ── 📱 SECCIÓN ULTRA RESPONSIVA (MEDIA QUERIES) ── */
+
+/* Reglas para Tablets (Pantallas medianas) */
+@media (max-width: 1024px) {
+  .sidebar-left, .sidebar-ai { display: none; } /* Ocultamos barras laterales para ganar espacio */
+  .canvas-container { padding: 20px; min-width: auto; }
+  .paper { padding: 60px 70px; } /* Reducción proporcional de márgenes */
+  .paper::before { top: 60px; bottom: 60px; left: 70px; right: 70px; }
+  .paper-decor-line { left: 25px; top: 60px; bottom: 60px; }
+  .ruler-horizontal, .ruler-vertical { display: none; } /* Quitamos reglas físicas molestos */
+}
+
+/* Reglas para Celulares (Pantallas pequeñas) */
+@media (max-width: 768px) {
+  .title-subtitle, .user-badge, .window-controls { display: none; } /* Compactamos la barra superior */
+  .canvas-container { padding: 0; } /* La hoja abarca toda la pantalla táctil */
+  .paper {
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+    /* Modo Enfoque de Escritura: Márgenes internos delgados optimizados para teclado móvil */
+    padding: 30px 20px; 
+  }
+  .paper::before { top: 30px; bottom: 30px; left: 20px; right: 20px; }
+  .paper-decor-line { display: none; } /* Quitamos decoraciones pesadas */
+  
+  #menu-archivo, #menu-editar, #menu-insertar, #menu-formato { left: 5% !important; width: 90%; } /* Menús centrados en pantalla móvil */
+}
 </style>
 </head>
 <body>
@@ -231,20 +266,17 @@ body {
     <div class="wc-logo">WC</div>
     <div class="title-text">
       <span>WC Corporate Editor v20</span>
-      <span class="title-subtitle">ULTIMATE PRO UI v26 - AREA DE ESCRITURA EN BLANCO</span>
+      <span class="title-subtitle">ULTIMATE PRO UI v26</span>
     </div>
     <div class="title-actions">
       <span class="title-icon">↩️</span>
       <span class="title-icon">↪️</span>
       <span class="title-icon">💾</span>
-      <span class="title-icon">🔗</span>
-      <span class="title-icon">🔔</span>
       <div class="user-badge">
         <div class="user-avatar">KN</div>
-        <span>Keny Chinchilla Navarro</span>
+        <span>Keny Chinchilla</span>
       </div>
       <div class="window-controls">
-        <div class="win-btn"></div>
         <div class="win-btn"></div>
         <div class="win-btn close"></div>
       </div>
@@ -259,31 +291,23 @@ body {
 
     <div class="dropdown-menu" id="menu-archivo">
       <div class="menu-section-title">Operaciones</div>
-      <div class="dg-item" onclick="triggerFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div><div class="dg-shortcut">Ctrl+N</div></div>
-      <div class="dg-item" onclick="triggerFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo...</div><div class="dg-shortcut">Ctrl+O</div></div>
+      <div class="dg-item" onclick="triggerFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
+      <div class="dg-item" onclick="triggerFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo...</div></div>
       <div class="menu-section-divider"></div>
       <div class="menu-section-title">Guardar Opciones</div>
-      <div class="dg-item" onclick="triggerFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar</div><div class="dg-shortcut">Ctrl+S</div></div>
-      <div class="dg-item" onclick="fireToast('Guardar como nueva plantilla corporativa...')"><div class="dg-icon">🗄️</div><div class="dg-text">Guardar como...</div></div>
-      <div class="dg-item" onclick="fireToast('Historial de versiones recuperado')"><div class="dg-icon">⏳</div><div class="dg-text">Historial de versiones</div></div>
+      <div class="dg-item" onclick="triggerFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar</div></div>
+      <div class="dg-item" onclick="fireToast('Guardado como plantilla...')"><div class="dg-icon">🗄️</div><div class="dg-text">Guardar como...</div></div>
       <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Preparación</div>
-      <div class="dg-item" onclick="fireToast('Configuración de página A4 por defecto')"><div class="dg-icon">🛠️</div><div class="dg-text">Configurar Página</div></div>
-      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir / Exportar PDF</div><div class="dg-shortcut">Ctrl+P</div></div>
+      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir / Exportar PDF</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-editar">
       <div class="menu-section-title">Deshacer / Rehacer</div>
-      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div><div class="dg-shortcut">Ctrl+Z</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div><div class="dg-shortcut">Ctrl+Y</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div></div>
       <div class="menu-section-divider"></div>
       <div class="menu-section-title">Portapapeles</div>
-      <div class="dg-item" onclick="fireToast('Usa Ctrl+X')"><div class="dg-icon">✂️</div><div class="dg-text">Cortar</div><div class="dg-shortcut">Ctrl+X</div></div>
-      <div class="dg-item" onclick="fireToast('Usa Ctrl+C')"><div class="dg-icon">📋</div><div class="dg-text">Copiar</div><div class="dg-shortcut">Ctrl+C</div></div>
-      <div class="dg-item" onclick="fireToast('Usa Ctrl+V')"><div class="dg-icon">📥</div><div class="dg-text">Pegar Especial</div><div class="dg-shortcut">Ctrl+V</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Búsqueda</div>
-      <div class="dg-item" onclick="fireToast('Buscar en el documento...')"><div class="dg-icon">🔍</div><div class="dg-text">Buscar y Reemplazar</div><div class="dg-shortcut">Ctrl+F</div></div>
+      <div class="dg-item" onclick="fireToast('Usa los comandos nativos de tu móvil para copiar/pegar')"><div class="dg-icon">📋</div><div class="dg-text">Copiar / Pegar Info</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-insertar">
@@ -291,45 +315,23 @@ body {
       <div class="dg-item" onclick="insertTableGrid()"><div class="dg-icon">📊</div><div class="dg-text">Insertar Tabla (3x3)</div></div>
       <div class="dg-item" onclick="insertImagePrompt()"><div class="dg-icon">🖼️</div><div class="dg-text">Insertar Imagen por URL...</div></div>
       <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Encabezado y Texto</div>
-      <div class="dg-item" onclick="fireToast('Encabezado activado en edición')"><div class="dg-icon">🔝</div><div class="dg-text">Encabezado de Página</div></div>
-      <div class="dg-item" onclick="fireToast('Pie de página fijado')"><div class="dg-icon">🖨️</div><div class="dg-text">Pie de Página</div></div>
-      <div class="dg-item" onclick="fireToast('Número de página añadido al final')"><div class="dg-icon">🔢</div><div class="dg-text">Número de Página</div></div>
+      <div class="menu-section-title">Estructuras</div>
       <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte (WordArt)</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Especiales</div>
-      <div class="dg-item" onclick="triggerEditCmd('insertHTML', '&Omega; &pi; &Sigma;')"><div class="dg-icon">📐</div><div class="dg-text">Ecuación y Símbolos</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('insertHTML', '&Omega; &pi; &Sigma;')"><div class="dg-icon">📐</div><div class="dg-text">Símbolos Especiales</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-formato">
       <div class="menu-section-title">Diseño de Página</div>
-      <div class="dg-item" onclick="changeMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Normales (3cm)</div></div>
-      <div class="dg-item" onclick="changeMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Estrechos (1.5cm)</div></div>
-      <div class="dg-item" onclick="fireToast('Orientación: Vertical')"><div class="dg-icon">📄</div><div class="dg-text">Orientación Vertical</div></div>
-      <div class="dg-item" onclick="fireToast('Orientación: Horizontal')"><div class="dg-icon">📑</div><div class="dg-text">Orientación Horizontal</div></div>
+      <div class="dg-item" onclick="changeMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Normales</div></div>
+      <div class="dg-item" onclick="changeMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Estrechos</div></div>
       <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Distribución Texto</div>
+      <div class="menu-section-title">Distribución</div>
       <div class="dg-item" onclick="setColumns(1)"><div class="dg-icon">𝖨</div><div class="dg-text">Una Columna</div></div>
       <div class="dg-item" onclick="setColumns(2)"><div class="dg-icon">⏸</div><div class="dg-text">Dos Columnas</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Líneas</div>
-      <div class="dg-item" onclick="fireToast('Interlineado ajustado a 1.5')"><div class="dg-icon">↕</div><div class="dg-text">Interlineado 1.5</div></div>
-      <div class="dg-item" onclick="fireToast('Generando índice de contenidos...')"><div class="dg-icon">🗂️</div><div class="dg-text">Tabla de Contenidos / Índice</div></div>
     </div>
   </div>
 
   <div class="ribbon">
-    <div class="ribbon-group">
-      <div class="btn-paste-large" onclick="fireToast('Presiona Ctrl+V para pegar contenido')">
-        <div class="paste-icon">📋</div>
-        <span>Pegar</span>
-      </div>
-      <div style="display:flex; flex-direction:column; gap:2px;">
-        <div class="tool-icon-btn" onclick="fireToast('Cortar')">Cortar</div>
-        <div class="tool-icon-btn" onclick="fireToast('Copiar')">Copiar</div>
-      </div>
-    </div>
-    <div class="ribbon-divider"></div>
     <div class="ribbon-group">
       <select class="select-tool" onchange="triggerEditCmd('fontName', this.value)">
         <option value="Segoe UI">Segoe UI</option>
@@ -340,7 +342,6 @@ body {
         <option value="3">12 px</option>
         <option value="4">14 px</option>
         <option value="5">18 px</option>
-        <option value="6">24 px</option>
       </select>
     </div>
     <div class="ribbon-divider"></div>
@@ -348,9 +349,6 @@ body {
       <div class="tool-icon-btn" title="Negrita" onclick="triggerEditCmd('bold')">B</div>
       <div class="tool-icon-btn" title="Cursiva" onclick="triggerEditCmd('italic')">I</div>
       <div class="tool-icon-btn" title="Subrayado" onclick="triggerEditCmd('underline')">U</div>
-      <div class="tool-icon-btn" title="Tachado" onclick="triggerEditCmd('strikeThrough')">ab</div>
-      <div class="tool-icon-btn" title="Subíndice" onclick="triggerEditCmd('subscript')">x₂</div>
-      <div class="tool-icon-btn" title="Superíndice" onclick="triggerEditCmd('superscript')">x²</div>
       <input type="color" title="Color de Letra" onchange="triggerEditCmd('foreColor', this.value)" style="width:20px; height:20px; border:none; cursor:pointer; background:none;">
     </div>
     <div class="ribbon-divider"></div>
@@ -358,24 +356,21 @@ body {
       <div class="tool-icon-btn" onclick="triggerEditCmd('justifyLeft')">⬅</div>
       <div class="tool-icon-btn" onclick="triggerEditCmd('justifyCenter')"> Centrar </div>
       <div class="tool-icon-btn" onclick="triggerEditCmd('justifyRight')">➡</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('insertUnorderedList')">•📋</div>
     </div>
     <div class="ribbon-divider"></div>
     <div class="style-box-container">
       <div class="style-item-card active" onclick="changeWordStyle('p', this)">Normal</div>
       <div class="style-item-card" onclick="changeWordStyle('h1', this)">Título 1</div>
-      <div class="style-item-card" onclick="changeWordStyle('h2', this)">Título 2</div>
     </div>
   </div>
 
   <div class="workspace">
     
     <div class="sidebar-left">
-      <div class="sb-header"><span>Documentos</span><span>+</span></div>
+      <div class="sb-header"><span>Documentos</span></div>
       <div class="doc-list">
         <div class="doc-item-link active">📄 Documento 1</div>
         <div class="doc-item-link">📄 Informe Corporativo</div>
-        <div class="doc-item-link">📄 Propuesta Ejecutiva</div>
       </div>
     </div>
 
@@ -383,13 +378,13 @@ body {
       <div class="ruler-horizontal">12345678910111213141516171819202122</div>
       
       <div class="canvas-inner-wrapper">
-        <div class="ruler-vertical">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
+        <div class="ruler-vertical">1<br>2<br>3<br>4<br>5<br>6</div>
         
         <div class="canvas-container">
           <div class="paper" id="editorPage" contenteditable="true" oninput="countWordsLive()">
             <div class="paper-decor-line"></div>
             <h1>Documento de Trabajo</h1>
-            <p>Haz clic aquí para borrar este texto de muestra e iniciar tu proceso de digitación corporativo...</p>
+            <p>Este espacio de digitación inteligente detecta de manera automatizada si estás usando un celular, una tablet o una computadora, reconfigurando los márgenes al instante para darte comodidad absoluta al digitar.</p>
           </div>
         </div>
       </div>
@@ -397,34 +392,21 @@ body {
 
     <div class="sidebar-ai">
       <div class="ai-title">✨ IA Asistente WC</div>
-      <div class="ai-tabs">
-        <div class="ai-tab-btn active">Asistente</div>
-        <div class="ai-tab-btn">Plantillas</div>
-      </div>
       <div class="ai-content">
         <div class="ai-avatar-circle">🤖</div>
         <div style="font-size:13px; font-weight:700;">Hola, Keny 👋</div>
-        <div style="width:100%; display:flex; flex-direction:column; gap:6px; margin-top:8px;">
-          <div class="ai-prompt-pill" onclick="injectAIText('resumen')"><span>📝 Generar un resumen</span><span>›</span></div>
-          <div class="ai-prompt-pill" onclick="injectAIText('mejorar')"><span>✨ Optimizar redacción</span><span>›</span></div>
-        </div>
-      </div>
-      <div class="ai-input-container">
-        <input type="text" id="aiQuery" class="ai-text-field" placeholder="Escribe tu solicitud...">
-        <div class="ai-btn ai-send-btn" onclick="executeAIFunction()">✦</div>
+        <div class="ai-prompt-pill" onclick="injectAIText()"><span>✨ Optimizar redacción</span><span>›</span></div>
       </div>
     </div>
 
   </div>
 
   <div class="status-bar">
-    <span>Página 1 de 1</span>
-    <span id="wordLiveCount">Palabras: 19</span>
-    <span>Español (España)</span>
-    <span>Márgenes: Estándar A4</span>
+    <span>Página 1</span>
+    <span id="wordLiveCount">Palabras: 26</span>
     <div class="st-right-section">
       <div class="st-pulse-dot"></div>
-      <span>Área lista para digitar</span>
+      <span>Diseño Adaptable Activo</span>
     </div>
   </div>
 
@@ -433,7 +415,7 @@ body {
 <div class="wcarte-modal" id="wcarteModal">
   <div style="font-size:14px; font-weight:bold; color:white;">✨ Diseñador de WC Arte</div>
   <input type="text" id="wcarteInputText" placeholder="Texto de WordArt..." class="modal-input">
-  <button class="modal-action-btn" onclick="insertWCArteNode()">Insertar WC Arte</button>
+  <button class="modal-action-btn" onclick="insertWCArteNode()">Insertar</button>
   <button class="modal-action-btn" onclick="closeWCArteDesigner()" style="background:#475569; margin-top:-4px;">Cancelar</button>
 </div>
 
@@ -470,7 +452,6 @@ function shutAllMenus() {
 
 document.addEventListener('click', shutAllMenus);
 
-// COMANDOS INTERACTIVOS DE ESCRITURA Y ENTORNO
 function triggerEditCmd(command, value = null) {
   document.execCommand(command, false, value);
   countWordsLive();
@@ -488,77 +469,51 @@ function countWordsLive() {
   document.getElementById('wordLiveCount').textContent = `Palabras: ${wordsArray.length}`;
 }
 
-// CONTROL DINÁMICO DE MÁRGENES (MENÚ FORMATO)
 function changeMargins(type) {
   const page = document.getElementById('editorPage');
-  if (type === 'estrecho') {
-    page.style.padding = "40px 45px";
-    fireToast('Márgenes estrechos aplicados con éxito');
+  // Ajuste condicional respetando si es pantalla pequeña
+  if (window.innerWidth > 1024) {
+    page.style.padding = type === 'estrecho' ? "40px 45px" : "95px 110px";
   } else {
-    page.style.padding = "95px 110px";
-    fireToast('Márgenes estándar reestablecidos');
+    page.style.padding = type === 'estrecho' ? "20px 15px" : "40px 30px";
   }
+  fireToast(`Márgenes ajustados al modo: ${type}`);
 }
 
-// CONFIGURACIÓN DE COLUMNAS (MENÚ FORMATO)
 function setColumns(num) {
   document.getElementById('editorPage').style.columnCount = num;
-  fireToast(`Formato cambiado a ${num} columna(s)`);
+  fireToast(`Distribución cambiada a ${num} columna(s)`);
 }
 
-// ACCIONES DE INSERCIÓN REALES (MENÚ INSERTAR)
 function insertTableGrid() {
-  const htmlTable = `<table>
-    <tr><th>Columna 1</th><th>Columna 2</th><th>Columna 3</th></tr>
-    <tr><td>Dato A</td><td>Dato B</td><td>Dato C</td></tr>
-    <tr><td>Dato D</td><td>Dato E</td><td>Dato F</td></tr>
-  </table><p></p>`;
+  const htmlTable = `<table><tr><th>Item</th><th>Descripción</th></tr><tr><td>01</td><td>Digitación móvil OK</td></tr></table><p></p>`;
   triggerEditCmd('insertHTML', htmlTable);
-  fireToast('Tabla corporativa insertada');
 }
 
 function insertImagePrompt() {
-  const url = prompt("Escribe la URL de la imagen que quieres insertar:");
-  if (url) {
-    const imgHtml = `<img src="${url}" style="max-width:100%; border-radius:6px; margin: 10px 0;"><p></p>`;
-    triggerEditCmd('insertHTML', imgHtml);
-    fireToast('Imagen vinculada correctamente');
-  }
+  const url = prompt("Introduce la URL de la imagen:");
+  if (url) triggerEditCmd('insertHTML', `<img src="${url}" style="max-width:100%;"><p></p>`);
 }
 
 function triggerFileAction(type) {
   if (type === 'nuevo') {
-    document.getElementById('editorPage').innerHTML = '<div class="paper-decor-line"></div><h1>Nuevo Lienzo de Word</h1><p>Empieza a redactar tu contenido aquí...</p>';
-    fireToast('Nuevo archivo abierto');
-  } else if (type === 'guardar') {
-    fireToast('💾 Documento guardado localmente en el buffer corporativo');
-  } else if (type === 'abrir') {
-    fireToast('Abriendo explorador de archivos virtuales...');
+    document.getElementById('editorPage').innerHTML = '<h1>Lienzo Limpio</h1><p>Escribe aquí...</p>';
+  } else {
+    fireToast('Acción simulada con éxito');
   }
   countWordsLive();
 }
 
-// MODAL WORDART / WC ARTE
 function openWCArteDesigner() { document.getElementById('wcarteModal').classList.add('open'); }
 function closeWCArteDesigner() { document.getElementById('wcarteModal').classList.remove('open'); }
 function insertWCArteNode() {
-  const text = document.getElementById('wcarteInputText').value || "WC Arte";
-  const art = `<span style="display:inline-block; font-family:'Impact', sans-serif; font-size:32px; background:linear-gradient(45deg, #1d4ed8, #db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; margin:8px 0;">${text}</span>&nbsp;`;
-  triggerEditCmd('insertHTML', art);
+  const text = document.getElementById('wcarteInputText').value || "WC";
+  triggerEditCmd('insertHTML', `<span style="font-family:'Impact'; font-size:28px; background:linear-gradient(45deg, #1d4ed8, #db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">${text}</span>&nbsp;`);
   closeWCArteDesigner();
 }
 
-function injectAIText(mode) {
-  let txt = mode === 'resumen' ? "<p><strong>Resumen Ejecutivo:</strong> Suite empresarial de alta gama optimizada.</p>" : "<p><em>Mejora:</em> Procesador corporativo premium diseñado para Keny Chinchilla.</p>";
-  triggerEditCmd('insertHTML', txt);
-}
-
-function executeAIFunction() {
-  const q = document.getElementById('aiQuery').value;
-  if(q) {
-    triggerEditCmd('insertHTML', `<p><strong>🤖 IA:</strong> Procesando directrices de Word sobre "${q}".</p>`);
-    document.getElementById('aiQuery').value = "";
-  }
+function injectAIText() {
+  triggerEditCmd('insertHTML', "<p><em>Texto optimizado por el ecosistema de IA.</em></p>");
 }
 
 window.onload = () => { countWordsLive(); };
