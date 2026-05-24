@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Ultimate Edition</title>
+<title>WC Corporate Editor v20 - Premium Palette</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -55,7 +55,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
 
-/* 🛠️ BARRA DE SELECTORES RÁPIDOS OPTIMIZADA CON COLOR DE META */
+/* BARRA DE SELECTORES RÁPIDOS */
 .font-bar { 
   background: #e2e8f0; 
   padding: 2px 12px 8px 12px; 
@@ -69,7 +69,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .font-bar::-webkit-scrollbar { display: none; }
 .font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
 
-/* MENÚ CORPORATIVO FIJO INFERIOR */
+/* 🏛️ MENÚ CORPORATIVO FIJO INFERIOR CON PALETA INCORPORADA */
 .corporate-ribbon-dock {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -86,9 +86,10 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .corporate-ribbon-dock::-webkit-scrollbar { display: none; }
 .ribbon-group { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #e2e8f0; padding-right: 12px; gap: 4px; }
 .ribbon-group:last-child { border-right: none; padding-right: 0; }
-.group-row { display: flex; gap: 4px; }
+.group-row { display: flex; gap: 4px; align-items: center; }
 .group-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
 
+/* Botones Icono Básicos */
 .icon-btn {
   background: white; border: 1px solid var(--border-color);
   width: 32px; height: 32px; border-radius: 6px;
@@ -99,6 +100,23 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .icon-btn-large { width: auto; padding: 0 10px; font-size: 12px; gap: 4px; }
 .icon-btn-mic.recording { background: #ef4444 !important; color: white !important; animation: pulse 1.5s infinite; }
 
+/* 🎨 CUADRÍCULA DE COLORES DE META CORPORATIVOS */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 20px);
+  gap: 4px;
+  padding: 2px;
+}
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.color-dot:active { transform: scale(0.85); }
+
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
 /* LIENZO DE TRABAJO */
@@ -108,7 +126,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 /* BARRA DE ESTADO INFERIOR */
 .footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
 
-/* 🏛️ VENTANA MODAL ESTILO CORPORATIVO FIEL A TU CAPTURA */
+/* VENTANA MODAL ESTILO CORPORATIVO */
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
@@ -152,7 +170,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   <div class="ribbon-commands-panel" id="panelComandos"></div>
 
   <div class="font-bar">
-    <select class="font-select" style="min-width:110px;" onchange="applyTypography('fontName', this.value)">
+    <select class="font-select" style="min-width:140px;" onchange="applyTypography('fontName', this.value)">
       <option value="Segoe UI" selected>Segoe UI</option>
       <option value="Arial">Arial</option>
       <option value="Calibri">Calibri</option>
@@ -162,7 +180,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="Verdana">Verdana</option>
     </select>
 
-    <select class="font-select" style="min-width:75px;" onchange="applyTypography('fontSize', this.value)">
+    <select class="font-select" style="min-width:100px;" onchange="applyTypography('fontSize', this.value)">
       <option value="12px">12 px</option>
       <option value="14px">14 px</option>
       <option value="16px" selected>16 px</option>
@@ -170,19 +188,10 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="24px">24 px</option>
       <option value="32px">32 px</option>
     </select>
-
-    <select class="font-select" style="min-width:105px; border-left: 2px solid #92324f;" onchange="applyTypography('foreColor', this.value)">
-      <option value="#1e293b" selected>🎨 Color Meta</option>
-      <option value="#1d5270">Corporate Blue</option>
-      <option value="#92324f">Executive Wine</option>
-      <option value="#d94e18">Meta Orange</option>
-      <option value="#0f172a">Deep Dark</option>
-      <option value="#16a34a">Eco Green</option>
-      <option value="#2563eb">Digital Blue</option>
-    </select>
   </div>
 
   <div class="corporate-ribbon-dock">
+    
     <div class="ribbon-group">
       <div class="group-row">
         <button class="icon-btn" onclick="execCmd('bold')"><b>B</b></button>
@@ -204,6 +213,22 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 
     <div class="ribbon-group">
       <div class="group-row">
+        <div class="color-grid">
+          <div class="color-dot" style="background-color: #1d5270;" onclick="applyTypography('foreColor', '#1d5270')" title="Blue Corp"></div>
+          <div class="color-dot" style="background-color: #92324f;" onclick="applyTypography('foreColor', '#92324f')" title="Wine Exec"></div>
+          <div class="color-dot" style="background-color: #d94e18;" onclick="applyTypography('foreColor', '#d94e18')" title="Orange Meta"></div>
+          <div class="color-dot" style="background-color: #0f172a;" onclick="applyTypography('foreColor', '#0f172a')" title="Deep Dark"></div>
+          <div class="color-dot" style="background-color: #16a34a;" onclick="applyTypography('foreColor', '#16a34a')" title="Green Eco"></div>
+          <div class="color-dot" style="background-color: #2563eb;" onclick="applyTypography('foreColor', '#2563eb')" title="Digital Blue"></div>
+          <div class="color-dot" style="background-color: #dc2626;" onclick="applyTypography('foreColor', '#dc2626')" title="Standard Red"></div>
+          <div class="color-dot" style="background-color: #7c3aed;" onclick="applyTypography('foreColor', '#7c3aed')" title="Premium Purple"></div>
+        </div>
+      </div>
+      <div class="group-label" id="lblGColor">Color Meta</div>
+    </div>
+
+    <div class="ribbon-group">
+      <div class="group-row">
         <button class="icon-btn" onclick="execCmd('insertUnorderedList')">•=</button>
         <button class="icon-btn" onclick="execCmd('insertOrderedList')">1=</button>
         <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
@@ -212,6 +237,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       </div>
       <div class="group-label" id="lblG3">Herramientas</div>
     </div>
+
   </div>
 
   <div class="workspace">
@@ -239,13 +265,12 @@ let currentLang = 'es';
 let recognition = null;
 let isRecording = false;
 
-// Base de datos de traducciones y comandos dinámicos por pestaña móvil
 const translationsDb = {
   es: {
     eco: "Ecosistema Activo: Español 🇨🇷",
     hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
-    g1: "Fuente", g2: "Párrafo", g3: "Herramientas", micStart: "Dictar", micStop: "Grabando...",
+    g1: "Fuente", g2: "Párrafo", gColor: "Color Meta", g3: "Herramientas", micStart: "Dictar", micStop: "Grabando...",
     tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
       inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
@@ -270,7 +295,7 @@ const translationsDb = {
     eco: "Active Ecosystem: English 🇺🇸",
     hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
-    g1: "Font", g2: "Paragraph", g3: "Tools", micStart: "Dictate", micStop: "Listening...",
+    g1: "Font", g2: "Paragraph", gColor: "Meta Color", g3: "Tools", micStart: "Dictate", micStop: "Listening...",
     tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
       inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
@@ -295,7 +320,7 @@ const translationsDb = {
     eco: "Ecosistema Activo: Bribri pakö 🌱",
     hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
-    g1: "Ká̱ jë", g2: "Ujtëk já̱", g3: "Sán", micStart: "Pakö", micStop: "Katö...",
+    g1: "Ká̱ jë", g2: "Ujtëk já̱", gColor: "Ká̱ Color", g3: "Sán", micStart: "Pakö", micStop: "Katö...",
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
       inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
@@ -320,7 +345,7 @@ const translationsDb = {
     eco: "Ecosistema Activo: Cabécar jula 🐾",
     hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
-    g1: "Jula", g2: "Márgenes", g3: "Herramientas", micStart: "Jula pak", micStop: "Sáwá...",
+    g1: "Jula", g2: "Márgenes", gColor: "Color", g3: "Herramientas", micStart: "Jula pak", micStop: "Sáwá...",
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
       inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
@@ -343,7 +368,6 @@ const translationsDb = {
   }
 };
 
-// MODAL CORPORATIVO INTERACTIVO
 function openModal(message) {
   document.getElementById('customModalContent').innerHTML = `Acción ejecutada: ${message}`;
   document.getElementById('customModal').classList.add('show');
@@ -398,7 +422,6 @@ function insertHTMLAtCursor(html) {
   updateCounters();
 }
 
-// INYECCIÓN DE LOS 10 ESTILOS WC ARTE EXCLUSIVOS EN TIEMPO REAL
 function injectArtStyle(styleKey, label) {
   let styleCSS = "";
   switch(styleKey) {
@@ -471,7 +494,7 @@ function triggerCommandAction(actionKey, label) {
   }
 }
 
-// 🎙️ SISTEMA DE DICTADO POR VOZ NATIVO
+// Dictado por voz
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SpeechObj = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechObj(); recognition.continuous = true; recognition.interimResults = false;
@@ -491,7 +514,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 }
 
 function toggleDictation() {
-  if (!recognition) { alert("Dictado no soportado en este navegador."); return; }
+  if (!recognition) { alert("Dictado no soportado."); return; }
   if (isRecording) { recognition.stop(); } else {
     recognition.lang = currentLang === 'en' ? 'en-US' : 'es-CR'; recognition.start();
     isRecording = true; document.getElementById('btnDictado').classList.add('recording');
@@ -514,6 +537,7 @@ function switchEcosystem(lang) {
   document.getElementById('docDesc').textContent = db.hDesc;
   document.getElementById('lblG1').textContent = db.g1;
   document.getElementById('lblG2').textContent = db.g2;
+  document.getElementById('lblGColor').textContent = db.gColor;
   document.getElementById('lblG3').textContent = db.g3;
   document.getElementById('lblMic').textContent = isRecording ? db.micStop : db.micStart;
 
