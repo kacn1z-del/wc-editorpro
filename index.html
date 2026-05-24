@@ -16,12 +16,12 @@
       --assistant-w: 60px;
       --assistant-expanded: 180px;
       --assistant-collapsed: 0px;
-      --ribbon-h: 145px;
+      --ribbon-h: 155px;
       --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
       --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
       --page-width: 100%;
       --page-max-width: 1200px;
-      --page-margin: 16px;
+      --page-margin: 24px;
     }
     
     [data-theme="dark"] {
@@ -89,8 +89,9 @@
    .ribbon {
       position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
       background:var(--panel); border-bottom:1px solid var(--border);
-      height:var(--ribbon-h); z-index:50;
+      height:var(--ribbon-h); z-index:500;
       transition: right 0.3s, left 0.3s;
+      box-shadow:0 2px 4px rgba(0,0,0,0.08);
     }
     body.ai-collapsed .ribbon { right: var(--assistant-collapsed); }
     
@@ -203,13 +204,16 @@
 
    .workspace { 
       flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
-      padding:calc(var(--ribbon-h) + 16px) 16px 50px; 
+      padding:calc(var(--ribbon-h) + 24px) 16px 50px; 
       height:100vh; overflow-y:auto;
       transition: margin-right 0.3s, margin-left 0.3s;
+      background:var(--bg);
     }
     body.ai-collapsed .workspace { margin-right: var(--assistant-collapsed); }
     
    .page { 
+      position:relative;
+      z-index:1;
       background:var(--panel); 
       padding: var(--page-margin) 48px;
       margin:0 auto;
@@ -665,7 +669,8 @@
             sel.getRangeAt(0).insertNode(span);
           }
         }
-        formatPainterData = null;
+        formatPainterData =
+                formatPainterData = null;
       }
     }
 
@@ -673,8 +678,7 @@
       const rows = prompt('Filas:', '3');
       const cols = prompt('Columnas:', '3');
       if(rows && cols) {
-        let html = '<table border
-                let html = '<table border="1" style="border-collapse:collapse;width:100%;margin:10px 0;">';
+        let html = '<table border="1" style="border-collapse:collapse;width:100%;margin:10px 0;">';
         for(let i=0; i<rows; i++) {
           html += '<tr>';
           for(let j=0; j<cols; j++) {
