@@ -555,5 +555,20 @@ document.getElementById('lienzoTexto').addEventListener('input', updateCounters)
 // Inicialización por defecto en ecosistema español
 switchEcosystem('es');
 </script>
+<script>
+  let clipboardHistory = [];
+  
+  function saveToClipboardHistory(text) {
+    if(text && !clipboardHistory.includes(text)) {
+      clipboardHistory.unshift(text);
+      if(clipboardHistory.length > 5) clipboardHistory.pop();
+    }
+  }
+
+  document.addEventListener('copy', () => {
+    const selected = window.getSelection().toString();
+    saveToClipboardHistory(selected);
+  });
+</script>
 </body>
 </html>
