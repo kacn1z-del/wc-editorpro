@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>WC Corporate Editor v21 - Suite Avanzada</title>
+<title>WC Corporate Editor v21 - Suite Etnolingüística</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -25,12 +25,12 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 
-/* BARRA DE IDIOMAS */
+/* BARRA DE ECOSISTEMAS LINGÜÍSTICOS */
 .lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .lang-bar::-webkit-scrollbar { display: none; }
 .lang-btn {
   background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25);
-  color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;
+  color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: 0.2s;
 }
 .lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
 
@@ -50,59 +50,52 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0; scrollbar-width: none;
 }
 .ribbon-commands-panel::-webkit-scrollbar { display: none; }
-.cmd-btn {
-  background: white; border: 1px solid var(--border-color); padding: 6px 12px;
-  border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
-}
 
 /* LIENZO DE TRABAJO (WORKSPACE) */
-.workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; background-color: #cbd5e1; }
+.workspace { position: relative; flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; background-color: #cbd5e1; }
 .paper { width: 100%; max-width: 650px; background: white; min-height: 550px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); padding: 40px; border-radius: 4px; outline: none; line-height: 1.6; transition: all 0.2s ease; }
 
-/* 🏛️ BARRA FIJA INFERIOR ADAPTATIVA CON MENÚ DESPLEGABLE POPUP */
-.corporate-ribbon-dock {
-  position: relative;
-  background: rgba(255, 255, 255, 0.98);
-  border-top: 1px solid var(--border-color);
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)) 16px;
+/* 🎯 BOTÓN FLOTANTE CORPORATIVO UBICADO EN LA PARTE MARCADA */
+.floating-corporate-container {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+  z-index: 99999;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
-  z-index: 9999;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-/* BOTÓN DE ACTIVACIÓN PRINCIPAL */
 .trigger-menu-btn {
   background: var(--bg-gradient);
   color: white;
   border: none;
-  padding: 10px 24px;
+  padding: 12px 22px;
   border-radius: 30px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.3px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(146, 50, 79, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: transform 0.2s ease;
 }
+.trigger-menu-btn:active { transform: scale(0.95); }
 
-/* 📂 MEGA PANEL DESPLEGABLE CON TODAS LAS FUNCIONES REQUERIDAS */
+/* 📂 MEGA PANEL DESPLEGABLE ASOCIADO AL BOTÓN FLOTANTE */
 .dropdown-up-panel {
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  bottom: 115%;
+  right: 0;
   background: var(--dark-dropdown-bg);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   padding: 16px;
-  width: 95%;
-  max-width: 460px;
-  max-height: 70vh;
+  width: calc(100vw - 40px);
+  max-width: 420px;
+  max-height: 60vh;
   overflow-y: auto;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -110,23 +103,22 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   gap: 14px;
   opacity: 0;
   pointer-events: none;
+  transform: translateY(15px);
   transition: opacity 0.2s ease, transform 0.2s ease;
-  margin-bottom: 8px;
 }
 .dropdown-up-panel.show {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 /* SUBGRUPOS INTERNOS */
 .ribbon-group { display: flex; flex-direction: column; gap: 6px; }
 .group-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .group-label { font-size: 10px; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.dropdown-divider { border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 2px 0; }
 
-.dropdown-divider { border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 4px 0; }
-
-/* CONTROLES DE MENÚ DROPDOWN OSCURO */
+/* CONTROLES DEL DROPDOWN OSCURO */
 .icon-btn {
   background: rgba(255, 255, 255, 0.08); 
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -142,7 +134,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   padding: 6px 8px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
 }
 
-/* PALETA CROMÁTICA INTEGRADA */
+/* PALETA CROMÁTICA */
 .corporate-palette-container {
   display: flex; gap: 4px; background: rgba(255, 255, 255, 0.05); padding: 4px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -151,10 +143,10 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .native-color-picker { position: absolute; top: -5px; left: -5px; width: 32px; height: 32px; opacity: 0; cursor: pointer; }
 
 /* BARRA DE ESTADO */
-.footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
+.footer-bar { height: 30px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; z-index: 10; }
 
-/* MODAL DE RESPUESTAS */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 20000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+/* MODAL DE ALERTAS */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 200000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
 .corporate-modal { background: white; width: 85%; max-width: 340px; border-radius: 14px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); text-align: center; }
 .modal-title { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
@@ -164,15 +156,19 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 <body>
 
   <div class="header-suite">
-    <div class="brand-title">WC Corporate Editor</div>
+    <div class="brand-title" id="suiteTitle">WC Corporate Editor</div>
+    
     <div class="lang-bar">
-      <button class="lang-btn active" id="l-es" onclick="switchEcosystem('es')">🇨🇷 Español</button>
-      <button class="lang-btn" id="l-en" onclick="switchEcosystem('en')">🇺🇸 English</button>
+      <button class="lang-btn active" id="btn-es" onclick="switchEcosystem('es')">🇨🇷 Español</button>
+      <button class="lang-btn" id="btn-en" onclick="switchEcosystem('en')">🇺🇸 English</button>
+      <button class="lang-btn" id="btn-br" onclick="switchEcosystem('br')">🌱 Bribri</button>
+      <button class="lang-btn" id="btn-ca" onclick="switchEcosystem('ca')">🐾 Cabécar</button>
     </div>
+    
     <div class="mobile-tabs-scroll">
-      <div class="tab-node active" id="t-inicio" onclick="changeActiveTab('inicio')">Inicio</div>
-      <div class="tab-node" id="t-insertar" onclick="changeActiveTab('insertar')">Insertar</div>
-      <div class="tab-node" id="t-diseno" onclick="changeActiveTab('diseno')">Diseño</div>
+      <div class="tab-node active" id="t-inicio">Inicio</div>
+      <div class="tab-node" id="t-insertar">Insertar</div>
+      <div class="tab-node" id="t-diseno">Diseño</div>
     </div>
   </div>
 
@@ -181,112 +177,112 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   <div class="workspace">
     <div class="paper" contenteditable="true" id="lienzoTexto">
       <h3 id="docTitle">Documento Corporativo Avanzado</h3>
-      <p id="docDesc">Seleccione cualquier fragmento de texto para aplicarle transformaciones en tiempo real desde el menú inferior.</p>
+      <p id="docDesc">Seleccione cualquier fragmento de texto para aplicarle transformaciones en tiempo real desde el menú flotante.</p>
     </div>
-  </div>
 
-  <div class="corporate-ribbon-dock">
-    
-    <div class="dropdown-up-panel" id="corporateDropdown">
+    <div class="floating-corporate-container">
       
-      <div class="ribbon-group">
-        <div class="group-label">Formatos, Párrafo y Justificación</div>
-        <div class="group-row">
-          <select class="dropdown-select" onchange="applyTypography('fontName', this.value)">
-            <option value="Segoe UI">Segoe UI</option>
-            <option value="Arial">Arial</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Times New Roman">Times New Roman</option>
-          </select>
-          <select class="dropdown-select" onchange="applyTypography('fontSize', this.value)">
-            <option value="14px">14 px</option>
-            <option value="16px" selected>16 px</option>
-            <option value="20px">20 px</option>
-            <option value="26px">26 px</option>
-          </select>
-        </div>
-        <div class="group-row" style="margin-top:4px;">
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyLeft')">⟨=</button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyCenter')">=⌵=</button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyRight')">=⟩</button>
-          <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyFull')">≡</button>
-        </div>
-        <div class="group-row" style="margin-top:4px;">
-          <div class="corporate-palette-container">
-            <button class="palette-btn" style="background: #1d5270;" onmousedown="event.preventDefault(); execCmd('foreColor', '#1d5270')"></button>
-            <button class="palette-btn" style="background: #92324f;" onmousedown="event.preventDefault(); execCmd('foreColor', '#92324f')"></button>
-            <button class="palette-btn" style="background: #d94e18;" onmousedown="event.preventDefault(); execCmd('foreColor', '#d94e18')"></button>
-            <button class="palette-btn" style="background: #0f172a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#0f172a')"></button>
-            <div class="native-color-wrapper">
-              <input type="color" class="native-color-picker" oninput="execCmd('foreColor', this.value)">
-            </div>
+      <div class="dropdown-up-panel" id="corporateDropdown">
+        
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup1">Formatos y Justificación</div>
+          <div class="group-row">
+            <select class="dropdown-select" onchange="applyTypography('fontName', this.value)">
+              <option value="Segoe UI">Segoe UI</option>
+              <option value="Arial">Arial</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+            <select class="dropdown-select" onchange="applyTypography('fontSize', this.value)">
+              <option value="14px">14 px</option>
+              <option value="16px" selected>16 px</option>
+              <option value="20px">20 px</option>
+              <option value="26px">26 px</option>
+            </select>
           </div>
-          <select class="dropdown-select" onchange="applyLineSpacing(this.value)">
-            <option value="1.2">Norm. (1.2)</option>
-            <option value="1.6">1.5 líneas</option>
-            <option value="2.0">Doble (2.0)</option>
-          </select>
+          <div class="group-row" style="margin-top:2px;">
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyLeft')">⟨=</button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyCenter')">=⌵=</button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyRight')">=⟩</button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyFull')">≡</button>
+          </div>
+          <div class="group-row" style="margin-top:2px;">
+            <div class="corporate-palette-container">
+              <button class="palette-btn" style="background: #1d5270;" onmousedown="event.preventDefault(); execCmd('foreColor', '#1d5270')"></button>
+              <button class="palette-btn" style="background: #92324f;" onmousedown="event.preventDefault(); execCmd('foreColor', '#92324f')"></button>
+              <button class="palette-btn" style="background: #d94e18;" onmousedown="event.preventDefault(); execCmd('foreColor', '#d94e18')"></button>
+              <button class="palette-btn" style="background: #0f172a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#0f172a')"></button>
+              <div class="native-color-wrapper">
+                <input type="color" class="native-color-picker" oninput="execCmd('foreColor', this.value)">
+              </div>
+            </div>
+            <select class="dropdown-select" onchange="applyLineSpacing(this.value)">
+              <option value="1.2">Interlineado (1.2)</option>
+              <option value="1.6">1.5 líneas</option>
+              <option value="2.0">Doble (2.0)</option>
+            </select>
+          </div>
         </div>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup2">Tabulaciones y Estructura</div>
+          <div class="group-row">
+            <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('indent')">➔ Sangría</button>
+            <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('outdent')"> Anular</button>
+            <button class="icon-btn icon-btn-large" onclick="applyTabulation()">⇥ Tabular</button>
+          </div>
+          <div class="group-row" style="margin-top:2px;">
+            <button class="icon-btn icon-btn-large" onclick="insertPageBreak('page')">📄 Salto Página</button>
+            <button class="icon-btn icon-btn-large" onclick="insertPageBreak('section')">🛡️ S. Sección</button>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup3">Diseño de Página</div>
+          <div class="group-row">
+            <select class="dropdown-select" onchange="changeMargins(this.value)">
+              <option value="40px">Margen Estándar</option>
+              <option value="15px">Margen Estrecho</option>
+              <option value="60px">Margen Ancho</option>
+            </select>
+            <select class="dropdown-select" onchange="changeOrientation(this.value)">
+              <option value="vertical">Vertical</option>
+              <option value="horizontal">Horizontal</option>
+            </select>
+            <button class="icon-btn icon-btn-large" onclick="toggleColumns()">🥞 Columnas</button>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup4">Conectividad y Macros</div>
+          <div class="group-row">
+            <button class="icon-btn icon-btn-large" onclick="insertHyperlink()">🔗 Vínculo</button>
+            <button class="icon-btn icon-btn-large" onclick="insertCrossReference()">🔖 Ref. Cruzada</button>
+            <button class="icon-btn icon-btn-large" id="btnMacro" onclick="toggleMacroRecording()" style="background:#1e3a8a;">⏺️ Grabar Macro</button>
+            <button class="icon-btn" onclick="executeMacro()">▶️</button>
+          </div>
+        </div>
+
       </div>
 
-      <div class="dropdown-divider"></div>
-
-      <div class="ribbon-group">
-        <div class="group-label">Tabulaciones y Sangrías</div>
-        <div class="group-row">
-          <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('indent')">➔ Sangría</button>
-          <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('outdent')"> cances</button>
-          <button class="icon-btn icon-btn-large" onclick="applyTabulation()">⇥ Tabular Columnas</button>
-        </div>
-        <div class="group-row" style="margin-top:4px;">
-          <button class="icon-btn icon-btn-large" onclick="insertPageBreak('page')">📄 Salto de Página</button>
-          <button class="icon-btn icon-btn-large" onclick="insertPageBreak('section')">🛡️ Salto Sección</button>
-        </div>
-      </div>
-
-      <div class="dropdown-divider"></div>
-
-      <div class="ribbon-group">
-        <div class="group-label">Diseño de Página</div>
-        <div class="group-row">
-          <select class="dropdown-select" onchange="changeMargins(this.value)">
-            <option value="40px">Margen Estándar</option>
-            <option value="15px">Margen Estrecho</option>
-            <option value="60px">Margen Ancho</option>
-          </select>
-          <select class="dropdown-select" onchange="changeOrientation(this.value)">
-            <option value="vertical">Vertical (A4)</option>
-            <option value="horizontal">Horizontal</option>
-          </select>
-          <button class="icon-btn icon-btn-large" onclick="toggleColumns()">🥞 Columnas (1/2)</button>
-        </div>
-      </div>
-
-      <div class="dropdown-divider"></div>
-
-      <div class="ribbon-group">
-        <div class="group-label">Conectividad y Macros Automatizadas</div>
-        <div class="group-row">
-          <button class="icon-btn icon-btn-large" onclick="insertHyperlink()">🔗 Hipervínculo</button>
-          <button class="icon-btn icon-btn-large" onclick="insertCrossReference()">🔖 Ref. Cruzada</button>
-          <button class="icon-btn icon-btn-large" id="btnMacro" onclick="toggleMacroRecording()" style="background:#1e3a8a;">⏺️ Grabar Macro</button>
-          <button class="icon-btn" onclick="executeMacro()" title="Ejecutar Macro">▶️</button>
-        </div>
-      </div>
+      <button class="trigger-menu-btn" id="mainTriggerBtn" onclick="toggleCorporateMenu(event)">
+        💼 <span>Herramientas Corporativas</span> ▴
+      </button>
 
     </div>
-
-    <button class="trigger-menu-btn" onclick="toggleCorporateMenu(event)">
-      💼 <span id="lblMainTriggerBtn">Herramientas Corporativas / Formato</span> ▴
-    </button>
-
   </div>
 
   <div class="footer-bar">
-    <span id="lblEco">Suite Corporativa Operativa</span>
+    <span id="lblEco">Ecosistema Activo: Español</span>
     <span id="lblContador">0 palabras | 0 caracteres</span>
   </div>
 
@@ -300,7 +296,48 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 <script>
 let macroActions = [];
 let isRecordingMacro = false;
-let currentLang = 'es';
+
+// DICCIONARIO TRILINGÜE INTEGRADO (ESPAÑOL - ENGLISH - BRIBRI - CABÉCAR)
+const translations = {
+  es: {
+    title: "WC Corporate Editor", eco: "Ecosistema Activo: Español 🇨🇷", trigger: "Herramientas Corporativas ▴",
+    g1: "Formatos y Justificación", g2: "Tabulaciones y Estructura", g3: "Diseño de Página", g4: "Conectividad y Macros",
+    docT: "Documento Corporativo Avanzado", docD: "Seleccione cualquier fragmento de texto para aplicarle transformaciones en tiempo real desde el menú flotante."
+  },
+  en: {
+    title: "WC Corporate Editor", eco: "Active Ecosystem: English 🇺🇸", trigger: "Corporate Tools ▴",
+    g1: "Formats & Justification", g2: "Tabs & Structure", g3: "Page Layout", g4: "Connectivity & Macros",
+    docT: "Advanced Corporate Document", docD: "Select any text fragment to apply real-time transformations from the floating menu."
+  },
+  br: {
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Bribri jula 🌱", trigger: "Dör Corporate Tools ▴",
+    g1: "I kí̱ mĩ kã̀ sũasũa", g2: "I tsu̱ tkiwã dör", g3: "Sáwá i kĩ", g4: "I chẽwã mĩ mácros",
+    docT: "Bribri jula sán editor", docD: "A dör tso jula kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör i tsáwã mĩ."
+  },
+  ca: {
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Cabécar jula 🐾", trigger: "Ká Corporate Tools ▴",
+    g1: "I kí̱ mĩ kã̀ sũasũa", g2: "I tsu̱ tkiwã dör", g3: "Sáwá i kĩ", g4: "I chẽwã mĩ mácros",
+    docT: "Cabécar jula sán editor por etnolingüística.", docD: "Utilice cá herramientas kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör."
+  }
+};
+
+function switchEcosystem(lang) {
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`btn-${lang}`).classList.add('active');
+  
+  // Actualizar textos de la interfaz basados en el ecosistema seleccionado
+  document.getElementById('suiteTitle').textContent = translations[lang].title;
+  document.getElementById('lblEco').textContent = translations[lang].eco;
+  document.getElementById('mainTriggerBtn').querySelector('span').textContent = translations[lang].trigger;
+  document.getElementById('lblGroup1').textContent = translations[lang].g1;
+  document.getElementById('lblGroup2').textContent = translations[lang].g2;
+  document.getElementById('lblGroup3').textContent = translations[lang].g3;
+  document.getElementById('lblGroup4').textContent = translations[lang].g4;
+  
+  // Cambiar contenido del lienzo para demostración lingüística si está limpio
+  document.getElementById('docTitle').textContent = translations[lang].docT;
+  document.getElementById('docDesc').textContent = translations[lang].docD;
+}
 
 function toggleCorporateMenu(event) {
   event.stopPropagation();
@@ -309,8 +346,8 @@ function toggleCorporateMenu(event) {
 
 document.addEventListener('click', function(e) {
   const dropdown = document.getElementById('corporateDropdown');
-  const trigger = document.querySelector('.trigger-menu-btn');
-  if (dropdown && !dropdown.contains(e.target) && e.target !== trigger) {
+  const trigger = document.getElementById('mainTriggerBtn');
+  if (dropdown && !dropdown.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
     dropdown.classList.remove('show');
   }
 });
@@ -323,13 +360,10 @@ function closeModal() {
   document.getElementById('customModal').classList.remove('show');
 }
 
-/* COMANDOS INTERACTIVOS SEGUROS */
 function execCmd(cmd, val = null) {
   document.getElementById('lienzoTexto').focus();
   document.execCommand(cmd, false, val);
-  if(isRecordingMacro) {
-    macroActions.push({type: 'exec', cmd: cmd, val: val});
-  }
+  if(isRecordingMacro) macroActions.push({type: 'exec', cmd: cmd, val: val});
   updateCounters();
 }
 
@@ -351,13 +385,10 @@ function applyTypography(type, value) {
   
   span.appendChild(range.extractContents());
   range.insertNode(span);
-  if(isRecordingMacro) {
-    macroActions.push({type: 'typo', style: type, val: value});
-  }
+  if(isRecordingMacro) macroActions.push({type: 'typo', style: type, val: value});
   updateCounters();
 }
 
-/* INTERLINEADO Y ESPACIADO */
 function applyLineSpacing(factor) {
   document.getElementById('lienzoTexto').focus();
   const selection = window.getSelection();
@@ -365,30 +396,26 @@ function applyLineSpacing(factor) {
     let parent = selection.getRangeAt(0).commonAncestorContainer;
     if (parent.nodeType === 3) parent = parent.parentNode;
     parent.style.lineHeight = factor;
-    parent.style.marginBottom = (factor * 8) + "px"; // Espaciado proporcional entre párrafos
-    openModal(`Interlineado fijado en: ${factor} y espaciado de párrafo actualizado.`);
+    parent.style.marginBottom = (factor * 8) + "px";
+    openModal(`Interlineado: ${factor} con espaciado de párrafo adaptativo.`);
   }
 }
 
-/* TABULACIONES ASISTIDAS */
 function applyTabulation() {
   document.getElementById('lienzoTexto').focus();
-  // Inserción de un bloque tabulado limpio en formato HTML estructurado en columnas
-  const tabHTML = `&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block; min-width:120px; border-bottom:1px dashed #cbd5e1;">Campo Columna</span>&nbsp;&nbsp;&nbsp;&nbsp;`;
+  const tabHTML = `&nbsp;&nbsp;&nbsp;&nbsp;<span style="display:inline-block; min-width:110px; border-bottom:1px dashed #cbd5e1;">Columna_Tab</span>&nbsp;&nbsp;&nbsp;&nbsp;`;
   document.execCommand('insertHTML', false, tabHTML);
 }
 
-/* SALTOS DE PÁGINA Y SECCIÓN */
 function insertPageBreak(type) {
   document.getElementById('lienzoTexto').focus();
   const hrElement = type === 'page' 
-    ? `<hr style="border:0; border-top:2px dashed #92324f; margin:24px 0; position:relative;" data-label="SALTO DE PÁGINA" />`
-    : `<hr style="border:0; border-top:3px double #1d5270; margin:30px 0;" data-label="SALTO DE SECCIÓN" />`;
+    ? `<hr style="border:0; border-top:2px dashed #92324f; margin:20px 0;" data-label="SALTO DE PÁGINA" />`
+    : `<hr style="border:0; border-top:3px double #1d5270; margin:25px 0;" data-label="SALTO DE SECCIÓN" />`;
   document.execCommand('insertHTML', false, hrElement);
-  openModal(`Insertado con éxito: ${type === 'page' ? 'Salto de Página' : 'Salto de Sección'}`);
+  openModal(`Insertado: ${type === 'page' ? 'Salto de Página' : 'Salto de Sección'}`);
 }
 
-/* CONFIGURACIÓN DE MÁRGENES Y HOJA */
 function changeMargins(val) {
   document.getElementById('lienzoTexto').style.padding = val;
 }
@@ -410,9 +437,8 @@ function toggleColumns() {
   paper.style.columnGap = "20px";
 }
 
-/* ENLACES Y REFERENCIAS */
 function insertHyperlink() {
-  const url = prompt("Ingrese la URL de destino del hipervínculo:", "https://");
+  const url = prompt("URL de destino del hipervínculo:", "https://");
   if(url) {
     document.getElementById('lienzoTexto').focus();
     document.execCommand('createLink', false, url);
@@ -420,7 +446,7 @@ function insertHyperlink() {
 }
 
 function insertCrossReference() {
-  const label = prompt("Ingrese el nombre de la referencia interna o marcador:", "Sección_1");
+  const label = prompt("Marcador de referencia interna:", "Sección_Ref");
   if(label) {
     document.getElementById('lienzoTexto').focus();
     const refHTML = `<a href="#${label}" style="color:#92324f; font-weight:600; text-decoration:none;">[Ref ➜ ${label}]</a>&nbsp;`;
@@ -428,7 +454,6 @@ function insertCrossReference() {
   }
 }
 
-/* CONTROL DE COMANDOS Y MACROS AUTOMATIZADAS */
 function toggleMacroRecording() {
   const btn = document.getElementById('btnMacro');
   if (!isRecordingMacro) {
@@ -440,20 +465,20 @@ function toggleMacroRecording() {
     isRecordingMacro = false;
     btn.textContent = "⏺️ Grabar Macro";
     btn.style.background = "#1e3a8a";
-    openModal(`Macro guardada con éxito (${macroActions.length} pasos grabados).`);
+    openModal(`Macro guardada (${macroActions.length} comandos registrados).`);
   }
 }
 
 function executeMacro() {
   if (macroActions.length === 0) {
-    openModal("No hay ninguna macro grabada en el historial.");
+    openModal("No hay ninguna macro registrada.");
     return;
   }
   macroActions.forEach(act => {
     if (act.type === 'exec') execCmd(act.cmd, act.val);
     if (act.type === 'typo') applyTypography(act.style, act.val);
   });
-  openModal("¡Macro ejecutada automáticamente sobre la selección!");
+  openModal("¡Macro ejecutada en la selección actual!");
 }
 
 function updateCounters() {
