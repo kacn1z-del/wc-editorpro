@@ -1,350 +1,250 @@
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <button onclick="insertTemplate('blank')">📄</button>
-  <button onclick="insertTemplate('cv')">📑</button>
-  <button onclick="insertTemplate('letter')">✉️</button>
-  <button onclick="insertTemplate('report')">📊</button>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>WC Corporate Editor v20</title>
 
-<!-- HEADER -->
-<div class="top-header"><span>WC CORPORATE EDITOR PRO + IA</span></div>
-
-<!-- RIBBON -->
-<div class="ribbon">
-  <div class="menu"><button>Archivo</button>
-    <div class="menu-content">
-      <button onclick="newDoc()">📄 Nuevo</button>
-      <button onclick="openDoc()">📂 Abrir</button>
-      <button onclick="save()">💾 Guardar</button>
-      <button onclick="saveAs()">💾 Guardar como</button>
-      <button onclick="printDoc()">🖨️ Imprimir</button>
-      <button onclick="exportPDF()">📄 Exportar PDF</button>
-    </div>
-  </div>
-  <div class="menu"><button>Editar</button>
-    <div class="menu-content">
-      <button onclick="bold()">Negrita</button>
-      <button onclick="italic()">Cursiva</button>
-      <button onclick="underline()">Subrayado</button>
-      <button onclick="undo()">↩️ Deshacer</button>
-      <button onclick="redo()">↪️ Rehacer</button>
-    </div>
-  </div>
-  <div class="menu"><button>Insertar</button>
-    <div class="menu-content">
-      <button onclick="insertTemplate('cv')">CV</button>
-      <button onclick="insertTemplate('letter')">Carta</button>
-      <button onclick="insertTemplate('report')">Informe</button>
-    </div>
-  </div>
-  <div class="menu"><button>WC Arte</button>
-    <div class="menu-content">
-      <input id="wcText" placeholder="Texto">
-      <select id="wcStyle">
-        <option value="wc1">Azul</option><option value="wc2">Naranja</option>
-        <option value="wc3">Itálico</option><option value="wc4">Degradado</option>
-        <option value="wc5">Sombra</option><option value="wc6">Mayúsculas</option>
-        <option value="wc7">Código</option><option value="wc8">Comic</option>
-        <option value="wc9">Grande</option><option value="wc10">Glass</option>
-      </select>
-      <button onclick="applyWC()">Aplicar</button>
-    </div>
-  </div>
-</div>
-
-<!-- DOCUMENTO -->
-<div class="workspace">
-  <div class="page">
-    <div id="editor" contenteditable="true">Escribe aquí...</div>
-  </div>
-</div>
-
-<!-- STATUSBAR -->
-<div id="statusbar">
-  <span id="wordCount">Palabras: 0</span> |
-  <span id="charCount">Caracteres: 0</span> |
-  <span id="readTime">Tiempo lectura: 0 min</span> |
-  <label for="langSelect">Idioma:</label>
-  <select id="langSelect" onchange="updateLangStatus()">
-    <option value="es">Español</option><option value="en">English</option>
-    <option value="br">Bribri</option><option value="cb">Cabécar</option>
-  </select> |
-  <span id="styleStatus">Estilo: Normal</span> |
-  <input id="newWord" placeholder="Añadir palabra"><button onclick="addWord()">➕</button>
-</div>
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <button onclick="insertTemplate('blank')">📄</button>
-  <button onclick="insertTemplate('cv')">📑</button>
-  <button onclick="insertTemplate('letter')">✉️</button>
-  <button onclick="insertTemplate('report')">📊</button>
-</div>
-
-<!-- HEADER -->
-<div class="top-header"><span>WC CORPORATE EDITOR PRO + IA</span></div>
-
-<!-- RIBBON -->
-<div class="ribbon">
-  <div class="menu"><button>Archivo</button>
-    <div class="menu-content">
-      <button onclick="newDoc()">📄 Nuevo</button>
-      <button onclick="openDoc()">📂 Abrir</button>
-      <button onclick="save()">💾 Guardar</button>
-      <button onclick="saveAs()">💾 Guardar como</button>
-      <button onclick="printDoc()">🖨️ Imprimir</button>
-      <button onclick="exportPDF()">📄 Exportar PDF</button>
-    </div>
-  </div>
-  <div class="menu"><button>Editar</button>
-    <div class="menu-content">
-      <button onclick="bold()">Negrita</button>
-      <button onclick="italic()">Cursiva</button>
-      <button onclick="underline()">Subrayado</button>
-      <button onclick="undo()">↩️ Deshacer</button>
-      <button onclick="redo()">↪️ Rehacer</button>
-    </div>
-  </div>
-  <div class="menu"><button>Insertar</button>
-    <div class="menu-content">
-      <button onclick="insertTemplate('cv')">CV</button>
-      <button onclick="insertTemplate('letter')">Carta</button>
-      <button onclick="insertTemplate('report')">Informe</button>
-    </div>
-  </div>
-  <div class="menu"><button>WC Arte</button>
-    <div class="menu-content">
-      <input id="wcText" placeholder="Texto">
-      <select id="wcStyle">
-        <option value="wc1">Azul</option><option value="wc2">Naranja</option>
-        <option value="wc3">Itálico</option><option value="wc4">Degradado</option>
-        <option value="wc5">Sombra</option><option value="wc6">Mayúsculas</option>
-        <option value="wc7">Código</option><option value="wc8">Comic</option>
-        <option value="wc9">Grande</option><option value="wc10">Glass</option>
-      </select>
-      <button onclick="applyWC()">Aplicar</button>
-    </div>
-  </div>
-</div>
-
-<!-- DOCUMENTO -->
-<div class="workspace">
-  <div class="page">
-    <div id="editor" contenteditable="true">Escribe aquí...</div>
-  </div>
-</div>
-
-<!-- STATUSBAR -->
-<div id="statusbar">
-  <span id="wordCount">Palabras: 0</span> |
-  <span id="charCount">Caracteres: 0</span> |
-  <span id="readTime">Tiempo lectura: 0 min</span> |
-  <label for="langSelect">Idioma:</label>
-  <select id="langSelect" onchange="updateLangStatus()">
-    <option value="es">Español</option><option value="en">English</option>
-    <option value="br">Bribri</option><option value="cb">Cabécar</option>
-  </select> |
-  <span id="styleStatus">Estilo: Normal</span> |
-  <input id="newWord" placeholder="Añadir palabra"><button onclick="addWord()">➕</button>
-</div>
-<script>
-const editor=document.getElementById("editor");
-
-/* =========================
-   HISTORIAL UNDO/REDO
-========================= */
-let history=[];let historyIndex=-1;
-function saveHistory(){
-  history=history.slice(0,historyIndex+1);
-  history.push(editor.innerHTML);
-  historyIndex++;
-}
-function undo(){
-  if(historyIndex>0){
-    historyIndex--;
-    editor.innerHTML=history[historyIndex];
-  }
-}
-function redo(){
-  if(historyIndex<history.length-1){
-    historyIndex++;
-    editor.innerHTML=history[historyIndex];
-  }
-}
-saveHistory();
-editor.addEventListener("input",saveHistory);
-
-/* =========================
-   FORMATO CON RANGE API
-========================= */
-function applyFormat(tagName){
-  const sel=window.getSelection();
-  if(!sel||sel.rangeCount===0) return;
-  const range=sel.getRangeAt(0);
-  const el=document.createElement(tagName);
-  el.appendChild(range.extractContents());
-  range.insertNode(el);
-  range.selectNodeContents(el);
-  sel.removeAllRanges();
-  sel.addRange(range);
-  saveHistory();
-}
-function bold(){applyFormat("strong");}
-function italic(){applyFormat("em");}
-function underline(){applyFormat("u");}
-
-/* =========================
-   ATAJOS DE TECLADO
-========================= */
-document.addEventListener("keydown",function(e){
-  if(e.ctrlKey&&e.key.toLowerCase()==="z"){e.preventDefault();undo();}
-  if(e.ctrlKey&&e.key.toLowerCase()==="y"){e.preventDefault();redo();}
-  if(e.ctrlKey&&e.key.toLowerCase()==="b"){e.preventDefault();bold();}
-  if(e.ctrlKey&&e.key.toLowerCase()==="i"){e.preventDefault();italic();}
-  if(e.ctrlKey&&e.key.toLowerCase()==="u"){e.preventDefault();underline();}
-});
-
-/* =========================
-   ARCHIVO
-========================= */
-function newDoc(){editor.innerHTML="";}
-function save(){localStorage.setItem("wc_doc",editor.innerHTML);}
-function openDoc(){const data=localStorage.getItem("wc_doc");if(data){editor.innerHTML=data;}}
-function saveAs(){
-  const name=prompt("Nombre del documento:");
-  if(name){localStorage.setItem(name,editor.innerHTML);}
-}
-function printDoc(){window.print();}
-function exportPDF(){alert("Exportar a PDF (simulado)");}
-
-/* =========================
-   PLANTILLAS
-========================= */
-function insertTemplate(type){
-  newDoc();
-  let html="";
-  if(type==="cv"){
-    html=`<h1>Currículum Vitae</h1>
-          <p><strong>Nombre:</strong> ...</p>
-          <p><strong>Experiencia:</strong> ...</p>`;
-  }
-  if(type==="letter"){
-    html=`<h1>Carta Formal</h1>
-          <p>San José, Costa Rica</p>
-          <p>Estimado/a ...</p>
-          <p>Contenido de la carta...</p>
-          <p>Atentamente,</p>`;
-  }
-  if(type==="report"){
-    html=`<div style="text-align:center; margin-top:100px;">
-             <h1 class="wc4">Informe Corporativo / Corporate Report</h1>
-             <h2 class="wc2">Proyecto / Cliente – Project / Client</h2>
-             <p class="wc3">Fecha / Date: __________</p>
-           </div>
-           <hr style="margin:40px 0;">
-           <h2>Índice / Index</h2>
-           <ol>
-             <li>Resumen Ejecutivo / Executive Summary</li>
-             <li>Objetivos / Objectives</li>
-             <li>Metodología / Methodology</li>
-             <li>Resultados / Results</li>
-             <li>Conclusiones / Conclusions</li>
-             <li>Recomendaciones / Recommendations</li>
-           </ol>
-           <hr style="margin:40px 0;">
-           <h2>1. Resumen Ejecutivo / Executive Summary</h2><p>...</p>
-           <h2>2. Objetivos / Objectives</h2><p>...</p>
-           <h2>3. Metodología / Methodology</h2><p>...</p>
-           <h2>4. Resultados / Results</h2><p>...</p>
-           <h2>5. Conclusiones / Conclusions</h2><p>...</p>
-           <h2>6. Recomendaciones / Recommendations</h2><p>...</p>`;
-  }
-  editor.innerHTML=html;
-}
-
-/* =========================
-   WC ARTE
-========================= */
-function applyWC(){
-  const text=document.getElementById("wcText").value;
-  const style=document.getElementById("wcStyle").value;
-  if(text){
-    editor.innerHTML+=`<p class="${style}">${text}</p>`;
-  }
-}
-
-/* =========================
-   BARRA DE ESTADO
-========================= */
-function updateStatus(){
-  const text=editor.innerText.trim();
-  const words=text.length>0?text.split(/\s+/).length:0;
-  const chars=text.length;
-  const readTime=Math.ceil(words/200);
-  document.getElementById("wordCount").textContent="Palabras: "+words;
-  document.getElementById("charCount").textContent="Caracteres: "+chars;
-  document.getElementById("readTime").textContent="Tiempo lectura: "+readTime+" min";
-  const sel=window.getSelection();
-  let style="Normal";
-  if(sel&&sel.rangeCount>0){
-    const node=sel.anchorNode.parentNode;
-    if(node.tagName==="STRONG") style="Negrita";
-    if(node.tagName==="EM") style="Cursiva";
-    if(node.tagName==="U") style="Subrayado";
-  }
-  document.getElementById("styleStatus").textContent="Estilo: "+style;
-}
-function updateLangStatus(){
-  const lang=document.getElementById("langSelect").value;
-  let label="Español";
-  if(lang==="en") label="English";
-  if(lang==="br") label="Bribri";
-  if(lang==="cb") label="Cabécar";
-  document.getElementById("langSelect").title="Idioma activo: "+label;
-}
-editor.addEventListener("input",updateStatus);
-document.addEventListener("selectionchange",updateStatus);
-updateStatus();updateLangStatus();
-
-/* =========================
-   CORRECTOR ORTOGRÁFICO
-========================= */
-const dictionaries={
-  es:["hola","informe","corporativo","proyecto","cliente","fecha","resumen","objetivos","metodología","resultados","conclusiones","recomendaciones"],
-  en:["hello","report","corporate","project","client","date","summary","objectives","methodology","results","conclusions","recommendations"],
-  br:["wak","tsiru","yök","dör","bribri"],
-  cb:["kaska","tö","cabécar"]
-};
-function spellCheck(){
-  const lang=document.getElementById("langSelect").value;
-  const dict=dictionaries[lang]||[];
-  let text=editor.innerText;
-  let words=text.split(/\s+/);
-  let checkedHTML=words.map(word=>{
-    const clean=word.toLowerCase().replace(/[.,;:!?]/g,"");
-    if(clean&&!dict.includes(clean)){
-      return `<span style="color:red; text-decoration:underline dotted;">${word}</span>`;
+  <!-- Parte 2: CSS corporativo -->
+  <style>
+    /* --- Layout general --- */
+    body {
+      margin:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+      background:#f5f6f8;
+      display:flex;
     }
-    return word;
-  }).join(" ");
-  editor.innerHTML=checkedHTML;
-}
-editor.addEventListener("input",spellCheck);
 
-/* =========================
-   DICCIONARIO DINÁMICO
-========================= */
-function addWord(){
-  const lang=document.getElementById("langSelect").value;
-  const word=document.getElementById("newWord").value.trim().toLowerCase();
-  if(!word) return;
-  if(!dictionaries[lang]) dictionaries[lang]=[];
-  if(!dictionaries[lang].includes(word)){
-    dictionaries[lang].push(word);
-    alert(`Palabra añadida al diccionario (${lang}): ${word}`);
-  }
-  document.getElementById("newWord").value="";
-  spellCheck();
-}
-</script>
+    /* --- Sidebar documentos --- */
+    .sidebar-docs {
+      width:220px;
+      background:linear-gradient(180deg,#0A66FF,#FF6B00);
+      color:white;
+      padding:20px;
+    }
+    .sidebar-docs h3 {
+      font-size:14px;
+      margin-top:20px;
+      margin-bottom:10px;
+      text-transform:uppercase;
+      font-weight:700;
+    }
+    .sidebar-docs ul { list-style:none; padding:0; }
+    .sidebar-docs li { margin:6px 0; cursor:pointer; }
+    .sidebar-docs li:hover { text-decoration:underline; }
+
+    /* --- Ribbon superior --- */
+    .topbar {
+      position:fixed;
+      top:0;
+      left:220px;
+      right:300px;
+      height:50px;
+      background:white;
+      border-bottom:1px solid #ddd;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 20px;
+    }
+    .topbar nav button {
+      margin-right:10px;
+      padding:6px 12px;
+      border:none;
+      background:#eef3ff;
+      border-radius:4px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .topbar nav button:hover { background:#dce6ff; }
+    .topbar input[type="search"] {
+      flex:1;
+      margin:0 20px;
+      padding:6px 10px;
+      border:1px solid #ccc;
+      border-radius:4px;
+    }
+    .profile { font-size:13px; font-weight:600; color:#333; }
+
+    /* --- Área principal --- */
+    .workspace {
+      flex:1;
+      margin-left:220px;
+      margin-right:300px;
+      padding:80px 40px 40px 40px;
+    }
+    .page {
+      background:white;
+      padding:40px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.1);
+      min-height:600px;
+    }
+    .page h1 { font-size:24px; font-weight:800; color:#0A66FF; }
+    .page h2 { font-size:18px; font-weight:700; color:#FF6B00; }
+    .page section h3 { margin-top:20px; font-size:16px; font-weight:700; }
+
+    /* --- Panel IA --- */
+    .assistant {
+      position:fixed;
+      top:0;
+      right:0;
+      width:300px;
+      height:100vh;
+      background:#fff;
+      border-left:1px solid #ddd;
+      padding:20px;
+      box-shadow:-4px 0 12px rgba(0,0,0,0.05);
+    }
+    .assistant h3 { font-size:16px; font-weight:700; margin-bottom:15px; }
+    .assistant button {
+      display:block;
+      width:100%;
+      margin-bottom:10px;
+      padding:10px;
+      border:none;
+      background:linear-gradient(135deg,#0A66FF,#FF6B00);
+      color:white;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .assistant button:hover { opacity:0.9; }
+
+    /* --- Indicadores inferiores --- */
+    .statusbar {
+      position:fixed;
+      bottom:0;
+      left:220px;
+      right:300px;
+      height:30px;
+      background:#fafafa;
+      border-top:1px solid #ddd;
+      font-size:13px;
+      color:#333;
+      display:flex;
+      align-items:center;
+      padding:0 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar documentos -->
+  <aside class="sidebar-docs">
+    <h3>Documentos</h3>
+    <ul>
+      <li>Informe Corporativo</li>
+      <li>Propuesta Ejecutiva</li>
+      <li>Presentación Proyecto</li>
+      <li>Notas rápidas</li>
+      <li>Ideas WC Arte</li>
+    </ul>
+    <h3>Recientes</h3>
+    <ul>
+      <li>Contrato_2024</li>
+      <li>Reporte_Mensual</li>
+      <li>Proyecto_Final</li>
+    </ul>
+  </aside>
+
+  <!-- Ribbon superior -->
+  <header class="topbar">
+    <nav>
+      <button>Archivo</button>
+      <button>Editar</button>
+      <button>Insertar</button>
+      <button>Formato</button>
+    </nav>
+    <input type="search" placeholder="Buscar comandos…">
+    <div class="profile">👤 Keny Chinchilla Navarro</div>
+  </header>
+
+  <!-- Área principal -->
+  <main class="workspace">
+    <div class="page">
+      <h1>WC Corporate Editor v20</h1>
+      <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
+      <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total.</p>
+      <section>
+        <h3>WC Arte</h3><p>Crea diseños profesionales con herramientas únicas.</p>
+        <h3>Herramientas</h3><p>Optimiza tu flujo de trabajo con funciones avanzadas.</p>
+        <h3>Desarrollador</h3><p>Keny Chinchilla Navarro – Innovación sin límites.</p>
+      </section>
+    </div>
+  </main>
+
+  <!-- Panel IA -->
+  <aside class="assistant">
+    <h3>IA Asistente WC</h3>
+    <button>Redactar un resumen</button>
+    <button>Mejorar este texto</button>
+    <button>Corregir ortografía</button>
+    <button>Traducir al inglés</button>
+  </aside>
+
+  <!-- Indicadores inferiores -->
+  <footer class="statusbar">
+    Página 1 de 1 | Palabras: 28 | Español (España) | 100% | Modo Corporativo Activado | Guardado automático
+  </footer>
+
+  <!-- Parte 3: Script JS -->
+  <script>
+    /* Buscador de comandos */
+    const searchInput = document.querySelector('.topbar input[type="search"]');
+    searchInput.addEventListener('input', function(){
+      const query = this.value.toLowerCase();
+      const buttons = document.querySelectorAll('.topbar nav button');
+      buttons.forEach(btn=>{
+        if(btn.textContent.toLowerCase().includes(query)){
+          btn.style.background="#dce6ff";
+        } else {
+          btn.style.background="#eef3ff";
+        }
+      });
+    });
+
+    /* Gestión de documentos */
+    const sidebarDocs = document.querySelectorAll('.sidebar-docs li');
+    sidebarDocs.forEach(item=>{
+      item.addEventListener('click',()=>{
+        const name=item.textContent;
+        document.querySelector('.page').innerHTML=
+          `<h1>${name}</h1><p>Contenido del documento "${name}"...</p>`;
+        updateStatusbar();
+      });
+    });
+
+    /* Panel IA Asistente */
+    const assistantBtns = document.querySelectorAll('.assistant button');
+    assistantBtns.forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const action=btn.textContent;
+        const editor=document.querySelector('.page');
+        let text=editor.innerText;
+        if(action.includes("resumen")){
+          editor.innerHTML=`<h2>Resumen generado</h2><p>${text.slice(0,100)}...</p>`;
+        }
+        if(action.includes("Mejorar")){
+          editor.innerHTML=`<h2>Texto mejorado</h2><p>${text.toUpperCase()}</p>`;
+        }
+        if(action.includes("Corregir")){
+          editor.innerHTML=`<h2>Corrección ortográfica</h2><p>${text.replace(/teh/g,"the")}</p>`;
+        }
+        if(action.includes("Traducir")){
+          editor.innerHTML=`<h2>Traducción al inglés</h2><p>[Traducción simulada]</p>`;
+        }
+        updateStatusbar();
+      });
+    });
+
+    /* Indicadores inferiores dinámicos */
+    function updateStatusbar(){
+      const page=document.querySelector('.page');
+      const text=page.innerText.trim();
+      const words=text.length>0?text.split(/\s+/).length:0;
+      document.querySelector('.statusbar').textContent=
+        `Página 1 de 1 | Palabras: ${words} | Español (España) | 100% | Modo Corporativo Activado | Guardado automático`;
+    }
+    document.addEventListener('input',updateStatusbar);
+    updateStatusbar();
+  </script>
 </body>
 </html>
