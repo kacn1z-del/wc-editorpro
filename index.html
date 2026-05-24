@@ -4,20 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Corporate Editor Pro Stable Suite</title>
+<title>WC Corporate Editor Pro Suite</title>
 
 <style>
+
+/* =========================
+   BASE
+========================= */
 
 html, body{
   margin:0;
   padding:0;
-  height:100%;
   font-family:-apple-system, BlinkMacSystemFont, sans-serif;
   background:#e9eef5;
-  overflow:auto;
+  height:100%;
 }
 
-/* HEADER */
+/* =========================
+   HEADER + IDIOMAS
+========================= */
+
 .header{
   background:linear-gradient(135deg,#1d5270,#92324f,#d94e18);
   color:white;
@@ -28,7 +34,67 @@ html, body{
   z-index:10;
 }
 
-/* TOOLBAR TIPO WORD */
+.lang-bar{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  background:rgba(255,255,255,0.95);
+  border-bottom:1px solid #ddd;
+  overflow-x:auto;
+}
+
+.lang-btn{
+  padding:5px 10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:#f8fafc;
+  font-size:12px;
+}
+
+.lang-btn.active{
+  background:#1d5270;
+  color:white;
+}
+
+/* =========================
+   TABS
+========================= */
+
+.tabs-bar{
+  display:flex;
+  gap:6px;
+  padding:6px;
+  background:white;
+  border-bottom:1px solid #ddd;
+}
+
+.tab{
+  padding:6px 12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:#f8fafc;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.tab.active{
+  background:#1d5270;
+  color:white;
+}
+
+.tab-tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:8px;
+  background:#f1f5f9;
+  border-bottom:1px solid #ddd;
+}
+
+/* =========================
+   TOOLBAR BASE
+========================= */
+
 .toolbar{
   display:flex;
   flex-wrap:wrap;
@@ -37,54 +103,95 @@ html, body{
   background:white;
   border-bottom:1px solid #ccc;
   position:sticky;
-  top:44px;
-  z-index:10;
+  top:90px;
+  z-index:9;
 }
 
-.toolbar button, .toolbar select{
+button, select{
   padding:6px 10px;
   border:1px solid #ccc;
-  background:white;
   border-radius:6px;
-  font-size:13px;
+  background:white;
+  font-size:12px;
 }
 
-/* DOCUMENTO */
+/* =========================
+   EDITOR
+========================= */
+
 .page{
   margin:12px;
   background:white;
   border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
   padding:25px;
-  min-height:75vh;
+  min-height:70vh;
 }
 
-/* EDITOR REALMENTE ESTABLE */
 #editor{
-  min-height:65vh;
+  min-height:60vh;
   outline:none;
   font-size:16px;
   line-height:1.8;
-
-  -webkit-user-select:text;
-  user-select:text;
-
-  touch-action:auto;
-  word-wrap:break-word;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
+
 .footer{
   display:flex;
   justify-content:space-between;
-  padding:8px 10px;
+  padding:8px;
   font-size:12px;
   background:white;
   border-top:1px solid #ddd;
 }
 
-button{
-  cursor:pointer;
+/* =========================
+   IA FLOATING
+========================= */
+
+.ia-float{
+  position:fixed;
+  right:16px;
+  bottom:90px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  z-index:999;
+}
+
+.ia-btn{
+  background:#1d5270;
+  color:white;
+  border:none;
+  border-radius:50px;
+  padding:10px 14px;
+}
+
+.ia-panel{
+  display:none;
+  margin-top:8px;
+  background:white;
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:10px;
+  width:180px;
+}
+
+.ia-panel button{
+  width:100%;
+  margin:4px 0;
+}
+
+/* =========================
+   MACROS
+========================= */
+
+#macroBtn.recording{
+  background:red;
+  color:white;
 }
 
 </style>
@@ -92,109 +199,192 @@ button{
 
 <body>
 
-<div class="header">
-💼 WC Corporate Editor Pro — Stable Suite
+<!-- HEADER -->
+<div class="header">💼 WC Corporate Editor Pro Suite</div>
+
+<!-- IDIOMAS -->
+<div class="lang-bar">
+<button class="lang-btn active" onclick="switchLang('es')">🇨🇷 ES</button>
+<button class="lang-btn" onclick="switchLang('en')">🇺🇸 EN</button>
+<button class="lang-btn" onclick="switchLang('br')">🌱 Bribri</button>
+<button class="lang-btn" onclick="switchLang('ca')">🐾 Cabécar</button>
 </div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+<div class="tab active" onclick="switchTab('inicio')">Inicio</div>
+<div class="tab" onclick="switchTab('insertar')">Insertar</div>
+<div class="tab" onclick="switchTab('diseno')">Diseño</div>
+</div>
+
+<div id="tab-tools" class="tab-tools"></div>
 
 <!-- TOOLBAR -->
 <div class="toolbar">
 
-<button onclick="cmd('bold')"><b>B</b></button>
-<button onclick="cmd('italic')"><i>I</i></button>
-<button onclick="cmd('underline')"><u>U</u></button>
+<button onclick="cmd('bold')">B</button>
+<button onclick="cmd('italic')">I</button>
+<button onclick="cmd('underline')">U</button>
 
-<button onclick="cmd('insertUnorderedList')">• Lista</button>
-<button onclick="cmd('insertOrderedList')">1. Lista</button>
+<button onclick="cmd('insertUnorderedList')">•</button>
+<button onclick="cmd('insertOrderedList')">1.</button>
 
 <button onclick="cmd('justifyLeft')">⬅</button>
 <button onclick="cmd('justifyCenter')">↔</button>
 <button onclick="cmd('justifyRight')">➡</button>
 
-<select onchange="fontSize(this.value)">
-  <option value="3">14px</option>
-  <option value="4" selected>16px</option>
-  <option value="5">20px</option>
-</select>
+<button onclick="save()">💾</button>
 
-<button onclick="setColor('#1d5270')">Azul</button>
-<button onclick="setColor('#92324f')">Rojo</button>
-
-<button onclick="save()">💾 Guardar</button>
+<button id="macroBtn" onclick="toggleMacro()">⏺️ Macro</button>
+<button onclick="playMacro()">▶️</button>
 
 </div>
 
-<!-- PAGE -->
+<!-- EDITOR -->
 <div class="page">
-  <div id="editor" contenteditable="true">
-    <h2>Documento WC Corporate</h2>
-    <p>Este es el editor consolidado estable. Ahora puedes escribir sin errores en iPhone.</p>
-  </div>
+<div id="editor" contenteditable="true">
+<h2>WC Document</h2>
+<p>Editor consolidado funcionando correctamente.</p>
+</div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-<span id="counter">0 palabras | 0 caracteres</span>
-<span>WC Engine Stable Pro</span>
+<span id="counter">0 palabras</span>
+<span>WC Engine Stable</span>
+</div>
+
+<!-- IA FLOAT -->
+<div class="ia-float">
+
+<button class="ia-btn" onclick="toggleIA()">💼 IA</button>
+
+<div id="ia-panel" class="ia-panel">
+<button onclick="ia('rewrite')">Reescribir</button>
+<button onclick="ia('formal')">Formal</button>
+<button onclick="ia('summary')">Resumen</button>
+</div>
+
 </div>
 
 <script>
 
+/* =========================
+   EDITOR CORE
+========================= */
+
 const editor = document.getElementById("editor");
 
-/* 🔥 iPhone SAFE INIT */
+function cmd(a){ document.execCommand(a,false,null); update(); }
+
+function save(){
+  localStorage.setItem("wc", editor.innerHTML);
+}
+
 window.onload = () => {
-  setTimeout(() => {
-    editor.focus();
-  }, 200);
+  const s = localStorage.getItem("wc");
+  if(s) editor.innerHTML = s;
+  renderTabs();
+  update();
 };
 
-/* mantener foco */
-editor.addEventListener("touchstart", () => {
-  editor.focus();
-});
+/* =========================
+   COUNTER
+========================= */
 
-/* COMMAND ENGINE */
-function cmd(action){
-  document.execCommand(action,false,null);
-  updateCounter();
-}
-
-/* FONT SIZE */
-function fontSize(size){
-  document.execCommand("fontSize", false, size);
-  updateCounter();
-}
-
-/* COLOR */
-function setColor(color){
-  document.execCommand("foreColor", false, color);
-  updateCounter();
-}
-
-/* SAVE LOCAL */
-function save(){
-  localStorage.setItem("wc_doc", editor.innerHTML);
-  alert("Documento guardado ✔");
-}
-
-/* LOAD */
-window.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("wc_doc");
-  if(saved){
-    editor.innerHTML = saved;
-  }
-  updateCounter();
-});
-
-/* COUNTER */
-function updateCounter(){
-  const text = editor.innerText || "";
-  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+function update(){
+  const t = editor.innerText || "";
   document.getElementById("counter").innerText =
-    `${words} palabras | ${text.length} caracteres`;
+    (t.trim() ? t.split(/\s+/).length : 0) + " palabras";
 }
 
-editor.addEventListener("input", updateCounter);
+editor.addEventListener("input", update);
+
+/* =========================
+   TABS
+========================= */
+
+let currentTab = "inicio";
+
+const tabs = {
+  inicio: [{t:"Negrita",a:()=>cmd("bold")}],
+  insertar: [{t:"Tabla",a:insertTable}],
+  diseno: [{t:"Color",a:()=>editor.style.color="#1d5270"}]
+};
+
+function switchTab(t){
+  currentTab = t;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  event.target.classList.add("active");
+  renderTabs();
+}
+
+function renderTabs(){
+  const c = document.getElementById("tab-tools");
+  c.innerHTML = "";
+  (tabs[currentTab]||[]).forEach(b=>{
+    let btn = document.createElement("button");
+    btn.textContent = b.t;
+    btn.onclick = b.a;
+    c.appendChild(btn);
+  });
+}
+
+function insertTable(){
+  document.execCommand("insertHTML",false,
+  "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
+}
+
+/* =========================
+   IA (SIMULADA)
+========================= */
+
+function toggleIA(){
+  const p = document.getElementById("ia-panel");
+  p.style.display = p.style.display==="block"?"none":"block";
+}
+
+function ia(type){
+  editor.innerHTML += "\n\n[IA: "+type+"]";
+}
+
+/* =========================
+   IDIOMAS
+========================= */
+
+function switchLang(l){
+  alert("Idioma: "+l);
+}
+
+/* =========================
+   MACROS
+========================= */
+
+let macro=[];
+let recording=false;
+
+function toggleMacro(){
+  const b=document.getElementById("macroBtn");
+
+  recording=!recording;
+
+  if(recording){
+    macro=[];
+    b.classList.add("recording");
+    b.innerText="Grabando...";
+  }else{
+    b.classList.remove("recording");
+    b.innerText="⏺️ Macro";
+  }
+}
+
+function record(a){
+  if(recording) macro.push(a);
+}
+
+function playMacro(){
+  macro.forEach(a=>cmd(a));
+}
 
 </script>
 
