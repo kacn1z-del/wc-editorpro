@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Premium Palette</title>
+<title>WC Corporate Editor v20 - Fixed Suite</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
   --bg-tab-active: #ffffff;
   --text-tab-active: #0f172a;
-  --bg-ribbon-panel: #f8fafc;
   --border-color: #cbd5e1;
 }
 
@@ -55,7 +54,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
 
-/* BARRA DE SELECTORES RÁPIDOS */
+/* BARRA DE SELECTORES TIPOGRÁFICOS RÁPIDOS */
 .font-bar { 
   background: #e2e8f0; 
   padding: 2px 12px 8px 12px; 
@@ -69,53 +68,76 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .font-bar::-webkit-scrollbar { display: none; }
 .font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
 
-/* 🏛️ MENÚ CORPORATIVO FIJO INFERIOR CON PALETA INCORPORADA */
+/* 🏛️ MENÚ SUPERIOR FIJO INFERIOR - HERRAMIENTAS CORPORATIVAS */
 .corporate-ribbon-dock {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-color);
-  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-color);
+  padding: 10px 14px;
   display: flex;
-  gap: 16px;
+  gap: 18px;
   overflow-x: auto;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 -4px 14px rgba(0,0,0,0.06);
   scrollbar-width: none;
 }
 .corporate-ribbon-dock::-webkit-scrollbar { display: none; }
-.ribbon-group { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #e2e8f0; padding-right: 12px; gap: 4px; }
+.ribbon-group { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #e2e8f0; padding-right: 14px; gap: 6px; }
 .ribbon-group:last-child { border-right: none; padding-right: 0; }
-.group-row { display: flex; gap: 4px; align-items: center; }
-.group-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+.group-row { display: flex; gap: 5px; align-items: center; }
+.group-label { font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* Botones Icono Básicos */
+/* BOTONES DE FORMATO */
 .icon-btn {
   background: white; border: 1px solid var(--border-color);
-  width: 32px; height: 32px; border-radius: 6px;
+  width: 34px; height: 34px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 600; cursor: pointer; color: #334155; transition: 0.1s;
+  font-size: 14px; font-weight: 600; cursor: pointer; color: #334155; transition: 0.15s;
 }
-.icon-btn:active, .icon-btn.active { background: #e2e8f0; color: #0f172a; border-color: #94a3b8; }
-.icon-btn-large { width: auto; padding: 0 10px; font-size: 12px; gap: 4px; }
+.icon-btn:active { background: #e2e8f0; transform: scale(0.95); }
+.icon-btn-large { width: auto; padding: 0 12px; font-size: 12px; gap: 4px; }
 .icon-btn-mic.recording { background: #ef4444 !important; color: white !important; animation: pulse 1.5s infinite; }
 
-/* 🎨 CUADRÍCULA DE COLORES DE META CORPORATIVOS */
-.color-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 20px);
+/* 🎨 PALETA INTEGRADA DE ACCIÓN DIRECTA (RETIENE EL FOCO) */
+.corporate-palette-container {
+  display: flex;
+  align-items: center;
   gap: 4px;
-  padding: 2px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
 }
-.color-dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1px solid rgba(0,0,0,0.15);
+.palette-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.18);
   cursor: pointer;
-  transition: transform 0.1s;
+  transition: transform 0.1s ease;
+  padding: 0;
+  flex-shrink: 0;
 }
-.color-dot:active { transform: scale(0.85); }
+.palette-btn:active { transform: scale(0.8); }
+
+/* Selector cromático nativo avanzado */
+.native-color-wrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: conic-gradient(red, yellow, green, cyan, blue, magenta, red);
+}
+.native-color-picker {
+  position: absolute;
+  top: -5px; left: -5px;
+  width: 34px; height: 34px;
+  opacity: 0;
+  cursor: pointer;
+}
 
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
@@ -190,61 +212,60 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
     </select>
   </div>
 
+  <div class="workspace">
+    <div class="paper" contenteditable="true" id="lienzoTexto">
+      <h3 id="docTitle">Bienvenido a WC Corporate Editor</h3>
+      <p id="docDesc">Toque las opciones de la cinta móvil superior para formatear el texto.</p>
+    </div>
+  </div>
+
   <div class="corporate-ribbon-dock">
     
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('bold')"><b>B</b></button>
-        <button class="icon-btn" onclick="execCmd('italic')"><i>I</i></button>
-        <button class="icon-btn" onclick="execCmd('underline')"><u>U</u></button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
       </div>
       <div class="group-label" id="lblG1">Fuente</div>
     </div>
 
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('justifyLeft')">⟨=</button>
-        <button class="icon-btn" onclick="execCmd('justifyCenter')">=⌵=</button>
-        <button class="icon-btn" onclick="execCmd('justifyRight')">=⟩</button>
-        <button class="icon-btn" onclick="execCmd('justifyFull')">===</button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyLeft')">⟨=</button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyCenter')">=⌵=</button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyRight')">=⟩</button>
       </div>
       <div class="group-label" id="lblG2">Párrafo</div>
     </div>
 
     <div class="ribbon-group">
       <div class="group-row">
-        <div class="color-grid">
-          <div class="color-dot" style="background-color: #1d5270;" onclick="applyTypography('foreColor', '#1d5270')" title="Blue Corp"></div>
-          <div class="color-dot" style="background-color: #92324f;" onclick="applyTypography('foreColor', '#92324f')" title="Wine Exec"></div>
-          <div class="color-dot" style="background-color: #d94e18;" onclick="applyTypography('foreColor', '#d94e18')" title="Orange Meta"></div>
-          <div class="color-dot" style="background-color: #0f172a;" onclick="applyTypography('foreColor', '#0f172a')" title="Deep Dark"></div>
-          <div class="color-dot" style="background-color: #16a34a;" onclick="applyTypography('foreColor', '#16a34a')" title="Green Eco"></div>
-          <div class="color-dot" style="background-color: #2563eb;" onclick="applyTypography('foreColor', '#2563eb')" title="Digital Blue"></div>
-          <div class="color-dot" style="background-color: #dc2626;" onclick="applyTypography('foreColor', '#dc2626')" title="Standard Red"></div>
-          <div class="color-dot" style="background-color: #7c3aed;" onclick="applyTypography('foreColor', '#7c3aed')" title="Premium Purple"></div>
+        <div class="corporate-palette-container">
+          <button class="palette-btn" style="background: #1d5270;" onmousedown="event.preventDefault(); execCmd('foreColor', '#1d5270')"></button>
+          <button class="palette-btn" style="background: #92324f;" onmousedown="event.preventDefault(); execCmd('foreColor', '#92324f')"></button>
+          <button class="palette-btn" style="background: #d94e18;" onmousedown="event.preventDefault(); execCmd('foreColor', '#d94e18')"></button>
+          <button class="palette-btn" style="background: #0f172a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#0f172a')"></button>
+          <button class="palette-btn" style="background: #16a34a;" onmousedown="event.preventDefault(); execCmd('foreColor', '#16a34a')"></button>
+          
+          <div class="native-color-wrapper">
+            <input type="color" class="native-color-picker" id="chromaPicker" oninput="execCmd('foreColor', this.value)">
+          </div>
         </div>
       </div>
-      <div class="group-label" id="lblGColor">Color Meta</div>
+      <div class="group-label" id="lblGColor">Herramientas Corporativas</div>
     </div>
 
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('insertUnorderedList')">•=</button>
-        <button class="icon-btn" onclick="execCmd('insertOrderedList')">1=</button>
+        <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('insertUnorderedList')">•=</button>
         <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
           🎙️ <span id="lblMic">Dictar</span>
         </button>
       </div>
-      <div class="group-label" id="lblG3">Herramientas</div>
+      <div class="group-label" id="lblG3">Flujo</div>
     </div>
 
-  </div>
-
-  <div class="workspace">
-    <div class="paper" contenteditable="true" id="lienzoTexto">
-      <h3 id="docTitle">Bienvenido a WC Corporate Editor</h3>
-      <p id="docDesc">Toque las opciones de la cinta móvil superior para formatear el texto.</p>
-    </div>
   </div>
 
   <div class="footer-bar">
@@ -267,10 +288,9 @@ let isRecording = false;
 
 const translationsDb = {
   es: {
-    eco: "Ecosistema Activo: Español 🇨🇷",
-    hTitle: "Bienvenido a WC Corporate Editor",
+    eco: "Ecosistema Activo: Español 🇨🇷", hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
-    g1: "Fuente", g2: "Párrafo", gColor: "Color Meta", g3: "Herramientas", micStart: "Dictar", micStop: "Grabando...",
+    g1: "Fuente", g2: "Párrafo", gColor: "Herramientas Corporativas", g3: "Flujo", micStart: "Dictar", micStop: "Grabando...",
     tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
       inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
@@ -278,24 +298,18 @@ const translationsDb = {
       diseno: [{ txt: "🎨 Corporate Theme", action: "themeCorp" }, { txt: "🏁 Fondo Gris", action: "bgGray" }],
       disposicion: [{ txt: "📐 Margen Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
       arte: [
-        { txt: "👑 Oro Líquido", action: "arteOro" },
-        { txt: "⭐ Estilo Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Meta Glow", action: "arteGlow" },
-        { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" },
-        { txt: "🍃 Eco Bio", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" },
-        { txt: "💼 Ejecutivo Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon Cyber", action: "arteNeon" },
-        { txt: "🍫 Bronce Real", action: "arteBronce" }
+        { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Estilo Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Meta Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco Bio", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Ejecutivo Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon Cyber", action: "arteNeon" }, { txt: "🍫 Bronce Real", action: "arteBronce" }
       ]
     }
   },
   en: {
-    eco: "Active Ecosystem: English 🇺🇸",
-    hTitle: "Welcome to WC Corporate Editor",
+    eco: "Active Ecosystem: English 🇺🇸", hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
-    g1: "Font", g2: "Paragraph", gColor: "Meta Color", g3: "Tools", micStart: "Dictate", micStop: "Listening...",
+    g1: "Font", g2: "Paragraph", gColor: "Corporate Tools", g3: "Workflow", micStart: "Dictate", micStop: "Listening...",
     tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
       inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
@@ -303,24 +317,18 @@ const translationsDb = {
       diseno: [{ txt: "🎨 Corp Theme", action: "themeCorp" }, { txt: "🏁 Gray Background", action: "bgGray" }],
       disposicion: [{ txt: "📐 Normal Margin", action: "marginNormal" }, { txt: "🥞 Columns", action: "columnsToggle" }],
       arte: [
-        { txt: "👑 Liquid Gold", action: "arteOro" },
-        { txt: "⭐ Rainbow Style", action: "arteArcoiris" },
-        { txt: "⚡ Meta Glow", action: "arteGlow" },
-        { txt: "💎 Diamond", action: "arteDiamante" },
-        { txt: "🌌 Deep Space", action: "arteEspacial" },
-        { txt: "🍃 Eco Fresh", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" },
-        { txt: "💼 Executive Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Cyber Neon", action: "arteNeon" },
-        { txt: "🍫 Royal Bronze", action: "arteBronce" }
+        { txt: "👑 Liquid Gold", action: "arteOro" }, { txt: "⭐ Rainbow Style", action: "arteArcoiris" },
+        { txt: "⚡ Meta Glow", action: "arteGlow" }, { txt: "💎 Diamond", action: "arteDiamante" },
+        { txt: "🌌 Deep Space", action: "arteEspacial" }, { txt: "🍃 Eco Fresh", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Executive Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Cyber Neon", action: "arteNeon" }, { txt: "🍫 Royal Bronze", action: "arteBronce" }
       ]
     }
   },
   bri: {
-    eco: "Ecosistema Activo: Bribri pakö 🌱",
-    hTitle: "Kápö - WC Corporate Editor baka",
+    eco: "Ecosistema Activo: Bribri pakö 🌱", hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
-    g1: "Ká̱ jë", g2: "Ujtëk já̱", gColor: "Ká̱ Color", g3: "Sán", micStart: "Pakö", micStop: "Katö...",
+    g1: "Ká̱ jë", g2: "Ujtëk já̱", gColor: "Herramientas Sán", g3: "Flujo", micStart: "Pakö", micStop: "Katö...",
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
       inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
@@ -328,24 +336,18 @@ const translationsDb = {
       diseno: [{ txt: "🎨 Ká̱ theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
       disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
       arte: [
-        { txt: "👑 Oro Líquido", action: "arteOro" },
-        { txt: "⭐ Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Glow", action: "arteGlow" },
-        { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" },
-        { txt: "🍃 Eco", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" },
-        { txt: "💼 Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon", action: "arteNeon" },
-        { txt: "🍫 Bronce", action: "arteBronce" }
+        { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon", action: "arteNeon" }, { txt: "🍫 Bronce", action: "arteBronce" }
       ]
     }
   },
   cab: {
-    eco: "Ecosistema Activo: Cabécar jula 🐾",
-    hTitle: "Sáwá - Editor Suite",
+    eco: "Ecosistema Activo: Cabécar jula 🐾", hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
-    g1: "Jula", g2: "Márgenes", gColor: "Color", g3: "Herramientas", micStart: "Jula pak", micStop: "Sáwá...",
+    g1: "Jula", g2: "Márgenes", gColor: "Ká Corporate", g3: "Flujo", micStart: "Jula pak", micStop: "Sáwá...",
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
       inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
@@ -353,16 +355,11 @@ const translationsDb = {
       diseno: [{ txt: "🎨 Theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
       disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
       arte: [
-        { txt: "👑 Oro Líquido", action: "arteOro" },
-        { txt: "⭐ Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Glow", action: "arteGlow" },
-        { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" },
-        { txt: "🍃 Eco", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" },
-        { txt: "💼 Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon", action: "arteNeon" },
-        { txt: "🍫 Bronce", action: "arteBronce" }
+        { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon", action: "arteNeon" }, { txt: "🍫 Bronce", action: "arteBronce" }
       ]
     }
   }
@@ -377,13 +374,15 @@ function closeModal() {
 }
 
 function execCmd(cmd, val = null) {
-  document.getElementById('lienzoTexto').focus();
+  const canvas = document.getElementById('lienzoTexto');
+  canvas.focus();
   document.execCommand(cmd, false, val);
   updateCounters();
 }
 
 function applyTypography(type, value) {
-  document.getElementById('lienzoTexto').focus();
+  const canvas = document.getElementById('lienzoTexto');
+  canvas.focus();
   const selection = window.getSelection();
   
   if (!selection.rangeCount || selection.isCollapsed) {
@@ -392,7 +391,6 @@ function applyTypography(type, value) {
       let sizeMap = {"12px":2,"14px":3,"16px":4,"18px":5,"24px":6,"32px":7};
       execCmd('fontSize', sizeMap[value] || 4);
     }
-    if (type === 'foreColor') execCmd('foreColor', value);
     return;
   }
 
@@ -400,7 +398,6 @@ function applyTypography(type, value) {
   const span = document.createElement('span');
   if (type === 'fontName') span.style.fontFamily = value;
   if (type === 'fontSize') span.style.fontSize = value;
-  if (type === 'foreColor') span.style.color = value;
   
   span.appendChild(range.extractContents());
   range.insertNode(span);
@@ -494,7 +491,6 @@ function triggerCommandAction(actionKey, label) {
   }
 }
 
-// Dictado por voz
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SpeechObj = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechObj(); recognition.continuous = true; recognition.interimResults = false;
