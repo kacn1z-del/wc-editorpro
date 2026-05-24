@@ -1,336 +1,374 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wc Corporate Editor</title>
-    <style>
-        :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --bg-color: #f8fafc;
-            --border-color: #cbd5e1;
-            --toolbar-bg: #ffffff;
-            --text-color: #334155;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WC Corporate Editor v22.0 - Suite Profesional</title>
+<style>
+:root {
+  --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
+  --bg-tab-active: #ffffff;
+  --text-tab-active: #0f172a;
+  --border-color: #cbd5e1;
+  --dark-dropdown-bg: #111827;
+}
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-        /* --- Barra de Herramientas Compacta --- */
-        .toolbar {
-            background-color: var(--toolbar-bg);
-            border-bottom: 2px solid var(--border-color);
-            padding: 8px 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            z-index: 100;
-        }
+/* CABECERA PRINCIPAL */
+.header-suite {
+  background: var(--bg-gradient);
+  padding: 12px 12px 6px 12px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 
-        /* Contenedor del menú desplegable (Dropdown) */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+/* BARRA DE IDIOMAS E INDÍGENAS */
+.lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.lang-bar::-webkit-scrollbar { display: none; }
+.lang-btn {
+  background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: 0.2s;
+}
+.lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
 
-        /* Botón Principal del Desplegable */
-        .dropbtn {
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
+/* CINTA DESLIZABLE DE PESTAÑAS */
+.mobile-tabs-scroll {
+  display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; scrollbar-width: none;
+}
+.mobile-tabs-scroll::-webkit-scrollbar { display: none; }
+.tab-node {
+  padding: 6px 14px; font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1); border-radius: 6px; cursor: pointer; transition: 0.2s;
+}
+.tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
 
-        .dropbtn:hover {
-            background-color: #f1f5f9;
-            border-color: var(--secondary-color);
-        }
+/* 🌟 BARRA DINÁMICA DE MANDOS INTERMEDIOS (Ubicación Limpia de Nuevas Funciones) */
+.ribbon-commands-panel {
+  background: #e2e8f0; padding: 8px 12px; display: flex; gap: 8px; overflow-x: auto; align-items: center; flex-shrink: 0; scrollbar-width: none;
+  border-bottom: 1px solid var(--border-color);
+}
+.ribbon-commands-panel::-webkit-scrollbar { display: none; }
+.cmd-group-divider { height: 24px; width: 1px; background: #cbd5e1; margin: 0 4px; }
+.cmd-btn {
+  background: white; border: 1px solid var(--border-color); padding: 6px 12px;
+  border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
+}
+.cmd-btn:active { background: #f8fafc; }
 
-        .dropbtn::after {
-            content: ' ▾';
-            font-size: 0.8rem;
-            color: #64748b;
-        }
+/* LIENZO DE TRABAJO (WORKSPACE) */
+.workspace { position: relative; flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; background-color: #cbd5e1; }
+.paper { width: 100%; max-width: 650px; background: white; min-height: 550px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); padding: 40px; border-radius: 4px; outline: none; line-height: 1.6; transition: all 0.2s ease; }
 
-        /* Contenido del Desplegable (Oculto por defecto) */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #ffffff;
-            min-width: 180px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.12);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 6px 0;
-            z-index: 110;
-            margin-top: 4px;
-        }
+/* 🎯 BOTÓN FLOTANTE ALINEADO A 150PX DEL BORDE INFERIOR MÓVIL */
+.floating-corporate-container {
+  position: absolute;
+  bottom: 150px; 
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.trigger-menu-btn {
+  background: var(--bg-gradient); color: white; border: none; padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3); display: flex; align-items: center; gap: 8px; transition: transform 0.2s ease;
+}
+.trigger-menu-btn:active { transform: scale(0.95); }
 
-        /* Botones dentro del desplegable */
-        .dropdown-content button {
-            width: 100%;
-            text-align: left;
-            background: none;
-            border: none;
-            padding: 10px 16px;
-            font-size: 0.9rem;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-radius: 0;
-            transition: background 0.2s;
-        }
+/* MEGA PANEL DESPLEGABLE OSCURO */
+.dropdown-up-panel {
+  position: absolute; bottom: 115%; right: 0; background: var(--dark-dropdown-bg); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 16px;
+  width: calc(100vw - 40px); max-width: 430px; max-height: 450px; overflow-y: auto; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; gap: 14px;
+  opacity: 0; pointer-events: none; transform: translateY(15px); transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.dropdown-up-panel.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-        .dropdown-content button:hover {
-            background-color: #f1f5f9;
-            color: var(--primary-color);
-        }
+.ribbon-group { display: flex; flex-direction: column; gap: 6px; }
+.group-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.group-label { font-size: 10px; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.dropdown-divider { border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 2px 0; }
 
-        /* Mostrar el desplegable con JavaScript */
-        .show {
-            display: block;
-        }
+.icon-btn { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); width: 36px; height: 36px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #f8fafc; cursor: pointer; }
+.icon-btn-large { width: auto; padding: 0 10px; font-size: 11px; gap: 4px; height: 36px; }
+.dropdown-select { background: #1f2937; color: white; border: 1px solid rgba(255, 255, 255, 0.2); padding: 6px 8px; border-radius: 6px; font-size: 12px; outline: none; }
 
-        /* --- Área de Trabajo (Lienzo) --- */
-        .container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 30px 15px;
-            display: flex;
-            justify-content: center;
-        }
+/* BARRA DE ESTADO */
+.footer-bar { height: 30px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; z-index: 10; }
 
-        .editor-paper {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 800px;
-            min-height: 297mm;
-            padding: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            outline: none;
-            box-sizing: border-box;
-            font-size: 16px;
-            color: #334155;
-            word-wrap: break-word;
-        }
+/* MODAL / PORTAPAPELES HISTORIAL */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 200000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.corporate-modal { background: white; width: 85%; max-width: 340px; border-radius: 14px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.modal-title { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 12px; text-align: center; }
+.modal-btn-close { background: transparent; border: none; color: #2563eb; font-size: 13px; font-weight: 500; width: 100%; text-align: right; cursor: pointer; }
 
-        .justify-text {
-            text-align: justify !important;
-        }
-
-        /* --- Pie de Página --- */
-        footer {
-            background-color: #ffffff;
-            border-top: 1px solid var(--border-color);
-            padding: 8px 20px;
-            text-align: right;
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        footer strong {
-            color: #1e293b;
-        }
-
-        /* Ajustes específicos para que no se desborde en pantallas móviles */
-        @media (max-width: 600px) {
-            .toolbar { padding: 6px; gap: 6px; }
-            .dropbtn { padding: 6px 10px; font-size: 0.85rem; }
-            .container { padding: 10px; }
-            .editor-paper { padding: 25px; min-height: auto; }
-        }
-    </style>
+/* HISTORIAL VISUAL */
+.clipboard-item { padding: 8px; background: #f1f5f9; border-radius: 6px; margin-bottom: 6px; font-size: 12px; cursor: pointer; border: 1px solid #e2e8f0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+</style>
 </head>
 <body>
 
-    <div class="toolbar">
-        
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleDropdown('drop-edicion')">📋 Edición</button>
-            <div id="drop-edicion" class="dropdown-content">
-                <button onclick="ejecutarComando('copy')">📋 Copiar <small style="margin-left:auto; color:#94a3b8;">Ctrl+C</small></button>
-                <button onclick="ejecutarComando('cut')">✂️ Cortar <small style="margin-left:auto; color:#94a3b8;">Ctrl+X</small></button>
-                <button onclick="ejecutarComando('paste')">📥 Pegar <small style="margin-left:auto; color:#94a3b8;">Ctrl+V</small></button>
-            </div>
-        </div>
+  <div class="header-suite">
+    <div class="brand-title" id="suiteTitle">WC Corporate Editor</div>
+    
+    <div class="lang-bar">
+      <button class="lang-btn active" id="btn-es" onclick="switchEcosystem('es')">🇨🇷 Español</button>
+      <button class="lang-btn" id="btn-en" onclick="switchEcosystem('en')">🇺🇸 English</button>
+      <button class="lang-btn" id="btn-br" onclick="switchEcosystem('br')">🌱 Bribri</button>
+      <button class="lang-btn" id="btn-ca" onclick="switchEcosystem('ca')">🐾 Cabécar</button>
+    </div>
+    
+    <div class="mobile-tabs-scroll">
+      <div class="tab-node active" id="t-inicio" onclick="changeActiveTab('inicio')">Inicio</div>
+      <div class="tab-node" id="t-insertar" onclick="changeActiveTab('insertar')">Insertar</div>
+      <div class="tab-node" id="t-diseno" onclick="changeActiveTab('diseno')">Diseño de Página</div>
+    </div>
+  </div>
 
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleDropdown('drop-parrafo')">🔢 Formato Párrafo</button>
-            <div id="drop-parrafo" class="dropdown-content">
-                <button onclick="ejecutarComando('insertUnorderedList')">• Lista con Viñetas</button>
-                <button onclick="ejecutarComando('insertOrderedList')">1. Lista Multinivel</button>
-                <button onclick="insertarTabulacion()">📏 Insertar Tabulación <small style="margin-left:auto; color:#94a3b8;">Tab</small></button>
-                <hr style="border:none; border-top: 1px solid var(--border-color); margin:4px 0;">
-                <button onclick="cambiarInterlineado('1.0')">↕️ Interlineado 1.0</button>
-                <button onclick="cambiarInterlineado('1.5')">↕️ Interlineado 1.5</button>
-                <button onclick="cambiarInterlineado('2.0')">↕️ Interlineado 2.0</button>
-            </div>
-        </div>
+  <div class="ribbon-commands-panel" id="panelComandos"></div>
 
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleDropdown('drop-alineacion')">🔲 Alineación</button>
-            <div id="drop-alineacion" class="dropdown-content">
-                <button onclick="ejecutarComando('justifyLeft')">⬅️ Alinear Izquierda</button>
-                <button onclick="ejecutarComando('justifyCenter')">🔲 Centrar</button>
-                <button onclick="ejecutarComando('justifyRight')">➡️ Alinear Derecha</button>
-                <button onclick="aplicarJustificado()">⏸️ Justificar Texto <small style="margin-left:auto; color:#94a3b8;">Ctrl+J</small></button>
-            </div>
-        </div>
-
-        <div class="dropdown">
-            <button class="dropbtn" onclick="toggleDropdown('drop-insertar')">➕ Insertar</button>
-            <div id="drop-insertar" class="dropdown-content">
-                <button onclick="insertarSaltoPagina()">📄 Salto de Página <small style="margin-left:auto; color:#94a3b8;">Ctrl+Enter</small></button>
-                <button onclick="insertarHipervinculo()">🔗 Hipervínculo <small style="margin-left:auto; color:#94a3b8;">Ctrl+K</small></button>
-                <button onclick="insertarImagen()">🖼️ Imagen Externa</button>
-                <button onclick="insertarReferencia()">🔄 Referencia Cruzada</button>
-            </div>
-        </div>
-
+  <div class="workspace">
+    <div class="paper" contenteditable="true" id="lienzoTexto">
+      <h3 id="docTitle">Estructura Corporativa Avanzada</h3>
+      <p id="docDesc">Use las cintas superiores para gestionar el portapapeles y los esquemas multinivel con total fluidez.</p>
     </div>
 
-    <div class="container">
-        <div id="editor" class="editor-paper" contenteditable="true" placeholder="Comience a escribir aquí..."></div>
+    <div class="floating-corporate-container">
+      <div class="dropdown-up-panel" id="corporateDropdown">
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup1">Formatos Avanzados</div>
+          <div class="group-row">
+            <select class="dropdown-select" onchange="applyTypography('fontName', this.value)">
+              <option value="Segoe UI">Segoe UI</option>
+              <option value="Arial">Arial</option>
+              <option value="Times New Roman">Times New Roman</option>
+            </select>
+            <select class="dropdown-select" onchange="applyTypography('fontSize', this.value)">
+              <option value="14px">14 px</option>
+              <option value="16px" selected>16 px</option>
+              <option value="20px">20 px</option>
+            </select>
+          </div>
+          <div class="group-row" style="margin-top:2px;">
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('bold')"><b>B</b></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('italic')"><i>I</i></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('underline')"><u>U</u></button>
+            <button class="icon-btn" onmousedown="event.preventDefault(); execCmd('justifyFull')">≡</button>
+          </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="ribbon-group">
+          <div class="group-label" id="lblGroup4">Automatización</div>
+          <div class="group-row">
+            <button class="icon-btn icon-btn-large" id="btnMacro" onclick="toggleMacroRecording()">⏺️ Grabar Macro</button>
+            <button class="icon-btn" onclick="executeMacro()">▶️</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="trigger-menu-btn" id="mainTriggerBtn" onclick="toggleCorporateMenu(event)">
+        💼 <span>Herramientas / Formato</span> ▴
+      </button>
     </div>
+  </div>
 
-    <footer>
-        Programador: <strong>Keny Chinchilla Navarro</strong>
-    </footer>
+  <div class="footer-bar">
+    <span id="lblEco">Ecosistema Activo: Español</span>
+    <span id="lblContador">0 palabras | 0 caracteres</span>
+  </div>
 
-    <script>
-        const editor = document.getElementById('editor');
+  <div class="modal-overlay" id="customModal">
+    <div class="corporate-modal">
+      <div class="modal-title" id="customModalContent">Panel General</div>
+      <div id="modalBodyContainer"></div>
+      <button class="modal-btn-close" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
 
-        // Alternar visibilidad de los menús desplegables
-        function toggleDropdown(id) {
-            // Cerrar otros desplegables abiertos antes de abrir el nuevo
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                if (dropdowns[i].id !== id) {
-                    dropdowns[i].classList.remove('show');
-                }
-            }
-            document.getElementById(id).classList.toggle("show");
-        }
+<script>
+let macroActions = [];
+let isRecordingMacro = false;
+let currentTab = 'inicio';
+let currentLang = 'es';
 
-        // Cerrar menús automáticamente si el usuario hace clic fuera de la barra de herramientas
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropbtn')) {
-                const dropdowns = document.getElementsByClassName("dropdown-content");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    dropdowns[i].classList.remove('show');
-                }
-            }
-        }
+// Base de datos simulada del portapapeles corporativo interno
+let virtualClipboard = [
+  "Contrato Marco de Servicios Tecnológicos 2026",
+  "Cláusula de Confidencialidad Etnolingüística regional"
+];
 
-        // Ejecutor de comandos nativos
-        function ejecutarComando(comando, valor = null) {
-            document.execCommand(comando, false, valor);
-            editor.focus();
-        }
+const translations = {
+  es: {
+    title: "WC Corporate Editor", eco: "Ecosistema Activo: Español 🇨🇷", trigger: "Herramientas / Formato ▴", g1: "Formatos Avanzados", g4: "Automatización",
+    docT: "Estructura Corporativa Avanzada", docD: "Use las cintas superiores para gestionar el portapapeles y los esquemas multinivel con total fluidez."
+  },
+  en: {
+    title: "WC Corporate Editor", eco: "Active Ecosystem: English 🇺🇸", trigger: "Tools / Format ▴", g1: "Advanced Formats", g4: "Automation",
+    docT: "Advanced Corporate Structure", docD: "Use the upper ribbons to manage the clipboard and multilevel schemes smoothly."
+  },
+  br: {
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Bribri jula 🌱", trigger: "Dör Tools / Formato ▴", g1: "I kí̱ mĩ kã̀ sũasũa", g4: "I chẽwã mĩ macros",
+    docT: "Bribri jula sán editor", docD: "A dör tso jula kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör i tsáwã mĩ."
+  },
+  ca: {
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Cabécar jula 🐾", trigger: "Ká Tools / Formato ▴", g1: "I kí̱ mĩ kã̀ sũasũa", g4: "I chẽwã mĩ macros",
+    docT: "Cabécar jula sán editor", docD: "Utilice cá herramientas kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör."
+  }
+};
 
-        // Justificación homogénea
-        function aplicarJustificado() {
-            ejecutarComando('justifyFull');
-            const seleccion = window.getSelection();
-            if (seleccion.rangeCount > 0) {
-                let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
-                if (contenedor.nodeType === 3) contenedor = contenedor.parentNode;
-                if (contenedor !== editor) {
-                    contenedor.classList.toggle('justify-text');
-                }
-            }
-        }
+function switchEcosystem(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`btn-${lang}`).classList.add('active');
+  
+  const db = translations[lang];
+  document.getElementById('suiteTitle').textContent = db.title;
+  document.getElementById('lblEco').textContent = db.eco;
+  document.getElementById('mainTriggerBtn').querySelector('span').textContent = db.trigger;
+  document.getElementById('lblGroup1').textContent = db.g1;
+  document.getElementById('lblGroup4').textContent = db.g4;
+  
+  document.getElementById('docTitle').textContent = db.docT;
+  document.getElementById('docDesc').textContent = db.docD;
+  renderActiveCommands();
+}
 
-        // Gestión de Interlineado
-        function cambiarInterlineado(valor) {
-            const seleccion = window.getSelection();
-            if (seleccion.rangeCount > 0) {
-                let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
-                if (contenedor.nodeType === 3) contenedor = contenedor.parentNode;
-                
-                if (contenedor === editor) {
-                    editor.style.lineHeight = valor;
-                } else {
-                    contenedor.style.lineHeight = valor;
-                }
-            }
-            editor.focus();
-        }
+function changeActiveTab(tabName) {
+  currentTab = tabName;
+  document.querySelectorAll('.tab-node').forEach(t => t.classList.remove('active'));
+  document.getElementById(`t-${tabName}`).classList.add('active');
+  renderActiveCommands();
+}
 
-        // Inserción de elementos dinámicos
-        function insertarSaltoPagina() {
-            const hrSalto = '<hr style="border: none; border-top: 2px dashed #3b82f6; margin: 30px 0; position: relative;" data-content="Salto de Página" />';
-            ejecutarComando('insertHTML', hrSalto);
-        }
+// 🛠️ RENDERIZADO ESTÉTICO DE MANDOS SEGÚN PESTAÑA SELECCIONADA
+function renderActiveCommands() {
+  const panel = document.getElementById('panelComandos');
+  panel.innerHTML = "";
+  
+  if (currentTab === 'inicio') {
+    panel.innerHTML = `
+      <button class="cmd-btn" onclick="execClipboard('cut')">✂️ Cortar</button>
+      <button class="cmd-btn" onclick="execClipboard('copy')">📄 Copiar</button>
+      <button class="cmd-btn" onclick="execClipboard('paste')">📋 Pegar</button>
+      <button class="cmd-btn" onclick="openClipboardManager()" title="Ver Historial">📋▼</button>
+      <div class="cmd-group-divider"></div>
+      <button class="cmd-btn" onclick="insertMultilevelList()">🔢 Lista Multinivel</button>
+    `;
+  } else if (currentTab === 'insertar') {
+    panel.innerHTML = `
+      <button class="cmd-btn" onclick="insertPageBreak('simple')">📄 Salto de Página</button>
+      <button class="cmd-btn" onclick="insertPageBreak('impar')">📄 Salto (Pág. Impar)</button>
+    `;
+  } else if (currentTab === 'diseno') {
+    panel.innerHTML = `
+      <select class="dropdown-select" style="background:white; color:#334155;" onchange="changeMargins(this.value)">
+        <option value="40px">📐 Margen Normal</option>
+        <option value="15px">📐 Margen Estrecho</option>
+      </select>
+      <select class="dropdown-select" style="background:white; color:#334155;" onchange="changeOrientation(this.value)">
+        <option value="vertical">🔄 Vertical</option>
+        <option value="horizontal">🔄 Horizontal</option>
+      </select>
+      <button class="cmd-btn" onclick="toggleColumns()">🥞 Columnas (1/2)</button>
+    `;
+  }
+}
 
-        function insertarTabulacion() {
-            const espacioTab = '<span style="display:inline-block; width: 40px;"></span>';
-            ejecutarComando('insertHTML', espacioTab);
-        }
+/* FUNCIONALIDADES DEL PORTAPAPELES */
+function execClipboard(type) {
+  document.getElementById('lienzoTexto').focus();
+  if (type === 'cut' || type === 'copy') {
+    const selectedText = window.getSelection().toString();
+    if (selectedText) {
+      virtualClipboard.unshift(selectedText);
+      document.execCommand(type);
+    }
+  } else if (type === 'paste') {
+    if (virtualClipboard.length > 0) {
+      document.execCommand('insertHTML', false, virtualClipboard[0]);
+    }
+  }
+  updateCounters();
+}
 
-        function insertarHipervinculo() {
-            const url = prompt("Ingrese la URL del destino:", "https://");
-            if (url) ejecutarComando('createLink', url);
-        }
+function openClipboardManager() {
+  document.getElementById('customModalContent').textContent = "Historial del Portapapeles";
+  const body = document.getElementById('modalBodyContainer');
+  body.innerHTML = "";
+  
+  virtualClipboard.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.className = "clipboard-item";
+    div.textContent = `${index + 1}. ${item}`;
+    div.onclick = () => {
+      document.getElementById('lienzoTexto').focus();
+      document.execCommand('insertHTML', false, item);
+      closeModal();
+    };
+    body.appendChild(div);
+  });
+  
+  if(virtualClipboard.length === 0) body.innerHTML = "<p style='font-size:12px;color:#64748b;text-align:center;'>Portapapeles vacío</p>";
+  document.getElementById('customModal').classList.add('show');
+}
 
-        function insertarImagen() {
-            const rutaImagen = prompt("Ingrese la URL de la imagen:", "");
-            if (rutaImagen) {
-                const estructuraImg = `<img src="${rutaImagen}" style="max-width:100%; height:auto; margin:10px 0; display:block;" />`;
-                ejecutarComando('insertHTML', estructuraImg);
-            }
-        }
+/* LISTAS MULTINIVEL ESTRUCTURADAS */
+function insertMultilevelList() {
+  document.getElementById('lienzoTexto').focus();
+  const listHTML = `
+    <ol style="margin-left:20px; font-family:inherit;">
+      <li>Primer Nivel
+        <ol style="margin-left:20px; list-style-type: lower-alpha;">
+          <li>Subelemento Jerárquico (Tab)</li>
+        </ol>
+      </li>
+    </ol><p>&nbsp;</p>
+  `;
+  document.execCommand('insertHTML', false, listHTML);
+}
 
-        function insertarReferencia() {
-            const etiqueta = prompt("Nombre del elemento a referenciar (Ej: Tabla 1):", "");
-            if (etiqueta) {
-                const refHTML = `<a href="#" onclick="return false;" style="color: #3b82f6; text-decoration: underline;" title="Referencia a: ${etiqueta}">[Ver ${etiqueta}]</a>`;
-                ejecutarComando('insertHTML', refHTML);
-            }
-        }
+/* SALTOS DE PÁGINA */
+function insertPageBreak(type) {
+  document.getElementById('lienzoTexto').focus();
+  let label = type === 'simple' ? 'SALTO DE PÁGINA SIMPLE' : 'SALTO DE SECCIÓN (PÁG IMPAR)';
+  const hr = `<hr style="border:0; border-top:2px dashed #92324f; margin:20px 0; position:relative;" data-label="${label}" />`;
+  document.execCommand('insertHTML', false, hr);
+}
 
-        // Atajos globales de Teclado
-        window.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'j') {
-                e.preventDefault();
-                aplicarJustificado();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-                e.preventDefault();
-                insertarHipervinculo();
-            }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                e.preventDefault();
-                insertarSaltoPagina();
-            }
-            if (e.key === 'Tab' && document.activeElement === editor) {
-                e.preventDefault();
-                insertarTabulacion();
-            }
-        });
-    </script>
+function toggleCorporateMenu(event) {
+  event.stopPropagation();
+  document.getElementById('corporateDropdown').classList.toggle('show');
+}
 
+document.addEventListener('click', function(e) {
+  const dropdown = document.getElementById('corporateDropdown');
+  const trigger = document.getElementById('mainTriggerBtn');
+  if (dropdown && !dropdown.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
+    dropdown.classList.remove('show');
+  }
+});
+
+function closeModal() { document.getElementById('customModal').classList.remove('show'); }
+function changeMargins(v) { document.getElementById('lienzoTexto').style.padding = v; }
+function changeOrientation(o) { document.getElementById('lienzoTexto').style.maxWidth = o==='horizontal'?'850px':'650px'; }
+function toggleColumns() { const p = document.getElementById('lienzoTexto'); p.style.columnCount = p.style.columnCount==="2"?"1":"2"; }
+
+function execCmd(c,v=null) { document.getElementById('lienzoTexto').focus(); document.execCommand(c,false,v); updateCounters(); }
+function applyTypography(t,v) {
+  document.getElementById('lienzoTexto').focus();
+  if(t==='fontName') execCmd('fontName',v);
+  if(t==='fontSize') execCmd('fontSize', v==='20px'?5:4);
+}
+function updateCounters() {
+  const text = document.getElementById('lienzoTexto').textContent || "";
+  document.getElementById('lblContador').textContent = `${text.trim() === "" ? 0 : text.trim().split(/\s+/).length} palabras | ${text.length} caracteres`;
+}
+
+// Inicializar
+switchEcosystem('es');
+</script>
 </body>
 </html>
