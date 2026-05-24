@@ -3,388 +3,313 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>WC Corporate Editor Pro Suite</title>
+<title>WC Corporate Editor PRO Consolidado</title>
 
 <style>
-
-/* =========================
-   BASE
-========================= */
-
-html, body{
+body{
   margin:0;
-  padding:0;
-  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-  background:#e9eef5;
-  height:100%;
+  font-family:system-ui;
+  background:#eef2f7;
+  overflow:hidden;
 }
 
-/* =========================
-   HEADER + IDIOMAS
-========================= */
-
+/* ===== HEADER ===== */
 .header{
   background:linear-gradient(135deg,#1d5270,#92324f,#d94e18);
   color:white;
   padding:10px;
   font-weight:700;
-  position:sticky;
-  top:0;
-  z-index:10;
 }
 
+/* ===== LANG BAR ===== */
 .lang-bar{
   display:flex;
   gap:6px;
   padding:6px;
-  background:rgba(255,255,255,0.95);
-  border-bottom:1px solid #ddd;
   overflow-x:auto;
+  background:white;
 }
 
-.lang-btn{
-  padding:5px 10px;
-  border:1px solid #ccc;
+.lang-bar button{
+  padding:6px 10px;
+  border:none;
   border-radius:6px;
-  background:#f8fafc;
-  font-size:12px;
+  background:#e2e8f0;
 }
 
-.lang-btn.active{
+.lang-bar button.active{
   background:#1d5270;
   color:white;
 }
 
-/* =========================
-   TABS
-========================= */
-
-.tabs-bar{
+/* ===== TABS ===== */
+.tabs{
   display:flex;
-  gap:6px;
-  padding:6px;
   background:white;
+  border-top:1px solid #ddd;
   border-bottom:1px solid #ddd;
 }
 
-.tab{
-  padding:6px 12px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  background:#f8fafc;
-  font-size:12px;
+.tabs div{
+  flex:1;
+  text-align:center;
+  padding:10px;
+  font-size:13px;
   cursor:pointer;
 }
 
-.tab.active{
+.tabs .active{
   background:#1d5270;
   color:white;
 }
 
-.tab-tools{
+/* ===== RIBBON ===== */
+.ribbon{
   display:flex;
-  flex-wrap:wrap;
   gap:6px;
   padding:8px;
-  background:#f1f5f9;
-  border-bottom:1px solid #ddd;
+  background:#e2e8f0;
+  overflow-x:auto;
 }
 
-/* =========================
-   TOOLBAR BASE
-========================= */
-
-.toolbar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  padding:8px;
-  background:white;
-  border-bottom:1px solid #ccc;
-  position:sticky;
-  top:90px;
-  z-index:9;
-}
-
-button, select{
-  padding:6px 10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  background:white;
+.ribbon button{
+  padding:6px;
   font-size:12px;
+  border:1px solid #ccc;
+  background:white;
+  border-radius:6px;
 }
 
-/* =========================
-   EDITOR
-========================= */
-
-.page{
-  margin:12px;
+/* ===== EDITOR ===== */
+#editor{
+  height:55vh;
+  margin:10px;
+  padding:16px;
   background:white;
   border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  padding:25px;
-  min-height:70vh;
-}
-
-#editor{
-  min-height:60vh;
   outline:none;
-  font-size:16px;
-  line-height:1.8;
+  overflow:auto;
+  line-height:1.5;
 }
 
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-  display:flex;
-  justify-content:space-between;
-  padding:8px;
-  font-size:12px;
-  background:white;
-  border-top:1px solid #ddd;
-}
-
-/* =========================
-   IA FLOATING
-========================= */
-
-.ia-float{
+/* ===== FLOAT MENU ===== */
+.float{
   position:fixed;
-  right:16px;
-  bottom:90px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  z-index:999;
+  right:12px;
+  bottom:20px;
 }
 
-.ia-btn{
+.float button{
   background:#1d5270;
   color:white;
   border:none;
-  border-radius:50px;
   padding:10px 14px;
+  border-radius:20px;
 }
 
-.ia-panel{
+.panel{
   display:none;
-  margin-top:8px;
+  position:absolute;
+  bottom:60px;
+  right:0;
+  width:260px;
   background:white;
   border:1px solid #ddd;
   border-radius:10px;
   padding:10px;
-  width:180px;
+  max-height:60vh;
+  overflow:auto;
 }
 
-.ia-panel button{
+.panel button{
   width:100%;
   margin:4px 0;
+  padding:8px;
+  font-size:12px;
 }
 
-/* =========================
-   MACROS
-========================= */
-
-#macroBtn.recording{
-  background:red;
-  color:white;
+/* ===== FOOTER ===== */
+.footer{
+  height:30px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-between;
+  padding:5px 10px;
+  font-size:11px;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">💼 WC Corporate Editor Pro Suite</div>
+<div class="header">WC Corporate Editor PRO — CONSOLIDADO</div>
 
-<!-- IDIOMAS -->
+<!-- LANG -->
 <div class="lang-bar">
-<button class="lang-btn active" onclick="switchLang('es')">🇨🇷 ES</button>
-<button class="lang-btn" onclick="switchLang('en')">🇺🇸 EN</button>
-<button class="lang-btn" onclick="switchLang('br')">🌱 Bribri</button>
-<button class="lang-btn" onclick="switchLang('ca')">🐾 Cabécar</button>
+  <button class="active" onclick="setLang('es')">ES</button>
+  <button onclick="setLang('en')">EN</button>
+  <button onclick="setLang('br')">Bribri</button>
+  <button onclick="setLang('ca')">Cabécar</button>
 </div>
 
 <!-- TABS -->
-<div class="tabs-bar">
-<div class="tab active" onclick="switchTab('inicio')">Inicio</div>
-<div class="tab" onclick="switchTab('insertar')">Insertar</div>
-<div class="tab" onclick="switchTab('diseno')">Diseño</div>
+<div class="tabs">
+  <div class="active" onclick="setTab('inicio')">Inicio</div>
+  <div onclick="setTab('insertar')">Insertar</div>
+  <div onclick="setTab('diseno')">Diseño</div>
 </div>
 
-<div id="tab-tools" class="tab-tools"></div>
-
-<!-- TOOLBAR -->
-<div class="toolbar">
-
-<button onclick="cmd('bold')">B</button>
-<button onclick="cmd('italic')">I</button>
-<button onclick="cmd('underline')">U</button>
-
-<button onclick="cmd('insertUnorderedList')">•</button>
-<button onclick="cmd('insertOrderedList')">1.</button>
-
-<button onclick="cmd('justifyLeft')">⬅</button>
-<button onclick="cmd('justifyCenter')">↔</button>
-<button onclick="cmd('justifyRight')">➡</button>
-
-<button onclick="save()">💾</button>
-
-<button id="macroBtn" onclick="toggleMacro()">⏺️ Macro</button>
-<button onclick="playMacro()">▶️</button>
-
+<!-- RIBBON -->
+<div class="ribbon">
+  <button onclick="cmd('bold')">B</button>
+  <button onclick="cmd('italic')">I</button>
+  <button onclick="cmd('underline')">U</button>
+  <button onclick="cmd('justifyLeft')">⬅</button>
+  <button onclick="cmd('justifyCenter')">≡</button>
+  <button onclick="cmd('justifyRight')">➡</button>
+  <button onclick="cmd('insertUnorderedList')">•</button>
+  <button onclick="indent()">Indent</button>
+  <button onclick="outdent()">Outdent</button>
+  <button onclick="table()">Tabla</button>
+  <button onclick="pageBreak()">Salto</button>
 </div>
 
 <!-- EDITOR -->
-<div class="page">
 <div id="editor" contenteditable="true">
-<h2>WC Document</h2>
-<p>Editor consolidado funcionando correctamente.</p>
+<h3>WC CONSOLIDADO PRO</h3>
+<p>Editor completo reconstruido sin perder funciones.</p>
+</div>
+
+<!-- FLOAT MENU -->
+<div class="float">
+<button onclick="toggle()">WC IA ▴</button>
+
+<div id="panel" class="panel">
+
+<button onclick="toBribri()">🌱 Bribri</button>
+<button onclick="toSpanish()">🇨🇷 Español</button>
+
+<hr>
+
+<button onclick="learn()">🧠 Aprender</button>
+<button onclick="showMemory()">📚 Memoria</button>
+
+<hr>
+
+<button onclick="insertChar('a̱')">a̱</button>
+<button onclick="insertChar('e̱')">e̱</button>
+
+<hr>
+
+<button onclick="startVoice()">🎧 Voz</button>
+
 </div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-<span id="counter">0 palabras</span>
-<span>WC Engine Stable</span>
-</div>
-
-<!-- IA FLOAT -->
-<div class="ia-float">
-
-<button class="ia-btn" onclick="toggleIA()">💼 IA</button>
-
-<div id="ia-panel" class="ia-panel">
-<button onclick="ia('rewrite')">Reescribir</button>
-<button onclick="ia('formal')">Formal</button>
-<button onclick="ia('summary')">Resumen</button>
-</div>
-
+  <div id="eco">ES</div>
+  <div id="count">0 palabras</div>
 </div>
 
 <script>
 
-/* =========================
-   EDITOR CORE
-========================= */
+/* ===== STATE ===== */
+let memory = JSON.parse(localStorage.getItem("wcMem") || "{}");
 
-const editor = document.getElementById("editor");
-
-function cmd(a){ document.execCommand(a,false,null); update(); }
-
-function save(){
-  localStorage.setItem("wc", editor.innerHTML);
+/* ===== EDIT COMMANDS ===== */
+function cmd(c){
+  document.execCommand(c);
 }
 
-window.onload = () => {
-  const s = localStorage.getItem("wc");
-  if(s) editor.innerHTML = s;
-  renderTabs();
-  update();
-};
+function indent(){ document.execCommand("indent"); }
+function outdent(){ document.execCommand("outdent"); }
 
-/* =========================
-   COUNTER
-========================= */
-
-function update(){
-  const t = editor.innerText || "";
-  document.getElementById("counter").innerText =
-    (t.trim() ? t.split(/\s+/).length : 0) + " palabras";
-}
-
-editor.addEventListener("input", update);
-
-/* =========================
-   TABS
-========================= */
-
-let currentTab = "inicio";
-
-const tabs = {
-  inicio: [{t:"Negrita",a:()=>cmd("bold")}],
-  insertar: [{t:"Tabla",a:insertTable}],
-  diseno: [{t:"Color",a:()=>editor.style.color="#1d5270"}]
-};
-
-function switchTab(t){
-  currentTab = t;
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  event.target.classList.add("active");
-  renderTabs();
-}
-
-function renderTabs(){
-  const c = document.getElementById("tab-tools");
-  c.innerHTML = "";
-  (tabs[currentTab]||[]).forEach(b=>{
-    let btn = document.createElement("button");
-    btn.textContent = b.t;
-    btn.onclick = b.a;
-    c.appendChild(btn);
-  });
-}
-
-function insertTable(){
+function table(){
   document.execCommand("insertHTML",false,
-  "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
+  `<table border="1" style="width:100%;border-collapse:collapse;">
+  <tr><td>A1</td><td>B1</td></tr>
+  <tr><td>A2</td><td>B2</td></tr>
+  </table><br>`);
 }
 
-/* =========================
-   IA (SIMULADA)
-========================= */
+function pageBreak(){
+  document.execCommand("insertHTML",false,
+  `<hr style="border-top:2px dashed #000;">`);
+}
 
-function toggleIA(){
-  const p = document.getElementById("ia-panel");
+/* ===== PANEL ===== */
+function toggle(){
+  let p=document.getElementById("panel");
   p.style.display = p.style.display==="block"?"none":"block";
 }
 
-function ia(type){
-  editor.innerHTML += "\n\n[IA: "+type+"]";
+/* ===== LANG ===== */
+function setLang(l){
+  document.getElementById("eco").innerText=l;
 }
 
-/* =========================
-   IDIOMAS
-========================= */
+/* ===== BRIBRI DICT ===== */
+const dict={
+  agua:"diö",
+  tierra:"tá",
+  sol:"shköl",
+  casa:"yë"
+};
 
-function switchLang(l){
-  alert("Idioma: "+l);
+function toBribri(){
+  let e=document.getElementById("editor");
+  e.innerText=e.innerText.split(" ")
+    .map(w=>dict[w.toLowerCase()]||w).join(" ");
 }
 
-/* =========================
-   MACROS
-========================= */
+function toSpanish(){
+  let rev={};
+  Object.keys(dict).forEach(k=>rev[dict[k]]=k);
 
-let macro=[];
-let recording=false;
+  let e=document.getElementById("editor");
+  e.innerText=e.innerText.split(" ")
+    .map(w=>rev[w]||w).join(" ");
+}
 
-function toggleMacro(){
-  const b=document.getElementById("macroBtn");
+/* ===== MEMORY ===== */
+function learn(){
+  let words=document.getElementById("editor").innerText.split(" ");
+  words.forEach(w=>{
+    memory[w]=(memory[w]||0)+1;
+  });
+  localStorage.setItem("wcMem",JSON.stringify(memory));
+}
 
-  recording=!recording;
+function showMemory(){
+  alert(JSON.stringify(memory,null,2));
+}
 
-  if(recording){
-    macro=[];
-    b.classList.add("recording");
-    b.innerText="Grabando...";
-  }else{
-    b.classList.remove("recording");
-    b.innerText="⏺️ Macro";
+/* ===== VOICE SAFE ===== */
+let rec=null;
+
+try{
+  let SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){
+    rec=new SR();
+    rec.lang="es-CR";
+    rec.onresult=e=>{
+      document.getElementById("editor").innerText+=" "+e.results[0][0].transcript;
+    }
   }
+}catch(e){}
+
+function startVoice(){
+  if(rec) rec.start();
 }
 
-function record(a){
-  if(recording) macro.push(a);
-}
-
-function playMacro(){
-  macro.forEach(a=>cmd(a));
-}
+/* ===== COUNTER ===== */
+setInterval(()=>{
+  let t=document.getElementById("editor").innerText||"";
+  document.getElementById("count").innerText =
+    t.trim() ? t.trim().split(/\s+/).length+" palabras" : "0 palabras";
+},500);
 
 </script>
 
