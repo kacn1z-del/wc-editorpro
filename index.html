@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20</title>
+<title>WC Corporate Editor v20 - Word Mode</title>
 <style>
-/* ── CONFIGURACIÓN Y PALETA DE COLORES CORPORATIVA ── */
+/* ── PALETA DE COLORES Y VARIABLES PREMIUM ── */
 :root {
-  --bg-main: #090e1a;
-  --bg-app: #0d1527;
-  --bg-sidebar: #0f192e;
-  --ribbon-bg: #14213d;
+  --bg-main: #070c14;
+  --bg-app: #0b1220;
+  --bg-sidebar: #0f172a;
+  --ribbon-bg: #131e31;
   --text-main: #f8fafc;
   --text-muted: #64748b;
   --accent: #2563eb;
   --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 35%, #db2777 65%, #ea580c 100%);
-  --glass-menu: linear-gradient(135deg, rgba(20, 33, 61, 0.95) 0%, rgba(15, 25, 46, 0.98) 100%);
+  --glass-menu: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.99) 100%);
   --glass-border: rgba(255, 255, 255, 0.08);
 }
 
@@ -30,7 +30,6 @@ body {
   flex-direction: column;
 }
 
-/* Contenedor de la Ventana del Programa */
 .app-container {
   flex: 1;
   display: flex;
@@ -67,11 +66,11 @@ body {
 .win-btn { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); }
 .win-btn.close:hover { background: #ef4444; }
 
-/* ── BARRA DE MENÚS PRINCIPALES ── */
+/* ── BARRA DE MENÚS CON MEGA-DROPDOWNS AL ESTILO WORD ── */
 .menu-bar {
   height: 36px; background-color: #0b1120;
   display: flex; align-items: center; padding: 0 12px; gap: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: relative; z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: relative; z-index: 500;
 }
 .menu-btn {
   padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
@@ -79,27 +78,35 @@ body {
 }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.06); color: white; }
 
-/* Menús Flotantes Glassmorphism */
+/* Estilo Mejorado para los Menús Desplegables Ampliados de Word */
 .dropdown-menu {
-  position: absolute; top: 34px; width: 260px;
-  background: var(--glass-menu); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  position: absolute; top: 34px; width: 280px;
+  background: var(--glass-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-radius: 10px; border: 1px solid var(--glass-border);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5); padding: 6px; display: none; flex-direction: column; gap: 2px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.6); padding: 6px; display: none; flex-direction: column; gap: 1px;
   z-index: 999;
 }
 .dropdown-menu.show { display: flex; }
-.dg-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 12px; }
+
+.menu-section-divider {
+  height: 1px; background: rgba(255,255,255,0.06); margin: 4px 6px;
+}
+.menu-section-title {
+  font-size: 9px; font-weight: 700; color: #475569; text-transform: uppercase; padding: 4px 10px 2px; letter-spacing: 0.5px;
+}
+
+.dg-item { display: flex; align-items: center; gap: 12px; padding: 7px 10px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 12px; transition: 0.1s; }
 .dg-item:hover { background: rgba(255, 255, 255, 0.08); color: white; }
 .dg-icon { font-size: 14px; width: 20px; text-align: center; }
 .dg-text { flex: 1; }
-.dg-arrow { font-size: 10px; opacity: 0.5; }
+.dg-shortcut { font-size: 10px; color: var(--text-muted); text-align: right; }
 
 #menu-archivo { left: 12px; }
 #menu-editar { left: 78px; }
 #menu-insertar { left: 144px; }
 #menu-formato { left: 212px; }
 
-/* ── CINTA O RIBBON INTEGRADO SEGÚN TU DISEÑO ── */
+/* ── CINTA O RIBBON DE HERRAMIENTAS RÁPIDAS ── */
 .ribbon {
   background-color: var(--ribbon-bg); border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   padding: 6px 16px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; overflow-x: auto;
@@ -123,7 +130,7 @@ body {
 /* ── ÁREA DE TRABAJO PRINCIPAL ── */
 .workspace { display: flex; flex: 1; overflow: hidden; background-color: #080d16; }
 
-/* Barra Lateral de Navegación Izquierda */
+/* Barra Lateral de Documentos */
 .sidebar-left {
   width: 220px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04);
   display: flex; flex-direction: column; padding: 14px; gap: 14px; flex-shrink: 0;
@@ -132,41 +139,54 @@ body {
 .doc-item-link { padding: 7px 10px; border-radius: 6px; font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 .doc-item-link.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
 
-/* ── INTERFAZ DE HOJA CON REGLAS Y MÁRGENES ── */
+/* ── ENTORNO DE LIENZO Y REGLAS ESTILO WORD ── */
 .canvas-outer {
   flex: 1; background-color: #0e1626; display: flex; flex-direction: column; overflow: hidden; position: relative;
 }
-/* Regla de medición superior */
 .ruler-horizontal {
   height: 20px; background: #16223f; border-bottom: 1px solid rgba(255,255,255,0.05);
-  display: flex; align-items: center; padding-left: 20px; font-size: 9px; color: #64748b; letter-spacing: 12px; overflow: hidden; pointer-events: none;
+  display: flex; align-items: center; padding-left: 110px; font-size: 9px; color: #64748b; letter-spacing: 14px; overflow: hidden; pointer-events: none;
 }
-.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; }
-/* Regla de medición lateral izquierda */
+.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; position: relative; }
+
 .ruler-vertical {
   width: 20px; background: #16223f; border-right: 1px solid rgba(255,255,255,0.05);
-  display: flex; flex-direction: column; align-items: center; padding-top: 40px; font-size: 9px; color: #64748b; line-height: 2.8; overflow: hidden; pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; padding-top: 110px; font-size: 9px; color: #64748b; line-height: 3.1; overflow: hidden; pointer-events: none; position: absolute; left: 0; top: 0; bottom: 0; z-index: 10;
 }
-/* Contenedor del documento centrado */
-.canvas-container { flex: 1; display: flex; justify-content: center; padding: 30px; min-width: 800px; }
 
-/* HOJA EDITABLE E INTERACTIVA */
+.canvas-container { flex: 1; display: flex; justify-content: center; padding: 40px 40px 40px 60px; min-width: 850px; }
+
+/* ── HOJA REAL CON MÁRGENES DE IMPRESIÓN CONFIGURADOS ── */
 .paper {
-  width: 100%; max-width: 760px; min-height: 980px; background: white; color: #1e293b;
-  border-radius: 4px; box-shadow: 0 12px 35px rgba(0,0,0,0.4); position: relative;
+  width: 100%; max-width: 780px; min-height: 1020px; background: white; color: #1e293b;
+  border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.45); position: relative;
   outline: none;
-  /* Configuración real de márgenes físicos internos */
-  padding: 80px 90px; 
+  
+  /* Márgenes Físicos Exactos de Word (2.5cm Superior/Inferior, 3cm Laterales) */
+  padding: 95px 110px;
   font-size: 14px; line-height: 1.6;
+  text-align: left;
+  word-wrap: break-word;
 }
-/* Línea vertical decorativa del diseño */
-.paper-decor-line { position: absolute; left: 40px; top: 80px; bottom: 80px; width: 4px; background: #ea580c; border-radius: 2px; pointer-events: none; }
+
+/* Indicadores de Líneas de Margen sutiles (Estilo Guías de Word) */
+.paper::before {
+  content: ""; position: absolute; top: 95px; bottom: 95px; left: 110px; right: 110px;
+  border: 1px dashed rgba(37, 99, 235, 0.05); pointer-events: none;
+}
+
+/* Decorador de línea lateral naranja icónico de tu marca */
+.paper-decor-line { position: absolute; left: 45px; top: 95px; bottom: 95px; width: 4px; background: #ea580c; border-radius: 2px; pointer-events: none; }
 
 .paper h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
 .paper h2 { font-size: 13px; color: #ea580c; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 24px; text-transform: uppercase; }
 .paper p { margin-bottom: 14px; color: #334155; text-align: justify; }
 
-/* Elementos decorativos inferiores integrados en la página */
+/* Estilos para Tablas Insertadas */
+.paper table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+.paper th { background-color: #f1f5f9; font-weight: bold; }
+
 .paper-footer-cards { display: flex; gap: 12px; margin-top: 40px; pointer-events: none; }
 .p-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
 .p-card-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
@@ -193,7 +213,7 @@ body {
 .st-right-section { margin-left: auto; display: flex; align-items: center; gap: 12px; color: #10b981; }
 .st-pulse-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
 
-/* Ventana Modal WC Arte */
+/* Ventanas Modales */
 .wcarte-modal {
   position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
   background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
@@ -202,7 +222,6 @@ body {
 }
 .wcarte-modal.open { display: flex; }
 .modal-input { padding: 8px; border-radius: 6px; border: none; background: #1e293b; color: white; font-size: 12px; outline: none; }
-.modal-select { padding: 6px; background: #1e293b; color: white; border: none; border-radius: 4px; }
 .modal-action-btn { background: #2563eb; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
 #toast {
@@ -248,25 +267,63 @@ body {
     <div class="menu-btn" onclick="openMenuDropdown(event, 'menu-formato')">Formato ▾</div>
 
     <div class="dropdown-menu" id="menu-archivo">
-      <div class="dg-item" onclick="triggerFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
-      <div class="dg-item" onclick="triggerFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar documento</div></div>
-      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Exportar a PDF / Imprimir</div></div>
+      <div class="menu-section-title">Operaciones</div>
+      <div class="dg-item" onclick="triggerFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div><div class="dg-shortcut">Ctrl+N</div></div>
+      <div class="dg-item" onclick="triggerFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo...</div><div class="dg-shortcut">Ctrl+O</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Guardar Opciones</div>
+      <div class="dg-item" onclick="triggerFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar</div><div class="dg-shortcut">Ctrl+S</div></div>
+      <div class="dg-item" onclick="fireToast('Guardar como nueva plantilla corporativa...')"><div class="dg-icon">🗄️</div><div class="dg-text">Guardar como...</div></div>
+      <div class="dg-item" onclick="fireToast('Historial de versiones recuperado')"><div class="dg-icon">⏳</div><div class="dg-text">Historial de versiones</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Preparación</div>
+      <div class="dg-item" onclick="fireToast('Configuración de página A4 por defecto')"><div class="dg-icon">🛠️</div><div class="dg-text">Configurar Página</div></div>
+      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir / Exportar PDF</div><div class="dg-shortcut">Ctrl+P</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-editar">
-      <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">🎨</div><div class="dg-text">WC Arte (WordArt)</div><div class="dg-arrow">›</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div></div>
+      <div class="menu-section-title">Deshacer / Rehacer</div>
+      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div><div class="dg-shortcut">Ctrl+Z</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div><div class="dg-shortcut">Ctrl+Y</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Portapapeles</div>
+      <div class="dg-item" onclick="fireToast('Usa Ctrl+X')"><div class="dg-icon">✂️</div><div class="dg-text">Cortar</div><div class="dg-shortcut">Ctrl+X</div></div>
+      <div class="dg-item" onclick="fireToast('Usa Ctrl+C')"><div class="dg-icon">📋</div><div class="dg-text">Copiar</div><div class="dg-shortcut">Ctrl+C</div></div>
+      <div class="dg-item" onclick="fireToast('Usa Ctrl+V')"><div class="dg-icon">📥</div><div class="dg-text">Pegar Especial</div><div class="dg-shortcut">Ctrl+V</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Búsqueda</div>
+      <div class="dg-item" onclick="fireToast('Buscar en el documento...')"><div class="dg-icon">🔍</div><div class="dg-text">Buscar y Reemplazar</div><div class="dg-shortcut">Ctrl+F</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-insertar">
-      <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte Especial</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea de separación</div></div>
+      <div class="menu-section-title">Tablas y Gráficos</div>
+      <div class="dg-item" onclick="insertTableGrid()"><div class="dg-icon">📊</div><div class="dg-text">Insertar Tabla (3x3)</div></div>
+      <div class="dg-item" onclick="insertImagePrompt()"><div class="dg-icon">🖼️</div><div class="dg-text">Insertar Imagen por URL...</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Encabezado y Texto</div>
+      <div class="dg-item" onclick="fireToast('Encabezado activado en edición')"><div class="dg-icon">🔝</div><div class="dg-text">Encabezado de Página</div></div>
+      <div class="dg-item" onclick="fireToast('Pie de página fijado')"><div class="dg-icon">🖨️</div><div class="dg-text">Pie de Página</div></div>
+      <div class="dg-item" onclick="fireToast('Número de página añadido al final')"><div class="dg-icon">🔢</div><div class="dg-text">Número de Página</div></div>
+      <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte (WordArt)</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Especiales</div>
+      <div class="dg-item" onclick="triggerEditCmd('insertHTML', '&Omega; &pi; &Sigma;')"><div class="dg-icon">📐</div><div class="dg-text">Ecuación y Símbolos</div></div>
     </div>
 
     <div class="dropdown-menu" id="menu-formato">
-      <div class="dg-item" onclick="setPaperBg('#f8fafc')"><div class="dg-icon">⚪</div><div class="dg-text">Fondo Corporativo Claro</div></div>
-      <div class="dg-item" onclick="setPaperBg('#ffffff')"><div class="dg-icon">🧼</div><div class="dg-text">Fondo Blanco Puro</div></div>
+      <div class="menu-section-title">Diseño de Página</div>
+      <div class="dg-item" onclick="changeMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Normales (3cm)</div></div>
+      <div class="dg-item" onclick="changeMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Estrechos (1.5cm)</div></div>
+      <div class="dg-item" onclick="fireToast('Orientación: Vertical')"><div class="dg-icon">📄</div><div class="dg-text">Orientación Vertical</div></div>
+      <div class="dg-item" onclick="fireToast('Orientación: Horizontal cambiando estructura')"><div class="dg-icon">📑</div><div class="dg-text">Orientación Horizontal</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Distribución Texto</div>
+      <div class="dg-item" onclick="setColumns(1)"><div class="dg-icon">vline</div><div class="dg-text">Una Columna</div></div>
+      <div class="dg-item" onclick="setColumns(2)"><div class="dg-icon">⏸</div><div class="dg-text">Dos Columnas</div></div>
+      <div class="menu-section-divider"></div>
+      <div class="menu-section-title">Líneas</div>
+      <div class="dg-item" onclick="fireToast('Interlineado ajustado a 1.5')"><div class="dg-icon">↕</div><div class="dg-text">Interlineado 1.5</div></div>
+      <div class="dg-item" onclick="fireToast('Generando índice de contenidos...')"><div class="dg-icon">🗂️</div><div class="dg-text">Tabla de Contenidos / Índice</div></div>
     </div>
   </div>
 
@@ -328,37 +385,30 @@ body {
         <div class="doc-item-link active">📄 Documento 1</div>
         <div class="doc-item-link">📄 Informe Corporativo</div>
         <div class="doc-item-link">📄 Propuesta Ejecutiva</div>
-        <div class="doc-item-link">📄 Presentación Proyecto</div>
-        <div class="doc-item-link">📄 Notas rápidas</div>
-        <div class="doc-item-link">📄 Ideas WC Arte</div>
       </div>
     </div>
 
     <div class="canvas-outer">
-      <div class="ruler-horizontal">123456789101112131415161718</div>
+      <div class="ruler-horizontal">12345678910111213141516171819202122</div>
       
       <div class="canvas-inner-wrapper">
-        <div class="ruler-vertical">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+        <div class="ruler-vertical">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11</div>
         
         <div class="canvas-container">
           <div class="paper" id="editorPage" contenteditable="true" oninput="countWordsLive()">
             <div class="paper-decor-line"></div>
             <h1>WC Corporate Editor v20</h1>
             <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-            <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total. Esta área es completamente interactiva; puedes hacer clic aquí mismo, borrar este contenido de muestra y comenzar a redactar tus reportes ejecutivos directamente.</p>
+            <p>Este espacio de trabajo simula con total fidelidad una página física con márgenes de impresión establecidos. Haz clic aquí, borra este bloque de texto corporativo e inicia la creación funcional de tu contenido.</p>
             
             <div class="paper-footer-cards">
               <div class="p-card">
                 <div class="p-card-icon" style="background:rgba(234,88,12,0.1); color:#ea580c;">🎨</div>
-                <div><div style="font-size:12px; font-weight:700;">WC Arte</div><div style="font-size:10px; color:#64748b;">Diseños profesionales</div></div>
+                <div><div style="font-size:12px; font-weight:700;">WC Arte</div><div style="font-size:10px; color:#64748b;">Efectos de texto</div></div>
               </div>
               <div class="p-card">
-                <div class="p-card-icon" style="background:rgba(37,99,235,0.1); color:#2563eb;">⚙️</div>
-                <div><div style="font-size:12px; font-weight:700;">Herramientas</div><div style="font-size:10px; color:#64748b;">Flujo optimizado</div></div>
-              </div>
-              <div class="p-card">
-                <div class="p-card-icon" style="background:rgba(124,58,237,0.1); color:#7c3aed;">💻</div>
-                <div><div style="font-size:12px; font-weight:700;">Desarrollador</div><div style="font-size:10px; color:#64748b;">Keny Chinchilla</div></div>
+                <div class="p-card-icon" style="background:rgba(37,99,235,0.1); color:#2563eb;">📊</div>
+                <div><div style="font-size:12px; font-weight:700;">Tablas Word</div><div style="font-size:10px; color:#64748b;">Estructuras de datos</div></div>
               </div>
             </div>
           </div>
@@ -371,17 +421,13 @@ body {
       <div class="ai-tabs">
         <div class="ai-tab-btn active">Asistente</div>
         <div class="ai-tab-btn">Plantillas</div>
-        <div class="ai-tab-btn">Sugerencias</div>
       </div>
       <div class="ai-content">
         <div class="ai-avatar-circle">🤖</div>
         <div style="font-size:13px; font-weight:700;">Hola, Keny 👋</div>
-        <div style="font-size:11px; color:var(--text-muted); margin-top:-4px;">¿En qué puedo ayudarte hoy?</div>
-        
         <div style="width:100%; display:flex; flex-direction:column; gap:6px; margin-top:8px;">
-          <div class="ai-prompt-pill" onclick="injectAIText('resumen')"><span>📝 Redactar un resumen</span><span>›</span></div>
-          <div class="ai-prompt-pill" onclick="injectAIText('mejorar')"><span>✨ Mejorar este texto</span><span>›</span></div>
-          <div class="ai-prompt-pill" onclick="injectAIText('ortografia')"><span>🔍 Corregir ortografía</span><span>›</span></div>
+          <div class="ai-prompt-pill" onclick="injectAIText('resumen')"><span>📝 Generar un resumen</span><span>›</span></div>
+          <div class="ai-prompt-pill" onclick="injectAIText('mejorar')"><span>✨ Optimizar redacción</span><span>›</span></div>
         </div>
       </div>
       <div class="ai-input-container">
@@ -394,13 +440,12 @@ body {
 
   <div class="status-bar">
     <span>Página 1 de 1</span>
-    <span id="wordLiveCount">Palabras: 42</span>
+    <span id="wordLiveCount">Palabras: 39</span>
     <span>Español (España)</span>
-    <span>100%</span>
+    <span>Márgenes: Estándar A4</span>
     <div class="st-right-section">
       <div class="st-pulse-dot"></div>
-      <span>Modo Corporativo Activado</span>
-      <span style="color:#64748b; margin-left:10px;">✔ Guardado automático</span>
+      <span>Modo Operativo Listo</span>
     </div>
   </div>
 
@@ -408,12 +453,7 @@ body {
 
 <div class="wcarte-modal" id="wcarteModal">
   <div style="font-size:14px; font-weight:bold; color:white;">✨ Diseñador de WC Arte</div>
-  <input type="text" id="wcarteInputText" placeholder="Escribe tu texto llamativo..." style="padding:8px; border-radius:6px; border:none; background:#1e293b; color:white; font-size:12px;">
-  <select id="wcarteSelectGradient" style="padding:6px; background:#1e293b; color:white; border:none; border-radius:4px;">
-    <option value="linear-gradient(45deg, #f59e0b, #ef4444)">Degradado Fuego 🔥</option>
-    <option value="linear-gradient(45deg, #3b82f6, #8b5cf6)">Degradado Eléctrico ⚡</option>
-    <option value="linear-gradient(45deg, #10b981, #059669)">Degradado Esmeralda 💎</option>
-  </select>
+  <input type="text" id="wcarteInputText" placeholder="Texto de WordArt..." class="modal-input">
   <button class="modal-action-btn" onclick="insertWCArteNode()">Insertar WC Arte</button>
   <button class="modal-action-btn" onclick="closeWCArteDesigner()" style="background:#475569; margin-top:-4px;">Cancelar</button>
 </div>
@@ -431,7 +471,6 @@ function fireToast(text) {
   toastClock = setTimeout(() => toast.classList.remove('visible'), 2200);
 }
 
-// Control de menús desplegables
 function openMenuDropdown(event, menuId) {
   event.stopPropagation();
   const targetMenu = document.getElementById(menuId);
@@ -452,7 +491,7 @@ function shutAllMenus() {
 
 document.addEventListener('click', shutAllMenus);
 
-// COMANDOS DE FORMATO NATIVOS
+// COMANDOS INTERACTIVOS DE ESCRITURA Y ENTORNO
 function triggerEditCmd(command, value = null) {
   document.execCommand(command, false, value);
   countWordsLive();
@@ -464,72 +503,86 @@ function changeWordStyle(tag, element) {
   document.execCommand('formatBlock', false, `<${tag}>`);
 }
 
-// Contador de palabras
 function countWordsLive() {
   const text = document.getElementById('editorPage').innerText || "";
   const wordsArray = text.trim().split(/\s+/).filter(w => w.length > 0);
   document.getElementById('wordLiveCount').textContent = `Palabras: ${wordsArray.length}`;
 }
 
+// CONTROL DINÁMICO DE MÁRGENES (MENÚ FORMATO)
+function changeMargins(type) {
+  const page = document.getElementById('editorPage');
+  if (type === 'estrecho') {
+    page.style.padding = "40px 45px";
+    fireToast('Márgenes estrechos aplicados con éxito');
+  } else {
+    page.style.padding = "95px 110px";
+    fireToast('Márgenes estándar reestablecidos');
+  }
+}
+
+// CONFIGURACIÓN DE COLUMNAS (MENÚ FORMATO)
+function setColumns(num) {
+  document.getElementById('editorPage').style.columnCount = num;
+  fireToast(`Formato cambiado a ${num} columna(s)`);
+}
+
+// ACCIONES DE INSERCIÓN REALES (MENÚ INSERTAR)
+function insertTableGrid() {
+  const htmlTable = `<table>
+    <tr><th>Columna 1</th><th>Columna 2</th><th>Columna 3</th></tr>
+    <tr><td>Dato A</td><td>Dato B</td><td>Dato C</td></tr>
+    <tr><td>Dato D</td><td>Dato E</td><td>Dato F</td></tr>
+  </table><p></p>`;
+  triggerEditCmd('insertHTML', htmlTable);
+  fireToast('Tabla corporativa insertada');
+}
+
+function insertImagePrompt() {
+  const url = prompt("Escribe la URL de la imagen que quieres insertar:");
+  if (url) {
+    const imgHtml = `<img src="${url}" style="max-width:100%; border-radius:6px; margin: 10px 0;"><p></p>`;
+    triggerEditCmd('insertHTML', imgHtml);
+    fireToast('Imagen vinculada correctamente');
+  }
+}
+
 function triggerFileAction(type) {
   if (type === 'nuevo') {
-    document.getElementById('editorPage').innerHTML = '<div class="paper-decor-line"></div><h1>Nuevo Documento</h1><p>Comienza a escribir tu nuevo contenido...</p>';
-    fireToast('Lienzo limpio e inicializado');
+    document.getElementById('editorPage').innerHTML = '<div class="paper-decor-line"></div><h1>Nuevo Lienzo de Word</h1><p>Empieza a redactar tu contenido aquí...</p>';
+    fireToast('Nuevo archivo abierto');
   } else if (type === 'guardar') {
-    fireToast('💾 Cambios guardados en local storage');
+    fireToast('💾 Documento guardado localmente en el buffer corporativo');
+  } else if (type === 'abrir') {
+    fireToast('Abriendo explorador de archivos virtuales...');
   }
   countWordsLive();
 }
 
-function setPaperBg(color) {
-  document.getElementById('editorPage').style.backgroundColor = color;
-  fireToast('Fondo de página modificado');
-}
-
-// DISEÑADOR WC ARTE
-function openWCArteDesigner() {
-  document.getElementById('wcarteModal').classList.add('open');
-}
-function closeWCArteDesigner() {
-  document.getElementById('wcarteModal').classList.remove('open');
-}
+// MODAL WORDART / WC ARTE
+function openWCArteDesigner() { document.getElementById('wcarteModal').classList.add('open'); }
+function closeWCArteDesigner() { document.getElementById('wcarteModal').classList.remove('open'); }
 function insertWCArteNode() {
-  const userText = document.getElementById('wcarteInputText').value || "WC Arte";
-  const selectedGrad = document.getElementById('wcarteSelectGradient').value;
-  
-  const wordArtMarkup = `<span style="display:inline-block; font-family:'Impact', 'Arial Black', sans-serif; font-size:34px; background:${selectedGrad}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; text-transform:uppercase; filter:drop-shadow(3px 3px 2px rgba(0,0,0,0.2)); margin:12px 0;">${userText}</span>&nbsp;`;
-  
-  triggerEditCmd('insertHTML', wordArtMarkup);
+  const text = document.getElementById('wcarteInputText').value || "WC Arte";
+  const art = `<span style="display:inline-block; font-family:'Impact', sans-serif; font-size:32px; background:linear-gradient(45deg, #1d4ed8, #db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; margin:8px 0;">${text}</span>&nbsp;`;
+  triggerEditCmd('insertHTML', art);
   closeWCArteDesigner();
-  fireToast('¡Elemento WC Arte añadido!');
 }
 
-// Funciones Simuladas de Asistente de IA
 function injectAIText(mode) {
-  let textToInsert = "";
-  if (mode === 'resumen') {
-    textToInsert = "<p><strong>Resumen de IA:</strong> El proyecto actual describe una plataforma estructurada bajo metodologías corporativas ágiles, maximizando el rendimiento visual de la suite.</p>";
-  } else if (mode === 'mejorar') {
-    textToInsert = "<p><em>Texto Optimizado:</em> Procesador de textos de alto impacto desarrollado para optimizar la productividad y los flujos organizacionales corporativos.</p>";
-  } else {
-    textToInsert = "<p>✔ <em>Revisión Ortográfica:</em> No se encontraron errores en el último bloque de texto analizado.</p>";
-  }
-  triggerEditCmd('insertHTML', textToInsert);
-  fireToast('Texto de IA inyectado');
+  let txt = mode === 'resumen' ? "<p><strong>Resumen Ejecutivo:</strong> Suite empresarial de alta gama optimizada.</p>" : "<p><em>Mejora:</em> Procesador corporativo premium diseñado para Keny Chinchilla.</p>";
+  triggerEditCmd('insertHTML', txt);
 }
 
 function executeAIFunction() {
-  const query = document.getElementById('aiQuery').value;
-  if(query) {
-    triggerEditCmd('insertHTML', `<p><strong>🤖 Respuesta IA sobre "${query}":</strong> Kenya Corporate Suite procesó con éxito tu consulta de optimización.</p>`);
+  const q = document.getElementById('aiQuery').value;
+  if(q) {
+    triggerEditCmd('insertHTML', `<p><strong>🤖 IA:</strong> Procesando directrices de Word sobre "${q}".</p>`);
     document.getElementById('aiQuery').value = "";
-    fireToast('Consulta de asistente finalizada');
   }
 }
 
-window.onload = () => {
-  countWordsLive();
-};
+window.onload = () => { countWordsLive(); };
 </script>
 
 </body>
