@@ -534,11 +534,19 @@ function executeMacro() {
 
 function triggerCommandAction(actionKey, label) {
   document.getElementById('lienzoTexto').focus();
-  switch(actionKey) {
+   switch(actionKey) {
     case "cut": execCmd("cut"); break;
     case "copy": execCmd("copy"); break;
     case "insertTable":
       document.execCommand('insertHTML', false, `<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
+      break;
+    case "wcArt":
+      applyWCArtModerno();
+      break;
+    case "themeCorp":
+      document.getElementById('lienzoTexto').style.color = "#1d5270";
+      break;
+  }
       break;
     case "themeCorp":
       document.getElementById('lienzoTexto').style.color = "#1d5270";
