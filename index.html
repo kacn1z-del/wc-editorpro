@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>WC Corporate Editor v21.4 - Platinum Suite</title>
+<title>WC Corporate Editor v21 - Suite Etnolingüística</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -25,7 +25,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 
-/* BARRA DE ECOSISTEMAS LINGÜÍSTICOS COSTARRICENSES */
+/* BARRA DE ECOSISTEMAS LINGÜÍSTICOS */
 .lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .lang-bar::-webkit-scrollbar { display: none; }
 .lang-btn {
@@ -50,20 +50,16 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0; scrollbar-width: none;
 }
 .ribbon-commands-panel::-webkit-scrollbar { display: none; }
-.cmd-btn {
-  background: white; border: 1px solid var(--border-color); padding: 6px 12px;
-  border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
-}
 
 /* LIENZO DE TRABAJO (WORKSPACE) */
 .workspace { position: relative; flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; background-color: #cbd5e1; }
 .paper { width: 100%; max-width: 650px; background: white; min-height: 550px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); padding: 40px; border-radius: 4px; outline: none; line-height: 1.6; transition: all 0.2s ease; }
 
-/* 🎯 CONTENEDOR FLOTANTE UBICADO EXACTAMENTE A LA ALTURA REQUERIDA (150px) */
+/* 🎯 BOTÓN FLOTANTE CORPORATIVO UBICADO EN LA PARTE MARCADA */
 .floating-corporate-container {
   position: absolute;
-  bottom: 150px; /* Elevación exacta sobre el teclado móvil */
-  right: 20px;
+  bottom: 30px;
+  right: 25px;
   z-index: 99999;
   display: flex;
   flex-direction: column;
@@ -74,13 +70,13 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   background: var(--bg-gradient);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 12px 22px;
   border-radius: 30px;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.3px;
   cursor: pointer;
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -98,8 +94,8 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   border-radius: 16px;
   padding: 16px;
   width: calc(100vw - 40px);
-  max-width: 430px;
-  max-height: 50vh;
+  max-width: 420px;
+  max-height: 60vh;
   overflow-y: auto;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -122,7 +118,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .group-label { font-size: 10px; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
 .dropdown-divider { border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 2px 0; }
 
-/* CONTROLES INTERNOS EN FORMATO OSCURO MÓVIL */
+/* CONTROLES DEL DROPDOWN OSCURO */
 .icon-btn {
   background: rgba(255, 255, 255, 0.08); 
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -138,7 +134,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   padding: 6px 8px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
 }
 
-/* PALETA CROMÁTICA CORPORATIVA */
+/* PALETA CROMÁTICA */
 .corporate-palette-container {
   display: flex; gap: 4px; background: rgba(255, 255, 255, 0.05); padding: 4px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -149,7 +145,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 /* BARRA DE ESTADO */
 .footer-bar { height: 30px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; z-index: 10; }
 
-/* DIÁLOGOS MODAL SUITE */
+/* MODAL DE ALERTAS */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 200000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
 .corporate-modal { background: white; width: 85%; max-width: 340px; border-radius: 14px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); text-align: center; }
@@ -170,9 +166,9 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
     </div>
     
     <div class="mobile-tabs-scroll">
-      <div class="tab-node active" id="t-inicio" onclick="changeActiveTab('inicio')">Inicio</div>
-      <div class="tab-node" id="t-insertar" onclick="changeActiveTab('insertar')">Insertar</div>
-      <div class="tab-node" id="t-diseno" onclick="changeActiveTab('diseno')">Diseño</div>
+      <div class="tab-node active" id="t-inicio">Inicio</div>
+      <div class="tab-node" id="t-insertar">Insertar</div>
+      <div class="tab-node" id="t-diseno">Diseño</div>
     </div>
   </div>
 
@@ -238,7 +234,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
           <div class="group-row">
             <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('indent')">➔ Sangría</button>
             <button class="icon-btn icon-btn-large" onmousedown="event.preventDefault(); execCmd('outdent')"> Anular</button>
-            <button class="icon-btn icon-btn-large" onclick="applyTabulation()">⇥ Tabular Col.</button>
+            <button class="icon-btn icon-btn-large" onclick="applyTabulation()">⇥ Tabular</button>
           </div>
           <div class="group-row" style="margin-top:2px;">
             <button class="icon-btn icon-btn-large" onclick="insertPageBreak('page')">📄 Salto Página</button>
@@ -279,7 +275,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       </div>
 
       <button class="trigger-menu-btn" id="mainTriggerBtn" onclick="toggleCorporateMenu(event)">
-        💼 <span>Herramientas Corporativas / Formato</span> ▴
+        💼 <span>Herramientas Corporativas</span> ▴
       </button>
 
     </div>
@@ -300,92 +296,47 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 <script>
 let macroActions = [];
 let isRecordingMacro = false;
-let currentTab = 'inicio';
-let currentLang = 'es';
 
-// TRADUCCIONES INTEGRALES DE ECOSISTEMAS
+// DICCIONARIO TRILINGÜE INTEGRADO (ESPAÑOL - ENGLISH - BRIBRI - CABÉCAR)
 const translations = {
   es: {
-    title: "WC Corporate Editor", eco: "Ecosistema Activo: Español 🇨🇷", trigger: "Herramientas Corporativas / Formato ▴",
+    title: "WC Corporate Editor", eco: "Ecosistema Activo: Español 🇨🇷", trigger: "Herramientas Corporativas ▴",
     g1: "Formatos y Justificación", g2: "Tabulaciones y Estructura", g3: "Diseño de Página", g4: "Conectividad y Macros",
-    docT: "Documento Corporativo Avanzado", docD: "Seleccione cualquier fragmento de texto para aplicarle transformaciones en tiempo real desde el menú flotante.",
-    cmds: {
-      inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
-      insertar: [{ txt: "📊 Tabla", action: "insertTable" }],
-      diseno: [{ txt: "🎨 Tema Corporativo", action: "themeCorp" }]
-    }
+    docT: "Documento Corporativo Avanzado", docD: "Seleccione cualquier fragmento de texto para aplicarle transformaciones en tiempo real desde el menú flotante."
   },
   en: {
-    title: "WC Corporate Editor", eco: "Active Ecosystem: English 🇺🇸", trigger: "Corporate Tools / Format ▴",
+    title: "WC Corporate Editor", eco: "Active Ecosystem: English 🇺🇸", trigger: "Corporate Tools ▴",
     g1: "Formats & Justification", g2: "Tabs & Structure", g3: "Page Layout", g4: "Connectivity & Macros",
-    docT: "Advanced Corporate Document", docD: "Select any text fragment to apply real-time transformations from the floating menu.",
-    cmds: {
-      inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
-      insertar: [{ txt: "📊 Table", action: "insertTable" }],
-      diseno: [{ txt: "🎨 Corp Theme", action: "themeCorp" }]
-    }
+    docT: "Advanced Corporate Document", docD: "Select any text fragment to apply real-time transformations from the floating menu."
   },
   br: {
-    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Bribri jula 🌱", trigger: "Dör Corporate Tools / Formato ▴",
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Bribri jula 🌱", trigger: "Dör Corporate Tools ▴",
     g1: "I kí̱ mĩ kã̀ sũasũa", g2: "I tsu̱ tkiwã dör", g3: "Sáwá i kĩ", g4: "I chẽwã mĩ mácros",
-    docT: "Bribri jula sán editor", docD: "A dör tso jula kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör i tsáwã mĩ.",
-    cmds: {
-      inicio: [{ txt: "📋 Tsoñ", action: "cut" }],
-      insertar: [{ txt: "📊 Tabla sán", action: "insertTable" }],
-      diseno: [{ txt: "🎨 Ká̱ Theme", action: "themeCorp" }]
-    }
+    docT: "Bribri jula sán editor", docD: "A dör tso jula kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör i tsáwã mĩ."
   },
   ca: {
-    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Cabécar jula 🐾", trigger: "Ká Corporate Tools / Formato ▴",
+    title: "Sáwá - Editor Suite", eco: "Ecosistema Activo: Cabécar jula 🐾", trigger: "Ká Corporate Tools ▴",
     g1: "I kí̱ mĩ kã̀ sũasũa", g2: "I tsu̱ tkiwã dör", g3: "Sáwá i kĩ", g4: "I chẽwã mĩ mácros",
-    docT: "Cabécar jula sán editor por etnolingüística.", docD: "Utilice cá herramientas kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör.",
-    cmds: {
-      inicio: [{ txt: "📋 Tso", action: "cut" }],
-      insertar: [{ txt: "📊 Tabla", action: "insertTable" }],
-      diseno: [{ txt: "🎨 Theme", action: "themeCorp" }]
-    }
+    docT: "Cabécar jula sán editor por etnolingüística.", docD: "Utilice cá herramientas kĩ mĩ kãwã e̱ i kãmi sũasũa mĩ dör."
   }
 };
 
 function switchEcosystem(lang) {
-  currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById(`btn-${lang}`).classList.add('active');
   
-  const db = translations[lang];
-  document.getElementById('suiteTitle').textContent = db.title;
-  document.getElementById('lblEco').textContent = db.eco;
-  document.getElementById('mainTriggerBtn').querySelector('span').textContent = db.trigger;
-  document.getElementById('lblGroup1').textContent = db.g1;
-  document.getElementById('lblGroup2').textContent = db.g2;
-  document.getElementById('lblGroup3').textContent = db.g3;
-  document.getElementById('lblGroup4').textContent = db.g4;
+  // Actualizar textos de la interfaz basados en el ecosistema seleccionado
+  document.getElementById('suiteTitle').textContent = translations[lang].title;
+  document.getElementById('lblEco').textContent = translations[lang].eco;
+  document.getElementById('mainTriggerBtn').querySelector('span').textContent = translations[lang].trigger;
+  document.getElementById('lblGroup1').textContent = translations[lang].g1;
+  document.getElementById('lblGroup2').textContent = translations[lang].g2;
+  document.getElementById('lblGroup3').textContent = translations[lang].g3;
+  document.getElementById('lblGroup4').textContent = translations[lang].g4;
   
-  document.getElementById('docTitle').textContent = db.docT;
-  document.getElementById('docDesc').textContent = db.docD;
-  renderActiveCommands();
-}
-
-function changeActiveTab(tabName) {
-  currentTab = tabName;
-  document.querySelectorAll('.tab-node').forEach(t => t.classList.remove('active'));
-  document.getElementById(`t-${tabName}`).classList.add('active');
-  renderActiveCommands();
-}
-
-function renderActiveCommands() {
-  const panel = document.getElementById('panelComandos');
-  panel.innerHTML = "";
-  const currentCmds = translations[currentLang].cmds[currentTab];
-  if (currentCmds) {
-    currentCmds.forEach(cmdObj => {
-      const button = document.createElement('button');
-      button.className = "cmd-btn";
-      button.innerHTML = cmdObj.txt;
-      button.onclick = () => triggerCommandAction(cmdObj.action, cmdObj.txt);
-      panel.appendChild(button);
-    });
-  }
+  // Cambiar contenido del lienzo para demostración lingüística si está limpio
+  document.getElementById('docTitle').textContent = translations[lang].docT;
+  document.getElementById('docDesc').textContent = translations[lang].docD;
 }
 
 function toggleCorporateMenu(event) {
@@ -409,7 +360,6 @@ function closeModal() {
   document.getElementById('customModal').classList.remove('show');
 }
 
-/* SISTEMA FORMATO INTEGRAL */
 function execCmd(cmd, val = null) {
   document.getElementById('lienzoTexto').focus();
   document.execCommand(cmd, false, val);
@@ -447,7 +397,7 @@ function applyLineSpacing(factor) {
     if (parent.nodeType === 3) parent = parent.parentNode;
     parent.style.lineHeight = factor;
     parent.style.marginBottom = (factor * 8) + "px";
-    openModal(`Interlineado fijado en ${factor} con espaciado de párrafo automático.`);
+    openModal(`Interlineado: ${factor} con espaciado de párrafo adaptativo.`);
   }
 }
 
@@ -463,7 +413,7 @@ function insertPageBreak(type) {
     ? `<hr style="border:0; border-top:2px dashed #92324f; margin:20px 0;" data-label="SALTO DE PÁGINA" />`
     : `<hr style="border:0; border-top:3px double #1d5270; margin:25px 0;" data-label="SALTO DE SECCIÓN" />`;
   document.execCommand('insertHTML', false, hrElement);
-  openModal(`Insertado con éxito: ${type === 'page' ? 'Salto de Página' : 'Salto de Sección'}`);
+  openModal(`Insertado: ${type === 'page' ? 'Salto de Página' : 'Salto de Sección'}`);
 }
 
 function changeMargins(val) {
@@ -488,7 +438,7 @@ function toggleColumns() {
 }
 
 function insertHyperlink() {
-  const url = prompt("Destino del hipervínculo (URL):", "https://");
+  const url = prompt("URL de destino del hipervínculo:", "https://");
   if(url) {
     document.getElementById('lienzoTexto').focus();
     document.execCommand('createLink', false, url);
@@ -496,7 +446,7 @@ function insertHyperlink() {
 }
 
 function insertCrossReference() {
-  const label = prompt("Marcador de referencia cruzada interna:", "Sección_Ref");
+  const label = prompt("Marcador de referencia interna:", "Sección_Ref");
   if(label) {
     document.getElementById('lienzoTexto').focus();
     const refHTML = `<a href="#${label}" style="color:#92324f; font-weight:600; text-decoration:none;">[Ref ➜ ${label}]</a>&nbsp;`;
@@ -504,7 +454,6 @@ function insertCrossReference() {
   }
 }
 
-/* AUTOMATIZACIÓN DE MACROS */
 function toggleMacroRecording() {
   const btn = document.getElementById('btnMacro');
   if (!isRecordingMacro) {
@@ -516,34 +465,20 @@ function toggleMacroRecording() {
     isRecordingMacro = false;
     btn.textContent = "⏺️ Grabar Macro";
     btn.style.background = "#1e3a8a";
-    openModal(`Macro guardada con éxito (${macroActions.length} pasos guardados).`);
+    openModal(`Macro guardada (${macroActions.length} comandos registrados).`);
   }
 }
 
 function executeMacro() {
   if (macroActions.length === 0) {
-    openModal("No hay ninguna macro grabada en el sistema.");
+    openModal("No hay ninguna macro registrada.");
     return;
   }
   macroActions.forEach(act => {
     if (act.type === 'exec') execCmd(act.cmd, act.val);
     if (act.type === 'typo') applyTypography(act.style, act.val);
   });
-  openModal("¡Macro ejecutada en tiempo real!");
-}
-
-function triggerCommandAction(actionKey, label) {
-  document.getElementById('lienzoTexto').focus();
-  switch(actionKey) {
-    case "cut": execCmd("cut"); break;
-    case "copy": execCmd("copy"); break;
-    case "insertTable":
-      document.execCommand('insertHTML', false, `<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
-      break;
-    case "themeCorp":
-      document.getElementById('lienzoTexto').style.color = "#1d5270";
-      break;
-  }
+  openModal("¡Macro ejecutada en la selección actual!");
 }
 
 function updateCounters() {
@@ -551,9 +486,6 @@ function updateCounters() {
   document.getElementById('lblContador').textContent = `${text.trim() === "" ? 0 : text.trim().split(/\s+/).length} palabras | ${text.length} caracteres`;
 }
 document.getElementById('lienzoTexto').addEventListener('input', updateCounters);
-
-// Inicialización por defecto en ecosistema español
-switchEcosystem('es');
 </script>
 </body>
 </html>
