@@ -4,52 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC iPhone Fix Editor</title>
+<title>WC Word Pro Mobile</title>
 
 <style>
 
-/* 🔥 CLAVE iOS */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+html, body{
+  margin:0;
+  height:100%;
+  background:#e9eef5;
+  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  overflow:auto;
 }
 
-/* TOOLBAR SIMPLE */
-.toolbar {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  display: flex;
-  gap: 6px;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  z-index: 10;
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,#1d5270,#92324f);
+  color:white;
+  padding:10px;
+  font-weight:700;
+  position:sticky;
+  top:0;
 }
 
-/* 🔥 EDITOR iOS SAFE */
-#editor {
-  min-height: 80vh;
-  padding: 20px;
-  margin: 10px;
-  background: white;
-  border-radius: 10px;
-
-  outline: none;
-
-  /* CLAVE iPHONE */
-  -webkit-user-select: text;
-  user-select: text;
-
-  /* evita bloqueo de toque */
-  touch-action: auto;
+/* TOOLBAR */
+.toolbar{
+  display:flex;
+  gap:6px;
+  padding:8px;
+  background:white;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:44px;
+  z-index:10;
+  flex-wrap:wrap;
 }
 
-button {
-  padding: 8px;
+.toolbar button{
+  padding:6px 10px;
+  border:1px solid #ccc;
+  background:white;
+  border-radius:6px;
+}
+
+/* HOJA WORD REAL */
+.page{
+  margin:15px;
+  background:white;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  padding:25px;
+}
+
+/* EDITOR */
+#editor{
+  min-height:70vh;
+  outline:none;
+
+  font-size:16px;
+  line-height:1.8;
+
+  -webkit-user-select:text;
+  user-select:text;
+
+  touch-action:auto;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  font-size:12px;
+  padding:10px;
+  color:#64748b;
 }
 
 </style>
@@ -57,33 +82,48 @@ button {
 
 <body>
 
-<div class="toolbar">
-  <button onclick="cmd('bold')">B</button>
-  <button onclick="cmd('italic')">I</button>
-  <button onclick="cmd('underline')">U</button>
+<div class="header">
+💎 WC Word Pro Mobile
 </div>
 
-<div id="editor" contenteditable="true">
-Escribe aquí en iPhone...
+<div class="toolbar">
+
+<button onclick="cmd('bold')">B</button>
+<button onclick="cmd('italic')">I</button>
+<button onclick="cmd('underline')">U</button>
+
+<button onclick="cmd('insertUnorderedList')">•</button>
+<button onclick="cmd('insertOrderedList')">1.</button>
+
+<button onclick="cmd('justifyLeft')">⬅</button>
+<button onclick="cmd('justifyCenter')">↔</button>
+<button onclick="cmd('justifyRight')">➡</button>
+
+</div>
+
+<div class="page">
+  <div id="editor" contenteditable="true">
+    Escribe tu documento aquí...
+  </div>
+</div>
+
+<div class="footer">
+WC Word Pro Engine
 </div>
 
 <script>
 
 const editor = document.getElementById("editor");
 
-/* 🔥 CLAVE iOS: focus retrasado */
+/* iPhone safe focus */
 window.onload = () => {
-  setTimeout(() => {
-    editor.focus();
-  }, 300);
+  setTimeout(() => editor.focus(), 200);
 };
 
-editor.addEventListener("touchstart", () => {
-  editor.focus();
-});
+editor.addEventListener("touchstart", () => editor.focus());
 
 function cmd(c){
-  document.execCommand(c, false, null);
+  document.execCommand(c,false,null);
 }
 
 </script>
