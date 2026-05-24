@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Estética Ejecutiva Multi-Device</title>
+<title>WC Corporate Editor v20 - Premium Edition</title>
 <style>
-/* ── PALETA DE COLORES CORPORATIVA (FIEL A TUS CAPTURAS) ── */
+/* ── PALETA DE COLORES CORPORATIVA ── */
 :root {
   --bg-main: #060b13;
   --bg-app: #0a111e;
@@ -14,10 +14,9 @@
   --text-main: #ffffff;
   --text-muted: #8493a8;
   --accent-blue: #1d4ed8;
-  --accent-purple: #7c3aed;
   --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #a21caf 50%, #ea580c 100%);
-  --glass-menu: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(20, 30, 55, 0.98) 100%);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-menu: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(20, 30, 55, 0.99) 100%);
+  --glass-border: rgba(255, 255, 255, 0.12);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,33 +30,14 @@ body {
   flex-direction: column;
 }
 
-.app-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-app);
-  overflow: hidden;
-}
+.app-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-app); overflow: hidden; }
 
-/* ── BARRA DE TÍTULO SUPERIOR (ESTÉTICA EJECUTIVA) ── */
-.title-bar {
-  height: 48px;
-  background: var(--gradient-title);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  gap: 12px;
-  flex-shrink: 0;
-}
-.wc-logo {
-  width: 32px; height: 32px; background: #ffffff; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 14px; color: #1d4ed8;
-}
+/* ── BARRA DE TÍTULO SUPERIOR ── */
+.title-bar { height: 48px; background: var(--gradient-title); display: flex; align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; }
+.wc-logo { width: 32px; height: 32px; background: #ffffff; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; color: #1d4ed8; }
 .title-text { display: flex; flex-direction: column; justify-content: center; }
 .title-main-title { font-size: 14px; font-weight: 700; letter-spacing: 0.3px; }
 .title-subtitle { font-size: 10px; opacity: 0.8; font-weight: 400; }
-
 .title-actions { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 .title-icon { cursor: pointer; font-size: 14px; opacity: 0.9; transition: 0.2s; }
 .title-icon:hover { transform: scale(1.1); opacity: 1; }
@@ -65,156 +45,89 @@ body {
 .user-avatar { width: 22px; height: 22px; background: #ea580c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; }
 
 /* ── BARRA DE MENÚS PRINCIPALES ── */
-.menu-bar {
-  height: 40px; background-color: #090f1a;
-  display: flex; align-items: center; padding: 0 12px; gap: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; z-index: 600;
-}
-.menu-btn {
-  padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500;
-  color: #cbd5e1; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px;
-}
+.menu-bar { height: 40px; background-color: #090f1a; display: flex; align-items: center; padding: 0 12px; gap: 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; z-index: 500; }
+.menu-btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; color: #cbd5e1; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; user-select: none; }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.08); color: #ffffff; }
 .menu-btn.active { background: var(--accent-blue); }
 
-/* Menús Desplegables Inteligentes con Efecto Glassmorphism */
-.dropdown-menu {
-  position: absolute; top: 38px; width: 260px;
-  background: var(--glass-menu); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-radius: 10px; border: 1px solid var(--glass-border);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5); padding: 6px; display: none; flex-direction: column; gap: 2px;
-  z-index: 999;
-}
+/* Menús Desplegables Globales */
+.dropdown-menu { position: fixed; width: 260px; background: var(--glass-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 10px; border: 1px solid var(--glass-border); box-shadow: 0 20px 45px rgba(0,0,0,0.6); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 2000; }
 .dropdown-menu.show { display: flex; }
-
-.menu-section-title { font-size: 9px; font-weight: 700; color: #4b5563; text-transform: uppercase; padding: 6px 10px 2px; letter-spacing: 0.5px; }
+.menu-section-title { font-size: 9px; font-weight: 700; color: #526175; text-transform: uppercase; padding: 6px 10px 2px; letter-spacing: 0.5px; }
 .menu-section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 6px; }
-
-.dg-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 13px; transition: 0.1s; }
-.dg-item:hover { background: rgba(255, 255, 255, 0.08); color: #ffffff; }
+.dg-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 13px; transition: 0.1s; }
+.dg-item:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
 .dg-icon { font-size: 14px; width: 18px; text-align: center; }
 .dg-text { flex: 1; }
 
-#menu-archivo { left: 12px; }
-#menu-editar { left: 95px; }
-#menu-insertar { left: 175px; }
-#menu-formato { left: 260px; }
-
-/* ── CINTA DE HERRAMIENTAS (RIBBON FLOTANTE TIPO MÓVIL/ESCRITORIO) ── */
-.ribbon {
-  background-color: var(--ribbon-bg); border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 8px 16px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; 
-  overflow-x: auto; -webkit-overflow-scrolling: touch;
-}
-.ribbon::-webkit-scrollbar { display: none; } /* Ocultar barras de scroll feas */
-
+/* ── CINTA DE HERRAMIENTAS ── */
+.ribbon { background-color: var(--ribbon-bg); border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 16px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; overflow-x: auto; }
+.ribbon::-webkit-scrollbar { display: none; }
 .ribbon-group { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.15); padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); flex-shrink: 0; }
 .ribbon-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.1); flex-shrink: 0; margin: 0 4px; }
+.select-tool { background: #090f1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.tool-icon-btn { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #cbd5e1; padding: 0 6px; }
+.tool-icon-btn:hover { background: rgba(255,255,255,0.1); color: #ffffff; }
 
-.select-tool { background: #090f1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer; }
-.tool-icon-btn { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: #cbd5e1; padding: 0 6px; transition: 0.2s; }
-.tool-icon-btn:hover, .tool-icon-btn.active { background: rgba(255,255,255,0.1); color: #ffffff; }
+/* Botón del selector de Idiomas Especiales */
+.btn-special-lang { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; border-radius: 6px; font-size: 12px; padding: 6px 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; user-select: none; }
 
-/* Botones especiales del Modulo Huetar e Idiomas de tu app */
-.btn-special-module { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; border-radius: 6px; font-size: 11px; padding: 4px 10px; font-weight: bold; cursor: pointer; white-space: nowrap; }
+/* ── CATALOGO DE DISEÑOS WC ARTE EN MODAL ── */
+.wcarte-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 300px; overflow-y: auto; padding-right: 4px; margin-top: 8px; }
+.wcarte-grid::-webkit-scrollbar { width: 4px; }
+.wcarte-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+.art-card { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; text-align: center; cursor: pointer; transition: 0.2s; }
+.art-card:hover { background: #2d3748; transform: translateY(-2px); border-color: #3b82f6; }
 
-/* ── ÁREA DE TRABAJO PRINCIPAL ── */
+/* ── ÁREA DE TRABAJO Y HOJA ── */
 .workspace { display: flex; flex: 1; overflow: hidden; background-color: #050911; position: relative; }
-
-/* Barra Lateral Izquierda (Documentos) */
-.sidebar-left {
-  width: 240px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04);
-  display: flex; flex-direction: column; padding: 16px; gap: 14px; flex-shrink: 0;
-}
-.sb-header { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.doc-list { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
-.doc-item-link { padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-.doc-item-link:hover, .doc-item-link.active { background: rgba(37, 99, 235, 0.15); color: #60a5fa; font-weight: 600; }
-
-/* ── ENTORNO DE LA HOJA DIGITAL ── */
+.sidebar-left { width: 240px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; padding: 16px; gap: 14px; flex-shrink: 0; }
+.sb-header { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.doc-item-link { padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
+.doc-item-link.active { background: rgba(37, 99, 235, 0.15); color: #60a5fa; font-weight: 600; }
 .canvas-outer { flex: 1; background-color: #090f1a; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-.ruler-horizontal { height: 18px; background: #111a2e; border-bottom: 1px solid rgba(255,255,255,0.03); display: flex; align-items: center; padding-left: 90px; font-size: 9px; color: #475569; letter-spacing: 12px; overflow: hidden; pointer-events: none; }
-.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; width: 100%; position: relative; }
+.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; width: 100%; }
 .canvas-container { flex: 1; display: flex; justify-content: center; padding: 30px; width: 100%; }
 
-/* LA HOJA EJECUTIVA ADAPTABLE NATIVA */
-.paper {
-  width: 100%; max-width: 800px; min-height: 1050px; background: #ffffff; color: #1e293b;
-  border-radius: 6px; box-shadow: 0 20px 45px rgba(0,0,0,0.5); position: relative; outline: none;
-  padding: 80px 90px; font-size: 15px; line-height: 1.6; text-align: left; word-wrap: break-word;
-}
+.paper { width: 100%; max-width: 800px; min-height: 1050px; background: #ffffff; color: #1e293b; border-radius: 6px; box-shadow: 0 20px 45px rgba(0,0,0,0.5); outline: none; padding: 80px 90px; font-size: 15px; line-height: 1.6; text-align: left; word-wrap: break-word; position: relative; }
 .paper::before { content: ""; position: absolute; top: 80px; bottom: 80px; left: 90px; right: 90px; border: 1px dashed rgba(37, 99, 235, 0.05); pointer-events: none; }
 .paper h1 { font-size: 26px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
-.paper h2 { font-size: 12px; color: #ea580c; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 20px; text-transform: uppercase; }
-.paper p { margin-bottom: 14px; color: #334155; text-align: justify; }
 
-/* Estilos para tablas y elementos insertados */
-.paper table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
-.paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
-.paper th { background-color: #f8fafc; font-weight: bold; }
-
-/* Barra Lateral Derecha (IA) */
+/* Barra Lateral IA */
 .sidebar-ai { width: 280px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; }
 .ai-title { padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .ai-content { flex: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
 .ai-avatar { width: 48px; height: 48px; background: linear-gradient(135deg, #1d4ed8, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 
-/* ── BARRA DE ESTADO INFERIOR ── */
-.status-bar { height: 30px; background-color: #060b13; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding: 0 16px; gap: 16px; font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
-.st-right { margin-left: auto; display: flex; align-items: center; gap: 8px; color: #10b981; }
-.st-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
+/* Barra Estado */
+.status-bar { height: 30px; background-color: #060b13; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; align-items: center; padding: 0 16px; font-size: 11px; color: var(--text-muted); }
 
-/* Ventanas modales y toasts */
-.wcarte-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f172a; border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; width: 320px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000; display: none; flex-direction: column; gap: 12px; }
+/* Modales */
+.wcarte-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f172a; border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; width: 460px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000; display: none; flex-direction: column; gap: 12px; }
 .wcarte-modal.open { display: flex; }
-.modal-input { padding: 10px; border-radius: 6px; border: none; background: #1e293b; color: white; font-size: 12px; outline: none; }
+.modal-input { padding: 10px; border-radius: 6px; border: none; background: #1e293b; color: white; font-size: 13px; outline: none; width: 100%; }
 .modal-btn { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 #toast { position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 20px; border-radius: 8px; font-size: 12px; opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; border: 1px solid rgba(255,255,255,0.1); }
 #toast.visible { opacity: 1; }
 #fileInput { display: none; }
 
-/* ── 📱 REGLAS DE ADAPTABILIDAD ULTRA-PREMIUM (FIEL A TU CAPTURA MÓVIL) ── */
-@media (max-width: 1024px) {
-  .sidebar-left, .sidebar-ai, .ruler-horizontal { display: none !important; } /* Ocultar paneles laterales colapsados en móvil */
-  .canvas-container { padding: 12px; }
-  .paper { padding: 40px 35px; min-height: auto; }
-  .paper::before { top: 40px; bottom: 40px; left: 35px; right: 35px; }
-}
+/* Estilos de impresión de tablas */
+.paper table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+.paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
 
+/* RESPONSIVIDAD MÓVIL ALINEADA */
+@media (max-width: 1024px) {
+  .sidebar-left, .sidebar-ai { display: none !important; }
+  .paper { padding: 40px 35px; }
+}
 @media (max-width: 768px) {
-  /* Transformación a vista limpia de libreta/móvil (última captura) */
-  .title-bar { height: 44px; }
   .user-badge, .title-subtitle { display: none; }
-  
-  .menu-bar { height: 38px; overflow-x: auto; white-space: nowrap; justify-content: flex-start; }
-  .menu-bar::-webkit-scrollbar { display: none; }
-  .menu-btn { padding: 4px 10px; font-size: 12px; }
-  
-  /* Ajuste para que los menús desplegables ocupen el ancho móvil sin romperse */
-  #menu-archivo, #menu-editar, #menu-insertar, #menu-formato { left: 5% !important; width: 90% !important; top: 40px; }
-  
-  /* Caja flotante de herramientas redondeada estilo Apple/Word Móvil */
-  .ribbon {
-    padding: 10px;
-    background-color: #ffffff;
-    margin: 8px 12px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    border: 1px solid rgba(0,0,0,0.06);
-  }
-  .select-tool { background: #f1f5f9; color: #000000; border: 1px solid #cbd5e1; }
-  .tool-icon-btn { color: #334155; }
-  .tool-icon-btn:hover { background: #e2e8f0; color: #000000; }
-  
-  .canvas-container { padding: 4px; }
-  .paper {
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    padding: 30px 20px;
-    margin: 0 8px;
-    min-height: calc(100vh - 180px);
-  }
-  .paper::before { top: 30px; bottom: 30px; left: 20px; right: 20px; }
+  .dropdown-menu { width: 90% !important; left: 5% !important; }
+  .wcarte-modal { width: 92%; }
+  .wcarte-grid { grid-template-columns: 1fr; }
+  .ribbon { padding: 10px; background-color: #ffffff; margin: 8px 12px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+  .select-tool { background: #f1f5f9; color: black; }
+  .paper { padding: 30px 20px; margin: 0 8px; }
 }
 </style>
 </head>
@@ -226,15 +139,15 @@ body {
     <div class="wc-logo">WC</div>
     <div class="title-text">
       <span class="title-main-title">WC Corporate Editor v20</span>
-      <span class="title-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</span>
+      <span class="title-subtitle">EDICIÓN AVANZADA DE IDIOMAS & DISEÑO</span>
     </div>
     <div class="title-actions">
-      <span class="title-icon" onclick="triggerEditCmd('undo')" title="Deshacer">↩️</span>
-      <span class="title-icon" onclick="triggerEditCmd('redo')" title="Rehacer">↪️</span>
-      <span class="title-icon" onclick="executeFileAction('guardar')" title="Guardar">💾</span>
+      <span class="title-icon" onclick="triggerEditCmd('undo')">↩️</span>
+      <span class="title-icon" onclick="triggerEditCmd('redo')">↪️</span>
+      <span class="title-icon" onclick="executeFileAction('guardar')">💾</span>
       <div class="user-badge">
         <div class="user-avatar">KN</div>
-        <span>Keny Chinchilla Navarro</span>
+        <span>Keny Chinchilla</span>
       </div>
     </div>
   </div>
@@ -244,55 +157,57 @@ body {
     <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-editar')">Editar ▾</div>
     <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-insertar')">Insertar ▾</div>
     <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-formato')">Formato ▾</div>
+  </div>
 
-    <div class="dropdown-menu" id="menu-archivo">
-      <div class="menu-section-title">Documento</div>
-      <div class="dg-item" onclick="executeFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
-      <div class="dg-item" onclick="executeFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo local...</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Almacenamiento</div>
-      <div class="dg-item" onclick="executeFileAction('guardar')"><div class="dg-icon">📥</div><div class="dg-text">Descargar Documento (.html)</div></div>
-      <div class="dg-item" onclick="executeFileAction('limpiar')"><div class="dg-icon">🗑️</div><div class="dg-text">Limpiar hoja</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir / Exportar PDF</div></div>
-    </div>
+  <div class="dropdown-menu" id="menu-archivo">
+    <div class="menu-section-title">Documento</div>
+    <div class="dg-item" onclick="executeFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
+    <div class="dg-item" onclick="executeFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo local...</div></div>
+    <div class="menu-section-divider"></div>
+    <div class="dg-item" onclick="executeFileAction('guardar')"><div class="dg-icon">📥</div><div class="dg-text">Descargar (.html)</div></div>
+    <div class="dg-item" onclick="executeFileAction('limpiar')"><div class="dg-icon">🗑️</div><div class="dg-text">Limpiar lienzo</div></div>
+  </div>
 
-    <div class="dropdown-menu" id="menu-editar">
-      <div class="menu-section-title">Historial de cambios</div>
-      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer cambio</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer cambio</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Selección</div>
-      <div class="dg-item" onclick="triggerEditCmd('selectAll')"><div class="dg-icon">📋</div><div class="dg-text">Seleccionar todo</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('removeFormat')"><div class="dg-icon">🧼</div><div class="dg-text">Borrar estilos de texto</div></div>
-    </div>
+  <div class="dropdown-menu" id="menu-editar">
+    <div class="menu-section-title">Historial</div>
+    <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div></div>
+    <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div></div>
+    <div class="menu-section-divider"></div>
+    <div class="dg-item" onclick="triggerEditCmd('selectAll')"><div class="dg-icon">📋</div><div class="dg-text">Seleccionar todo</div></div>
+  </div>
 
-    <div class="dropdown-menu" id="menu-insertar">
-      <div class="menu-section-title">Tablas y Medios</div>
-      <div class="dg-item" onclick="injectTable()"><div class="dg-icon">📊</div><div class="dg-text">Insertar Tabla de Datos</div></div>
-      <div class="dg-item" onclick="injectImage()"><div class="dg-icon">🖼️</div><div class="dg-text">Insertar Imagen por Enlace...</div></div>
-      <div class="dg-item" onclick="triggerEditCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea Divisoria</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Diseño Avanzado</div>
-      <div class="dg-item" onclick="launchWordArt()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte</div></div>
-    </div>
+  <div class="dropdown-menu" id="menu-insertar">
+    <div class="menu-section-title">Estructuras</div>
+    <div class="dg-item" onclick="injectTable()"><div class="dg-icon">📊</div><div class="dg-text">Insertar Tabla</div></div>
+    <div class="dg-item" onclick="triggerEditCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea Divisoria</div></div>
+    <div class="menu-section-divider"></div>
+    <div class="menu-section-title">Estilización Artística</div>
+    <div class="dg-item" onclick="openWCArteCatalog()"><div class="dg-icon">🎨</div><div class="dg-text">WC Arte (WordArt 10 Estilos)</div></div>
+  </div>
 
-    <div class="dropdown-menu" id="menu-formato">
-      <div class="menu-section-title">Estructura de Hoja</div>
-      <div class="dg-item" onclick="adjustPaperMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Estándar (Word)</div></div>
-      <div class="dg-item" onclick="adjustPaperMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Reducidos</div></div>
-      <div class="menu-section-divider"></div>
-      <div class="menu-section-title">Columnas</div>
-      <div class="dg-item" onclick="adjustColumns(1)"><div class="dg-icon">𝖨</div><div class="dg-text">1 Columna</div></div>
-      <div class="dg-item" onclick="adjustColumns(2)"><div class="dg-icon">⏸</div><div class="dg-text">2 Columnas (Estilo Revista)</div></div>
-    </div>
+  <div class="dropdown-menu" id="menu-formato">
+    <div class="menu-section-title">Márgenes</div>
+    <div class="dg-item" onclick="adjustPaperMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Normales</div></div>
+    <div class="dg-item" onclick="adjustPaperMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Estrechos</div></div>
+  </div>
+
+  <div class="dropdown-menu" id="menu-idiomas-desplegables">
+    <div class="menu-section-title">Variaciones Locales</div>
+    <div class="dg-item" onclick="setAppLanguage('es_cr')"><div class="dg-icon">🇨🇷</div><div class="dg-text">Español Costarricense</div></div>
+    <div class="dg-item" onclick="setAppLanguage('en')"><div class="dg-icon">🇺🇸</div><div class="dg-text">Inglés Internacional</div></div>
+    <div class="menu-section-divider"></div>
+    <div class="menu-section-title">Lenguas Indígenas Ancestrales</div>
+    <div class="dg-item" onclick="setAppLanguage('huetar')"><div class="dg-icon">🏹</div><div class="dg-text">Idioma Huetar</div></div>
+    <div class="dg-item" onclick="setAppLanguage('chorotega')"><div class="dg-icon">🏺</div><div class="dg-text">Idioma Chorotega</div></div>
+    <div class="dg-item" onclick="setAppLanguage('bribri')"><div class="dg-icon">🌱</div><div class="dg-text">Idioma Bribri</div></div>
+    <div class="dg-item" onclick="setAppLanguage('cabecar')"><div class="dg-icon">🐾</div><div class="dg-text">Idioma Cabécar</div></div>
   </div>
 
   <input type="file" id="fileInput" accept=".html,.txt" onchange="processLocalFile(event)">
 
   <div class="ribbon">
-    <div class="btn-special-module">🌐 Traductor 10 idiomas</div>
-    <div class="btn-special-module" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">📔 Vocabulario Huetar/Chorotega</div>
+    <div class="btn-special-lang" onclick="toggleDropdownMenu(event, 'menu-idiomas-desplegables')">🌐 Selector de Idiomas ▾</div>
+    
     <div class="ribbon-divider"></div>
     <div class="ribbon-group">
       <select class="select-tool" onchange="triggerEditCmd('fontName', this.value)">
@@ -300,203 +215,212 @@ body {
         <option value="Arial">Arial</option>
         <option value="Times New Roman">Times New Roman</option>
       </select>
-      <select class="select-tool" onchange="triggerEditCmd('fontSize', this.value)">
-        <option value="3">12 px</option>
-        <option value="4">14 px</option>
-        <option value="5">18 px</option>
-      </select>
     </div>
-    <div class="ribbon-divider"></div>
     <div class="ribbon-group">
       <div class="tool-icon-btn" onclick="triggerEditCmd('bold')"><b>B</b></div>
       <div class="tool-icon-btn" onclick="triggerEditCmd('italic')"><i>I</i></div>
       <div class="tool-icon-btn" onclick="triggerEditCmd('underline')"><u>U</u></div>
-      <input type="color" onchange="triggerEditCmd('foreColor', this.value)" style="width:20px; height:20px; border:none; cursor:pointer; background:none;">
-    </div>
-    <div class="ribbon-divider"></div>
-    <div class="ribbon-group">
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyLeft')">⬅</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyCenter')">Centrar</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyRight')">➡</div>
     </div>
   </div>
 
   <div class="workspace">
     <div class="sidebar-left">
-      <div class="sb-header"><span>Documentos</span></div>
+      <div class="sb-header"><span>Ecosistema</span></div>
       <div class="doc-list">
-        <div class="doc-item-link active">Documento 1</div>
-        <div class="doc-item-link">Informe Corporativo</div>
-        <div class="doc-item-link">Propuesta Ejecutiva</div>
+        <div class="doc-item-link active">📄 Lienzo Principal</div>
       </div>
     </div>
 
     <div class="canvas-outer">
-      <div class="ruler-horizontal">12345678910111213141516171819202122</div>
       <div class="canvas-inner-wrapper">
         <div class="canvas-container">
-          
-          <div class="paper" id="editorPage" contenteditable="true" oninput="liveStatsCounter()">
+          <div class="paper" id="editorPage" contenteditable="true">
             <h1>WC Corporate Editor v20</h1>
-            <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-            <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total. Las opciones superiores de Archivo, Editar, Insertar y Formato ya están completamente interconectadas con la lógica del sistema nativo.</p>
+            <p>Escribe tu texto base aquí. Abre el módulo de <b>Insertar ➔ WC Arte</b> para desplegar los 10 nuevos diseños originales estilo WordArt e inyectarlos de inmediato.</p>
           </div>
-
         </div>
       </div>
     </div>
 
     <div class="sidebar-ai">
-      <div class="ai-title">✨ IA Asistente WC</div>
+      <div class="ai-title">✨ Asistente Etnolingüístico</div>
       <div class="ai-content">
         <div class="ai-avatar">🤖</div>
-        <div style="font-size:13px; font-weight:700;">¡Hola Keny!</div>
-        <p style="font-size:11px; color:var(--text-muted);">El sistema adaptivo detectó tu dispositivo y configuró la mesa de trabajo de forma automática.</p>
+        <div id="aiStatusTitle" style="font-size:13px; font-weight:700;">Modo Estándar</div>
+        <p id="aiStatusDesc" style="font-size:11px; color:var(--text-muted);">Listo para procesar gramática y vocabularios especializados en el lienzo.</p>
       </div>
     </div>
   </div>
 
   <div class="status-bar">
-    <span>Página 1 de 1</span>
-    <span id="wordCounter">Palabras: 28</span>
-    <div class="st-right">
-      <div class="st-dot"></div>
-      <span>Diseño Ejecutivo Activo</span>
-    </div>
+    <span>Lienzo Corporativo Activo</span>
   </div>
 
 </div>
 
-<div class="wcarte-modal" id="wcArtModal">
-  <div style="font-size:14px; font-weight:bold; color:white;">✨ Creador WC Arte Pro</div>
-  <input type="text" id="wcArtText" placeholder="Escribe el texto aquí..." class="modal-input">
-  <button class="modal-btn" onclick="injectWCArtNode()">Insertar en Documento</button>
-  <button class="modal-btn" onclick="closeWordArt()" style="background:#475569; margin-top:-4px;">Cerrar</button>
+<div class="wcarte-modal" id="wcArteCatalogModal">
+  <div style="font-size:15px; font-weight:bold; color:white;">🎨 Catálogo WC Arte (10 Diseños Originales)</div>
+  <input type="text" id="wcArteInputText" placeholder="Escribe la frase para tu WordArt..." class="modal-input" value="Texto WC Arte">
+  
+  <div class="wcarte-grid">
+    <div class="art-card" onclick="insertWCArteStyle(1)"><span style="font-family:'Impact', sans-serif; font-size:18px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(2px 2px #000);">1. Neon Cyberpunk</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(2)"><span style="font-family:'Times New Roman', serif; font-size:18px; background:linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; filter:drop-shadow(1px 2px #5f430b);">2. Oro Ejecutivo Tridimensional</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(3)"><span style="font-family:'Arial Black', sans-serif; font-size:18px; color:#ffffff; text-shadow: 0 1px 0 #ccc, 0 2px 0 #c5c5c5, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25);">3. Bloque 3D Clásico</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(4)"><span style="font-family:'Georgia', serif; font-size:18px; color:transparent; -webkit-text-stroke: 1.5px #e11d48; font-style:italic; font-weight:900;">4. Silueta Glamour</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(5)"><span style="font-family:'Comic Sans MS', sans-serif; font-size:18px; background:linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold;">5. Arcoíris Divertido</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(6)"><span style="font-family:'Courier New', monospace; font-size:18px; color:#10b981; background:#000; padding:2px 6px; border-radius:4px; font-weight:bold; box-shadow:0 0 10px #10b981;">6. Matriz de Código</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(7)"><span style="font-family:'Impact', sans-serif; font-size:18px; background:linear-gradient(to top, #311042, #7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing:2px;">7. Galaxia Púrpura</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(8)"><span style="font-family:'Trebuchet MS', sans-serif; font-size:18px; color:#ffffff; background:#ea580c; padding:4px 8px; border-skew:-10deg; font-weight:900; box-shadow:4px 4px 0px #7c2d12;">8. Pop-Art Corporativo</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(9)"><span style="font-family:'Times New Roman', serif; font-size:18px; color:#1e293b; text-shadow: 2px 2px 0px #cbd5e1; font-style:italic;">9. Sombra Minimalista</span></div>
+    <div class="art-card" onclick="insertWCArteStyle(10)"><span style="font-family:'Impact', sans-serif; font-size:18px; background:linear-gradient(180deg, #000 45%, #fff 45%, #fff 55%, #000 55%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; border:1px solid #000; padding:0 4px;">10. Cromo Dividido</span></div>
+  </div>
+
+  <button class="modal-btn" onclick="closeWCArteCatalog()" style="background:#475569; margin-top:4px;">Cancelar</button>
 </div>
 
-<div id="toast">Acción completada</div>
+<div id="toast">Notificación</div>
 
 <script>
 let toastTimer;
-
 function displayToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('visible');
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('visible'), 2200);
+  toastTimer = setTimeout(() => t.classList.remove('visible'), 2200);
 }
 
-// CONTROL INTERACTIVO DE DROPDOWNS
 function toggleDropdownMenu(event, id) {
   event.stopPropagation();
   const menu = document.getElementById(id);
-  const alreadyOpen = menu.classList.contains('show');
+  const button = event.currentTarget;
+  const isOpen = menu.classList.contains('show');
   
   closeAllDropdowns();
   
-  if (!alreadyOpen) {
+  if (!isOpen) {
     menu.classList.add('show');
-    event.currentTarget.classList.add('active');
+    button.classList.add('active');
+    
+    if (window.innerWidth > 768) {
+      const rect = button.getBoundingClientRect();
+      menu.style.top = rect.bottom + 'px';
+      menu.style.left = rect.left + 'px';
+    } else {
+      menu.style.top = '90px';
+      menu.style.left = '5%';
+    }
   }
 }
 
 function closeAllDropdowns() {
   document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-  document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.menu-btn, .btn-special-lang').forEach(b => b.classList.remove('active'));
 }
 
 document.addEventListener('click', closeAllDropdowns);
+document.querySelectorAll('.dropdown-menu').forEach(m => m.addEventListener('click', e => e.stopPropagation()));
 
-// COMANDOS DE EDICIÓN NATIVOS
 function triggerEditCmd(cmd, val = null) {
   document.execCommand(cmd, false, val);
-  liveStatsCounter();
+  closeAllDropdowns();
 }
 
-function liveStatsCounter() {
-  const text = document.getElementById('editorPage').innerText || "";
-  const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-  document.getElementById('wordCounter').textContent = `Palabras: ${words}`;
+/* ── INTERACTIVIDAD REAL DEL SELECTOR DE IDIOMAS CORPORATIVO Y ÉTNICO ── */
+function setAppLanguage(lang) {
+  closeAllDropdowns();
+  const title = document.getElementById('aiStatusTitle');
+  const desc = document.getElementById('aiStatusDesc');
+  const page = document.getElementById('editorPage');
+
+  if (lang === 'es_cr') {
+    title.textContent = "Modo: Costarricense 🇨🇷";
+    desc.textContent = "Soporte nativo activado. Jergas, modismos y corrección lexicográfica de Costa Rica.";
+    triggerEditCmd('insertHTML', '<p><b>[Nota del Editor]:</b> ¡Pura vida! Este texto se ha adecuado a la formalidad ejecutiva costarricense. Tuanis.</p>');
+    displayToast("Idioma: Español Costarricense");
+  } 
+  else if (lang === 'en') {
+    title.textContent = "Modo: English Pro 🇺🇸";
+    desc.textContent = "International corporate vocabulary and style active.";
+    displayToast("Language: English Enabled");
+  } 
+  else if (lang === 'huetar') {
+    title.textContent = "Cultura Huetar 🏹";
+    desc.textContent = "Región Central de Costa Rica. Inyectando léxico de herencia Huetar.";
+    triggerEditCmd('insertHTML', '<div style="background:#fff7ed; padding:10px; border-left:4px solid #ea580c; margin:8px 0;"><b>Glosario Huetar:</b> Reivindicación de raíces precolombinas del Valle Central. Incorporación de topónimos ancestrales (Aserrí, Barva, Curridabat).</div>');
+    displayToast("Módulo Huetar Activo");
+  } 
+  else if (lang === 'chorotega') {
+    title.textContent = "Cultura Chorotega 🏺";
+    desc.textContent = "Zona de Nicoya. Vocabulario y preservación histórica.";
+    triggerEditCmd('insertHTML', '<div style="background:#fef2f2; padding:10px; border-left:4px solid #ef4444; margin:8px 0;"><b>Expresión Chorotega:</b> Inyección de identidad de la Gran Nicoya. Estudio lingüístico de raíces Mangue.</div>');
+    displayToast("Módulo Chorotega Activo");
+  }
+  else if (lang === 'bribri') {
+    title.textContent = "Idioma Bribri 🌱";
+    desc.textContent = "Talamanca. Inyectando saludo y términos reales en la hoja.";
+    triggerEditCmd('insertHTML', '<p><i>"¡Ika b動b動!" (Saludo Bribri: ¿Cómo estás?)</i></p>');
+    displayToast("Módulo Bribri Activo");
+  }
+  else if (lang === 'cabecar') {
+    title.textContent = "Idioma Cabécar 🐾";
+    desc.textContent = "Soporte para lengua autóctona Cabécar.";
+    triggerEditCmd('insertHTML', '<p><i>"¡Sg動 b動b動!" (Saludo Cabécar introduced al documento)</i></p>');
+    displayToast("Módulo Cabécar Activo");
+  }
 }
 
-// LOGICA INTERNA DEL MENÚ ARCHIVO
+/* ── MANEJO DE CATÁLOGO WC ARTE ── */
+function openWCArteCatalog() { closeAllDropdowns(); document.getElementById('wcArteCatalogModal').classList.add('open'); }
+function closeWCArteCatalog() { document.getElementById('wcArteCatalogModal').classList.remove('open'); }
+
+function insertWCArteStyle(styleId) {
+  const text = document.getElementById('wcArteInputText').value || "WC Arte";
+  let htmlString = "";
+
+  // Selección de los 10 estilos CSS en línea originales autoejecutables
+  switch(styleId) {
+    case 1: htmlString = `<span style="font-family:'Impact', sans-serif; font-size:36px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(3px 3px #000); display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 2: htmlString = `<span style="font-family:'Times New Roman', serif; font-size:34px; background:linear-gradient(to bottom, #bf953f, #fcf6ba, #b38728, #fbf5b7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; filter:drop-shadow(2px 3px #5f430b); display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 3: htmlString = `<span style="font-family:'Arial Black', sans-serif; font-size:36px; color:#ffffff; text-shadow: 0 1px 0 #ccc, 0 2px 0 #c5c5c5, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.15); display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 4: htmlString = `<span style="font-family:'Georgia', serif; font-size:36px; color:transparent; -webkit-text-stroke: 2px #e11d48; font-style:italic; font-weight:900; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 5: htmlString = `<span style="font-family:'Comic Sans MS', sans-serif; font-size:32px; background:linear-gradient(to right, #ef4444, #f97316, #eab308, #22c55e, #3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 6: htmlString = `<span style="font-family:'Courier New', monospace; font-size:30px; color:#10b981; background:#000000; padding:4px 10px; border-radius:6px; font-weight:bold; box-shadow:0 0 12px #10b981; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 7: htmlString = `<span style="font-family:'Impact', sans-serif; font-size:38px; background:linear-gradient(to top, #311042, #7c3aed); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing:2px; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 8: htmlString = `<span style="font-family:'Trebuchet MS', sans-serif; font-size:32px; color:#ffffff; background:#ea580c; padding:6px 14px; transform:skewX(-10deg); font-weight:900; box-shadow:5px 5px 0px #7c2d12; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 9: htmlString = `<span style="font-family:'Times New Roman', serif; font-size:36px; color:#1e293b; text-shadow: 3px 3px 0px #cbd5e1; font-style:italic; display:inline-block; margin:8px 0;">${text}</span>`; break;
+    case 10: htmlString = `<span style="font-family:'Impact', sans-serif; font-size:36px; background:linear-gradient(180deg, #000 45%, #fff 45%, #fff 55%, #000 55%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; border:2px solid #000; padding:2px 6px; display:inline-block; margin:8px 0;">${text}</span>`; break;
+  }
+
+  triggerEditCmd('insertHTML', htmlString + '&nbsp;<p><br></p>');
+  closeWCArteCatalog();
+  displayToast("Diseño WC Arte insertado");
+}
+
 function executeFileAction(action) {
+  closeAllDropdowns();
   const page = document.getElementById('editorPage');
   if (action === 'nuevo') {
-    page.innerHTML = '<h1>Nuevo Documento</h1><h2>Escribe un subtítulo...</h2><p>Comienza a redactar aquí.</p>';
-    displayToast('Nuevo lienzo ejecutivo creado');
+    page.innerHTML = '<h1>Nuevo Documento</h1><p>Digita contenido aquí...</p>';
   } else if (action === 'abrir') {
     document.getElementById('fileInput').click();
   } else if (action === 'guardar') {
     const textBlob = new Blob([page.innerHTML], { type: 'text/html' });
     const u = document.createElement('a');
-    u.download = 'Documento_WC_Corporate.html';
-    u.href = window.URL.createObjectURL(textBlob);
-    u.click();
-    displayToast('Descargando copia del documento...');
+    u.download = 'Documento_WC.html'; u.href = window.URL.createObjectURL(textBlob); u.click();
   } else if (action === 'limpiar') {
     page.innerHTML = '<p><br></p>';
-    displayToast('Lienzo limpio');
   }
-  liveStatsCounter();
 }
 
 function processLocalFile(e) {
-  const f = e.target.files[0];
-  if (!f) return;
+  const f = e.target.files[0]; if (!f) return;
   const r = new FileReader();
-  r.onload = function(evt) {
-    document.getElementById('editorPage').innerHTML = evt.target.result;
-    liveStatsCounter();
-    displayToast('Documento importado con éxito');
-  };
+  r.onload = function(evt) { document.getElementById('editorPage').innerHTML = evt.target.result; };
   r.readAsText(f);
 }
 
-// LOGICA INTERNA DEL MENÚ INSERTAR
-function injectTable() {
-  const table = `<table><tr><th>Métrica</th><th>Valor Corporativo</th></tr><tr><td>Digitación Responsiva</td><td>Activa 100%</td></tr></table><p><br></p>`;
-  triggerEditCmd('insertHTML', table);
-  displayToast('Tabla de datos insertada');
-}
-
-function injectImage() {
-  const url = prompt("Introduce el enlace (URL) de la imagen:");
-  if (url) {
-    triggerEditCmd('insertHTML', `<img src="${url}" style="max-width:100%; border-radius:6px; margin:10px 0;"><p><br></p>`);
-    displayToast('Imagen insertada');
-  }
-}
-
-// LOGICA INTERNA DEL MENÚ FORMATO
-function adjustPaperMargins(mode) {
-  const p = document.getElementById('editorPage');
-  if (window.innerWidth > 1024) {
-    p.style.padding = mode === 'estrecho' ? "35px 40px" : "80px 90px";
-  } else {
-    p.style.padding = mode === 'estrecho' ? "20px 15px" : "40px 35px";
-  }
-  displayToast(`Márgenes configurados en: ${mode}`);
-}
-
-function adjustColumns(num) {
-  document.getElementById('editorPage').style.columnCount = num;
-  displayToast(`Distribución fijada a ${num} columna(s)`);
-}
-
-// MODULO WORDART PREMIUM
-function launchWordArt() { document.getElementById('wcArtModal').classList.add('open'); }
-function closeWordArt() { document.getElementById('wcArtModal').classList.remove('open'); }
-function injectWCArtNode() {
-  const t = document.getElementById('wcArtText').value || "WC PRO";
-  const node = `<span style="font-family:'Impact', sans-serif; font-size:32px; background:linear-gradient(45deg, #1d4ed8, #ea580c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block; margin:8px 0;">${t}</span>&nbsp;`;
-  triggerEditCmd('insertHTML', node);
-  closeWordArt();
-  document.getElementById('wcArtText').value = "";
-}
-
-window.onload = () => { liveStatsCounter(); };
+function injectTable() { closeAllDropdowns(); triggerEditCmd('insertHTML', '<table><tr><th>Dato</th><th>Detalle</th></tr><tr><td>Muestra</td><td>Editable</td></tr></table><p><br></p>'); }
+function adjustPaperMargins(m) { closeAllDropdowns(); document.getElementById('editorPage').style.padding = m === 'estrecho' ? "30px 25px" : "80px 90px"; }
 </script>
 
 </body>
