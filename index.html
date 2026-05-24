@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20.4 - Cinta Móvil Multilingüe</title>
+<title>WC Corporate Editor v20.4 - Tipografía Completa</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -32,16 +32,16 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 }
 .lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
 
-/* 📱 CINTA DE PESTAÑAS MÓVIL DESLIZABLE HORIZONTAL (Fiel a tu video) */
+/* CINTA DE PESTAÑAS MÓVIL DESLIZABLE HORIZONTAL */
 .mobile-tabs-scroll {
   display: flex;
   gap: 4px;
   overflow-x: auto;
   white-space: nowrap;
   padding-bottom: 4px;
-  scrollbar-width: none; /* Oculta scroll en Firefox */
+  scrollbar-width: none;
 }
-.mobile-tabs-scroll::-webkit-scrollbar { display: none; } /* Oculta scroll en Chrome/Safari */
+.mobile-tabs-scroll::-webkit-scrollbar { display: none; }
 
 .tab-node {
   padding: 6px 14px;
@@ -55,7 +55,7 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 }
 .tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
 
-/* PANEL DE COMANDOS SUB-PESTAÑA (Cambia según el Tab y el Idioma) */
+/* PANEL DE COMANDOS SUB-PESTAÑA */
 .ribbon-commands-panel {
   background: var(--bg-ribbon-panel);
   border-bottom: 1px solid #cbd5e1;
@@ -71,17 +71,41 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
   border-radius: 6px; font-size: 12px; color: #334155; display: flex;
   align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
+.cmd-btn:active { background: #e2e8f0; }
 
-/* SELECTORES RÁPIDOS DE FUENTE */
-.font-bar { background: #e2e8f0; padding: 6px 12px; display: flex; gap: 6px; flex-shrink: 0; }
-.font-select { background: white; border: 1px solid #cbd5e1; padding: 3px 6px; border-radius: 4px; font-size: 12px; }
+/* 🛠️ BARRA DE HERRAMIENTAS TIPOGRÁFICAS EXPANDIDA */
+.font-bar { 
+  background: #e2e8f0; 
+  padding: 6px 12px; 
+  display: flex; 
+  gap: 8px; 
+  flex-shrink: 0; 
+  overflow-x: auto;
+  align-items: center;
+}
+.font-select { 
+  background: white; 
+  border: 1px solid #cbd5e1; 
+  padding: 5px 10px; 
+  border-radius: 4px; 
+  font-size: 13px; 
+  color: #1e293b;
+  outline: none;
+  cursor: pointer;
+}
+.font-select-family { min-width: 140px; }
+.font-select-size { min-width: 70px; }
 
 /* LIENZO DE PAPEL */
 .workspace { flex: 1; padding: 12px; overflow-y: auto; display: flex; justify-content: center; }
-.paper { width: 100%; max-width: 600px; background: white; min-height: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 20px; border-radius: 4px; outline: none; }
+.paper { width: 100%; max-width: 600px; background: white; min-height: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 40px; border-radius: 4px; outline: none; transition: padding 0.2s; }
 
-/* BARRA DE ESTADO */
+/* BARRA DE ESTADO INFERIOR */
 .footer-bar { height: 28px; background: white; border-top: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; }
+
+/* TOAST NOTIFICACIÓN */
+#toast-alert { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px; opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; }
+#toast-alert.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -102,17 +126,39 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
       <div class="tab-node" id="t-diseno" onclick="changeActiveTab('diseno')">Diseño</div>
       <div class="tab-node" id="t-disposicion" onclick="changeActiveTab('disposicion')">Disposición</div>
       <div class="tab-node" id="t-arte" onclick="changeActiveTab('arte')">WC Arte AB</div>
-      <div class="tab-node" id="t-ai" onclick="changeActiveTab('ai')">Asistente IA</div>
     </div>
   </div>
 
   <div class="font-bar">
-    <select class="font-select"><option>Arial</option><option>Segoe UI</option></select>
-    <select class="font-select"><option>14px</option><option>16px</option></select>
+    <select class="font-select font-select-family" onchange="changeFontFamily(this.value)">
+      <option value="Segoe UI" selected>Segoe UI (Predeterminada)</option>
+      <option value="Arial">Arial</option>
+      <option value="Arial Black">Arial Black</option>
+      <option value="Calibri">Calibri</option>
+      <option value="Cambria">Cambria</option>
+      <option value="Courier New">Courier New (Código/Tabular)</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Impact">Impact</option>
+      <option value="Times New Roman">Times New Roman (Formal)</option>
+      <option value="Trebuchet MS">Trebuchet MS</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+
+    <select class="font-select font-select-size" onchange="changeFontSize(this.value)">
+      <option value="12px">12 px</option>
+      <option value="14px">14 px</option>
+      <option value="16px" selected>16 px</option>
+      <option value="18px">18 px</option>
+      <option value="20px">20 px</option>
+      <option value="24px">24 px</option>
+      <option value="28px">28 px</option>
+      <option value="32px">32 px</option>
+      <option value="36px">36 px</option>
+      <option value="48px">48 px</option>
+    </select>
   </div>
 
-  <div class="ribbon-commands-panel" id="panelComandos">
-    </div>
+  <div class="ribbon-commands-panel" id="panelComandos"></div>
 
   <div class="workspace">
     <div class="paper" contenteditable="true" id="lienzoTexto">
@@ -123,132 +169,285 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 
   <div class="footer-bar">
     <span id="lblEco">Ecosistema Activo: Español</span>
-    <span>Por Keny Chinchilla Navarro</span>
+    <span id="lblContador">0 palabras | 0 caracteres</span>
   </div>
 
+  <div id="toast-alert">Aviso</div>
+
 <script>
-// PESTAÑA ACTUANTE ACTUAL
 let currentTab = 'inicio';
 let currentLang = 'es';
+let toastTimer;
 
-// DICCIONARIO RADICAL DE TRADUCCIÓN: TABS + SUB-BOTONES
 const translationsDb = {
   es: {
     eco: "Ecosistema Activo: Español 🇨🇷",
     hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
-    tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB", ai: "Asistente IA" },
+    toastTable: "Tabla insertada", toastMargin: "Margen cambiado", toastArte: "Estilo WC Arte aplicado",
+    tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
-      inicio: ["<b>B</b> Negrita", "<i>I</i> Cursiva", "<u>U</u> Subrayado"],
-      insertar: ["📊 Tabla", "🔗 Vínculo", "📷 Imagen"],
-      diseno: ["🎨 Temas", "🏁 Fondo"],
-      disposicion: ["📐 Márgenes", "🥞 Columnas"],
-      arte: ["⭐ Estilo Arcoíris", "👑 Oro Líquido"],
-      ai: ["⚡ Corregir", "📝 Resumir"]
+      inicio: [
+        { txt: "<b>B</b> Negrita", action: "bold" },
+        { txt: "<i>I</i> Cursiva", action: "italic" },
+        { txt: "<u>U</u> Subrayado", action: "underline" }
+      ],
+      insertar: [
+        { txt: "📊 Tabla", action: "insertTable" },
+        { txt: "🔗 Vínculo", action: "insertLink" }
+      ],
+      diseno: [
+        { txt: "🔴 Texto Rojo", action: "colorRed" },
+        { txt: "🔵 Texto Azul", action: "colorBlue" }
+      ],
+      disposicion: [
+        { txt: "📐 M. Normal", action: "marginNormal" },
+        { txt: "🥞 M. Estrecho", action: "marginNarrow" }
+      ],
+      arte: [
+        { txt: "⭐ Neón", action: "arteNeon" },
+        { txt: "👑 Oro", action: "arteOro" }
+      ]
     }
   },
   en: {
     eco: "Active Ecosystem: English 🇺🇸",
     hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
-    tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB", ai: "AI Assistant" },
+    toastTable: "Table inserted", toastMargin: "Margin updated", toastArte: "WC Art Style applied",
+    tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
-      inicio: ["<b>B</b> Bold", "<i>I</i> Italic", "<u>U</u> Underline"],
-      insertar: ["📊 Table", "🔗 Link", "📷 Image"],
-      diseno: ["🎨 Themes", "🏁 Background"],
-      disposicion: ["📐 Margins", "🥞 Columns"],
-      arte: ["⭐ Neon Style", "👑 Gold Text"],
-      ai: ["⚡ Proofread", "📝 Abstract"]
+      inicio: [
+        { txt: "<b>B</b> Bold", action: "bold" },
+        { txt: "<i>I</i> Italic", action: "italic" },
+        { txt: "<u>U</u> Underline", action: "underline" }
+      ],
+      insertar: [
+        { txt: "📊 Table", action: "insertTable" },
+        { txt: "🔗 Link", action: "insertLink" }
+      ],
+      diseno: [
+        { txt: "🔴 Red Text", action: "colorRed" },
+        { txt: "🔵 Blue Text", action: "colorBlue" }
+      ],
+      disposicion: [
+        { txt: "📐 Std Margin", action: "marginNormal" },
+        { txt: "🥞 Narrow M.", action: "marginNarrow" }
+      ],
+      arte: [
+        { txt: "⭐ Neon", action: "arteNeon" },
+        { txt: "👑 Gold", action: "arteOro" }
+      ]
     }
   },
-  bri: { // Bribri Traducido Integralmente
+  bri: {
     eco: "Ecosistema Activo: Bribri pakö 🌱",
     hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
-    tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán", ai: "Formador IA" },
+    toastTable: "Tabla sán ujtëk", toastMargin: "Margen ká̱ já̱", toastArte: "WC Arte sán ujtëk",
+    tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
-      inicio: ["<b>B</b> Dgër", "<i>I</i> Lir", "<u>U</u> Muk"],
-      insertar: ["📊 Tabla sán", "🔗 Enlace", "📷 Ká̱"],
-      diseno: ["🎨 Color ká̱", "🏁 Su̱wë"],
-      disposicion: ["📐 Margen sér", "🥞 Jë"],
-      arte: ["⭐ Neon ujtëk", "👑 Oro sán"],
-      ai: ["⚡ Su̱wë buá̱", "📝 Kië"]
+      inicio: [
+        { txt: "<b>B</b> Dgër", action: "bold" },
+        { txt: "<i>I</i> Lir", action: "italic" },
+        { txt: "<u>U</u> Muk", action: "underline" }
+      ],
+      insertar: [
+        { txt: "📊 Tabla sán", action: "insertTable" },
+        { txt: "🔗 Enlace", action: "insertLink" }
+      ],
+      diseno: [
+        { txt: "🔴 Bee", action: "colorRed" },
+        { txt: "🔵 Sĩĩ", action: "colorBlue" }
+      ],
+      disposicion: [
+        { txt: "📐 Normal", action: "marginNormal" },
+        { txt: "🥞 Sér", action: "marginNarrow" }
+      ],
+      arte: [
+        { txt: "⭐ Neon sán", action: "arteNeon" },
+        { txt: "👑 Oro sán", action: "arteOro" }
+      ]
     }
   },
-  cab: { // Cabécar Traducido Integralmente
+  cab: {
     eco: "Ecosistema Activo: Cabécar jula 🐾",
     hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
-    tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style", ai: "Asistente" },
+    toastTable: "Tabla sán tsoñ", toastMargin: "Ká wá m.", toastArte: "WC Style applied",
+    tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
-      inicio: ["<b>B</b> Tso", "<i>I</i> Shana", "<u>U</u> Ká"],
-      insertar: ["📊 Tabla", "🔗 Link"],
-      diseno: ["🎨 Fondo"],
-      disposicion: ["📐 Margen baka", "🥞 Columnas"],
-      arte: ["⭐ WC Arte"],
-      ai: ["⚡ Corregir"]
+      inicio: [
+        { txt: "<b>B</b> Tso", action: "bold" },
+        { txt: "<i>I</i> Shana", action: "italic" },
+        { txt: "<u>U</u> Ká", action: "underline" }
+      ],
+      insertar: [
+        { txt: "📊 Tabla", action: "insertTable" },
+        { txt: "🔗 Link", action: "insertLink" }
+      ],
+      diseno: [
+        { txt: "🔴 Red", action: "colorRed" },
+        { txt: "🔵 Blue", action: "colorBlue" }
+      ],
+      disposicion: [
+        { txt: "📐 Normal", action: "marginNormal" },
+        { txt: "🥞 Estrecho", action: "marginNarrow" }
+      ],
+      arte: [
+        { txt: "⭐ Style 1", action: "arteNeon" },
+        { txt: "👑 Style 2", action: "arteOro" }
+      ]
     }
   }
 };
 
-// CAMBIAR IDIOMA GLOBAL DEL SISTEMA
+function showToast(msg) {
+  const t = document.getElementById('toast-alert');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// 🔤 LOGICA TIPOGRÁFICA INTERACTIVA DIRECTA EN EL LIENZO
+function changeFontFamily(font) {
+  document.getElementById('lienzoTexto').focus();
+  document.execCommand('fontName', false, font);
+}
+
+function changeFontSize(size) {
+  document.getElementById('lienzoTexto').focus();
+  // Convierte tamaños en px a elementos escalables válidos
+  let sizeId = "3"; 
+  if(size === "12px") sizeId = "2";
+  if(size === "14px") sizeId = "3";
+  if(size === "16px") sizeId = "4";
+  if(size === "18px") sizeId = "5";
+  if(size === "20px") sizeId = "6";
+  if(parseInt(size) >= 24) sizeId = "7";
+
+  document.execCommand('fontSize', false, sizeId);
+  
+  // Ajuste fino para forzar los px exactos del estándar CSS corporativo
+  const selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    const range = selection.getRangeAt(0);
+    const parent = range.commonAncestorContainer.parentElement;
+    if(parent && parent.id !== "lienzoTexto") {
+       parent.style.fontSize = size;
+    }
+  }
+}
+
+function insertHTMLAtCursor(html) {
+  const sel = window.getSelection();
+  if (sel.getRangeAt && sel.rangeCount) {
+    const range = sel.getRangeAt(0);
+    range.deleteContents();
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    const frag = document.createDocumentFragment();
+    let node;
+    while ((node = div.firstChild)) frag.appendChild(node);
+    range.insertNode(frag);
+  } else {
+    document.getElementById('lienzoTexto').innerHTML += html;
+  }
+  updateCounters();
+}
+
+function triggerCommandAction(actionKey) {
+  const currentDict = translationsDb[currentLang];
+  document.getElementById('lienzoTexto').focus();
+
+  switch(actionKey) {
+    case "bold": document.execCommand("bold"); break;
+    case "italic": document.execCommand("italic"); break;
+    case "underline": document.execCommand("underline"); break;
+    
+    case "insertTable":
+      const tableHtml = `<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid #cbd5e1; padding:6px;">...</td><td style="border:1px solid #cbd5e1; padding:6px;">...</td></tr><tr><td style="border:1px solid #cbd5e1; padding:6px;">...</td><td style="border:1px solid #cbd5e1; padding:6px;">...</td></tr></table><p>&nbsp;</p>`;
+      insertHTMLAtCursor(tableHtml);
+      showToast(currentDict.toastTable);
+      break;
+
+    case "insertLink":
+      const url = prompt("URL:", "https://");
+      if(url) insertHTMLAtCursor(`<a href="${url}" style="color:#2563eb; text-decoration:underline;">${url}</a>&nbsp;`);
+      break;
+
+    case "colorRed": document.execCommand("foreColor", false, "#dc2626"); break;
+    case "colorBlue": document.execCommand("foreColor", false, "#2563eb"); break;
+
+    case "marginNormal":
+      document.getElementById('lienzoTexto').style.padding = "40px";
+      showToast(currentDict.toastMargin);
+      break;
+    case "marginNarrow":
+      document.getElementById('lienzoTexto').style.padding = "15px";
+      showToast(currentDict.toastMargin);
+      break;
+
+    case "arteNeon":
+      insertHTMLAtCursor(`<span style="font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;">WC Neon</span>&nbsp;`);
+      showToast(currentDict.toastArte);
+      break;
+    case "arteOro":
+      insertHTMLAtCursor(`<span style="font-family:'Times New Roman'; font-size:26px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;">WC Oro</span>&nbsp;`);
+      showToast(currentDict.toastArte);
+      break;
+  }
+}
+
 function switchEcosystem(lang) {
   currentLang = lang;
   const db = translationsDb[lang];
   if(!db) return;
 
-  // Traducir las Etiquetas de los Tabs
   for (const key in db.tabs) {
-    const element = document.getElementById(`t-${key}`);
-    if (element) element.textContent = db.tabs[key];
+    const el = document.getElementById(`t-${key}`);
+    if (el) el.textContent = db.tabs[key];
   }
 
-  // Cambiar textos informativos
   document.getElementById('lblEco').textContent = db.eco;
   document.getElementById('docTitle').textContent = db.hTitle;
-  document.getElementById('docMainDesc')?.textContent || (document.getElementById('docDesc').textContent = db.hDesc);
+  document.getElementById('docDesc').textContent = db.hDesc;
 
-  // Resaltar botón de idioma seleccionado
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`l-${lang}`).classList.add('active');
 
-  // Refrescar los comandos internos de la pestaña actual
   renderActiveCommands();
 }
 
-// CAMBIAR DE PESTAÑA (INICIO, INSERTAR, ETC.)
 function changeActiveTab(tabName) {
   currentTab = tabName;
   document.querySelectorAll('.tab-node').forEach(t => t.classList.remove('active'));
   document.getElementById(`t-${tabName}`).classList.add('active');
-  
   renderActiveCommands();
 }
 
-// INYECTAR BOTONES DE COMANDO DINÁMICAMENTE SEGÚN IDIOMA Y PESTAÑA
 function renderActiveCommands() {
   const panel = document.getElementById('panelComandos');
-  panel.innerHTML = ""; // Limpiar comandos viejos
+  panel.innerHTML = "";
   
   const currentCmds = translationsDb[currentLang].cmds[currentTab];
-  
   if (currentCmds) {
-    currentCmds.forEach(cmdText => {
+    currentCmds.forEach(cmdObj => {
       const button = document.createElement('button');
       button.className = "cmd-btn";
-      button.innerHTML = cmdText;
-      
-      // Simular ejecutor de acciones tipográficas o de inserción
-      button.onclick = () => {
-        alert(`Acción ejecutada: ${cmdText.replace(/<[^>]*>/g, '')}`);
-      };
-      
+      button.innerHTML = cmdObj.txt;
+      button.onclick = () => triggerCommandAction(cmdObj.action);
       panel.appendChild(button);
     });
   }
 }
 
-// Inicializar la Suite en Español
+function updateCounters() {
+  const text = document.getElementById('lienzoTexto').textContent || "";
+  document.getElementById('lblContador').textContent = `${text.trim() === "" ? 0 : text.trim().split(/\s+/).length} palabras | ${text.length} caracteres`;
+}
+document.getElementById('lienzoTexto').addEventListener('input', updateCounters);
+
 switchEcosystem('es');
 </script>
 </body>
