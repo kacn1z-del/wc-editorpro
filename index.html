@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20.4 - Edición Tipográfica Avanzada</title>
+<title>WC Corporate Editor v20.4 - Premium Suite</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
   --bg-tab-active: #ffffff;
   --text-tab-active: #0f172a;
-  --bg-ribbon-panel: #f1f5f9;
+  --bg-ribbon-panel: #f8fafc;
+  --border-color: #cbd5e1;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
 /* CABECERA PRINCIPAL */
 .header-suite {
@@ -24,86 +25,83 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 }
 .brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 
-/* BOTONES SELECTORES DE IDIOMA */
+/* BARRA DE IDIOMAS */
 .lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+.lang-bar::-webkit-scrollbar { display: none; }
 .lang-btn {
   background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25);
   color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;
 }
 .lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
 
-/* CINTA DE PESTAÑAS MÓVIL DESLIZABLE HORIZONTAL */
+/* CINTA DESLIZABLE DE PESTAÑAS (Fiel a tu video) */
 .mobile-tabs-scroll {
-  display: flex;
-  gap: 4px;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding-bottom: 4px;
-  scrollbar-width: none;
+  display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; scrollbar-width: none;
 }
 .mobile-tabs-scroll::-webkit-scrollbar { display: none; }
-
 .tab-node {
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.2s;
+  padding: 6px 14px; font-size: 13px; font-weight: 500; color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1); border-radius: 6px; cursor: pointer; transition: 0.2s;
 }
 .tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
 
-/* PANEL DE COMANDOS SUB-PESTAÑA */
+/* CONTENEDOR DE MANDOS DINÁMICOS (Sub-pestaña) */
 .ribbon-commands-panel {
-  background: var(--bg-ribbon-panel);
-  border-bottom: 1px solid #cbd5e1;
-  padding: 8px 12px;
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  align-items: center;
-  flex-shrink: 0;
+  background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0;
 }
 .cmd-btn {
-  background: white; border: 1px solid #cbd5e1; padding: 6px 12px;
-  border-radius: 6px; font-size: 12px; color: #334155; display: flex;
-  align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
+  background: white; border: 1px solid var(--border-color); padding: 6px 12px;
+  border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
-.cmd-btn:active { background: #e2e8f0; }
 
-/* 🔤 BARRA DE SELECCIÓN TIPOGRÁFICA EXPANDIDA */
-.font-bar { 
-  background: #e2e8f0; 
-  padding: 6px 12px; 
-  display: flex; 
-  gap: 8px; 
-  flex-shrink: 0; 
+/* BARRA DE SELECTORES RÁPIDOS */
+.font-bar { background: #e2e8f0; padding: 2px 12px 8px 12px; display: flex; gap: 8px; flex-shrink: 0; overflow-x: auto; }
+.font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
+
+/* 🏛️ MENÚ CORPORATIVO FIJO INFERIOR (Estilo Estética Ejecutiva de tu captura) */
+.corporate-ribbon-dock {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px 12px;
+  display: flex;
+  gap: 16px;
   overflow-x: auto;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.ribbon-group {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  border-right: 1px solid #e2e8f0;
+  padding-right: 12px;
+  gap: 4px;
 }
-.font-select { 
-  background: white; 
-  border: 1px solid #cbd5e1; 
-  padding: 6px 10px; 
-  border-radius: 4px; 
-  font-size: 13px; 
-  color: #1e293b;
-  outline: none;
-  cursor: pointer;
-}
-.font-select-family { min-width: 160px; font-weight: 500; }
-.font-select-size { min-width: 85px; }
+.ribbon-group:last-child { border-right: none; padding-right: 0; }
+.group-row { display: flex; gap: 4px; }
+.group-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
 
-/* LIENZO DE PAPEL */
-.workspace { flex: 1; padding: 12px; overflow-y: auto; display: flex; justify-content: center; }
-.paper { width: 100%; max-width: 600px; background: white; min-height: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 40px; border-radius: 4px; outline: none; transition: padding 0.2s; }
+/* Botones icónicos de la barra fija */
+.icon-btn {
+  background: white; border: 1px solid var(--border-color);
+  width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; cursor: pointer; color: #334155; transition: 0.1s;
+}
+.icon-btn:active, .icon-btn.active { background: #e2e8f0; color: #0f172a; border-color: #94a3b8; }
+.icon-btn-large { width: auto; padding: 0 10px; font-size: 12px; gap: 4px; }
+.icon-btn-mic.recording { background: #ef4444 !important; color: white !important; animation: pulse 1.5s infinite; }
+
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+/* LIENZO DE TRABAJO */
+.workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; }
+.paper { width: 100%; max-width: 650px; background: white; min-height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 40px; border-radius: 6px; outline: none; line-height: 1.6; }
 
 /* BARRA DE ESTADO INFERIOR */
-.footer-bar { height: 28px; background: white; border-top: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; }
-
-/* TOAST NOTIFICACIÓN */
+.footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
 #toast-alert { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px; opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; }
 #toast-alert.show { opacity: 1; }
 </style>
@@ -129,45 +127,62 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
     </div>
   </div>
 
+  <div class="ribbon-commands-panel" id="panelComandos"></div>
+
   <div class="font-bar">
-    <select class="font-select font-select-family" onchange="applyTypography('fontName', this.value)">
+    <select class="font-select" style="min-width:140px;" onchange="applyTypography('fontName', this.value)">
       <option value="Segoe UI" selected>Segoe UI</option>
       <option value="Arial">Arial</option>
-      <option value="Arial Black">Arial Black</option>
       <option value="Calibri">Calibri</option>
-      <option value="Cambria">Cambria</option>
-      <option value="Comic Sans MS">Comic Sans MS</option>
       <option value="Courier New">Courier New</option>
-      <option value="Georgia">Georgia</option>
       <option value="Impact">Impact</option>
-      <option value="Lucida Sans Unicode">Lucida Sans</option>
-      <option value="Tahoma">Tahoma</option>
       <option value="Times New Roman">Times New Roman</option>
-      <option value="Trebuchet MS">Trebuchet MS</option>
       <option value="Verdana">Verdana</option>
     </select>
 
-    <select class="font-select font-select-size" onchange="applyTypography('fontSize', this.value)">
-      <option value="8px">8 px</option>
-      <option value="9px">9 px</option>
-      <option value="10px">10 px</option>
-      <option value="11px">11 px</option>
+    <select class="font-select" style="min-width:80px;" onchange="applyTypography('fontSize', this.value)">
       <option value="12px">12 px</option>
       <option value="14px">14 px</option>
       <option value="16px" selected>16 px</option>
       <option value="18px">18 px</option>
-      <option value="20px">20 px</option>
-      <option value="22px">22 px</option>
       <option value="24px">24 px</option>
-      <option value="26px">26 px</option>
-      <option value="28px">28 px</option>
-      <option value="36px">36 px</option>
-      <option value="48px">48 px</option>
-      <option value="72px">72 px</option>
+      <option value="32px">32 px</option>
     </select>
   </div>
 
-  <div class="ribbon-commands-panel" id="panelComandos"></div>
+  <div class="corporate-ribbon-dock">
+    
+    <div class="ribbon-group">
+      <div class="group-row">
+        <button class="icon-btn" onclick="execCmd('bold')" title="Negrita"><b>B</b></button>
+        <button class="icon-btn" onclick="execCmd('italic')" title="Cursiva"><i>I</i></button>
+        <button class="icon-btn" onclick="execCmd('underline')" title="Subrayado"><u>U</u></button>
+      </div>
+      <div class="group-label" id="lblG1">Fuente</div>
+    </div>
+
+    <div class="ribbon-group">
+      <div class="group-row">
+        <button class="icon-btn" onclick="execCmd('justifyLeft')" title="Alinear izquierda">⟨=</button>
+        <button class="icon-btn" onclick="execCmd('justifyCenter')" title="Centrar">=⌵=</button>
+        <button class="icon-btn" onclick="execCmd('justifyRight')" title="Alinear derecha">=⟩</button>
+        <button class="icon-btn" onclick="execCmd('justifyFull')" title="Justificar">===</button>
+      </div>
+      <div class="group-label" id="lblG2">Párrafo</div>
+    </div>
+
+    <div class="ribbon-group">
+      <div class="group-row">
+        <button class="icon-btn" onclick="execCmd('insertUnorderedList')" title="Viñetas">•=</button>
+        <button class="icon-btn" onclick="execCmd('insertOrderedList')" title="Numeración">1=</button>
+        <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
+          🎙️ <span id="lblMic">Dictar</span>
+        </button>
+      </div>
+      <div class="group-label" id="lblG3">Herramientas</div>
+    </div>
+
+  </div>
 
   <div class="workspace">
     <div class="paper" contenteditable="true" id="lienzoTexto">
@@ -187,126 +202,68 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 let currentTab = 'inicio';
 let currentLang = 'es';
 let toastTimer;
+let recognition = null;
+let isRecording = false;
 
 const translationsDb = {
   es: {
     eco: "Ecosistema Activo: Español 🇨🇷",
     hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
+    g1: "Fuente", g2: "Párrafo", g3: "Herramientas", micStart: "Dictar", micStop: "Grabando...",
     toastTable: "Tabla insertada", toastMargin: "Margen cambiado", toastArte: "Estilo WC Arte aplicado",
     tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
-      inicio: [
-        { txt: "<b>B</b> Negrita", action: "bold" },
-        { txt: "<i>I</i> Cursiva", action: "italic" },
-        { txt: "<u>U</u> Subrayado", action: "underline" }
-      ],
-      insertar: [
-        { txt: "📊 Tabla", action: "insertTable" },
-        { txt: "🔗 Vínculo", action: "insertLink" }
-      ],
-      diseno: [
-        { txt: "🔴 Texto Rojo", action: "colorRed" },
-        { txt: "🔵 Texto Azul", action: "colorBlue" }
-      ],
-      disposicion: [
-        { txt: "📐 M. Normal", action: "marginNormal" },
-        { txt: "🥞 M. Estrecho", action: "marginNarrow" }
-      ],
-      arte: [
-        { txt: "⭐ Neón", action: "arteNeon" },
-        { txt: "👑 Oro", action: "arteOro" }
-      ]
+      inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
+      insertar: [{ txt: "📊 Tabla", action: "insertTable" }, { txt: "🔗 Vínculo", action: "insertLink" }],
+      diseno: [{ txt: "🔴 Texto Rojo", action: "colorRed" }, { txt: "🔵 Texto Azul", action: "colorBlue" }],
+      disposicion: [{ txt: "📐 M. Normal", action: "marginNormal" }, { txt: "🥞 M. Estrecho", action: "marginNarrow" }],
+      arte: [{ txt: "⭐ Neón", action: "arteNeon" }, { txt: "👑 Oro", action: "arteOro" }]
     }
   },
   en: {
     eco: "Active Ecosystem: English 🇺🇸",
     hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
+    g1: "Font", g2: "Paragraph", g3: "Tools", micStart: "Dictate", micStop: "Listening...",
     toastTable: "Table inserted", toastMargin: "Margin updated", toastArte: "WC Art Style applied",
     tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
-      inicio: [
-        { txt: "<b>B</b> Bold", action: "bold" },
-        { txt: "<i>I</i> Italic", action: "italic" },
-        { txt: "<u>U</u> Underline", action: "underline" }
-      ],
-      insertar: [
-        { txt: "📊 Table", action: "insertTable" },
-        { txt: "🔗 Link", action: "insertLink" }
-      ],
-      diseno: [
-        { txt: "🔴 Red Text", action: "colorRed" },
-        { txt: "🔵 Blue Text", action: "colorBlue" }
-      ],
-      disposicion: [
-        { txt: "📐 Std Margin", action: "marginNormal" },
-        { txt: "🥞 Narrow M.", action: "marginNarrow" }
-      ],
-      arte: [
-        { txt: "⭐ Neon", action: "arteNeon" },
-        { txt: "👑 Gold", action: "arteOro" }
-      ]
+      inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
+      insertar: [{ txt: "📊 Table", action: "insertTable" }, { txt: "🔗 Link", action: "insertLink" }],
+      diseno: [{ txt: "🔴 Red Text", action: "colorRed" }, { txt: "🔵 Blue Text", action: "colorBlue" }],
+      disposicion: [{ txt: "📐 Std Margin", action: "marginNormal" }, { txt: "🥞 Narrow M.", action: "marginNarrow" }],
+      arte: [{ txt: "⭐ Neon", action: "arteNeon" }, { txt: "👑 Gold", action: "arteOro" }]
     }
   },
   bri: {
     eco: "Ecosistema Activo: Bribri pakö 🌱",
     hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
+    g1: "Ká̱ jë", g2: "Ujtëk já̱", g3: "Sán", micStart: "Pakö", micStop: "Katö...",
     toastTable: "Tabla sán ujtëk", toastMargin: "Margen ká̱ já̱", toastArte: "WC Arte sán ujtëk",
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
-      inicio: [
-        { txt: "<b>B</b> Dgër", action: "bold" },
-        { txt: "<i>I</i> Lir", action: "italic" },
-        { txt: "<u>U</u> Muk", action: "underline" }
-      ],
-      insertar: [
-        { txt: "📊 Tabla sán", action: "insertTable" },
-        { txt: "🔗 Enlace", action: "insertLink" }
-      ],
-      diseno: [
-        { txt: "🔴 Bee", action: "colorRed" },
-        { txt: "🔵 Sĩĩ", action: "colorBlue" }
-      ],
-      disposicion: [
-        { txt: "📐 Normal", action: "marginNormal" },
-        { txt: "🥞 Sér", action: "marginNarrow" }
-      ],
-      arte: [
-        { txt: "⭐ Neon sán", action: "arteNeon" },
-        { txt: "👑 Oro sán", action: "arteOro" }
-      ]
+      inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
+      insertar: [{ txt: "📊 Tabla sán", action: "insertTable" }, { txt: "🔗 Enlace", action: "insertLink" }],
+      diseno: [{ txt: "🔴 Bee", action: "colorRed" }, { txt: "🔵 Sĩĩ", action: "colorBlue" }],
+      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Sér", action: "marginNarrow" }],
+      arte: [{ txt: "⭐ Neon sán", action: "arteNeon" }, { txt: "👑 Oro sán", action: "arteOro" }]
     }
   },
   cab: {
     eco: "Ecosistema Activo: Cabécar jula 🐾",
     hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
+    g1: "Jula", g2: "Márgenes", g3: "Herramientas", micStart: "Jula pak", micStop: "Sáwá...",
     toastTable: "Tabla sán tsoñ", toastMargin: "Ká wá m.", toastArte: "WC Style applied",
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
-      inicio: [
-        { txt: "<b>B</b> Tso", action: "bold" },
-        { txt: "<i>I</i> Shana", action: "italic" },
-        { txt: "<u>U</u> Ká", action: "underline" }
-      ],
-      insertar: [
-        { txt: "📊 Tabla", action: "insertTable" },
-        { txt: "🔗 Link", action: "insertLink" }
-      ],
-      diseno: [
-        { txt: "🔴 Red", action: "colorRed" },
-        { txt: "🔵 Blue", action: "colorBlue" }
-      ],
-      disposicion: [
-        { txt: "📐 Normal", action: "marginNormal" },
-        { txt: "🥞 Estrecho", action: "marginNarrow" }
-      ],
-      arte: [
-        { txt: "⭐ Style 1", action: "arteNeon" },
-        { txt: "👑 Style 2", action: "arteOro" }
-      ]
+      inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
+      insertar: [{ txt: "📊 Tabla", action: "insertTable" }, { txt: "🔗 Link", action: "insertLink" }],
+      diseno: [{ txt: "🔴 Red", action: "colorRed" }, { txt: "🔵 Blue", action: "colorBlue" }],
+      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Estrecho", action: "marginNarrow" }],
+      arte: [{ txt: "⭐ Style 1", action: "arteNeon" }, { txt: "👑 Style 2", action: "arteOro" }]
     }
   }
 };
@@ -318,31 +275,70 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-// 🔤 MOTOR OPERATIVO DE CAMBIO TIPOGRÁFICO AVANZADO EN EL SELECCIÓN
+function execCmd(cmd, val = null) {
+  document.getElementById('lienzoTexto').focus();
+  document.execCommand(cmd, false, val);
+  updateCounters();
+}
+
 function applyTypography(type, value) {
   document.getElementById('lienzoTexto').focus();
-  
   const selection = window.getSelection();
   if (!selection.rangeCount || selection.isCollapsed) {
-    // Si no hay texto seleccionado, aplica el cambio globalmente al bloque actual o de manera nativa
-    if (type === 'fontName') document.execCommand('fontName', false, value);
+    if (type === 'fontName') execCmd('fontName', value);
     if (type === 'fontSize') {
-      let sizeMap = {"8px":1,"10px":2,"14px":3,"16px":4,"18px":5,"24px":6,"36px":7};
-      document.execCommand('fontSize', false, sizeMap[value] || 4);
+      let sizeMap = {"12px":2,"14px":3,"16px":4,"18px":5,"24px":6,"32px":7};
+      execCmd('fontSize', sizeMap[value] || 4);
     }
     return;
   }
-
-  // Generación avanzada mediante contenedores span para asegurar compatibilidad de px exactos
   const range = selection.getRangeAt(0);
   const span = document.createElement('span');
-  
   if (type === 'fontName') span.style.fontFamily = value;
   if (type === 'fontSize') span.style.fontSize = value;
-  
   span.appendChild(range.extractContents());
   range.insertNode(span);
   updateCounters();
+}
+
+// 🎙️ SISTEMA DE DICTADO POR VOZ INTEGRADO (NATIVO CORPORATIVO)
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechObj = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechObj();
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  recognition.onresult = (event) => {
+    let resultText = "";
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
+    }
+    document.getElementById('lienzoTexto').focus();
+    document.execCommand('insertText', false, resultText + " ");
+  };
+
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('btnDictado').classList.remove('recording');
+    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStart;
+  };
+}
+
+function toggleDictation() {
+  if (!recognition) {
+    alert("El dictado por voz no es soportado por este navegador.");
+    return;
+  }
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    // Configurar idioma según ecosistema activo
+    recognition.lang = currentLang === 'en' ? 'en-US' : 'es-CR'; 
+    recognition.start();
+    isRecording = true;
+    document.getElementById('btnDictado').classList.add('recording');
+    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStop;
+  }
 }
 
 function insertHTMLAtCursor(html) {
@@ -350,10 +346,8 @@ function insertHTMLAtCursor(html) {
   if (sel.getRangeAt && sel.rangeCount) {
     const range = sel.getRangeAt(0);
     range.deleteContents();
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    const frag = document.createDocumentFragment();
-    let node;
+    const div = document.createElement("div"); div.innerHTML = html;
+    const frag = document.createDocumentFragment(); let node;
     while ((node = div.firstChild)) frag.appendChild(node);
     range.insertNode(frag);
   } else {
@@ -367,41 +361,26 @@ function triggerCommandAction(actionKey) {
   document.getElementById('lienzoTexto').focus();
 
   switch(actionKey) {
-    case "bold": document.execCommand("bold"); break;
-    case "italic": document.execCommand("italic"); break;
-    case "underline": document.execCommand("underline"); break;
-    
+    case "cut": execCmd("cut"); break;
+    case "copy": execCmd("copy"); break;
     case "insertTable":
-      const tableHtml = `<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid #cbd5e1; padding:6px;">...</td><td style="border:1px solid #cbd5e1; padding:6px;">...</td></tr><tr><td style="border:1px solid #cbd5e1; padding:6px;">...</td><td style="border:1px solid #cbd5e1; padding:6px;">...</td></tr></table><p>&nbsp;</p>`;
-      insertHTMLAtCursor(tableHtml);
-      showToast(currentDict.toastTable);
-      break;
-
+      insertHTMLAtCursor(`<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr><tr><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
+      showToast(currentDict.toastTable); break;
     case "insertLink":
       const url = prompt("URL:", "https://");
-      if(url) insertHTMLAtCursor(`<a href="${url}" style="color:#2563eb; text-decoration:underline;">${url}</a>&nbsp;`);
-      break;
-
-    case "colorRed": document.execCommand("foreColor", false, "#dc2626"); break;
-    case "colorBlue": document.execCommand("foreColor", false, "#2563eb"); break;
-
+      if(url) insertHTMLAtCursor(`<a href="${url}" style="color:#2563eb; text-decoration:underline;">${url}</a>&nbsp;`); break;
+    case "colorRed": execCmd("foreColor", "#dc2626"); break;
+    case "colorBlue": execCmd("foreColor", "#2563eb"); break;
     case "marginNormal":
-      document.getElementById('lienzoTexto').style.padding = "40px";
-      showToast(currentDict.toastMargin);
-      break;
+      document.getElementById('lienzoTexto').style.padding = "40px"; showToast(currentDict.toastMargin); break;
     case "marginNarrow":
-      document.getElementById('lienzoTexto').style.padding = "15px";
-      showToast(currentDict.toastMargin);
-      break;
-
+      document.getElementById('lienzoTexto').style.padding = "15px"; showToast(currentDict.toastMargin); break;
     case "arteNeon":
       insertHTMLAtCursor(`<span style="font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;">WC Neon</span>&nbsp;`);
-      showToast(currentDict.toastArte);
-      break;
+      showToast(currentDict.toastArte); break;
     case "arteOro":
       insertHTMLAtCursor(`<span style="font-family:'Times New Roman'; font-size:26px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;">WC Oro</span>&nbsp;`);
-      showToast(currentDict.toastArte);
-      break;
+      showToast(currentDict.toastArte); break;
   }
 }
 
@@ -418,6 +397,10 @@ function switchEcosystem(lang) {
   document.getElementById('lblEco').textContent = db.eco;
   document.getElementById('docTitle').textContent = db.hTitle;
   document.getElementById('docDesc').textContent = db.hDesc;
+  document.getElementById('lblG1').textContent = db.g1;
+  document.getElementById('lblG2').textContent = db.g2;
+  document.getElementById('lblG3').textContent = db.g3;
+  document.getElementById('lblMic').textContent = isRecording ? db.micStop : db.micStart;
 
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`l-${lang}`).classList.add('active');
@@ -435,7 +418,6 @@ function changeActiveTab(tabName) {
 function renderActiveCommands() {
   const panel = document.getElementById('panelComandos');
   panel.innerHTML = "";
-  
   const currentCmds = translationsDb[currentLang].cmds[currentTab];
   if (currentCmds) {
     currentCmds.forEach(cmdObj => {
