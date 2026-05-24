@@ -2,6 +2,7 @@
 <html lang="es" data-theme="light">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WC Corporate Editor v20 - ULTIMATE PRO UI v26</title>
   <style>
     :root {
@@ -16,7 +17,7 @@
       --assistant-w: 60px;
       --assistant-expanded: 180px;
       --assistant-collapsed: 0px;
-      --ribbon-h: 155px;
+      --ribbon-h: 170px;
       --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
       --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
       --page-width: 100%;
@@ -89,7 +90,7 @@
    .ribbon {
       position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
       background:var(--panel); border-bottom:1px solid var(--border);
-      height:var(--ribbon-h); z-index:500;
+      height:var(--ribbon-h); z-index:999;
       transition: right 0.3s, left 0.3s;
       box-shadow:0 2px 4px rgba(0,0,0,0.08);
     }
@@ -99,14 +100,14 @@
       height:35px; background:var(--gradient-soft); 
       display:flex; align-items:center; padding:0 16px; gap:12px;
     }
-   .title-bar.logo { font-weight:800; color:var(--blue); }
-   .title-bar.title { font-size:13px; opacity:0.8; }
+   .title-bar .logo { font-weight:800; color:var(--blue); }
+   .title-bar .title { font-size:13px; opacity:0.8; }
    .title-bar input {
       flex:1; max-width:400px; padding:4px 32px 4px 12px;
       border:1px solid var(--border); border-radius:16px; 
       background:var(--panel); color:var(--text); font-size:13px;
     }
-   .title-bar.profile { 
+   .title-bar .profile { 
       font-size:13px; font-weight:600; display:flex; 
       align-items:center; gap:8px; margin-left:auto;
     }
@@ -125,13 +126,19 @@
     }
     
    .toolbar {
-      height:75px; display:flex; align-items:flex-start; padding:4px 12px; gap:0;
+      height:100px; display:flex; align-items:flex-start; padding:4px 12px; gap:0;
       border-top:1px solid var(--border); overflow-x:auto; overflow-y:hidden;
+      position: relative; z-index: 2;
+    }
+   .toolbar table, .toolbar td, .toolbar tr, .toolbar th {
+      display: none !important;
+      border: none !important;
     }
    .tool-group {
       display:flex; flex-direction:column; justify-content:flex-start;
       padding:0 10px; border-right:1px solid var(--border);
-      min-width:fit-content; height:67px;
+      min-width:fit-content; height:92px;
+      background: var(--panel); position: relative; z-index: 2;
     }
    .tool-group:last-child { border:none; }
    .tool-group-main {
@@ -196,7 +203,7 @@
       border:none; padding:8px 12px; border-radius:6px; background:transparent; color:var(--text);
     }
    .dropdown-menu button:hover { background:var(--gradient-soft); }
-   .dropdown-menu.icon { 
+   .dropdown-menu .icon { 
       width:32px; height:32px; border-radius:6px; 
       background:var(--gradient); display:flex; 
       align-items:center; justify-content:center; color:white; font-size:16px;
@@ -204,10 +211,12 @@
 
    .workspace { 
       flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
-      padding:calc(var(--ribbon-h) + 24px) 16px 50px; 
+      padding:calc(var(--ribbon-h) + 40px) 8px 50px; 
       height:100vh; overflow-y:auto;
       transition: margin-right 0.3s, margin-left 0.3s;
       background:var(--bg);
+      position: relative;
+      z-index: 1;
     }
     body.ai-collapsed .workspace { margin-right: var(--assistant-collapsed); }
     
@@ -226,11 +235,11 @@
     }
    .page h1 { font-size:32px; font-weight:800; color:var(--blue); margin-bottom:4px; }
    .page h2 { font-size:16px; font-weight:600; color:var(--orange); margin-bottom:20px; }
-   .page.features {
+   .page .features {
       display:flex; gap:30px; margin-top:40px;
     }
-   .page.feature { text-align:center; flex:1; }
-   .page.feature-icon {
+   .page .feature { text-align:center; flex:1; }
+   .page .feature-icon {
       width:60px; height:60px; margin:0 auto 12px;
       background:var(--gradient); border-radius:50%;
       display:flex; align-items:center; justify-content:center;
@@ -304,7 +313,7 @@
       transition: right 0.3s, left 0.3s;
     }
     body.ai-collapsed .statusbar { right: var(--assistant-collapsed); }
-   .statusbar.right { margin-left:auto; display:flex; gap:16px; }
+   .statusbar .right { margin-left:auto; display:flex; gap:16px; }
 
    body.focus-mode .sidebar-docs,
    body.focus-mode .assistant,
@@ -318,6 +327,18 @@
     }
     body.focus-mode .page {
       max-width:900px;
+    }
+
+    @media (max-width: 768px) {
+      .workspace {
+        padding:calc(var(--ribbon-h) + 60px) 4px 50px;
+        margin-left: 40px;
+        margin-right: 0;
+      }
+      .assistant { display: none; }
+      .sidebar-docs { width: 40px; }
+      .ribbon { left: 40px; right: 0; }
+      .page { padding: 16px 20px; }
     }
   </style>
 </head>
@@ -642,7 +663,7 @@
         const computed = window.getComputedStyle(span.firstElementChild || span);
         formatPainterData = {
           fontWeight: computed.fontWeight,
-          fontStyle: computed.fontStyle,
+                    fontStyle: computed.fontStyle,
           textDecoration: computed.textDecorationLine,
           color: computed.color,
           backgroundColor: computed.backgroundColor,
@@ -669,8 +690,7 @@
             sel.getRangeAt(0).insertNode(span);
           }
         }
-        formatPainterData =
-                formatPainterData = null;
+        formatPainterData = null;
       }
     }
 
