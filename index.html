@@ -11,14 +11,14 @@
       --panel: #ffffff;
       --text: #1e1e1e;
       --border: #d1d1d1;
-      --sidebar-w: 180px;     /* Antes 220px */
-      --assistant-w: 180px;   /* Antes 200px */
+      --sidebar-w: 180px;
+      --assistant-w: 180px;
       --assistant-collapsed: 0px;
       --ribbon-h: 145px;
       --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
       --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
       --page-width: 816px;
-      --page-margin: 32px;    /* Antes 64px - Word Estrecho 0.5in */
+      --page-margin: 32px;
     }
     
     [data-theme="dark"] {
@@ -38,7 +38,6 @@
       overflow:hidden;
     }
     
-    /* SIDEBAR DOCS - MÁS ANGOSTO */
    .sidebar-docs {
       width:var(--sidebar-w);
       background:var(--gradient);
@@ -75,7 +74,6 @@
     }
    .storage-bar div { height:100%; background:white; width:45%; }
 
-    /* RIBBON */
    .ribbon {
       position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
       background:var(--panel); border-bottom:1px solid var(--border);
@@ -187,7 +185,6 @@
       align-items:center; justify-content:center; color:white; font-size:16px;
     }
 
-    /* WORKSPACE - MÁXIMO ANCHO */
    .workspace { 
       flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
       padding:calc(var(--ribbon-h) + 16px) 16px 50px; 
@@ -198,7 +195,7 @@
     
    .page { 
       background:var(--panel); 
-      padding: var(--page-margin) 48px; /* 32px arriba/abajo, 48px lados */
+      padding: var(--page-margin) 48px;
       margin:0 auto;
       box-shadow:0 2px 8px rgba(0,0,0,0.15); 
       min-height:1056px;
@@ -219,7 +216,6 @@
       color:white; font-size:24px;
     }
 
-    /* PANEL IA - ULTRA ANGOSTO */
    .assistant {
       position:fixed; top:0; right:0; width:var(--assistant-w); height:100vh;
       background:var(--panel); border-left:1px solid var(--border); 
@@ -272,7 +268,6 @@
     }
    .template:hover { border-color:var(--blue); transform:translateY(-2px); }
 
-    /* BOTÓN FLOTANTE IA */
    .ai-toggle {
       position:fixed; right:12px; top:50%; transform:translateY(-50%);
       background:var(--gradient); color:white; border:none;
@@ -282,7 +277,6 @@
     }
     body.ai-collapsed .ai-toggle { display:flex; align-items:center; justify-content:center; }
 
-    /* STATUSBAR */
    .statusbar {
       position:fixed; bottom:0; left:var(--sidebar-w); right:var(--assistant-w); 
       height:30px; background:var(--panel); border-top:1px solid var(--border);
@@ -295,7 +289,6 @@
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
   <aside class="sidebar-docs">
     <h3>Documentos <button onclick="newDoc()">+</button></h3>
     <ul id="doc-list">
@@ -319,7 +312,6 @@
     </div>
   </aside>
 
-  <!-- RIBBON -->
   <header class="ribbon">
     <div class="title-bar">
       <div class="logo">WC</div>
@@ -337,7 +329,6 @@
       <button onclick="formatMenu()">Formato</button>
     </nav>
     <div class="toolbar">
-      <!-- PORTAPAPELES -->
       <div class="tool-group">
         <div class="tool-group-main">
           <button class="big-btn" onclick="pasteText()">
@@ -353,7 +344,6 @@
         <div class="tool-group-label">Portapapeles</div>
       </div>
 
-      <!-- WC ARTE -->
       <div class="tool-group">
         <div class="dropdown">
           <button class="big-btn" onclick="toggleDropdown(this)">
@@ -370,7 +360,6 @@
         <div class="tool-group-label">WC Suite</div>
       </div>
 
-      <!-- FUENTE -->
       <div class="tool-group">
         <div class="tool-group-main">
           <div>
@@ -402,7 +391,6 @@
         <div class="tool-group-label">Fuente</div>
       </div>
 
-      <!-- PÁRRAFO -->
       <div class="tool-group">
         <div class="tool-group-main">
           <div>
@@ -423,7 +411,6 @@
         <div class="tool-group-label">Párrafo</div>
       </div>
 
-      <!-- ESTILOS -->
       <div class="tool-group">
         <div class="style-gallery">
           <button class="style-item active" onclick="setStyle(this, 'p')">Normal</button>
@@ -434,7 +421,6 @@
         <div class="tool-group-label">Estilos</div>
       </div>
 
-      <!-- EDICIÓN -->
       <div class="tool-group">
         <div class="tool-group-col">
           <button onclick="findText()">🔍 Buscar</button>
@@ -446,7 +432,6 @@
     </div>
   </header>
 
-  <!-- WORKSPACE -->
   <main class="workspace">
     <div class="page" contenteditable="true" id="editor">
       <h1>WC Corporate Editor v20</h1>
@@ -473,7 +458,6 @@
     </div>
   </main>
 
-  <!-- ASISTENTE IA -->
   <aside class="assistant">
     <div class="assistant-header">
       <h3>IA Asistente WC</h3>
@@ -499,10 +483,8 @@
     </div>
   </aside>
 
-  <!-- BOTÓN FLOTANTE IA -->
   <button class="ai-toggle" onclick="toggleAI()" title="Mostrar IA">🤖</button>
 
-  <!-- STATUSBAR -->
   <footer class="statusbar">
     <span id="page-count">Página 1 de 1</span>
     <span id="word-count">Palabras: 28</span>
@@ -513,8 +495,7 @@
       <span>✓ Guardado automático</span>
     </div>
   </footer>
-
-  <script>
+    <script>
     const editor = document.getElementById('editor');
     let formatPainterData = null;
 
@@ -674,11 +655,21 @@
       execCmd('insertHTML', '<div style="border:2px solid #0A66FF;padding:15px;border-radius:8px;margin:10px 0;"><strong>⚙️ Herramientas WC</strong><p>Optimización de flujo activada</p></div><p><br></p>');
     }
 
-    function insertDev()
-            if(action === '1') newDoc();
+    function insertDev() {
+      execCmd('insertHTML', '<code style="background:#f5f5f5;padding:10px;display:block;border-radius:4px;margin:10px 0;font-family:monospace;">// Desarrollador: Keny Chinchilla Navarro<br>// WC Corporate Editor v20</code><p><br></p>');
+    }
+
+    function showHelp() {
+      alert('WC Corporate Editor v20\n\nAtajos:\nCtrl+B: Negrita\nCtrl+I: Cursiva\nCtrl+U: Subrayado\nCtrl+Z: Deshacer\nCtrl+Y: Rehacer\nCtrl+S: Guardar\nCtrl+F: Buscar');
+    }
+
+    function showMenu(type) {
+      if(type === 'archivo') {
+        const action = prompt('Archivo:\n1. Nuevo\n2. Guardar\n3. Exportar PDF\n4. Imprimir\n5. Cerrar');
+        if(action === '1') newDoc();
         if(action === '2') { localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
-        if(action === '3') window.print();
-        if(action === '4') window.print();
+        if(action === '3
+                if(action === '4') window.print();
       }
     }
 
@@ -748,10 +739,10 @@
             <p style="font-size:13px; opacity:0.7; margin:8px 0 20px;">¿En qué puedo ayudarte hoy?</p>
           </div>
           <div class="ai-actions">
-            <button onclick="aiAction('resumen')">Redactar un resumen →</button>
-            <button onclick="aiAction('mejorar')">Mejorar este texto →</button>
+            <button onclick="aiAction('resumen')">Redactar resumen →</button>
+            <button onclick="aiAction('mejorar')">Mejorar texto →</button>
             <button onclick="aiAction('corregir')">Corregir ortografía →</button>
-            <button onclick="aiAction('traducir')">Traducir al inglés →</button>
+            <button onclick="aiAction('traducir')">Traducir inglés →</button>
           </div>`;
       } else {
         content.innerHTML = `<p style="padding:20px; text-align:center; opacity:0.6;">Sugerencias de IA próximamente...</p>`;
