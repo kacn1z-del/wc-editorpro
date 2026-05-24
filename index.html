@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Corporate Editor - Stable</title>
+<title>WC Corporate Editor Pro Stable Suite</title>
 
 <style>
 
@@ -17,15 +17,18 @@ html, body{
   overflow:auto;
 }
 
-/* HEADER SIMPLE */
+/* HEADER */
 .header{
   background:linear-gradient(135deg,#1d5270,#92324f,#d94e18);
   color:white;
   padding:10px;
   font-weight:700;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
-/* TOOLBAR SIMPLE (SIN OVERLAYS) */
+/* TOOLBAR TIPO WORD */
 .toolbar{
   display:flex;
   flex-wrap:wrap;
@@ -34,7 +37,7 @@ html, body{
   background:white;
   border-bottom:1px solid #ccc;
   position:sticky;
-  top:0;
+  top:44px;
   z-index:10;
 }
 
@@ -43,19 +46,23 @@ html, body{
   border:1px solid #ccc;
   background:white;
   border-radius:6px;
+  font-size:13px;
 }
 
-/* EDITOR REALMENTE SEGURO */
-#editor{
+/* DOCUMENTO */
+.page{
   margin:12px;
-  padding:20px;
-  min-height:70vh;
   background:white;
   border-radius:10px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  padding:25px;
+  min-height:75vh;
+}
 
+/* EDITOR REALMENTE ESTABLE */
+#editor{
+  min-height:65vh;
   outline:none;
-
   font-size:16px;
   line-height:1.8;
 
@@ -63,16 +70,21 @@ html, body{
   user-select:text;
 
   touch-action:auto;
+  word-wrap:break-word;
 }
 
 /* FOOTER */
 .footer{
-  background:white;
-  border-top:1px solid #ddd;
-  padding:8px;
-  font-size:12px;
   display:flex;
   justify-content:space-between;
+  padding:8px 10px;
+  font-size:12px;
+  background:white;
+  border-top:1px solid #ddd;
+}
+
+button{
+  cursor:pointer;
 }
 
 </style>
@@ -81,70 +93,89 @@ html, body{
 <body>
 
 <div class="header">
-💼 WC Corporate Editor (Stable Mode)
+💼 WC Corporate Editor Pro — Stable Suite
 </div>
 
+<!-- TOOLBAR -->
 <div class="toolbar">
 
-<button onclick="cmd('bold')">B</button>
-<button onclick="cmd('italic')">I</button>
-<button onclick="cmd('underline')">U</button>
+<button onclick="cmd('bold')"><b>B</b></button>
+<button onclick="cmd('italic')"><i>I</i></button>
+<button onclick="cmd('underline')"><u>U</u></button>
 
-<button onclick="cmd('insertUnorderedList')">•</button>
-<button onclick="cmd('insertOrderedList')">1.</button>
+<button onclick="cmd('insertUnorderedList')">• Lista</button>
+<button onclick="cmd('insertOrderedList')">1. Lista</button>
 
 <button onclick="cmd('justifyLeft')">⬅</button>
 <button onclick="cmd('justifyCenter')">↔</button>
 <button onclick="cmd('justifyRight')">➡</button>
 
-<button onclick="save()">💾</button>
+<select onchange="fontSize(this.value)">
+  <option value="3">14px</option>
+  <option value="4" selected>16px</option>
+  <option value="5">20px</option>
+</select>
+
+<button onclick="setColor('#1d5270')">Azul</button>
+<button onclick="setColor('#92324f')">Rojo</button>
+
+<button onclick="save()">💾 Guardar</button>
 
 </div>
 
-<div id="editor" contenteditable="true">
-<h2>Documento WC</h2>
-<p>Este es el editor estable recuperado.</p>
+<!-- PAGE -->
+<div class="page">
+  <div id="editor" contenteditable="true">
+    <h2>Documento WC Corporate</h2>
+    <p>Este es el editor consolidado estable. Ahora puedes escribir sin errores en iPhone.</p>
+  </div>
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-<span id="counter">0 palabras</span>
-<span>WC Stable Engine</span>
+<span id="counter">0 palabras | 0 caracteres</span>
+<span>WC Engine Stable Pro</span>
 </div>
 
 <script>
 
 const editor = document.getElementById("editor");
 
-/* 🔥 IMPORTANTE: FOCO FIJO iPhone */
+/* 🔥 iPhone SAFE INIT */
 window.onload = () => {
-  setTimeout(() => editor.focus(), 250);
+  setTimeout(() => {
+    editor.focus();
+  }, 200);
 };
 
+/* mantener foco */
 editor.addEventListener("touchstart", () => {
   editor.focus();
 });
 
-/* COMMANDS */
+/* COMMAND ENGINE */
 function cmd(action){
   document.execCommand(action,false,null);
   updateCounter();
 }
 
-/* SAVE */
+/* FONT SIZE */
+function fontSize(size){
+  document.execCommand("fontSize", false, size);
+  updateCounter();
+}
+
+/* COLOR */
+function setColor(color){
+  document.execCommand("foreColor", false, color);
+  updateCounter();
+}
+
+/* SAVE LOCAL */
 function save(){
   localStorage.setItem("wc_doc", editor.innerHTML);
-  alert("Guardado ✔");
+  alert("Documento guardado ✔");
 }
-
-/* COUNTER */
-function updateCounter(){
-  const text = editor.innerText || "";
-  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-  document.getElementById("counter").innerText =
-    `${words} palabras`;
-}
-
-editor.addEventListener("input", updateCounter);
 
 /* LOAD */
 window.addEventListener("DOMContentLoaded", () => {
@@ -154,6 +185,16 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   updateCounter();
 });
+
+/* COUNTER */
+function updateCounter(){
+  const text = editor.innerText || "";
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  document.getElementById("counter").innerText =
+    `${words} palabras | ${text.length} caracteres`;
+}
+
+editor.addEventListener("input", updateCounter);
 
 </script>
 
