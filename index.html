@@ -1,517 +1,18 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>WC Corporate Editor Platinum</title>
-
-<style>
-
-:root{
-  --bg-gradient: linear-gradient(135deg,#1d5270 0%,#92324f 50%,#d94e18 100%);
-  --panel-bg:#0f172a;
-  --border:#cbd5e1;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
-}
-
-body{
-  height:100vh;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  background:#dbe4ee;
-}
-
-/* HEADER */
-
-.header-suite{
-  background:var(--bg-gradient);
-  padding:14px;
-  color:white;
-  box-shadow:0 4px 14px rgba(0,0,0,0.15);
-  flex-shrink:0;
-}
-
-.brand-title{
-  font-size:22px;
-  font-weight:800;
-  margin-bottom:12px;
-  letter-spacing:0.4px;
-}
-
-.mobile-tabs-scroll{
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-
-.mobile-tabs-scroll::-webkit-scrollbar{
-  display:none;
-}
-
-.tab-node{
-  padding:7px 14px;
-  background:rgba(255,255,255,0.1);
-  border-radius:8px;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.tab-node.active{
-  background:white;
-  color:#0f172a;
-  font-weight:700;
-}
-
-/* COMMAND BAR */
-
-.ribbon-commands-panel{
-  background:#f8fafc;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-
-.cmd-btn{
-  background:white;
-  border:1px solid var(--border);
-  padding:8px 14px;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:12px;
-  white-space:nowrap;
-  transition:0.2s;
-}
-
-.cmd-btn:hover{
-  transform:scale(1.03);
-}
-
-/* WORKSPACE */
-
-.workspace{
-  flex:1;
-  overflow:auto;
-  display:flex;
-  justify-content:center;
-  padding:18px;
-}
-
-.paper{
-  width:100%;
-  max-width:850px;
-  min-height:1000px;
-  background:white;
-  border-radius:8px;
-  padding:50px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-/* TIPTAP */
-
-.ProseMirror{
-  outline:none;
-  min-height:850px;
-  line-height:1.7;
-  font-size:16px;
-}
-
-.ProseMirror h1,
-.ProseMirror h2,
-.ProseMirror h3{
-  margin-bottom:14px;
-}
-
-.ProseMirror p{
-  margin-bottom:14px;
-}
-
-/* FLOATING PANEL */
-
-.floating-corporate-container{
-  position:fixed;
-  right:20px;
-  bottom:140px;
-  z-index:9999;
-}
-
-.trigger-menu-btn{
-  background:var(--bg-gradient);
-  color:white;
-  border:none;
-  padding:14px 22px;
-  border-radius:30px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 8px 24px rgba(0,0,0,0.3);
-}
-
-.dropdown-up-panel{
-  position:absolute;
-  bottom:115%;
-  right:0;
-  width:360px;
-  background:var(--panel-bg);
-  border-radius:16px;
-  padding:14px;
-  display:none;
-  flex-direction:column;
-  gap:14px;
-  box-shadow:0 -10px 30px rgba(0,0,0,0.3);
-}
-
-.dropdown-up-panel.show{
-  display:flex;
-}
-
-.group-label{
-  color:#38bdf8;
-  font-size:11px;
-  font-weight:700;
-  margin-bottom:6px;
-}
-
-.group-row{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.icon-btn{
-  width:38px;
-  height:38px;
-  border:none;
-  border-radius:8px;
-  background:rgba(255,255,255,0.08);
-  color:white;
-  cursor:pointer;
-  font-weight:700;
-}
-
-.icon-btn-large{
-  width:auto;
-  padding:0 12px;
-}
-
-.dropdown-select{
-  background:#1e293b;
-  color:white;
-  border:none;
-  border-radius:8px;
-  padding:8px;
-}
-
-/* FOOTER */
-
-.footer-bar{
-  height:34px;
-  background:white;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 14px;
-  font-size:12px;
-  color:#475569;
-  flex-shrink:0;
-}
-
-/* IA PANEL */
-
-.ai-assistant-panel{
-  position:fixed;
-  left:12px;
-  bottom:110px;
-  width:240px;
-  background:rgba(15,23,42,0.96);
-  border-radius:14px;
-  padding:12px;
-  color:white;
-  z-index:99999;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-.ai-header{
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.ai-assistant-panel textarea{
-  width:100%;
-  height:70px;
-  border:none;
-  border-radius:8px;
-  padding:8px;
-  resize:none;
-}
-
-.ai-assistant-panel button{
-  width:100%;
-  margin-top:8px;
-  border:none;
-  border-radius:8px;
-  padding:10px;
-  background:linear-gradient(135deg,#2563eb,#9333ea);
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-}
-
-/* DARK MODE */
-
-@media (prefers-color-scheme: dark){
-
-  body{
-    background:#020617;
-  }
-
-  .paper{
-    background:#111827;
-    color:white;
-  }
-
-  .ribbon-commands-panel{
-    background:#0f172a;
-  }
-
-  .cmd-btn{
-    background:#1e293b;
-    color:white;
-    border:none;
-  }
-
-  .footer-bar{
-    background:#0f172a;
-    color:#cbd5e1;
-  }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-
-<div class="header-suite">
-
-  <div class="brand-title">
-    💎 WC Corporate Editor Platinum
-  </div>
-
-  <div class="mobile-tabs-scroll">
-
-    <div class="tab-node active">
-      Inicio
-    </div>
-
-    <div class="tab-node">
-      Insertar
-    </div>
-
-    <div class="tab-node">
-      Diseño
-    </div>
-
-    <div class="tab-node">
-      IA
-    </div>
-
-  </div>
-
-</div>
-
-<!-- TOP COMMANDS -->
-
-<div class="ribbon-commands-panel">
-
-<button class="cmd-btn"
-onclick="window.editor.chain().focus().undo().run()">
-↩️ Undo
-</button>
-
-<button class="cmd-btn"
-onclick="window.editor.chain().focus().redo().run()">
-↪️ Redo
-</button>
-
-<button class="cmd-btn"
-onclick="exportPDF()">
-📄 Export PDF
-</button>
-
-<button class="cmd-btn"
-onclick="saveDocument()">
-💾 Guardar
-</button>
-
-</div>
-
-<!-- WORKSPACE -->
-
-<div class="workspace">
-
-  <div class="paper">
-    <div id="editor"></div>
-  </div>
-
-</div>
-
-<!-- FLOATING PANEL -->
-
-<div class="floating-corporate-container">
-
-<div class="dropdown-up-panel"
-id="corporateDropdown">
-
-<div>
-
-<div class="group-label">
-FORMATO CORPORATIVO
-</div>
-
-<div class="group-row">
-
-<button class="icon-btn"
-onclick="window.editor.chain().focus().toggleBold().run()">
-B
-</button>
-
-<button class="icon-btn"
-onclick="window.editor.chain().focus().toggleItalic().run()">
-I
-</button>
-
-<button class="icon-btn"
-onclick="window.editor.chain().focus().toggleUnderline().run()">
-U
-</button>
-
-<button class="icon-btn"
-onclick="window.editor.chain().focus().toggleBulletList().run()">
-•
-</button>
-
-<button class="icon-btn"
-onclick="window.editor.chain().focus().toggleOrderedList().run()">
-1.
-</button>
-
-</div>
-
-</div>
-
-<div>
-
-<div class="group-label">
-TIPOGRAFÍA
-</div>
-
-<div class="group-row">
-
-<select class="dropdown-select"
-onchange="setFontSize(this.value)">
-
-<option value="14">14 px</option>
-<option value="16">16 px</option>
-<option value="20">20 px</option>
-<option value="26">26 px</option>
-
-</select>
-
-<button class="icon-btn"
-onclick="setColor('#1d5270')">
-🎨
-</button>
-
-<button class="icon-btn"
-onclick="setColor('#92324f')">
-🎨
-</button>
-
-<button class="icon-btn"
-onclick="setColor('#d94e18')">
-🎨
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<button class="trigger-menu-btn"
-onclick="toggleCorporateMenu()">
-
-💼 Herramientas Platinum
-
-</button>
-
-</div>
-
-<!-- IA PANEL -->
-
-<div class="ai-assistant-panel">
-
-<div class="ai-header">
-🤖 WC IA Assistant
-</div>
-
-<textarea placeholder="Pregunte a la IA..."></textarea>
-
-<button onclick="simulateAI()">
-Generar
-</button>
-
-</div>
-
-<!-- FOOTER -->
-
-<div class="footer-bar">
-
-<span>
-WC Platinum Engine • TipTap Powered
-</span>
-
-<span id="lblContador">
-0 palabras | 0 caracteres
-</span>
-
-</div>
-
-<!-- SCRIPT -->
-
 <script type="module">
 
 import { Editor } from 'https://esm.sh/@tiptap/core'
-
 import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
-
 import Underline from 'https://esm.sh/@tiptap/extension-underline'
-
 import TextStyle from 'https://esm.sh/@tiptap/extension-text-style'
-
 import Color from 'https://esm.sh/@tiptap/extension-color'
 
-window.editor = null;
+let editor;
 
-/* INIT */
+/* INICIALIZAR */
 
-window.addEventListener('DOMContentLoaded', () => {
+function initEditor(){
 
-  window.editor = new Editor({
+  editor = new Editor({
 
     element: document.querySelector('#editor'),
 
@@ -522,20 +23,13 @@ window.addEventListener('DOMContentLoaded', () => {
       Color
     ],
 
-    content:
-      localStorage.getItem('wc_doc') ||
-
-      `
+    content: `
       <h1>WC Corporate Editor Platinum</h1>
 
       <p>
-      Bienvenido a la nueva generación WC.
+      Bienvenido al nuevo motor TipTap.
       </p>
-
-      <p>
-      Motor profesional TipTap + ProseMirror.
-      </p>
-      `,
+    `,
 
     onUpdate(){
 
@@ -543,38 +37,36 @@ window.addEventListener('DOMContentLoaded', () => {
 
       localStorage.setItem(
         'wc_doc',
-        window.editor.getHTML()
+        editor.getHTML()
       );
     }
 
   });
 
   updateCounters();
+}
 
-});
+/* CONTADOR */
 
-/* COUNTERS */
+function updateCounters(){
 
-window.updateCounters = function(){
+  if(!editor) return;
 
-  if(!window.editor) return;
-
-  const text =
-    window.editor.getText();
+  const text = editor.getText();
 
   const words =
-    text.trim() === ""
+    text.trim() === ''
     ? 0
     : text.trim().split(/\s+/).length;
 
   document.getElementById('lblContador')
-  .textContent =
-  `${words} palabras | ${text.length} caracteres`;
+    .textContent =
+    `${words} palabras | ${text.length} caracteres`;
 }
 
-/* FLOAT MENU */
+/* MENU */
 
-window.toggleCorporateMenu = function(){
+window.toggleCorporateMenu = () => {
 
   document
     .getElementById('corporateDropdown')
@@ -582,80 +74,62 @@ window.toggleCorporateMenu = function(){
     .toggle('show');
 }
 
+/* BOTONES */
+
+window.boldText = () => {
+  editor.chain().focus().toggleBold().run();
+}
+
+window.italicText = () => {
+  editor.chain().focus().toggleItalic().run();
+}
+
+window.underlineText = () => {
+  editor.chain().focus().toggleUnderline().run();
+}
+
+window.bulletList = () => {
+  editor.chain().focus().toggleBulletList().run();
+}
+
+window.orderedList = () => {
+  editor.chain().focus().toggleOrderedList().run();
+}
+
+window.undoAction = () => {
+  editor.chain().focus().undo().run();
+}
+
+window.redoAction = () => {
+  editor.chain().focus().redo().run();
+}
+
 /* COLOR */
 
-window.setColor = function(color){
+window.setColorText = (color) => {
 
-  if(!window.editor) return;
-
-  window.editor
+  editor
     .chain()
     .focus()
     .setColor(color)
     .run();
 }
 
-/* FONT SIZE */
+/* GUARDAR */
 
-window.setFontSize = function(size){
-
-  if(!window.editor) return;
-
-  const span =
-    document.createElement('span');
-
-  span.style.fontSize =
-    `${size}px`;
-
-  const selection =
-    window.getSelection();
-
-  if(!selection.rangeCount) return;
-
-  const range =
-    selection.getRangeAt(0);
-
-  try{
-
-    range.surroundContents(span);
-
-  }catch(e){
-
-    alert(
-      'Seleccione texto válido.'
-    );
-  }
-
-}
-
-/* SAVE */
-
-window.saveDocument = function(){
-
-  if(!window.editor) return;
+window.saveDocument = () => {
 
   localStorage.setItem(
     'wc_doc',
-    window.editor.getHTML()
+    editor.getHTML()
   );
 
-  alert(
-    'Documento guardado.'
-  );
-}
-
-/* IA */
-
-window.simulateAI = function(){
-
-  alert(
-    'WC IA generó sugerencias inteligentes.'
-  );
+  alert('Documento guardado');
 }
 
 /* PDF */
 
-window.exportPDF = async function(){
+window.exportPDF = async () => {
 
   const script =
     document.createElement('script');
@@ -666,34 +140,24 @@ window.exportPDF = async function(){
   script.onload = () => {
 
     html2pdf()
-      .set({
-
-        margin:10,
-
-        filename:
-        'WC_Corporate_Document.pdf',
-
-        html2canvas:{
-          scale:2
-        },
-
-        jsPDF:{
-          unit:'mm',
-          format:'a4',
-          orientation:'portrait'
-        }
-
-      })
-      .from(
-        document.querySelector('.paper')
-      )
-      .save();
+      .from(document.querySelector('.paper'))
+      .save('WC_Document.pdf');
   };
 
   document.body.appendChild(script);
 }
 
-</script>
+/* IA */
 
-</body>
-</html>
+window.simulateAI = () => {
+
+  alert(
+    'WC IA generó sugerencias.'
+  );
+}
+
+/* START */
+
+initEditor();
+
+</script>
