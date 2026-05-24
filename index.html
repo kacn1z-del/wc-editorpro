@@ -1,856 +1,931 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WC Corporate Editor v20 - ULTIMATE PRO UI v26</title>
-  <style>
-    :root {
-      --blue: #0A66FF;
-      --orange: #FF6B00;
-      --bg: #e8e9ec;
-      --panel: #ffffff;
-      --text: #1e1e1e;
-      --border: #d1d1d1;
-      --sidebar-w: 60px;
-      --sidebar-expanded: 180px;
-      --assistant-w: 60px;
-      --assistant-expanded: 180px;
-      --assistant-collapsed: 0px;
-      --ribbon-h: 170px;
-      --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
-      --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
-      --page-width: 100%;
-      --page-max-width: 1200px;
-      --page-margin: 24px;
-    }
-    
-    [data-theme="dark"] {
-      --bg: #1a1c20;
-      --panel: #25272d;
-      --text: #e8e8e8;
-      --border: #3a3d44;
-      --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.2), rgba(255,107,0,0.2));
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC Corporate Editor v20</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family:"Segoe UI", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      display:flex;
-      overflow:hidden;
-    }
-    
-   .sidebar-docs {
-      width:var(--sidebar-w);
-      background:var(--gradient);
-      color:white;
-      padding:16px 0;
-      height:100vh;
-      overflow-y:auto;
-      overflow-x:hidden;
-      z-index:100;
-      transition: width 0.3s;
-    }
-    .sidebar-docs:hover { width:var(--sidebar-expanded); }
-    .sidebar-docs h3 span, .sidebar-docs li span, .storage {
-      opacity:0; transition: opacity 0.2s; white-space:nowrap;
-    }
-    .sidebar-docs:hover h3 span, 
-    .sidebar-docs:hover li span, 
-    .sidebar-docs:hover .storage { opacity:1; }
-   .sidebar-docs h3 { 
-      font-size:11px; margin:16px 12px 6px; 
-      text-transform:uppercase; font-weight:700; opacity:0.8;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-   .sidebar-docs h3 button {
-      background:rgba(255,255,255,0.2); border:none; color:white;
-      width:18px; height:18px; border-radius:4px; cursor:pointer; font-size:14px;
-    }
-   .sidebar-docs ul { list-style:none; }
-   .sidebar-docs li { 
-      margin:2px 6px; padding:6px 10px; cursor:pointer; 
-      border-radius:6px; font-size:13px; display:flex; align-items:center; gap:6px;
-      transition:all.2s;
-    }
-   .sidebar-docs li:hover { background:rgba(255,255,255,0.15); }
-   .sidebar-docs li.active { background:rgba(255,255,255,0.25); font-weight:600; }
-   .storage {
-      margin:16px 12px; padding:10px; background:rgba(0,0,0,0.2);
-      border-radius:8px; font-size:11px;
-    }
-   .storage-bar { 
-      height:4px; background:rgba(255,255,255,0.3); 
-      border-radius:2px; margin-top:6px; overflow:hidden;
-    }
-   .storage-bar div { height:100%; background:white; width:45%; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1e1e1e;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    color: #333;
+  }
 
-   .ribbon {
-      position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
-      background:var(--panel); border-bottom:1px solid var(--border);
-      height:var(--ribbon-h); z-index:999;
-      transition: right 0.3s, left 0.3s;
-      box-shadow:0 2px 4px rgba(0,0,0,0.08);
-    }
-    body.ai-collapsed .ribbon { right: var(--assistant-collapsed); }
-    
-   .title-bar {
-      height:35px; background:var(--gradient-soft); 
-      display:flex; align-items:center; padding:0 16px; gap:12px;
-    }
-   .title-bar .logo { font-weight:800; color:var(--blue); }
-   .title-bar .title { font-size:13px; opacity:0.8; }
-   .title-bar input {
-      flex:1; max-width:400px; padding:4px 32px 4px 12px;
-      border:1px solid var(--border); border-radius:16px; 
-      background:var(--panel); color:var(--text); font-size:13px;
-    }
-   .title-bar .profile { 
-      font-size:13px; font-weight:600; display:flex; 
-      align-items:center; gap:8px; margin-left:auto;
-    }
-    
-   .tabs {
-      height:35px; display:flex; align-items:flex-end; padding:0 12px; gap:4px;
-    }
-   .tabs button {
-      padding:6px 16px; border:none; background:transparent;
-      border-radius:6px 6px 0 0; cursor:pointer; font-weight:600; font-size:14px;
-      color:var(--text); opacity:0.7;
-    }
-   .tabs button.active { 
-      background:var(--panel); opacity:1; 
-      box-shadow:0 -2px 0 var(--blue) inset;
-    }
-    
-   .toolbar {
-      height:100px; display:flex; align-items:flex-start; padding:4px 12px; gap:0;
-      border-top:1px solid var(--border); overflow-x:auto; overflow-y:hidden;
-      position: relative; z-index: 2;
-    }
-   .toolbar table, .toolbar td, .toolbar tr, .toolbar th {
-      display: none !important;
-      border: none !important;
-    }
-   .tool-group {
-      display:flex; flex-direction:column; justify-content:flex-start;
-      padding:0 10px; border-right:1px solid var(--border);
-      min-width:fit-content; height:92px;
-      background: var(--panel); position: relative; z-index: 2;
-    }
-   .tool-group:last-child { border:none; }
-   .tool-group-main {
-      display:flex; gap:6px; align-items:flex-start; flex:1; padding-top:2px;
-    }
-   .tool-group-col {
-      display:flex; flex-direction:row; gap:2px; flex-wrap:wrap; max-width:180px;
-    }
-   .tool-group-col button {
-      padding:3px 8px; border:1px solid var(--border); background:var(--panel);
-      border-radius:3px; cursor:pointer; font-size:12px; color:var(--text);
-      height:26px; display:flex; align-items:center; gap:4px;
-    }
-   .tool-group-col button:hover { background:var(--bg); }
-   .tool-group-label {
-      font-size:10px; text-align:center; color:var(--text); opacity:0.6;
-      padding:3px 0 1px; border-top:1px solid var(--border); margin-top:auto;
-      white-space:nowrap;
-    }
-   .big-btn {
-      display:flex; flex-direction:column; align-items:center; gap:1px;
-      padding:2px 10px; border:1px solid transparent; background:transparent;
-      border-radius:4px; cursor:pointer; font-size:11px; color:var(--text);
-      min-width:55px;
-    }
-   .big-btn:hover { background:var(--bg); border-color:var(--border); }
-   .tool-row {
-      display:flex; gap:2px; margin-bottom:2px; flex-wrap:nowrap;
-    }
-   .tool-row button,.tool-row select,.tool-row input[type="color"] {
-      padding:4px 6px; border:1px solid var(--border); 
-      background:var(--panel); border-radius:3px; cursor:pointer;
-      color:var(--text); font-size:13px; height:26px; flex-shrink:0;
-    }
-   .tool-row input[type="color"] { width:26px; padding:2px; }
-   .tool-row button:hover { background:var(--bg); }
-   .tool-row button.active { background:var(--blue); color:white; border-color:var(--blue); }
-   .style-gallery {
-      display:flex; gap:3px; align-items:flex-start; padding-top:2px; flex-wrap:nowrap;
-    }
-   .style-item {
-      padding:6px 10px; border:1px solid var(--border); background:var(--panel);
-      border-radius:4px; cursor:pointer; font-size:12px; color:var(--text);
-      white-space:nowrap; height:26px; display:flex; align-items:center;
-    }
-   .style-item.active { 
-      background:var(--gradient-soft); border-color:var(--blue); 
-      box-shadow:0 0 0 1px var(--blue) inset;
-    }
-   .style-item:hover { background:var(--bg); }
-    
-   .dropdown { position:relative; }
-   .dropdown-menu {
-      position:absolute; top:100%; left:0; background:var(--panel);
-      border:1px solid var(--border); border-radius:8px; padding:8px;
-      box-shadow:0 8px 24px rgba(0,0,0,0.15); display:none;
-      min-width:240px; z-index:200;
-    }
-   .dropdown-menu.show { display:block; }
-   .dropdown-menu button {
-      display:flex; width:100%; text-align:left; gap:12px;
-      border:none; padding:8px 12px; border-radius:6px; background:transparent; color:var(--text);
-    }
-   .dropdown-menu button:hover { background:var(--gradient-soft); }
-   .dropdown-menu .icon { 
-      width:32px; height:32px; border-radius:6px; 
-      background:var(--gradient); display:flex; 
-      align-items:center; justify-content:center; color:white; font-size:16px;
-    }
+  /* ── TITLE BAR ── */
+  .title-bar {
+    height: 46px;
+    background: linear-gradient(90deg, #e85d1a 0%, #c94d8c 40%, #7b4fd4 70%, #5b6fd4 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 10px;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .wc-logo {
+    width: 34px; height: 34px;
+    background: white;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: #d4541a;
+    letter-spacing: -1px; flex-shrink: 0;
+  }
+  .app-title { font-weight: 600; font-size: 14px; }
+  .app-subtitle {
+    font-size: 12px; opacity: .85;
+    border-left: 1px solid rgba(255,255,255,.4);
+    padding-left: 10px; margin-left: 2px;
+  }
+  .title-actions {
+    margin-left: auto; display: flex; align-items: center; gap: 14px;
+  }
+  .title-actions svg { width:18px; height:18px; cursor:pointer; opacity:.9; }
+  .user-chip {
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.15); border-radius: 20px;
+    padding: 3px 10px 3px 4px; cursor: pointer;
+  }
+  .user-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg,#f97316,#ec4899);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: white;
+  }
+  .user-info { line-height: 1.2; }
+  .user-name { font-size: 11px; font-weight: 600; }
+  .user-role { font-size: 9px; opacity: .8; }
+  .win-btns { display: flex; gap: 0; margin-left: 6px; }
+  .win-btn {
+    width: 40px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: .85;
+  }
+  .win-btn:hover { background: rgba(255,255,255,.15); opacity: 1; }
+  .win-btn.close:hover { background: #c00; opacity: 1; }
 
-   .workspace { 
-      flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
-      padding:calc(var(--ribbon-h) + 40px) 8px 50px; 
-      height:100vh; overflow-y:auto;
-      transition: margin-right 0.3s, margin-left 0.3s;
-      background:var(--bg);
-      position: relative;
-      z-index: 1;
-    }
-    body.ai-collapsed .workspace { margin-right: var(--assistant-collapsed); }
-    
-   .page { 
-      position:relative;
-      z-index:1;
-      background:var(--panel); 
-      padding: var(--page-margin) 48px;
-      margin:0 auto;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15); 
-      min-height:1056px;
-      width:var(--page-width);
-      max-width:var(--page-max-width);
-      border-radius:2px; 
-      outline:none;
-    }
-   .page h1 { font-size:32px; font-weight:800; color:var(--blue); margin-bottom:4px; }
-   .page h2 { font-size:16px; font-weight:600; color:var(--orange); margin-bottom:20px; }
-   .page .features {
-      display:flex; gap:30px; margin-top:40px;
-    }
-   .page .feature { text-align:center; flex:1; }
-   .page .feature-icon {
-      width:60px; height:60px; margin:0 auto 12px;
-      background:var(--gradient); border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      color:white; font-size:24px;
-    }
+  /* ── MENU BAR ── */
+  .menu-bar {
+    height: 44px;
+    background: linear-gradient(90deg, #cc4a10 0%, #b03880 35%, #6440c0 70%, #4a5ec0 100%);
+    display: flex; align-items: center;
+    padding: 0 8px; gap: 2px;
+    flex-shrink: 0; position: relative;
+  }
+  .menu-item {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 5px;
+    color: white; cursor: pointer; font-size: 13px;
+    transition: background .15s;
+  }
+  .menu-item:hover, .menu-item.active { background: rgba(255,255,255,.18); }
+  .menu-item svg { width:15px; height:15px; }
+  .menu-item .caret { font-size: 10px; opacity: .8; }
+  .search-bar {
+    margin-left: auto;
+    background: rgba(255,255,255,.2);
+    border-radius: 20px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    color: rgba(255,255,255,.85);
+    min-width: 200px;
+  }
+  .search-bar input {
+    background: none; border: none; outline: none;
+    color: white; font-size: 12px; width: 140px;
+  }
+  .search-bar input::placeholder { color: rgba(255,255,255,.7); }
+  .menu-icons { display: flex; align-items: center; gap: 10px; margin-left: 10px; }
+  .menu-icons svg { width:18px; height:18px; color: white; cursor:pointer; opacity:.85; }
 
-   .assistant {
-      position:fixed; top:0; right:0; width:var(--assistant-w); height:100vh;
-      background:var(--panel); border-left:1px solid var(--border); 
-      padding:10px; display:flex; flex-direction:column;
-      transition: width 0.3s; overflow:hidden;
-    }
-    .assistant:hover { width:var(--assistant-expanded); }
-    .assistant-header h3, .assistant-tabs, .assistant-content {
-      opacity:0; transition: opacity 0.2s;
-    }
-    .assistant:hover .assistant-header h3,
-    .assistant:hover .assistant-tabs,
-    .assistant:hover .assistant-content { opacity:1; }
-    body.ai-collapsed .assistant { transform: translateX(100%); }
-    
-   .assistant-header {
-      display:flex; justify-content:space-between; align-items:center;
-      margin-bottom:10px;
-    }
-   .assistant h3 { font-size:14px; font-weight:700; }
-   .assistant-header .collapse-btn {
-      background:var(--bg); border:1px solid var(--border); 
-      width:22px; height:22px; border-radius:4px; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      color:var(--text); font-size:12px;
-    }
-   .assistant-tabs {
-      display:flex; gap:3px; background:var(--bg); 
-      padding:3px; border-radius:8px; margin-bottom:12px;
-    }
-   .assistant-tabs button {
-      flex:1; padding:5px; border:none; background:transparent;
-      border-radius:6px; cursor:pointer; font-size:12px; font-weight:600; color:var(--text);
-    }
-   .assistant-tabs button.active { background:var(--panel); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-    
-   .assistant-content { flex:1; overflow-y:auto; }
-   .ai-chat { text-align:center; padding:16px 8px; }
-   .ai-avatar {
-      width:50px; height:50px; margin:0 auto 10px;
-      background:var(--gradient); border-radius:50%;
-    }
-   .ai-actions button {
-      display:flex; width:100%; margin-bottom:6px; padding:10px 8px;
-      border:1px solid var(--border); background:var(--panel);
-      border-radius:8px; cursor:pointer; font-weight:600; font-size:12px;
-      text-align:left; justify-content:space-between; align-items:center; color:var(--text);
-    }
-   .ai-actions button:hover { background:var(--gradient-soft); }
+  /* ── DROPDOWN MENU ── */
+  .dropdown-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    display: none;
+  }
+  .dropdown-overlay.visible { display: block; }
+  .dropdown {
+    position: absolute;
+    top: 90px; left: 168px;
+    width: 260px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.25);
+    overflow: hidden;
+    z-index: 101;
+    animation: dropIn .15s ease;
+  }
+  @keyframes dropIn {
+    from { opacity:0; transform: translateY(-6px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+  .dropdown-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    cursor: pointer; transition: background .12s;
+    position: relative;
+  }
+  .dropdown-item:hover { background: #f5f5f5; }
+  .dropdown-item + .dropdown-item { border-top: 1px solid #f0f0f0; }
+  .dropdown-item .di-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .di-orange { background: linear-gradient(135deg,#f97316,#ea580c); }
+  .di-blue   { background: linear-gradient(135deg,#3b82f6,#6366f1); }
+  .di-teal   { background: linear-gradient(135deg,#14b8a6,#0ea5e9); }
+  .di-violet { background: linear-gradient(135deg,#8b5cf6,#6d28d9); }
+  .dropdown-item svg.di-svg { width:18px; height:18px; color:white; }
+  .di-label { font-weight: 600; font-size: 13.5px; color: #1a1a1a; }
+  .di-sub   { font-size: 11px; color: #666; }
+  .di-arrow { margin-left: auto; color: #aaa; font-size: 13px; }
 
-   .ai-toggle {
-      position:fixed; right:12px; top:50%; transform:translateY(-50%);
-      background:var(--gradient); color:white; border:none;
-      width:40px; height:40px; border-radius:50%; cursor:pointer;
-      box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:100;
-      display:none; font-size:20px;
-    }
-    body.ai-collapsed .ai-toggle { display:flex; align-items:center; justify-content:center; }
+  /* ── RIBBON ── */
+  .ribbon {
+    background: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 10px;
+    display: flex; align-items: center; gap: 14px;
+    flex-shrink: 0;
+  }
+  .ribbon-group { display: flex; align-items: center; gap: 4px; }
+  .ribbon-sep { width: 1px; height: 36px; background: #ddd; }
+  .ribbon-label { font-size: 10px; color: #888; text-align: center; margin-top: 2px; }
 
-   .statusbar {
-      position:fixed; bottom:0; left:var(--sidebar-w); right:var(--assistant-w); 
-      height:30px; background:var(--panel); border-top:1px solid var(--border);
-      font-size:12px; color:var(--text); display:flex; align-items:center; 
-      padding:0 16px; gap:20px;
-      transition: right 0.3s, left 0.3s;
-    }
-    body.ai-collapsed .statusbar { right: var(--assistant-collapsed); }
-   .statusbar .right { margin-left:auto; display:flex; gap:16px; }
+  /* clipboard */
+  .clipboard-btn {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 4px 6px; cursor: pointer; border-radius: 4px;
+    min-width: 44px;
+  }
+  .clipboard-btn:hover { background: #e8e8e8; }
+  .paste-icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .paste-icon svg { width:18px; height:18px; color:white; }
+  .small-btn {
+    display: flex; align-items: center; gap: 4px;
+    padding: 2px 6px; border-radius: 3px; cursor: pointer;
+    font-size: 11.5px; color: #444;
+  }
+  .small-btn:hover { background: #e8e8e8; }
+  .small-btn svg { width:13px; height:13px; }
 
-   body.focus-mode .sidebar-docs,
-   body.focus-mode .assistant,
-   body.focus-mode .ribbon,
-   body.focus-mode .statusbar {
-      display:none !important;
-    }
-    body.focus-mode .workspace {
-      margin:0 !important;
-      padding:20px !important;
-    }
-    body.focus-mode .page {
-      max-width:900px;
-    }
+  /* font controls */
+  .font-select, .size-select {
+    border: 1px solid #ccc; border-radius: 3px;
+    padding: 3px 6px; font-size: 12px; background: white;
+    outline: none; cursor: pointer;
+  }
+  .font-select { width: 130px; }
+  .size-select { width: 50px; }
+  .font-size-btn {
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid #ccc; border-radius: 3px;
+    cursor: pointer; background: white; font-size: 13px;
+  }
+  .font-size-btn:hover { background: #e8e8e8; }
 
-    @media (max-width: 768px) {
-      .workspace {
-        padding:calc(var(--ribbon-h) + 60px) 4px 50px;
-        margin-left: 40px;
-        margin-right: 0;
-      }
-      .assistant { display: none; }
-      .sidebar-docs { width: 40px; }
-      .ribbon { left: 40px; right: 0; }
-      .page { padding: 16px 20px; }
-    }
-  </style>
+  /* formatting buttons */
+  .fmt-btn {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 3px; cursor: pointer; font-size: 13px;
+    color: #333;
+  }
+  .fmt-btn:hover { background: #ddd; }
+  .fmt-btn.bold { font-weight: 700; }
+  .fmt-btn.italic { font-style: italic; }
+  .fmt-btn.underline { text-decoration: underline; }
+  .fmt-btn.strikethrough { text-decoration: line-through; }
+
+  /* styles panel */
+  .style-btn {
+    padding: 4px 14px; border-radius: 4px; cursor: pointer;
+    font-size: 13px; border: 1.5px solid transparent;
+    transition: background .1s;
+  }
+  .style-btn:hover { background: #e8e8e8; }
+  .style-btn.active { border-color: #6366f1; background: #eef2ff; color: #4f46e5; }
+  .style-titulo1 { font-size: 14px; font-weight: 600; }
+  .style-titulo2 { font-size: 13px; font-weight: 500; }
+  .style-subtitulo { font-size: 12px; color: #666; }
+
+  /* edit section */
+  .edit-btn {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 12px; color: #444; cursor: pointer;
+    padding: 2px 6px; border-radius: 3px;
+  }
+  .edit-btn:hover { background: #e8e8e8; }
+  .edit-btn svg { width: 13px; height: 13px; }
+
+  /* ── BODY ── */
+  .body-wrap {
+    display: flex; flex: 1; overflow: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 195px; background: #1e2a3a;
+    display: flex; flex-direction: column;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .sidebar-section { padding: 10px 10px 4px; }
+  .sidebar-heading {
+    font-size: 11px; font-weight: 600;
+    color: #8da4c0; letter-spacing: .04em;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4px 6px;
+  }
+  .sidebar-heading svg { width:14px; height:14px; cursor:pointer; color:#8da4c0; }
+  .sidebar-heading svg:hover { color: white; }
+  .doc-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px; border-radius: 6px;
+    cursor: pointer; color: #c5d8f0; font-size: 12px;
+    transition: background .12s;
+  }
+  .doc-item:hover { background: rgba(255,255,255,.08); }
+  .doc-item.active { background: rgba(99,102,241,.25); color: white; }
+  .doc-item svg { width:14px; height:14px; flex-shrink:0; opacity:.7; }
+  .sidebar-divider { height: 1px; background: rgba(255,255,255,.07); margin: 6px 10px; }
+  .storage-box {
+    margin: auto 10px 10px;
+    background: rgba(255,255,255,.06);
+    border-radius: 8px; padding: 10px;
+  }
+  .storage-label { font-size: 11px; color: #8da4c0; margin-bottom: 5px; }
+  .storage-bar {
+    height: 5px; background: rgba(255,255,255,.12);
+    border-radius: 10px; overflow: hidden; margin-bottom: 4px;
+  }
+  .storage-fill {
+    height: 100%; width: 45.2%;
+    background: linear-gradient(90deg,#3b82f6,#6366f1);
+    border-radius: 10px;
+  }
+  .storage-nums { font-size: 11px; color: #7090b0; display: flex; justify-content: space-between; }
+  .storage-upload {
+    display: flex; align-items: center; justify-content: flex-end; margin-top: 6px;
+  }
+  .upload-btn {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative;
+  }
+  .upload-btn::after {
+    content:'✓'; position: absolute; bottom:-2px; right:-2px;
+    width:12px; height:12px; border-radius:50%;
+    background:#22c55e; font-size:8px; color:white;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .upload-btn svg { width:14px; height:14px; color:white; }
+
+  /* ── RULER ── */
+  .ruler {
+    height: 22px; background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    display: flex; align-items: flex-end;
+    padding: 0 0 2px 60px;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .ruler-inner {
+    display: flex; gap: 0; flex: 1;
+  }
+  .ruler-tick {
+    font-size: 9px; color: #888;
+    width: 46px; text-align: center;
+    border-left: 1px solid #bbb;
+    padding-left: 2px;
+  }
+
+  /* ── CONTENT AREA ── */
+  .content-area {
+    flex: 1; background: #e4e4e4;
+    overflow-y: auto; display: flex;
+    flex-direction: column; align-items: center;
+    padding: 24px 20px;
+    position: relative;
+  }
+  .page {
+    width: 700px; min-height: 500px;
+    background: white;
+    box-shadow: 0 2px 16px rgba(0,0,0,.15);
+    border-radius: 2px;
+    padding: 50px 60px;
+    position: relative;
+  }
+  .page-left-bar {
+    position: absolute; left: 32px; top: 50px; bottom: 50px;
+    width: 4px; background: #e85d1a; border-radius: 2px;
+  }
+  .page-title {
+    font-size: 32px; font-weight: 700;
+    color: #1a2540; margin-bottom: 4px;
+  }
+  .page-subtitle {
+    font-size: 14px; color: #e85d1a;
+    font-weight: 600; margin-bottom: 18px; letter-spacing: .02em;
+  }
+  .page-body {
+    font-size: 14px; color: #333; line-height: 1.55;
+    margin-bottom: 22px;
+  }
+  .page-cursor {
+    display: inline-block; width: 1.5px; height: 16px;
+    background: #333; margin-left: 2px;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .feature-row {
+    display: flex; gap: 28px; margin-top: 20px;
+  }
+  .feature-card {
+    flex: 1; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .feature-icon {
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .fi-orange { background: linear-gradient(135deg,#f97316,#ea580c); }
+  .fi-blue   { background: linear-gradient(135deg,#3b82f6,#6366f1); }
+  .fi-red    { background: linear-gradient(135deg,#f43f5e,#e11d48); }
+  .feature-icon svg { width:22px; height:22px; color:white; }
+  .feature-name { font-weight: 700; font-size: 13.5px; color: #1a2540; margin-bottom: 3px; }
+  .feature-desc { font-size: 11.5px; color: #666; line-height: 1.4; }
+
+  /* ── AI PANEL ── */
+  .ai-panel {
+    width: 240px; background: #0f172a;
+    display: flex; flex-direction: column;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .ai-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .ai-title-row { display: flex; align-items: center; gap: 7px; }
+  .ai-star { color: #6366f1; font-size: 16px; }
+  .ai-title { font-size: 13px; font-weight: 600; color: white; }
+  .ai-header-btns { display: flex; gap: 8px; }
+  .ai-header-btns svg { width:15px; height:15px; color:#8da4c0; cursor:pointer; }
+  .ai-tabs {
+    display: flex; border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 10px;
+  }
+  .ai-tab {
+    font-size: 12px; color: #8da4c0; padding: 8px 10px;
+    cursor: pointer; border-bottom: 2px solid transparent;
+    transition: color .12s;
+  }
+  .ai-tab.active { color: #818cf8; border-color: #818cf8; }
+  .ai-tab:hover { color: #c0c8f0; }
+  .ai-body { flex:1; overflow-y: auto; padding: 14px 12px; }
+  .ai-avatar-wrap { text-align: center; margin-bottom: 12px; }
+  .ai-bot-icon {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg,#6366f1,#818cf8);
+    margin: 0 auto 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .ai-greeting { font-size: 14px; font-weight: 600; color: white; margin-bottom: 2px; }
+  .ai-greeting-sub { font-size: 11px; color: #8da4c0; }
+  .ai-suggestions { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+  .ai-sugg {
+    background: rgba(255,255,255,.06);
+    border-radius: 7px; padding: 8px 10px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: background .12s;
+  }
+  .ai-sugg:hover { background: rgba(255,255,255,.11); }
+  .ai-sugg-row { display: flex; align-items: center; gap: 7px; }
+  .ai-sugg-row svg { width:13px; height:13px; color:#818cf8; flex-shrink:0; }
+  .ai-sugg-text { font-size: 11.5px; color: #c0c8f0; }
+  .ai-sugg-arrow { color: #555; font-size: 12px; }
+  .ai-input-bar {
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding: 8px 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ai-input {
+    flex:1; background: rgba(255,255,255,.07);
+    border-radius: 20px; padding: 7px 12px;
+    font-size: 11.5px; color: white; border: none; outline: none;
+  }
+  .ai-input::placeholder { color: #4a5878; }
+  .ai-send {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg,#6366f1,#818cf8);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    height: 28px; background: #1e2a3a;
+    display: flex; align-items: center;
+    padding: 0 12px; gap: 16px;
+    flex-shrink: 0;
+  }
+  .status-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: #8da4c0;
+  }
+  .status-item svg { width:13px; height:13px; }
+  .status-dot { width:7px; height:7px; border-radius:50%; }
+  .status-dot.green { background: #22c55e; }
+  .status-sep { width:1px; height:16px; background: rgba(255,255,255,.1); }
+  .zoom-bar {
+    display: flex; align-items: center; gap: 6px; margin-left: auto; margin-right: 10px;
+  }
+  .zoom-btn {
+    width:18px; height:18px; border-radius:3px;
+    background: rgba(255,255,255,.1); color: #8da4c0;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:14px;
+  }
+  .zoom-slider {
+    width: 80px; height:4px; background: rgba(255,255,255,.15);
+    border-radius:10px; position:relative;
+  }
+  .zoom-fill {
+    position:absolute; left:0; top:0; height:100%;
+    width: 50%; background: #6366f1; border-radius:10px;
+  }
+  .zoom-thumb {
+    position:absolute; top:50%; left:50%;
+    width:12px; height:12px; border-radius:50%;
+    background:white; transform: translate(-50%,-50%);
+    box-shadow: 0 1px 4px rgba(0,0,0,.3);
+  }
+  .status-mode {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: #22c55e; margin-right: 6px;
+  }
+  .status-save {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 11px; color: #8da4c0;
+  }
+
+  /* List/para icons */
+  .icon-row { display:flex; gap:2px; }
+</style>
 </head>
 <body>
-  <aside class="sidebar-docs">
-    <h3><span>Documentos</span> <button onclick="newDoc()">+</button></h3>
-    <ul id="doc-list">
-      <li class="active">📄 <span>Documento 1</span></li>
-      <li>📊 <span>Informe</span></li>
-      <li>📈 <span>Propuesta</span></li>
-      <li>📋 <span>Proyecto</span></li>
-      <li>📝 <span>Notas</span></li>
-      <li>🎨 <span>WC Arte</span></li>
-    </ul>
-    <h3><span>Recientes</span></h3>
-    <ul>
-      <li>📁 <span>Contrato_2024</span></li>
-      <li>📁 <span>Reporte_Mensual</span></li>
-      <li>📁 <span>Proyecto_Final</span></li>
-    </ul>
-    <div class="storage">
-      Almacenamiento
-      <div style="font-weight:600; margin-top:4px;">45.2 MB / 100 MB</div>
-      <div class="storage-bar"><div></div></div>
-    </div>
-  </aside>
 
-  <header class="ribbon">
-    <div class="title-bar">
-      <div class="logo">WC</div>
-      <div class="title">WC Corporate Editor v20</div>
-      <input type="search" placeholder="Buscar comandos..." id="search-cmd">
-      <div class="profile">
-        <button onclick="toggleFocusMode()" style="background:none;border:none;cursor:pointer;font-size:16px;" title="Modo Enfoque F11">🎯</button>
-        👤 Keny Chinchilla
-        <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:16px;">🌙</button>
+<!-- TITLE BAR -->
+<div class="title-bar">
+  <div class="wc-logo">WC</div>
+  <span class="app-title">WC Corporate Editor v20</span>
+  <span class="app-subtitle">ULTIMATE PRO UI v26 – ESTÉTICA EJECUTIVA</span>
+  <div class="title-actions">
+    <!-- undo -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h10a6 6 0 0 1 0 12H7"/><polyline points="3 6 3 10 7 10"/></svg>
+    <!-- redo -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H11a6 6 0 0 0 0 12h6"/><polyline points="21 6 21 10 17 10"/></svg>
+    <!-- save -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    <!-- share -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    <!-- bell -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <!-- user -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <div class="user-chip">
+      <div class="user-avatar">KN</div>
+      <div class="user-info">
+        <div class="user-name">Keny Chinchilla Navarro</div>
+        <div class="user-role">Desarrollador</div>
       </div>
     </div>
-    <nav class="tabs">
-      <button onclick="showMenu('archivo')">Archivo</button>
-      <button class="active">Editar</button>
-      <button onclick="insertTable()">Insertar</button>
-      <button onclick="formatMenu()">Formato</button>
-    </nav>
-    <div class="toolbar">
-      <div class="tool-group">
-        <div class="tool-group-main">
-          <button class="big-btn" onclick="pasteText()">
-            <div style="font-size:20px;">📋</div>
-            <span>Pegar</span>
-          </button>
-          <div class="tool-group-col">
-            <button onclick="execCmd('cut')">✂️ Cortar</button>
-            <button onclick="execCmd('copy')">📄 Copiar</button>
-            <button onclick="formatPainter()">🎨 Copiar formato</button>
+    <div class="win-btns">
+      <div class="win-btn">–</div>
+      <div class="win-btn">⬜</div>
+      <div class="win-btn close">✕</div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU BAR -->
+<div class="menu-bar">
+  <div class="menu-item" onclick="toggleDropdown()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    Archivo <span class="caret">▾</span>
+  </div>
+  <div class="menu-item active" id="editBtn" onclick="toggleDropdown()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Editar <span class="caret">▾</span>
+  </div>
+  <div class="menu-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Insertar <span class="caret">▾</span>
+  </div>
+  <div class="menu-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M14 3h7v7"/><line x1="21" y1="3" x2="9" y2="15"/></svg>
+    Formato <span class="caret">▾</span>
+  </div>
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;color:rgba(255,255,255,.7)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Buscar comandos…">
+  </div>
+  <div class="menu-icons">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  </div>
+</div>
+
+<!-- DROPDOWN OVERLAY -->
+<div class="dropdown-overlay" id="dropdownOverlay" onclick="toggleDropdown()">
+  <div class="dropdown" onclick="event.stopPropagation()">
+    <div class="dropdown-item">
+      <div class="di-icon di-orange">
+        <svg class="di-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div>
+        <div class="di-label">WC Arte</div>
+      </div>
+      <span class="di-arrow">›</span>
+    </div>
+    <div class="dropdown-item">
+      <div class="di-icon di-blue">
+        <svg class="di-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <div>
+        <div class="di-label">Herramientas</div>
+      </div>
+      <span class="di-arrow">›</span>
+    </div>
+    <div class="dropdown-item">
+      <div class="di-icon di-teal">
+        <svg class="di-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      </div>
+      <div>
+        <div class="di-label">Desarrollador</div>
+        <div class="di-sub">Keny Chinchilla Navarro</div>
+      </div>
+      <span class="di-arrow">›</span>
+    </div>
+    <div class="dropdown-item">
+      <div class="di-icon di-violet">
+        <svg class="di-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div>
+        <div class="di-label">Ayuda</div>
+      </div>
+      <span class="di-arrow">›</span>
+    </div>
+  </div>
+</div>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <!-- Clipboard -->
+  <div class="ribbon-group" style="flex-direction:column;gap:2px;">
+    <div style="display:flex;gap:6px;align-items:flex-end;">
+      <div>
+        <div class="clipboard-btn">
+          <div class="paste-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
           </div>
+          <span style="font-size:10px;color:#555;margin-top:2px;">Pegar</span>
         </div>
-        <div class="tool-group-label">Portapapeles</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div class="small-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 17.929H6c-1.105 0-2-.895-2-2V5c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v1H8c-1.105 0-2 .895-2 2v9.929zm0 0V9c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v10.929c0 1.105-.895 2-2 2h-8c-1.105 0-2-.895-2-2z"/></svg> Cortar</div>
+        <div class="small-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 17.929H6c-1.105 0-2-.895-2-2V5c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v1H8c-1.105 0-2 .895-2 2v9.929zm0 0V9c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v10.929c0 1.105-.895 2-2 2h-8c-1.105 0-2-.895-2-2z"/></svg> Copiar</div>
+        <div class="small-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 17.929H6c-1.105 0-2-.895-2-2V5c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v1H8c-1.105 0-2 .895-2 2v9.929zm0 0V9c0-1.105.895-2 2-2h8c1.105 0 2 .895 2 2v10.929c0 1.105-.895 2-2 2h-8c-1.105 0-2-.895-2-2z"/></svg> Copiar form…</div>
+      </div>
+    </div>
+    <div class="ribbon-label" style="padding-left:0;">Portapapeles</div>
+  </div>
+
+  <div class="ribbon-sep"></div>
+
+  <!-- Font -->
+  <div class="ribbon-group" style="flex-direction:column;gap:4px;">
+    <div style="display:flex;gap:4px;align-items:center;">
+      <select class="font-select"><option>Segoe UI</option></select>
+      <select class="size-select"><option>12</option></select>
+      <div class="font-size-btn">A⁺</div>
+      <div class="font-size-btn">A⁻</div>
+    </div>
+    <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap;">
+      <div class="fmt-btn bold">B</div>
+      <div class="fmt-btn italic">I</div>
+      <div class="fmt-btn underline">U</div>
+      <div class="fmt-btn strikethrough">ab</div>
+      <div class="fmt-btn" style="font-size:11px;">x₂</div>
+      <div class="fmt-btn" style="font-size:11px;">x²</div>
+      <div class="fmt-btn" style="font-size:11px;color:#f97316;">A̲</div>
+      <div class="fmt-btn" style="font-size:11px;">A</div>
+      <!-- list icons -->
+      <div class="fmt-btn">☰</div>
+      <div class="fmt-btn">≡</div>
+      <div class="fmt-btn">⊞</div>
+      <div class="fmt-btn">⊟</div>
+      <div class="fmt-btn">⊠</div>
+      <!-- align -->
+      <div class="fmt-btn">≡</div>
+      <div class="fmt-btn">≡</div>
+      <div class="fmt-btn">≡</div>
+      <div class="fmt-btn">≡</div>
+      <div class="fmt-btn">¶</div>
+    </div>
+    <div class="ribbon-label">Fuente &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Párrafo</div>
+  </div>
+
+  <div class="ribbon-sep"></div>
+
+  <!-- Styles -->
+  <div class="ribbon-group" style="flex-direction:column;gap:4px;">
+    <div style="display:flex;gap:4px;align-items:center;">
+      <div class="style-btn active">Normal</div>
+      <div class="style-btn style-titulo1">Título 1</div>
+      <div class="style-btn style-titulo2">Título 2</div>
+      <div class="style-btn style-subtitulo">Subtítulo</div>
+    </div>
+    <div class="ribbon-label">Estilos</div>
+  </div>
+
+  <div class="ribbon-sep"></div>
+
+  <!-- Edit -->
+  <div class="ribbon-group" style="flex-direction:column;gap:3px;">
+    <div class="edit-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar</div>
+    <div class="edit-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Reemplazar</div>
+    <div class="edit-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Seleccionar ▾</div>
+    <div class="ribbon-label">Edición</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-heading">
+        Documentos
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </div>
+      <div class="doc-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Documento 1
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Informe Corporativo
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Propuesta Ejecutiva
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Presentación Proyecto
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Notas rápidas
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Ideas WC Arte
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Recientes</div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Contrato_2024
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Reporte_Mensual
+      </div>
+      <div class="doc-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Proyecto_Final
+      </div>
+    </div>
+
+    <div class="storage-box">
+      <div class="storage-label">Almacenamiento local</div>
+      <div class="storage-bar"><div class="storage-fill"></div></div>
+      <div class="storage-nums"><span>45.2 MB</span><span>100 MB</span></div>
+      <div class="storage-upload">
+        <div class="upload-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div class="content-area">
+    <!-- Ruler -->
+    <div class="ruler" style="width:700px;margin-bottom:0;border-radius:0;">
+      <div class="ruler-inner">
+        <div class="ruler-tick">1</div><div class="ruler-tick">2</div>
+        <div class="ruler-tick">3</div><div class="ruler-tick">4</div>
+        <div class="ruler-tick">5</div><div class="ruler-tick">6</div>
+        <div class="ruler-tick">7</div><div class="ruler-tick">8</div>
+        <div class="ruler-tick">9</div><div class="ruler-tick">10</div>
+        <div class="ruler-tick">11</div><div class="ruler-tick">12</div>
+        <div class="ruler-tick">13</div>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-left-bar"></div>
+      <div class="page-title">WC Corporate Editor v20</div>
+      <div class="page-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</div>
+      <div class="page-body">
+        Editor profesional con diseño corporativo moderno, potente y
+        creado para productividad total.<span class="page-cursor"></span>
       </div>
 
-      <div class="tool-group">
-        <div class="dropdown">
-          <button class="big-btn" onclick="toggleDropdown(this)">
-            <div style="font-size:20px;">🎨</div>
-            <span>WC Arte ▼</span>
-          </button>
-          <div class="dropdown-menu">
-            <button onclick="insertWCArte()"><div class="icon">🎨</div><div><strong>WC Arte</strong><br><small>Diseños profesionales</small></div></button>
-            <button onclick="insertTools()"><div class="icon">🛠️</div><div><strong>Herramientas</strong><br><small>Flujo de trabajo</small></div></button>
-            <button onclick="insertDev()"><div class="icon">&lt;/&gt;</div><div><strong>Desarrollador</strong><br><small>Keny Chinchilla Navarro</small></div></button>
-            <button onclick="showHelp()"><div class="icon">?</div><strong>Ayuda</strong><br><small>Documentación WC</small></div></button>
+      <div class="feature-row">
+        <div class="feature-card">
+          <div class="feature-icon fi-orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
-        </div>
-        <div class="tool-group-label">WC Suite</div>
-      </div>
-
-      <div class="tool-group">
-        <div class="tool-group-main">
           <div>
-            <div class="tool-row">
-              <select onchange="execCmd('fontName', this.value)" style="width:120px;" id="fontFamily">
-                <option value="Segoe UI">Segoe UI</option>
-                <option value="Arial">Arial</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Calibri">Calibri</option>
-                <option value="Times New Roman">Times New Roman</option>
-              </select>
-              <select onchange="execCmd('fontSize', this.value)" style="width:50px;" id="fontSize">
-                <option value="1">8</option><option value="2">10</option><option value="3" selected>12</option>
-                <option value="4">14</option><option value="5">18</option><option value="6">24</option><option value="7">36</option>
-              </select>
-            </div>
-            <div class="tool-row">
-              <button onclick="toggleFormat('bold')" id="btnBold" title="Negrita"><strong>B</strong></button>
-              <button onclick="toggleFormat('italic')" id="btnItalic" title="Cursiva"><em>I</em></button>
-              <button onclick="toggleFormat('underline')" id="btnUnderline" title="Subrayado"><u>U</u></button>
-              <button onclick="execCmd('strikeThrough')" title="Tachado">ab</button>
-              <button onclick="execCmd('superscript')" title="Superíndice">x²</button>
-              <button onclick="execCmd('subscript')" title="Subíndice">x₂</button>
-              <input type="color" onchange="execCmd('foreColor', this.value)" title="Color de texto" value="#FF6B00">
-              <input type="color" onchange="execCmd('hiliteColor', this.value)" title="Resaltar" value="#FFFF00">
-            </div>
+            <div class="feature-name">WC Arte</div>
+            <div class="feature-desc">Crea diseños profesionales<br>con herramientas únicas.</div>
           </div>
         </div>
-        <div class="tool-group-label">Fuente</div>
-      </div>
-
-      <div class="tool-group">
-        <div class="tool-group-main">
+        <div class="feature-card">
+          <div class="feature-icon fi-blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          </div>
           <div>
-            <div class="tool-row">
-              <button onclick="execCmd('justifyLeft')" title="Alinear izquierda">⬅️</button>
-              <button onclick="execCmd('justifyCenter')" title="Centrar">↔️</button>
-              <button onclick="execCmd('justifyRight')" title="Alinear derecha">➡️</button>
-              <button onclick="execCmd('justifyFull')" title="Justificar">⬌</button>
-            </div>
-            <div class="tool-row">
-              <button onclick="execCmd('insertUnorderedList')" title="Viñetas">•</button>
-              <button onclick="execCmd('insertOrderedList')" title="Numeración">1.</button>
-              <button onclick="execCmd('indent')" title="Aumentar sangría">→</button>
-              <button onclick="execCmd('outdent')" title="Disminuir sangría">←</button>
-            </div>
+            <div class="feature-name">Herramientas</div>
+            <div class="feature-desc">Optimiza tu flujo de trabajo<br>con funciones avanzadas.</div>
           </div>
         </div>
-        <div class="tool-group-label">Párrafo</div>
-      </div>
-
-      <div class="tool-group">
-        <div class="style-gallery">
-          <button class="style-item active" onclick="setStyle(this, 'p')">Normal</button>
-          <button class="style-item" onclick="setStyle(this, 'h1')">Título 1</button>
-          <button class="style-item" onclick="setStyle(this, 'h2')">Título 2</button>
-          <button class="style-item" onclick="setStyle(this, 'h3')">Subtítulo</button>
-        </div>
-        <div class="tool-group-label">Estilos</div>
-      </div>
-
-      <div class="tool-group">
-        <div class="tool-group-main">
-          <button class="big-btn" onclick="findText()">
-            <div style="font-size:18px;">🔍</div>
-            <span>Buscar</span>
-          </button>
-          <button class="big-btn" onclick="replaceText()">
-            <div style="font-size:18px;">🔄</div>
-            <span>Reemplazar</span>
-          </button>
-          <button class="big-btn" onclick="execCmd('selectAll')">
-            <div style="font-size:18px;">📍</div>
-            <span>Seleccionar</span>
-          </button>
-        </div>
-        <div class="tool-group-label">Edición</div>
-      </div>
-    </div>
-  </header>
-
-  <main class="workspace">
-    <div class="page" contenteditable="true" id="editor">
-      <h1>WC Corporate Editor v20</h1>
-      <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-      <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total.</p>
-      <br>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h4>WC Arte</h4>
-          <p>Crea diseños profesionales con herramientas únicas.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⚙️</div>
-          <h4>Herramientas</h4>
-          <p>Optimiza tu flujo de trabajo con funciones avanzadas.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">&lt;/&gt;</div>
-          <h4>Desarrollador</h4>
-          <p>Keny Chinchilla Navarro – Innovación sin límites.</p>
-        </div>
-      </div>
-    </div>
-  </main>
-    <aside class="assistant">
-    <div class="assistant-header">
-      <h3>IA Asistente WC</h3>
-      <button class="collapse-btn" onclick="toggleAI()" title="Ocultar panel">→</button>
-    </div>
-    <div class="assistant-tabs">
-      <button class="active" onclick="switchTab(event, 'asistente')">Asistente</button>
-      <button onclick="switchTab(event, 'plantillas')">Plantillas</button>
-      <button onclick="switchTab(event, 'sugerencias')">Tips</button>
-    </div>
-    <div class="assistant-content" id="assistant-content">
-      <div class="ai-chat">
-        <div class="ai-avatar"></div>
-        <h4>Hola, Keny 👋</h4>
-        <p style="font-size:13px; opacity:0.7; margin:8px 0 20px;">¿En qué puedo ayudarte hoy?</p>
-      </div>
-      <div class="ai-actions">
-        <button onclick="aiAction('resumen')">Redactar resumen →</button>
-        <button onclick="aiAction('mejorar')">Mejorar texto →</button>
-        <button onclick="aiAction('corregir')">Corregir ortografía →</button>
-        <button onclick="aiAction('traducir')">Traducir inglés →</button>
-      </div>
-    </div>
-  </aside>
-
-  <button class="ai-toggle" onclick="toggleAI()" title="Mostrar IA">🤖</button>
-
-  <footer class="statusbar">
-    <span id="page-count">Página 1 de 1</span>
-    <span id="word-count">Palabras: 28</span>
-    <span>Español (España)</span>
-    <span id="zoom-level">100%</span>
-    <div class="right">
-      <span>🟢 Modo Corporativo Activado</span>
-      <span>✓ Guardado automático</span>
-    </div>
-  </footer>
-
-  <script>
-    const editor = document.getElementById('editor');
-    let formatPainterData = null;
-
-    window.addEventListener('load', () => {
-      const saved = localStorage.getItem('wc_doc_v21');
-      if(saved) editor.innerHTML = saved;
-      updateStatusbar();
-      document.addEventListener('selectionchange', updateFormatButtons);
-      document.addEventListener('keydown', handleShortcuts);
-      if(localStorage.getItem('wc_ai_collapsed') === 'true') {
-        document.body.classList.add('ai-collapsed');
-      }
-    });
-
-    editor.addEventListener('input', () => {
-      localStorage.setItem('wc_doc_v21', editor.innerHTML);
-      updateStatusbar();
-    });
-
-    function updateStatusbar() {
-      const text = editor.innerText.trim();
-      const words = text.length > 0? text.split(/\s+/).filter(w => w).length : 0;
-      document.getElementById('word-count').textContent = `Palabras: ${words}`;
-    }
-
-    document.querySelectorAll('#doc-list li').forEach(item => {
-      item.addEventListener('click', function() {
-        document.querySelectorAll('#doc-list li').forEach(i => i.classList.remove('active'));
-        this.classList.add('active');
-        const name = this.textContent.replace(/📄|📊|📈|📋|📝|🎨/g, '').trim();
-        editor.innerHTML = `<h1>${name}</h1><p>Contenido del documento...</p>`;
-        updateStatusbar();
-      });
-    });
-
-    function newDoc() {
-      const name = prompt('Nombre del nuevo documento:');
-      if(name) {
-        const ul = document.getElementById('doc-list');
-        const li = document.createElement('li');
-        li.textContent = '📄 ' + name;
-        li.onclick = function() {
-          document.querySelectorAll('#doc-list li').forEach(i => i.classList.remove('active'));
-          this.classList.add('active');
-          editor.innerHTML = `<h1>${name}</h1><p></p>`;
-          updateStatusbar();
-        };
-        ul.appendChild(li);
-        li.click();
-      }
-    }
-
-    function toggleDropdown(btn) {
-      document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-      btn.nextElementSibling.classList.toggle('show');
-    }
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.dropdown')) {
-        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-      }
-    });
-
-    function execCmd(cmd, val = null) {
-      editor.focus();
-      document.execCommand(cmd, false, val);
-      updateFormatButtons();
-    }
-
-    function toggleFormat(cmd) {
-      execCmd(cmd);
-      updateFormatButtons();
-    }
-
-    function updateFormatButtons() {
-      document.getElementById('btnBold').classList.toggle('active', document.queryCommandState('bold'));
-      document.getElementById('btnItalic').classList.toggle('active', document.queryCommandState('italic'));
-      document.getElementById('btnUnderline').classList.toggle('active', document.queryCommandState('underline'));
-    }
-
-    function setStyle(btn, tag) {
-      document.querySelectorAll('.style-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      execCmd('formatBlock', tag);
-    }
-
-    async function pasteText() {
-      try {
-        const text = await navigator.clipboard.readText();
-        execCmd('insertText', text);
-      } catch {
-        execCmd('paste');
-      }
-    }
-
-    function formatPainter() {
-      const sel = window.getSelection();
-      if(sel.rangeCount > 0 &&!sel.isCollapsed) {
-        const range = sel.getRangeAt(0);
-        const span = document.createElement('span');
-        span.appendChild(range.cloneContents());
-        const computed = window.getComputedStyle(span.firstElementChild || span);
-        formatPainterData = {
-          fontWeight: computed.fontWeight,
-                    fontStyle: computed.fontStyle,
-          textDecoration: computed.textDecorationLine,
-          color: computed.color,
-          backgroundColor: computed.backgroundColor,
-          fontSize: computed.fontSize,
-          fontFamily: computed.fontFamily
-        };
-        alert('Formato copiado. Selecciona el texto donde aplicarlo.');
-        editor.addEventListener('mouseup', applyFormatPainter, { once: true });
-      } else {
-        alert('Selecciona texto con el formato a copiar primero.');
-      }
-    }
-
-    function applyFormatPainter() {
-      if(formatPainterData) {
-        const sel = window.getSelection();
-        if(sel.rangeCount > 0 &&!sel.isCollapsed) {
-          const span = document.createElement('span');
-          Object.assign(span.style, formatPainterData);
-          try {
-            sel.getRangeAt(0).surroundContents(span);
-          } catch(e) {
-            span.appendChild(sel.getRangeAt(0).extractContents());
-            sel.getRangeAt(0).insertNode(span);
-          }
-        }
-        formatPainterData = null;
-      }
-    }
-
-    function insertTable() {
-      const rows = prompt('Filas:', '3');
-      const cols = prompt('Columnas:', '3');
-      if(rows && cols) {
-        let html = '<table border="1" style="border-collapse:collapse;width:100%;margin:10px 0;">';
-        for(let i=0; i<rows; i++) {
-          html += '<tr>';
-          for(let j=0; j<cols; j++) {
-            html += '<td style="padding:8px;border:1px solid #ddd;">&nbsp;</td>';
-          }
-          html += '</tr>';
-        }
-        html += '</table><p><br></p>';
-        execCmd('insertHTML', html);
-      }
-    }
-
-    function insertWCArte() {
-      execCmd('insertHTML', '<div style="background:linear-gradient(135deg,#0A66FF,#FF6B00);color:white;padding:20px;border-radius:8px;margin:10px 0;"><h3>WC Arte</h3><p>Diseño profesional insertado</p></div><p><br></p>');
-    }
-
-    function insertTools() {
-      execCmd('insertHTML', '<div style="border:2px solid #0A66FF;padding:15px;border-radius:8px;margin:10px 0;"><strong>⚙️ Herramientas WC</strong><p>Optimización de flujo activada</p></div><p><br></p>');
-    }
-
-    function insertDev() {
-      execCmd('insertHTML', '<code style="background:#f5f5f5;padding:10px;display:block;border-radius:4px;margin:10px 0;font-family:monospace;">// Desarrollador: Keny Chinchilla Navarro<br>// WC Corporate Editor v20</code><p><br></p>');
-    }
-
-    function showHelp() {
-      alert('WC Corporate Editor v20\n\nAtajos:\nCtrl+B: Negrita\nCtrl+I: Cursiva\nCtrl+U: Subrayado\nCtrl+Z: Deshacer\nCtrl+Y: Rehacer\nCtrl+S: Guardar\nCtrl+F: Buscar\nF11: Modo Enfoque');
-    }
-
-    function showMenu(type) {
-      if(type === 'archivo') {
-        const action = prompt('Archivo:\n1. Nuevo\n2. Guardar\n3. Exportar PDF\n4. Imprimir\n5. Cerrar');
-        if(action === '1') newDoc();
-        if(action === '2') { localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
-        if(action === '3') window.print();
-        if(action === '4') window.print();
-      }
-    }
-
-    function formatMenu() {
-      alert('Formato: Usa la barra de herramientas para aplicar Fuente, Párrafo, Bordes, Fondo...');
-    }
-
-    function findText() {
-      const text = prompt('Buscar:');
-      if(text) {
-        const found = window.find(text, false, false, true, false, true, false);
-        if(!found) alert('No se encontró: ' + text);
-      }
-    }
-
-    function replaceText() {
-      const find = prompt('Buscar:');
-      if(!find) return;
-      const replace = prompt('Reemplazar con:');
-      if(replace!== null) {
-        const content = editor.innerHTML;
-        const regex = new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-        const newContent = content.replace(regex, replace);
-        const count = (content.match(regex) || []).length;
-        editor.innerHTML = newContent;
-        updateStatusbar();
-        alert(`Se reemplazaron ${count} ocurrencias`);
-      }
-    }
-
-    document.getElementById('search-cmd').addEventListener('input', function() {
-      const query = this.value.toLowerCase();
-      document.querySelectorAll('.tabs button').forEach(btn => {
-        btn.style.background = btn.textContent.toLowerCase().includes(query) && query? "#dce6ff" : "transparent";
-      });
-    });
-
-    function aiAction(type) {
-      const selection = window.getSelection().toString() || editor.innerText;
-      let result = '';
-      if(type === 'resumen') result = `<blockquote style="border-left:4px solid #0A66FF;padding-left:16px;margin:16px 0;"><strong>Resumen IA:</strong><br>${selection.slice(0,200)}...</blockquote>`;
-      if(type === 'mejorar') result = `<p><strong>Texto mejorado por IA:</strong><br>${selection}</p>`;
-      if(type === 'corregir') result = `<p><em>✓ Corrección ortográfica aplicada</em><br>${selection}</p>`;
-      if(type === 'traducir') result = `<p><em>[Translated to English]</em><br>${selection}</p>`;
-      execCmd('insertHTML', result + '<p><br></p>');
-      updateStatusbar();
-    }
-
-    function switchTab(e, tab) {
-      document.querySelectorAll('.assistant-tabs button').forEach(b => b.classList.remove('active'));
-      e.target.classList.add('active');
-      const content = document.getElementById('assistant-content');
-      if(tab === 'plantillas') {
-        content.innerHTML = `
-          <h4 style="margin-bottom:12px;">Plantillas WC</h4>
-          <div class="template-grid">
-            <div class="template" onclick="loadTemplate('informe')"><div style="font-size:24px;">📊</div>Informe</div>
-            <div class="template" onclick="loadTemplate('propuesta')"><div style="font-size:24px;">📈</div>Propuesta</div>
-            <div class="template" onclick="loadTemplate('carta')"><div style="font-size:24px;">✉️</div>Carta</div>
-            <div class="template" onclick="loadTemplate('contrato')"><div style="font-size:24px;">📑</div>Contrato</div>
-          </div>`;
-      } else if(tab === 'asistente') {
-        content.innerHTML = `
-          <div class="ai-chat">
-            <div class="ai-avatar"></div>
-            <h4>Hola, Keny 👋</h4>
-            <p style="font-size:13px; opacity:0.7; margin:8px 0 20px;">¿En qué puedo ayudarte hoy?</p>
+        <div class="feature-card">
+          <div class="feature-icon fi-red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           </div>
-          <div class="ai-actions">
-            <button onclick="aiAction('resumen')">Redactar resumen →</button>
-            <button onclick="aiAction('mejorar')">Mejorar texto →</button>
-            <button onclick="aiAction('corregir')">Corregir ortografía →</button>
-            <button onclick="aiAction('traducir')">Traducir inglés →</button>
-          </div>`;
-      } else {
-        content.innerHTML = `<p style="padding:20px; text-align:center; opacity:0.6;">Sugerencias de IA próximamente...</p>`;
-      }
-    }
+          <div>
+            <div class="feature-name">Desarrollador</div>
+            <div class="feature-desc">Keny Chinchilla Navarro<br>Innovación sin límites.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    function loadTemplate(type) {
-      const templates = {
-        informe: `<h1>Informe Corporativo</h1><h3>Resumen Ejecutivo</h3><p>Durante el período evaluado se observaron...</p><h3>Resultados Clave</h3><ul><li>Indicador 1:...</li><li>Indicador 2:...</li></ul><h3>Conclusiones</h3><p>...</p>`,
-        propuesta: `<h1>Propuesta Ejecutiva</h1><h3>Objetivo</h3><p>El presente documento tiene como objetivo...</p><h3>Alcance del Proyecto</h3><p>...</p><h3>Inversión</h3><p>...</p>`,
-        carta: `<p style="text-align:right">San José, ${new Date().toLocaleDateString('es-CR')}</p><br><p><strong>Estimado/a:</strong></p><p>Por medio de la presente...</p><br><p>Atentamente,</p><p><strong>Keny Chinchilla Navarro</strong><br>WC Corporate</p>`,
-        contrato: `<h1>Contrato de Prestación de Servicios</h1><p><strong>Entre:</strong> WC Corporate S.A. y [Cliente]</p><h3>Cláusula Primera - Objeto</h3><p>...</p><h3>Cláusula Segunda - Plazo</h3><p>...</p>`
-      };
-      editor.innerHTML = templates[type];
-      updateStatusbar();
-    }
+  <!-- AI PANEL -->
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div class="ai-title-row">
+        <span class="ai-star">✦</span>
+        <span class="ai-title">IA Asistente WC</span>
+      </div>
+      <div class="ai-header-btns">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="ai-tabs">
+      <div class="ai-tab active">Asistente</div>
+      <div class="ai-tab">Plantillas</div>
+      <div class="ai-tab">Sugerencias</div>
+    </div>
+    <div class="ai-body">
+      <div class="ai-avatar-wrap">
+        <div class="ai-bot-icon">🤖</div>
+        <div class="ai-greeting">Hola, Keny 👋</div>
+        <div class="ai-greeting-sub">¿En qué puedo ayudarte hoy?</div>
+      </div>
+      <div class="ai-suggestions">
+        <div class="ai-sugg">
+          <div class="ai-sugg-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span class="ai-sugg-text">Redactar un resumen</span>
+          </div>
+          <span class="ai-sugg-arrow">›</span>
+        </div>
+        <div class="ai-sugg">
+          <div class="ai-sugg-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <span class="ai-sugg-text">Mejorar este texto</span>
+          </div>
+          <span class="ai-sugg-arrow">›</span>
+        </div>
+        <div class="ai-sugg">
+          <div class="ai-sugg-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span class="ai-sugg-text">Corregir ortografía</span>
+          </div>
+          <span class="ai-sugg-arrow">›</span>
+        </div>
+        <div class="ai-sugg">
+          <div class="ai-sugg-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span class="ai-sugg-text">Traducir al inglés</span>
+          </div>
+          <span class="ai-sugg-arrow">›</span>
+        </div>
+      </div>
+    </div>
+    <div class="ai-input-bar">
+      <input class="ai-input" type="text" placeholder="Escribe tu solicitud…">
+      <div class="ai-send">✦</div>
+    </div>
+  </div>
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      html.dataset.theme = html.dataset.theme === 'dark'? 'light' : 'dark';
-    }
+</div>
 
-    function toggleAI() {
-      document.body.classList.toggle('ai-collapsed');
-      localStorage.setItem('wc_ai_collapsed', document.body.classList.contains('ai-collapsed'));
-    }
+<!-- STATUS BAR -->
+<div class="status-bar">
+  <div class="status-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+    Página 1 de 1
+  </div>
+  <div class="status-sep"></div>
+  <div class="status-item">Palabras: 28</div>
+  <div class="status-sep"></div>
+  <div class="status-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    Español (España)
+  </div>
+  <div class="status-sep"></div>
+  <div class="status-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  </div>
+  <div class="zoom-bar">
+    <div class="zoom-btn">–</div>
+    <div class="zoom-slider">
+      <div class="zoom-fill"></div>
+      <div class="zoom-thumb"></div>
+    </div>
+    <div class="zoom-btn">+</div>
+    <span style="font-size:11px;color:#8da4c0;">100%</span>
+  </div>
+  <div style="display:flex;gap:8px;margin-right:auto;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8da4c0" stroke-width="2" style="width:14px;height:14px;cursor:pointer;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#8da4c0" stroke-width="2" style="width:14px;height:14px;cursor:pointer;"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+  </div>
+  <div class="status-mode">
+    <div class="status-dot green"></div>
+    Modo Corporativo Activado
+  </div>
+  <div class="status-sep"></div>
+  <div class="status-save">
+    <div class="status-dot green"></div>
+    Guardado automático ▾
+  </div>
+</div>
 
-    function toggleFocusMode() {
-      document.body.classList.toggle('focus-mode');
-    }
+<script>
+  function toggleDropdown() {
+    const overlay = document.getElementById('dropdownOverlay');
+    overlay.classList.toggle('visible');
+    document.getElementById('editBtn').classList.toggle('active');
+  }
 
-    function handleShortcuts(e) {
-      if(e.ctrlKey || e.metaKey) {
-        if(e.key === 's') { e.preventDefault(); localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
-        if(e.key === 'f') { e.preventDefault(); findText(); }
-        if(e.key === 'b') { e.preventDefault(); toggleFormat('bold'); }
-        if(e.key === 'i') { e.preventDefault(); toggleFormat('italic'); }
-        if(e.key === 'u') { e.preventDefault(); toggleFormat('underline'); }
-      }
-      if(e.key === 'F11') {
-        e.preventDefault();
-        toggleFocusMode();
-      }
+  // Close on escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('dropdownOverlay').classList.remove('visible');
+      document.getElementById('editBtn').classList.remove('active');
     }
-  </script>
+  });
+
+  // Tab switching in AI panel
+  document.querySelectorAll('.ai-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
 </body>
 </html>
