@@ -3,26 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor Pro</title>
+<title>WC Corporate Editor Pro + IA</title>
 
 <style>
 
-/* 🌈 FONDO */
+/* =========================
+🌈 FONDO PRINCIPAL
+========================= */
 body{
   margin:0;
   font-family:Arial;
   background: linear-gradient(135deg, #1b75ed, #ff6b00);
 }
 
-/* 🧊 TOPBAR */
+/* =========================
+🧠 TOPBAR
+========================= */
 .topbar{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
   padding:12px;
+  text-align:center;
   font-weight:bold;
 }
 
-/* 🎛️ RIBBON COMPLETO */
+/* TÍTULO CON DEGRADADO */
+.title-gradient{
+  font-size:20px;
+  font-weight:900;
+  background: linear-gradient(135deg, #1b75ed, #ff6b00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+🎛️ RIBBON SUPERIOR
+========================= */
 .ribbon{
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(20px);
@@ -32,7 +48,7 @@ body{
   gap:10px;
 }
 
-/* MENÚ */
+/* MENÚS */
 .menu{position:relative;}
 .menu button{
   background:white;
@@ -65,34 +81,40 @@ body{
 }
 .menu-content button:hover{background:#e6f0ff;}
 
-/* 📄 HOJA A4 */
+/* =========================
+📄 HOJA A4
+========================= */
 .page{
   width:210mm;
   min-height:297mm;
   background:white;
-  margin:20px auto;
+  margin:20px auto 140px auto;
   padding:20mm;
   box-shadow:0 10px 30px rgba(0,0,0,0.3);
   border-radius:8px;
 }
 
-/* ✍️ EDITOR */
+/* EDITOR */
 #editor{
   min-height:250mm;
   outline:none;
 }
 
-/* ✨ WC ARTE */
-.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-weight:bold;font-size:26px;}
-.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-weight:bold;font-size:26px;}
-.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-weight:bold;font-size:26px;}
-.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-weight:bold;font-size:26px;}
+/* =========================
+✨ WC ARTE
+========================= */
+.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-size:26px;font-weight:bold;}
+.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-size:26px;font-weight:bold;}
+.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-size:26px;font-weight:bold;}
+.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-size:26px;font-weight:bold;}
 
-/* 🤖 IA (FLOTANTE NO INVASIVA) */
+/* =========================
+🤖 IA FLOTANTE
+========================= */
 .ai-float{
   position:fixed;
   right:20px;
-  bottom:20px;
+  bottom:160px;
   width:260px;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(20px);
@@ -104,23 +126,75 @@ body{
 .ai-float input{
   width:100%;
   padding:6px;
+  margin-top:5px;
 }
 
 .ai-float button{
   margin-top:5px;
   width:100%;
 }
+
+/* =========================
+🧲 DOCK INFERIOR
+========================= */
+.dock{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  gap:10px;
+  padding:10px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(25px);
+  border-top:1px solid rgba(0,0,0,0.1);
+}
+
+.dock-section{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  min-width:120px;
+}
+
+.dock-title{
+  font-size:12px;
+  font-weight:bold;
+}
+
+.dock button{
+  background:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.dock button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.dock input, .dock select{
+  padding:5px;
+  border-radius:6px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="topbar">WC CORPORATE EDITOR PRO + IA</div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="title-gradient">WC CORPORATE EDITOR PRO + IA</div>
+</div>
 
-<!-- 🎛️ RIBBON RESTAURADO COMPLETO -->
+<!-- RIBBON -->
 <div class="ribbon">
 
-  <!-- ARCHIVO -->
   <div class="menu">
     <button>Archivo</button>
     <div class="menu-content">
@@ -130,7 +204,6 @@ body{
     </div>
   </div>
 
-  <!-- EDITAR -->
   <div class="menu">
     <button>Editar</button>
     <div class="menu-content">
@@ -141,7 +214,6 @@ body{
     </div>
   </div>
 
-  <!-- FORMATO -->
   <div class="menu">
     <button>Formato</button>
     <div class="menu-content">
@@ -152,7 +224,6 @@ body{
     </div>
   </div>
 
-  <!-- INSERTAR -->
   <div class="menu">
     <button>Insertar</button>
     <div class="menu-content">
@@ -161,7 +232,6 @@ body{
     </div>
   </div>
 
-  <!-- WC ARTE -->
   <div class="menu">
     <button>WC Arte</button>
     <div class="menu-content">
@@ -176,7 +246,6 @@ body{
     </div>
   </div>
 
-  <!-- HERRAMIENTAS -->
   <div class="menu">
     <button>Herramientas</button>
     <div class="menu-content">
@@ -188,12 +257,12 @@ body{
 
 </div>
 
-<!-- 📄 DOCUMENTO -->
+<!-- EDITOR -->
 <div class="page">
-  <div id="editor" contenteditable="true">Escribe aquí...</div>
+  <div id="editor" contenteditable="true">Escribe aquí tu documento...</div>
 </div>
 
-<!-- 🤖 IA FLOTANTE -->
+<!-- IA -->
 <div class="ai-float">
   <b>IA WC</b>
   <input id="aiInput" placeholder="Escribe...">
@@ -201,38 +270,62 @@ body{
   <div id="aiOutput"></div>
 </div>
 
+<!-- DOCK -->
+<div class="dock">
+
+  <div class="dock-section">
+    <div class="dock-title">Archivo</div>
+    <button onclick="guardar()">Guardar</button>
+    <button onclick="nuevo()">Nuevo</button>
+    <button onclick="imprimir()">Imprimir</button>
+  </div>
+
+  <div class="dock-section">
+    <div class="dock-title">Formato</div>
+    <button onclick="cmd('bold')">Negrita</button>
+    <button onclick="cmd('italic')">Cursiva</button>
+  </div>
+
+  <div class="dock-section">
+    <div class="dock-title">WC Arte</div>
+    <input id="textoArte" placeholder="Texto">
+    <select id="estiloArte">
+      <option value="1">Neón</option>
+      <option value="2">Dorado</option>
+      <option value="3">Sombra</option>
+      <option value="4">Glow</option>
+    </select>
+    <button onclick="insertarArte()">Insertar</button>
+  </div>
+
+</div>
+
 <script>
 
 /* EDITOR */
 function cmd(c){document.execCommand(c,false,null);}
-
-/* INSERT */
 function insertText(t){document.execCommand("insertText",false,t);}
-
 function insertTable(){
   document.execCommand("insertHTML",false,
   "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
 }
 
-/* WC ARTE EN CURSOR */
+/* WC ARTE */
 function insertarArte(){
   const t=document.getElementById("textoArte").value;
   const e=document.getElementById("estiloArte").value;
   const span=document.createElement("span");
   span.className="wc-arte-"+e;
   span.textContent=t;
-  insertNode(span);
-}
 
-function insertNode(node){
   let sel=window.getSelection();
   if(!sel.rangeCount) return;
   let r=sel.getRangeAt(0);
   r.deleteContents();
-  r.insertNode(node);
+  r.insertNode(span);
 }
 
-/* ARCHIVO */
+/* FILE */
 function guardar(){
   localStorage.setItem("wc",document.getElementById("editor").innerHTML);
 }
