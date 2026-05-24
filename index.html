@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor Pro + IA</title>
+<title>WC Corporate Word Pro</title>
 
 <style>
 
@@ -11,79 +11,66 @@
 body{
   margin:0;
   font-family:Arial;
-  background: linear-gradient(135deg, #1b75ed, #ff6b00);
+  background: linear-gradient(135deg,#1b75ed,#ff6b00);
 }
 
 /* 🧠 TOPBAR */
 .topbar{
   background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(20px);
   text-align:center;
   padding:10px;
 }
 
-.title-gradient{
+.title{
   font-weight:900;
   font-size:20px;
-  background: linear-gradient(135deg, #1b75ed, #ff6b00);
+  background: linear-gradient(135deg,#1b75ed,#ff6b00);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-/* 🎛️ RIBBON */
-.ribbon{
+/* 📑 TABS (ESTILO WORD REAL) */
+.tabs{
   display:flex;
-  flex-wrap:wrap;
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(25px);
-  padding:8px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  padding:6px;
+  gap:6px;
+}
+
+.tab{
+  padding:8px 14px;
+  background:white;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.tab.active{
+  background:#e6f0ff;
+}
+
+/* 🎛️ CONTENIDO DE CADA TAB */
+.panel{
+  display:none;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px);
+  padding:10px;
   gap:8px;
-  border-bottom:1px solid rgba(0,0,0,0.1);
+  flex-wrap:wrap;
 }
 
-/* MENÚ */
-.menu{
-  position:relative;
+.panel.active{
+  display:flex;
 }
 
-.menu > button{
+/* BOTONES */
+button{
   background:white;
   border:none;
-  padding:8px 14px;
+  padding:8px 12px;
   border-radius:8px;
-  font-weight:bold;
   cursor:pointer;
-}
-
-.menu-content{
-  display:none;
-  position:absolute;
-  top:40px;
-  left:0;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(25px);
-  min-width:220px;
-  border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.2);
-  z-index:1000;
-}
-
-.menu:hover .menu-content{
-  display:block;
-}
-
-.menu-content button,
-.menu-content select{
-  width:100%;
-  padding:10px;
-  border:none;
-  background:transparent;
-  text-align:left;
-  cursor:pointer;
-}
-
-.menu-content button:hover{
-  background:#e6f0ff;
 }
 
 /* 📄 DOCUMENTO */
@@ -94,7 +81,6 @@ body{
   margin:20px auto;
   padding:20mm;
   box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  border-radius:8px;
 }
 
 #editor{
@@ -103,33 +89,11 @@ body{
 }
 
 /* ✨ WC ARTE */
-.wc-arte-1{color:#fff;text-shadow:0 0 12px #1b75ed;font-size:26px;font-weight:bold;}
-.wc-arte-2{color:#fff;text-shadow:0 0 10px #ffb347;font-size:26px;font-weight:bold;}
-.wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-size:26px;font-weight:bold;}
-.wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-size:26px;font-weight:bold;}
-
-/* 🤖 IA */
-.ai-float{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  width:220px;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(20px);
-  padding:10px;
-  border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-
-.ai-float input{
-  width:100%;
-  padding:6px;
-  margin-top:5px;
-}
-
-.ai-float button{
-  width:100%;
-  margin-top:5px;
+.wc{
+  font-weight:bold;
+  font-size:24px;
+  color:white;
+  text-shadow:0 0 10px #1b75ed,0 0 20px #ff6b00;
 }
 
 </style>
@@ -137,112 +101,66 @@ body{
 
 <body>
 
-<!-- 🧠 TOPBAR -->
 <div class="topbar">
-  <div class="title-gradient">WC CORPORATE EDITOR PRO + IA</div>
+  <div class="title">WC CORPORATE WORD PRO + IA</div>
 </div>
 
-<!-- 🎛️ RIBBON TIPO WORD -->
-<div class="ribbon">
-
-  <!-- ARCHIVO -->
-  <div class="menu">
-    <button>Archivo</button>
-    <div class="menu-content">
-      <button onclick="guardar()">Guardar</button>
-      <button onclick="nuevo()">Nuevo</button>
-      <button onclick="imprimir()">Imprimir</button>
-    </div>
-  </div>
-
-  <!-- EDITAR -->
-  <div class="menu">
-    <button>Editar</button>
-    <div class="menu-content">
-      <button onclick="cmd('undo')">Deshacer</button>
-      <button onclick="cmd('redo')">Rehacer</button>
-      <button onclick="cmd('cut')">✂ Cortar</button>
-      <button onclick="cmd('copy')">📋 Copiar</button>
-      <button onclick="cmd('paste')">📌 Pegar</button>
-    </div>
-  </div>
-
-  <!-- FORMATO -->
-  <div class="menu">
-    <button>Formato</button>
-    <div class="menu-content">
-
-      <button onclick="cmd('bold')">Negrita</button>
-      <button onclick="cmd('italic')">Cursiva</button>
-      <button onclick="cmd('underline')">Subrayado</button>
-
-      <button onclick="cmd('justifyLeft')">Izquierda</button>
-      <button onclick="cmd('justifyCenter')">Centro</button>
-      <button onclick="cmd('justifyRight')">Derecha</button>
-      <button onclick="cmd('justifyFull')">Justificar</button>
-
-      <hr>
-
-      <select onchange="setFont(this.value)">
-        <option value="Arial">Arial</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Verdana">Verdana</option>
-        <option value="Georgia">Georgia</option>
-      </select>
-
-      <select onchange="setFontSize(this.value)">
-        <option value="2">Pequeño</option>
-        <option value="3">Normal</option>
-        <option value="4">Mediano</option>
-        <option value="5">Grande</option>
-        <option value="6">Extra grande</option>
-      </select>
-
-    </div>
-  </div>
-
-  <!-- INSERTAR -->
-  <div class="menu">
-    <button>Insertar</button>
-    <div class="menu-content">
-      <button onclick="insertText('📌 Nota ')">Nota</button>
-      <button onclick="insertTable()">Tabla</button>
-    </div>
-  </div>
-
-  <!-- WC ARTE -->
-  <div class="menu">
-    <button>WC Arte</button>
-    <div class="menu-content">
-      <input id="textoArte" placeholder="Texto">
-      <select id="estiloArte">
-        <option value="1">Neón</option>
-        <option value="2">Dorado</option>
-        <option value="3">Sombra</option>
-        <option value="4">Glow</option>
-      </select>
-      <button onclick="insertarArte()">Insertar</button>
-    </div>
-  </div>
-
+<!-- 📑 TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="openTab('inicio')">Inicio</div>
+  <div class="tab" onclick="openTab('insertar')">Insertar</div>
+  <div class="tab" onclick="openTab('formato')">Formato</div>
+  <div class="tab" onclick="openTab('archivo')">Archivo</div>
+  <div class="tab" onclick="openTab('wc')">WC Arte</div>
 </div>
 
-<!-- 📄 DOCUMENTO -->
+<!-- 🧩 PANELS -->
+
+<div id="inicio" class="panel active">
+  <button onclick="cmd('undo')">Deshacer</button>
+  <button onclick="cmd('redo')">Rehacer</button>
+  <button onclick="cmd('copy')">Copiar</button>
+  <button onclick="cmd('paste')">Pegar</button>
+</div>
+
+<div id="insertar" class="panel">
+  <button onclick="insertText('📌 Nota ')">Nota</button>
+  <button onclick="insertTable()">Tabla</button>
+</div>
+
+<div id="formato" class="panel">
+  <button onclick="cmd('bold')">Negrita</button>
+  <button onclick="cmd('italic')">Cursiva</button>
+  <button onclick="cmd('underline')">Subrayado</button>
+  <button onclick="cmd('justifyCenter')">Centro</button>
+</div>
+
+<div id="archivo" class="panel">
+  <button onclick="guardar()">Guardar</button>
+  <button onclick="nuevo()">Nuevo</button>
+  <button onclick="imprimir()">Imprimir</button>
+</div>
+
+<div id="wc" class="panel">
+  <input id="textoArte" placeholder="Texto">
+  <button onclick="insertWC()">Insertar WC Arte</button>
+</div>
+
+<!-- 📄 EDITOR -->
 <div class="page">
-  <div id="editor" contenteditable="true">
-    Escribe aquí tu documento...
-  </div>
-</div>
-
-<!-- 🤖 IA -->
-<div class="ai-float">
-  <b>IA WC</b>
-  <input id="aiInput" placeholder="Escribe...">
-  <button onclick="usarIA()">Generar</button>
-  <div id="aiOutput"></div>
+  <div id="editor" contenteditable="true">Escribe aquí...</div>
 </div>
 
 <script>
+
+/* 📑 TABS */
+function openTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
 
 /* EDITOR */
 function cmd(c){document.execCommand(c,false,null);}
@@ -253,41 +171,24 @@ function insertTable(){
 }
 
 /* WC ARTE */
-function insertarArte(){
-  const t=document.getElementById("textoArte").value;
-  const e=document.getElementById("estiloArte").value;
-  const span=document.createElement("span");
-  span.className="wc-arte-"+e;
+function insertWC(){
+  let t=document.getElementById("textoArte").value;
+  let span=document.createElement("span");
+  span.className="wc";
   span.textContent=t;
 
   let sel=window.getSelection();
-  if(!sel.rangeCount) return;
   let r=sel.getRangeAt(0);
   r.deleteContents();
   r.insertNode(span);
 }
 
-/* FORMATO EXTRA */
-function setFont(font){
-  document.execCommand("fontName",false,font);
-}
-
-function setFontSize(size){
-  document.execCommand("fontSize",false,size);
-}
-
 /* ARCHIVO */
 function guardar(){
-  localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
+  localStorage.setItem("wc",document.getElementById("editor").innerHTML);
 }
 function nuevo(){document.getElementById("editor").innerHTML="";}
 function imprimir(){window.print();}
-
-/* IA */
-function usarIA(){
-  let t=document.getElementById("aiInput").value;
-  document.getElementById("aiOutput").innerHTML="Resultado: "+t;
-}
 
 </script>
 
