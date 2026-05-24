@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Word Pro + IA</title>
+<title>WC Corporate Editor Pro + IA</title>
 
 <style>
 
@@ -14,55 +14,75 @@ body{
   background: linear-gradient(135deg,#1b75ed,#ff6b00);
 }
 
-/* 🧠 TOPBAR */
-.topbar{
-  background: rgba(255,255,255,0.75);
-  text-align:center;
-  padding:10px;
-  backdrop-filter: blur(20px);
-}
-
-.title{
-  font-weight:900;
-  font-size:20px;
-  background: linear-gradient(135deg,#1b75ed,#ff6b00);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* 📑 TABS TIPO WORD */
-.tabs{
+/* 🧠 RIBBON GRANDE */
+.ribbon{
   display:flex;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(20px);
-  padding:6px;
-  gap:6px;
+  align-items:center;
+  gap:10px;
+
+  padding:14px 10px;
+  height:70px;
+
+  background: linear-gradient(135deg,#1b75ed,#ff6b00);
+  box-shadow:0 4px 20px rgba(0,0,0,0.25);
 }
 
-.tab{
-  padding:8px 14px;
-  background:white;
-  border-radius:8px;
+/* MENÚ */
+.menu{
+  position:relative;
+}
+
+.menu > button{
+  background: rgba(255,255,255,0.9);
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.tab.active{
+/* DROPDOWN */
+.menu-content{
+  display:none;
+  position:absolute;
+  top:55px;
+  left:0;
+
+  min-width:220px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  z-index:999;
+}
+
+.menu:hover .menu-content{
+  display:block;
+}
+
+.menu-content button,
+.menu-content input,
+.menu-content select{
+  width:100%;
+  padding:10px;
+  border:none;
+  background:transparent;
+  text-align:left;
+  cursor:pointer;
+}
+
+.menu-content button:hover{
   background:#e6f0ff;
 }
 
-/* 🧩 PANELES */
-.panel{
-  display:none;
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(20px);
-  padding:10px;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.panel.active{
-  display:flex;
+/* 🧠 TOP TITLE OCULTO (ya está en ribbon) */
+.title{
+  color:white;
+  font-weight:900;
+  margin-left:auto;
+  margin-right:10px;
+  text-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
 /* 📄 DOCUMENTO */
@@ -81,34 +101,14 @@ body{
   outline:none;
 }
 
-/* 🎨 WC ARTE ESTILO REAL */
+/* 🎨 WC ARTE */
 .wc-style{
   font-size:26px;
   font-weight:900;
-
   background: linear-gradient(135deg,#1b75ed,#ff6b00);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-
-  text-shadow:0 0 12px rgba(27,117,237,0.4),
-               0 0 20px rgba(255,107,0,0.3);
-  display:inline-block;
-  padding:2px;
-}
-
-/* BOTONES */
-button{
-  background:white;
-  border:none;
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-input,select{
-  padding:6px;
-  border-radius:6px;
-  border:1px solid #ccc;
+  text-shadow:0 0 12px rgba(0,0,0,0.2);
 }
 
 </style>
@@ -116,102 +116,115 @@ input,select{
 
 <body>
 
-<!-- 🧠 TOPBAR -->
-<div class="topbar">
-  <div class="title">WC CORPORATE WORD PRO + IA</div>
+<!-- 🎛️ RIBBON ÚNICA -->
+<div class="ribbon">
+
+  <!-- ARCHIVO -->
+  <div class="menu">
+    <button>Archivo</button>
+    <div class="menu-content">
+      <button onclick="guardar()">Guardar</button>
+      <button onclick="nuevo()">Nuevo</button>
+      <button onclick="imprimir()">Imprimir</button>
+    </div>
+  </div>
+
+  <!-- EDITAR -->
+  <div class="menu">
+    <button>Editar</button>
+    <div class="menu-content">
+      <button onclick="cmd('undo')">Deshacer</button>
+      <button onclick="cmd('redo')">Rehacer</button>
+      <button onclick="cmd('cut')">Cortar</button>
+      <button onclick="cmd('copy')">Copiar</button>
+      <button onclick="cmd('paste')">Pegar</button>
+    </div>
+  </div>
+
+  <!-- INSERTAR -->
+  <div class="menu">
+    <button>Insertar</button>
+    <div class="menu-content">
+      <button onclick="insertText('📌 Nota ')">Nota</button>
+      <button onclick="insertTable()">Tabla</button>
+    </div>
+  </div>
+
+  <!-- WC ARTE -->
+  <div class="menu">
+    <button>WC Arte</button>
+    <div class="menu-content">
+      <input id="textoArte" placeholder="Texto WC Arte">
+      <select id="estiloArte">
+        <option value="wc-style">Glow WC</option>
+      </select>
+      <button onclick="insertWC()">Insertar</button>
+    </div>
+  </div>
+
+  <!-- HERRAMIENTAS -->
+  <div class="menu">
+    <button>Herramientas</button>
+    <div class="menu-content">
+      <button onclick="limpiar()">Limpiar</button>
+      <button onclick="zoomIn()">Zoom +</button>
+      <button onclick="zoomOut()">Zoom -</button>
+    </div>
+  </div>
+
+  <!-- DESARROLLADOR -->
+  <div class="menu">
+    <button>Desarrollador</button>
+    <div class="menu-content">
+      <button disabled>Keny Chinchilla Navarro</button>
+      <button onclick="console.log('WC System OK')">Estado sistema</button>
+    </div>
+  </div>
+
+  <!-- AYUDA -->
+  <div class="menu">
+    <button>Ayuda</button>
+    <div class="menu-content">
+      <button>Atajos</button>
+      <button>Documentación</button>
+      <button>Soporte IA</button>
+    </div>
+  </div>
+
 </div>
 
-<!-- 📑 TABS -->
-<div class="tabs">
-  <div class="tab active" onclick="openTab('inicio')">Inicio</div>
-  <div class="tab" onclick="openTab('insertar')">Insertar</div>
-  <div class="tab" onclick="openTab('formato')">Formato</div>
-  <div class="tab" onclick="openTab('archivo')">Archivo</div>
-  <div class="tab" onclick="openTab('wc')">WC Arte</div>
-</div>
-
-<!-- 🧩 PANELS -->
-
-<div id="inicio" class="panel active">
-  <button onclick="cmd('undo')">Deshacer</button>
-  <button onclick="cmd('redo')">Rehacer</button>
-  <button onclick="cmd('copy')">Copiar</button>
-  <button onclick="cmd('paste')">Pegar</button>
-</div>
-
-<div id="insertar" class="panel">
-  <button onclick="insertText('📌 Nota ')">Nota</button>
-  <button onclick="insertTable()">Tabla</button>
-</div>
-
-<div id="formato" class="panel">
-  <button onclick="cmd('bold')">Negrita</button>
-  <button onclick="cmd('italic')">Cursiva</button>
-  <button onclick="cmd('underline')">Subrayado</button>
-  <button onclick="cmd('justifyCenter')">Centro</button>
-</div>
-
-<div id="archivo" class="panel">
-  <button onclick="guardar()">Guardar</button>
-  <button onclick="nuevo()">Nuevo</button>
-  <button onclick="imprimir()">Imprimir</button>
-</div>
-
-<div id="wc" class="panel">
-  <input id="textoArte" placeholder="Texto WC Arte">
-  <select id="estiloArte">
-    <option value="wc-style">Glow WC</option>
-  </select>
-  <button onclick="insertWC()">Insertar</button>
-</div>
-
-<!-- 📄 EDITOR -->
+<!-- 📄 DOCUMENTO -->
 <div class="page">
   <div id="editor" contenteditable="true">Escribe aquí...</div>
 </div>
 
 <script>
 
-/* 📑 TABS */
-function openTab(id){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
-
-/* 🧠 EDITOR */
+/* EDITOR */
 function cmd(c){document.execCommand(c,false,null);}
 function insertText(t){document.execCommand("insertText",false,t);}
-
 function insertTable(){
   document.execCommand("insertHTML",false,
   "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
 }
 
-/* 🎨 WC ARTE - MOTOR REAL */
+/* WC ARTE */
 function insertWC(){
-  const texto = document.getElementById("textoArte").value;
-  const estilo = document.getElementById("estiloArte").value;
-
-  if(!texto) return;
-
-  const span = document.createElement("span");
-  span.className = estilo;
-  span.textContent = texto;
+  const texto=document.getElementById("textoArte").value;
+  const span=document.createElement("span");
+  span.className="wc-style";
+  span.textContent=texto;
 
   insertAtCursor(span);
 }
 
-/* 📍 INSERTAR EN CURSOR REAL */
+/* CURSOR */
 function insertAtCursor(node){
-  const sel = window.getSelection();
+  const sel=window.getSelection();
   if(!sel.rangeCount) return;
 
-  const range = sel.getRangeAt(0);
+  const range=sel.getRangeAt(0);
   range.deleteContents();
-
   range.insertNode(node);
 
   range.setStartAfter(node);
@@ -221,7 +234,7 @@ function insertAtCursor(node){
   sel.addRange(range);
 }
 
-/* 💾 ARCHIVO */
+/* ARCHIVO */
 function guardar(){
   localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
 }
@@ -231,6 +244,13 @@ function nuevo(){
 function imprimir(){
   window.print();
 }
+
+/* HERRAMIENTAS */
+function limpiar(){
+  document.getElementById("editor").innerHTML="";
+}
+function zoomIn(){document.body.style.zoom="110%";}
+function zoomOut(){document.body.style.zoom="100%";}
 
 </script>
 
