@@ -3,452 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manual de Funciones y Configuración del Editor</title>
+    <title>Wc Corporate Editor</title>
     <style>
         :root {
             --primary-color: #1e3a8a;
             --secondary-color: #3b82f6;
-            --text-color: #334155;
             --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --accent-bg: #f1f5f9;
+            --border-color: #cbd5e1;
+            --toolbar-bg: #ffffff;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            font-family: 'Segoe UI', system-ui, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 20px;
-            padding-bottom: 80px; 
+        /* Barra de Herramientas */
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            border-bottom: 2px solid var(--border-color);
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 20px;
+        .group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-right: 1px solid var(--border-color);
+            padding-right: 8px;
         }
 
-        h1 {
-            color: var(--primary-color);
-            margin: 0;
-            font-size: 2.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .group:last-child {
+            border-right: none;
         }
 
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-            margin-top: 40px;
-            font-size: 1.5rem;
-        }
-
-        h3 {
-            color: var(--secondary-color);
-            font-size: 1.1rem;
-            margin-top: 20px;
-        }
-
-        .blockquote {
-            background-color: var(--accent-bg);
-            border-left: 4px solid var(--secondary-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-        }
-
-        ul, ol {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        code {
-            background-color: #e2e8f0;
-            padding: 2px 6px;
+        button, select {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9em;
-            color: #0f172a;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .diagram-box {
-            background-color: #0f172a;
-            color: #38bdf8;
-            padding: 20px;
-            border-radius: 8px;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre;
-            overflow-x: auto;
-            margin: 20px 0;
+            padding: 6px 10px;
             font-size: 0.9rem;
-            line-height: 1.4;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
         }
 
-        table {
+        button:hover {
+            background-color: #f1f5f9;
+            border-color: var(--secondary-color);
+        }
+
+        button:active {
+            background-color: #e2e8f0;
+        }
+
+        select {
+            outline: none;
+        }
+
+        /* Área del Documento/Lienzo */
+        .container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .editor-paper {
+            background-color: #ffffff;
             width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            max-width: 800px;
+            min-height: 297mm; /* Proporción A4 aproximada */
+            padding: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+            outline: none;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #334155;
+            word-wrap: break-word;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
+        /* Clases dinámicas aplicadas por las funciones */
+        .justify-text {
+            text-align: justify !important;
         }
 
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #f8fafc;
-        }
-
+        /* Pie de página discreto */
         footer {
-            margin-top: 60px;
-            padding-top: 20px;
+            background-color: #ffffff;
             border-top: 1px solid var(--border-color);
+            padding: 6px 20px;
             text-align: right;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #64748b;
         }
 
-        footer strong {
-            color: var(--text-color);
-        }
-
-        /* 📱 OPTIMIZACIÓN EXCLUSIVA PARA CELULARES */
-        @media (max-width: 600px) {
-            .container {
-                margin: 10px auto;
-                padding: 15px;
-                padding-bottom: 100px;
-            }
-            h1 {
-                font-size: 1.6rem;
-            }
-            h2 {
-                font-size: 1.2rem;
-            }
-            table, th, td {
-                font-size: 0.85rem;
-                padding: 8px 10px;
-            }
+        /* Ajustes para móviles */
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .editor-paper { padding: 20px; min-height: auto; }
+            .toolbar { padding: 5px; gap: 4px; }
+            .group { padding-right: 4px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Manual de Funciones y Configuración del Editor</h1>
-        </header>
+    <div class="toolbar">
+        <div class="group">
+            <button onclick="ejecutarComando('copy')" title="Copiar (Ctrl+C)">📋 Copiar</button>
+            <button onclick="ejecutarComando('cut')" title="Cortar (Ctrl+X)">✂️ Cortar</button>
+            <button onclick="ejecutarComando('paste')" title="Pegar (Ctrl+V)">📥 Pegar</button>
+        </div>
 
-        <section>
-            <h2>📋 1. Portapapeles (Grupo: Edición Básica)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Herramienta esencial para la gestión eficiente de texto y elementos dentro de un documento. Almacena temporalmente datos copiados o cortados para su posterior reutilización.
-            </div>
-            
-            <h3>Funciones Principales</h3>
-            <ul>
-                <li><strong>Copiar (<code>Ctrl + C</code>):</strong> Duplica texto, imágenes, tablas y otros elementos, almacenándolos en el portapapeles sin eliminarlos del documento original.</li>
-                <li><strong>Cortar (<code>Ctrl + X</code>):</strong> Elimina el contenido seleccionado del documento original y lo resguarda en el portapapeles.</li>
-                <li><strong>Pegar (<code>Ctrl + V</code>):</strong> Inserta el contenido almacenado en el portapapeles en una nueva ubicación del documento, en otros archivos de Word o en diferentes aplicaciones.</li>
-            </ul>
+        <div class="group">
+            <button onclick="ejecutarComando('insertUnorderedList')" title="Lista con viñetas">• Viñetas</button>
+            <button onclick="ejecutarComando('insertOrderedList')" title="Lista Numerada / Multinivel">1. Numeración</button>
+            <button onclick="insertarSaltoPagina()" title="Insertar Salto de Página (Ctrl+Enter)">📄 Salto Pág.</button>
+        </div>
 
-            <h3>Uso en Wc Corporate Editor</h3>
-            <ul>
-                <li><strong>Acceso al Portapapeles:</strong> En la pestaña <strong>Inicio</strong>, dentro del grupo <strong>Portapapeles</strong>, se accede al panel completo haciendo clic en el pequeño botón de la esquina inferior derecha ↘️. Permite ver el historial de todos los elementos recientes.</li>
-                <li><strong>Gestión de Elementos:</strong> Desde el panel se puede seleccionar y pegar cualquier elemento específico, eliminar componentes individuales o limpiar todo el contenido acumulado.</li>
-            </ul>
-        </section>
+        <div class="group">
+            <button onclick="ejecutarComando('justifyLeft')" title="Alinear a la izquierda"> Tala</button>
+            <button onclick="ejecutarComando('justifyCenter')" title="Centrar"> Center</button>
+            <button onclick="ejecutarComando('justifyRight')" title="Alinear a la derecha"> Tára</button>
+            <button onclick="aplicarJustificado()" title="Justificar Texto (Ctrl+J)">🔲 Justificar</button>
+        </div>
 
-        <section>
-            <h2>🔢 2. Lista Multinivel (Grupo: Formato de Párrafo)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Tipo de lista que permite estructurar el contenido en varios niveles jerárquicos con subelementos. Cada uno cuenta con su propio nivel de sangría, ideal para esquemas, índices y manuales de procedimientos.
-            </div>
+        <div class="group">
+            <select id="interlineado" onchange="cambiarInterlineado(this.value)" title="Espaciado entre líneas (Interlineado)">
+                <option value="1.0">↕️ Interlineado: 1.0 (Sencillo)</option>
+                <option value="1.5">↕️ Interlineado: 1.5</option>
+                <option value="2.0">↕️ Interlineado: 2.0 (Doble)</option>
+            </select>
+            <button onclick="insertarTabulacion()" title="Insertar Tabulación (Tab)">📏 Tabulación</button>
+        </div>
 
-            <h3>Características Clave</h3>
-            <ul>
-                <li><strong>Jerarquía de niveles:</strong> Indexación progresiva para mostrar la relación de subordinación entre elementos.</li>
-                <li><strong>Variedad de estilos:</strong> Personalización de estilos de numeración o viñetas por nivel (números, letras o símbolos).</li>
-                <li><strong>Flexibilidad en formato:</strong> Modificación individual de fuentes, tamaños y estilos para cada nivel.</li>
-            </ul>
-
-            <h3>Procedimiento de Creación y Navegación</h3>
-            <ol>
-                <li><strong>Selección:</strong> Seleccionar el texto a convertir o situar el cursor en el punto de inicio.</li>
-                <li><strong>Acceso:</strong> Ir a la pestaña <strong>Inicio</strong> &gt; grupo <strong>Párrafo</strong> &gt; botón <strong>Lista multinivel</strong> y elegir un estilo predefinido o personalizado.</li>
-                <li><strong>Agregar subniveles:</strong> Presionar la tecla <code>Tab</code> después de crear un ítem para aumentar sangría (subnivel).</li>
-                <li><strong>Reducir niveles:</strong> Presionar la combinación <code>Shift + Tab</code> para regresar a una jerarquía superior.</li>
-            </ol>
-
-            <div class="diagram-box">Ejemplo Estructural:
-1. Primer Nivel
-   1.1. Segundo Nivel
-        1.1.1. Tercer Nivel
-   1.2. Segundo Nivel
-2. Primer Nivel</div>
-        </section>
-
-        <section>
-            <h2>📄 3. Salto de Página (Grupo: Estructura del Documento)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Punto de ruptura que fuerza al texto posterior a comenzar en una nueva página. Elemento fundamental para la organización y formato de documentos extensos (informes, tesis, libros).
-            </div>
-
-            <h3>Usos Principales</h3>
-            <ul>
-                <li><strong>Organización del contenido:</strong> Permite iniciar capítulos o secciones en páginas independientes de forma limpia.</li>
-                <li><strong>Control de formato:</strong> Mantiene elementos clave (títulos, tablas) en la parte superior de la página evitando divisiones incorrectas.</li>
-                <li><strong>Preparación para impresión:</strong> Asegura una distribución exacta de los bloques de información.</li>
-            </ul>
-
-            <h3>Métodos de Inserción y Tipos</h3>
-            <p><strong>Método:</strong> Colocar el cursor en el punto de ruptura e ir a la pestaña <strong>Insertar</strong> &gt; grupo <strong>Páginas</strong> &gt; <strong>Salto de página</strong>, o presionar el atajo <code>Ctrl + Enter</code>.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 30%;">Tipo de Salto</th>
-                        <th>Propósito y Funcionamiento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Salto de Página Simple</strong></td>
-                        <td>Mueve el texto siguiente al inicio de la próxima página desde el punto del cursor.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Salto de Sección (Pág. Siguiente)</strong></td>
-                        <td>Inicia una nueva sección en la siguiente página, permitiendo aplicar formatos independientes (márgenes, encabezados).</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Salto de Sección (Pág. Par/Impar)</strong></td>
-                        <td>Abre la nueva sección exclusivamente en la siguiente página par o impar, optimizado para impresión a doble cara.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section>
-            <h2>📐 4. Diseño de Página (Grupo: Configuración Global)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Configuración y personalización de la disposición visual de una página dentro del documento para controlar su apariencia general, legibilidad y formato de impresión.
-            </div>
-
-            <h3>Elementos de Configuración (Acceso: Pestaña "Diseño de Página" o "Disposición")</h3>
-            <ul>
-                <li><strong>Márgenes:</strong> Espacio en blanco perimetral de la página. Permite ajustar los límites superior, inferior, izquierdo y derecho.</li>
-                <li><strong>Orientación:</strong> Alternancia entre el formato <strong>Vertical</strong> (retrato, estándar para texto) y <strong>Horizontal</strong> (paisaje, ideal para tablas anchas o gráficos).</li>
-                <li><strong>Tamaño del papel:</strong> Selección de dimensiones del lienzo según necesidades de salida (<strong>Carta, A4, Legal</strong>, o medidas personalizadas).</li>
-                <li><strong>Columnas:</strong> División del texto en dos o más secciones verticales (utilizado en boletines o artículos).</li>
-                <li><strong>Saltos de sección:</strong> Segmentación del archivo para aplicar diseños independientes (portadas, capítulos, apéndices) en un mismo documento.</li>
-                <li><strong>Encabezados y pies de página:</strong> Áreas reservadas en los extremos superior e inferior para títulos, fechas o datos institucionales.</li>
-                <li><strong>Número de página:</strong> Inserción automatizada de numeración con personalización de posición y estilo visual.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>↕️ 5. Interlineado (Formato de Espacio Vertical)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Ajuste del espacio vertical existente entre las líneas de texto de un párrafo. Es determinante para la estética general y la facilidad de lectura.
-            </div>
-
-            <h3>Tipos de Interlineado</h3>
-            <ul>
-                <li>↕️ <strong>Sencillo (1.0):</strong> Equivalente a la altura de la fuente (configuración predeterminada).</li>
-                <li>↕️ <strong>1.5 líneas:</strong> Proporciona un 50% más de espacio que el formato sencillo, aliviando la carga visual.</li>
-                <li>↕️ <strong>Doble (2.0):</strong> Duplica la altura de la fuente; esencial en ámbitos académicos para incorporar anotaciones.</li>
-                <li>⚙️ <strong>Mínimo:</strong> Define una cantidad base de espacio indispensable, sin importar variaciones en el tamaño de la letra.</li>
-                <li>⚙️ <strong>Exacto:</strong> Establece un valor rígido y específico medido estrictamente en puntos.</li>
-                <li>⚙️ <strong>Múltiple:</strong> Permite configurar factores de escala personalizados (por ejemplo: <code>1.2</code> o <code>1.8</code>).</li>
-            </ul>
-
-            <h3>Aplicación y Ventajas</h3>
-            <ul>
-                <li><strong>Cómo aplicar:</strong> Seleccionar el párrafo, ir a la pestaña <strong>Inicio</strong> &gt; grupo <strong>Párrafo</strong> &gt; botón <strong>Espaciado entre líneas y párrafos</strong> ↕️. Para valores precisos, ingresar a la flecha inferior derecha ↘️ (<strong>Configuración de Párrafo</strong>).</li>
-                <li><strong>Importancia:</strong> Mejora la legibilidad del texto, optimiza la presentación visual limpia y profesional, y otorga el espacio físico requerido para correcciones o comentarios manuscritos.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>🔲 6. Justificado de Texto (Alineación)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Opción de alineación que distribuye el contenido de forma equidistante entre los márgenes izquierdo y derecho, logrando bordes perfectamente rectos en ambos flancos del párrafo.
-            </div>
-
-            <h3>Propiedades de la Herramienta</h3>
-            <ul>
-                <li><strong>Distribución:</strong> Adapta de forma automática la separación entre palabras de cada línea (excluyendo la última del párrafo) para igualar su longitud.</li>
-                <li><strong>Estética:</strong> Elimina las irregularidades laterales de las alineaciones tradicionales, proporcionando simetría formal.</li>
-                <li><strong>Aplicación:</strong> Seleccionar el bloque de texto y presionar el botón <strong>Justificar</strong> (líneas paralelas uniformes en el grupo <strong>Párrafo</strong>) o utilizar el comando <code>Ctrl + J</code>.</li>
-            </ul>
-
-            <h3>Análisis de Aplicación</h3>
-            <ul>
-                <li><strong>Ventajas:</strong> Proporciona un acabado sumamente profesional y aprovecha al máximo la superficie útil del papel.</li>
-                <li><strong>Desventajas:</strong> Puede generar espacios blancos internos desproporcionados o alineaciones verticales involuntarias conocidos como "ríos de espacio blanco".</li>
-                <li><strong>Áreas de uso común:</strong> Libros, revistas, prensa escrita, informes corporativos, propuestas comerciales y proyectos de tesis.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>⌨️ 7. Comandos del Sistema</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Instrucciones directas que ejecutan acciones específicas dentro del programa, abarcando desde tareas rutinarias hasta automatizaciones avanzadas.
-            </div>
-
-            <h3>Clasificación de Comandos</h3>
-            <div class="diagram-box">[ Categorías de Comandos ]
-       │
-       ├── 🖱️ Interfaz de Usuario ───&gt; Botones en Cinta (Inicio, Insertar), Menús Contextuales (Clic derecho)
-       │                                y Cuadros de Diálogo detallados.
-       │
-       ├── ⌨️ Atajos de Teclado  ───&gt; Ejecución inmediata: [Ctrl+C] Copiar, [Ctrl+V] Pegar, 
-       │                                [Ctrl+S] Guardar, [Ctrl+Z] Deshacer.
-       │
-       └── ⚙️ Programación (Macros) ─&gt; Scripts en VBA creados vía "Vista &gt; Macros" para automatizar 
-                                       procesos e incrementar la productividad.</div>
-
-            <h3>Funciones Cubiertas por Comandos</h3>
-            <ul>
-                <li><strong>Formato de texto:</strong> Fuente, tamaño, paleta de colores y estilos esenciales (<strong>Negrita</strong>, <em>Cursiva</em>, <u>Subrayado</u>).</li>
-                <li><strong>Gestión:</strong> Apertura, guardado, creación y cierre de archivos.</li>
-                <li><strong>Edición:</strong> Cortar, copiar, pegar, deshacer y rehacer acciones previas.</li>
-                <li><strong>Inserción:</strong> Incorporación de tablas, material gráfico, hipervínculos y elementos de numeración.</li>
-                <li><strong>Revisión:</strong> Control ortográfico, herramientas gramaticales, comentarios y control de cambios.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>🔗 8. Hipervínculos (Enlaces)</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Característica interactiva que enlaza un elemento del documento (texto, imágenes) con un destino externo o interno para enriquecer la información sin sobrecargar el espacio.
-            </div>
-
-            <h3>Componentes de un Hipervínculo</h3>
-            <ul>
-                <li><strong>Texto de enlace:</strong> Elemento visible donde se hace clic (azul y subrayado por defecto).</li>
-                <li><strong>Destino:</strong> Dirección URL, archivo local, marcador de posición o correo.</li>
-                <li><strong>Tooltip:</strong> Cuadro descriptivo emergente que muestra la dirección del enlace al posar el cursor.</li>
-            </ul>
-
-            <h3>Gestión e Inserción</h3>
-            <p><strong>Procedimiento:</strong> Seleccionar el objeto &gt; Pestaña <strong>Insertar</strong> &gt; Botón <strong>Hipervínculo</strong> (o usar <code>Ctrl + K</code>) &gt; Especificar destino en el cuadro de diálogo &gt; Aceptar.</p>
-
-            <h3>Tipos de Destinos</h3>
-            <ul>
-                <li>🌐 <strong>Páginas Web:</strong> Direccionamiento directo hacia URLs de Internet.</li>
-                <li>📁 <strong>Archivos locales:</strong> Enlace a otros documentos residentes en el equipo o red de trabajo.</li>
-                <li>📄 <strong>Ubicación interna:</strong> Vínculos directos a títulos, marcadores o secciones del mismo documento.</li>
-                <li>📧 <strong>Correo electrónico:</strong> Abre de manera automática el gestor de correo con el destinatario preconfigurado.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>🖼️ 9. Gestión de Imágenes</h2>
-            <div class="blockquote">
-                <strong>Definición:</strong> Recursos visuales (fotografías, gráficos, capturas, ilustraciones) que se integran en el documento para complementar el contenido, facilitar la comprensión y potenciar la retención de información.
-            </div>
-
-            <h3>Métodos de Incorporación (Pestaña Insertar)</h3>
-            <ul>
-                <li>💻 <strong>Este dispositivo:</strong> Carga de imágenes guardadas localmente en el almacenamiento.</li>
-                <li>🌐 <strong>Imágenes en línea:</strong> Búsqueda y descarga directa desde repositorios de internet.</li>
-                <li>📸 <strong>Capturas de pantalla:</strong> Inserción de ventanas activas o recortes manuales del escritorio.</li>
-            </ul>
-
-            <h3>Herramientas de Edición Avanzada</h3>
-            <ul>
-                <li><strong>Redimensionar y Recortar:</strong> Ajuste de proporciones mediante nodos periféricos y supresión de áreas sobrantes.</li>
-                <li><strong>Ajuste de Texto:</strong> Control de la interacción con el texto circundante (<em>Cuadrado, Estrecho, Detrás del texto, Delante del texto, Arriba y abajo</em>).</li>
-                <li><strong>Estilos y Correcciones:</strong> Aplicación de marcos, sombras, reflejos, rotaciones y ajustes analógicos de brillo y contraste.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>📏 10. Tabulaciones y Referencias Cruzadas (Organización Avanzada)</h2>
-            
-            <h3>Tabulaciones (Control Horizontal)</h3>
-            <p><strong>Requisito:</strong> Pestaña <strong>Vista</strong> &gt; Activar <strong>Regla</strong>.</p>
-            <p><strong>Mecanismo:</strong> Hacer clic en la regla para fijar la marca, seleccionar el tipo con clic derecho y presionar la tecla <code>Tab</code> antes del texto para desplazarlo con precisión milimétrica.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th style="text-align: center; width: 20%;">Icono de Tabulación</th>
-                        <th style="width: 25%;">Orientación</th>
-                        <th>Propósito</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: center;"><code>└</code></td>
-                        <td><strong>Izquierda</strong></td>
-                        <td>Alinea el comienzo del texto en la marca asignada.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;"><code>┘</code></td>
-                        <td><strong>Derecha</strong></td>
-                        <td>Alinea el final del texto en la marca asignada.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;"><code>┴</code></td>
-                        <td><strong>Centrada</strong></td>
-                        <td>Equilibra el texto tomando como eje la marca.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;"><code>┴.</code></td>
-                        <td><strong>Decimal</strong></td>
-                        <td>Alinea columnas numéricas tomando como eje el punto o coma decimal.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;"><code>│</code></td>
-                        <td><strong>De Barra</strong></td>
-                        <td>Dibuja una línea vertical continua para delimitar las columnas de texto.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><em>Modificación:</em> Arrastrar el símbolo sobre la regla para reubicarlo, o desplazarlo hacia abajo fuera de ella para eliminarlo.</p>
-
-            <h3>Referencias Cruzadas (Vínculos Automatizados de Estructura)</h3>
-            <ul>
-                <li><strong>Definición:</strong> Enlaces internos que dirigen al lector hacia componentes específicos del mismo archivo (<strong>Encabezados, Tablas, Figuras, Notas al pie, Marcadores</strong>).</li>
-                <li><strong>Inserción:</strong> Pestaña <strong>Insertar</strong> &gt; Grupo Vínculos &gt; <strong>Referencia cruzada</strong> &gt; Seleccionar tipo de elemento, destino y formato de visualización (ej: número de página) &gt; Insertar.</li>
-                <li><strong>Propiedades:</strong> Ofrecen interactividad de navegación inmediata y <strong>actualización automatizada</strong>, modificando los números de página o referencias si el documento sufre alteraciones de orden durante su edición.</li>
-            </ul>
-        </section>
-
-        <footer>
-            Desarrollo del Sistema | Programador: <strong>Keny Chinchilla Navarro</strong>
-        </footer>
+        <div class="group">
+            <button onclick="insertarHipervinculo()" title="Insertar Hipervínculo (Ctrl+K)">🔗 Enlace</button>
+            <button onclick="insertarImagen()" title="Insertar Imagen del Dispositivo o URL">🖼️ Imagen</button>
+            <button onclick="insertarReferencia()" title="Insertar Referencia Cruzada">🔄 Referencia</button>
+        </div>
     </div>
+
+    <div class="container">
+        <div id="editor" class="editor-paper" contenteditable="true" placeholder="Comience a escribir aquí...">
+            </div>
+    </div>
+
+    <footer>
+        Programador: <strong>Keny Chinchilla Navarro</strong>
+    </footer>
+
+    <script>
+        const editor = document.getElementById('editor');
+
+        // Función base para ejecutar comandos nativos del navegador
+        function ejecutarComando(comando, valor = null) {
+            document.execCommand(comando, false, valor);
+            editor.focus();
+        }
+
+        // Función para aplicar Justificado homogéneo
+        function aplicarJustificado() {
+            ejecutarComando('justifyFull');
+            // Asegura compatibilidad forzando la clase CSS en el bloque actual
+            const seleccion = window.getSelection();
+            if (seleccion.rangeCount > 0) {
+                let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
+                if (contenedor.nodeType === 3) contenedor = contenedor.parentNode;
+                if (contenedor !== editor) {
+                    contenedor.classList.toggle('justify-text');
+                }
+            }
+        }
+
+        // Función para alterar el Interlineado en el bloque de texto seleccionado
+        function cambiarInterlineado(valor) {
+            const seleccion = window.getSelection();
+            if (seleccion.rangeCount > 0) {
+                let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
+                if (contenedor.nodeType === 3) contenedor = contenedor.parentNode;
+                
+                // Si está editando dentro del lienzo, aplica el estilo al bloque
+                if (contenedor === editor) {
+                    editor.style.lineHeight = valor;
+                } else {
+                    contenedor.style.lineHeight = valor;
+                }
+            }
+            editor.focus();
+        }
+
+        // Función para simular inserción de salto de página visual
+        function insertarSaltoPagina() {
+            const hrSalto = '<hr style="border: none; border-top: 2px dashed #3b82f6; margin: 30px 0; position: relative;" data-content="Salto de Página" />';
+            ejecutarComando('insertHTML', hrSalto);
+        }
+
+        // Función para insertar Tabulación horizontal precisa
+        function insertarTabulacion() {
+            const espacioTab = '<span style="display:inline-block; width: 40px;"></span>';
+            ejecutarComando('insertHTML', espacioTab);
+        }
+
+        // Función interactiva para agregar Hipervínculos
+        function insertarHipervinculo() {
+            const url = prompt("Ingrese la URL del destino (Web, archivo o correo):", "https://");
+            if (url) {
+                ejecutarComando('createLink', url);
+            }
+        }
+
+        // Función para añadir imágenes mediante entrada de origen
+        function insertarImagen() {
+            const rutaImagen = prompt("Ingrese la URL de la imagen o ruta del archivo local:", "");
+            if (rutaImagen) {
+                const estructuraImg = `<img src="${rutaImagen}" style="max-width:100%; height:auto; margin:10px 0; display:block;" title="Imagen insertada" />`;
+                ejecutarComando('insertHTML', estructuraImg);
+            }
+        }
+
+        // Función para simular e insertar Referencias Cruzadas en el documento
+        function insertarReferencia() {
+            const etiqueta = prompt("Ingrese el nombre del elemento a referenciar (Ej: Tabla 1, Encabezado 2):", "");
+            if (etiqueta) {
+                const refHTML = `<a href="#" onclick="return false;" style="color: #3b82f6; text-decoration: underline; font-weight: 500;" title="Referencia a: ${etiqueta}">[Ver ${etiqueta}]</a>`;
+                ejecutarComando('insertHTML', refHTML);
+            }
+        }
+
+        /* --- Capturador de Atajos de Teclado (Keydown Listeners) --- */
+        window.addEventListener('keydown', function(e) {
+            // Ctrl + J -> Justificar texto
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'j') {
+                e.preventDefault();
+                aplicarJustificado();
+            }
+            // Ctrl + K -> Insertar hipervínculo
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                insertarHipervinculo();
+            }
+            // Ctrl + Enter -> Salto de página
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                insertarSaltoPagina();
+            }
+            // Tecla Tab -> Intercepta el foco externo y añade tabulación limpia dentro del papel
+            if (e.key === 'Tab' && document.activeElement === editor) {
+                e.preventDefault();
+                insertarTabulacion();
+            }
+        });
+    </script>
 
 </body>
 </html>
