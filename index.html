@@ -577,84 +577,92 @@ window.simulateAI = () => {
 
 initEditor();
 
-</script>
-<script type="module">
+<script>
 
-import { Editor } from 'https://cdn.jsdelivr.net/npm/@tiptap/core@2.6.6/+esm'
-import StarterKit from 'https://cdn.jsdelivr.net/npm/@tiptap/starter-kit@2.6.6/+esm'
-import Underline from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-underline@2.6.6/+esm'
-import TextStyle from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-text-style@2.6.6/+esm'
-import Color from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-color@2.6.6/+esm'
+let editor = null;
 
-let editor;
+/* INICIALIZAR CUANDO TODO EXISTE */
+window.addEventListener('DOMContentLoaded', () => {
 
-function init(){
+  editor = document.getElementById('editor');
 
-  editor = new Editor({
-    element: document.querySelector('#editor'),
+  if(!editor){
+    alert("ERROR: No existe #editor en el HTML");
+    return;
+  }
 
-    extensions: [
-      StarterKit,
-      Underline,
-      TextStyle,
-      Color
-    ],
+  editor.contentEditable = true;
 
-    content: `
-      <h2>WC Corporate Editor</h2>
-      <p>Motor estable cargado correctamente.</p>
-    `,
+  editor.innerHTML = localStorage.getItem('wc_doc') || `
+    <h2>WC Corporate Editor</h2>
+    <p>Editor listo y funcionando.</p>
+  `;
 
-    onUpdate(){
-      update();
-    }
-  });
+  editor.addEventListener('input', updateCounter);
 
-  update();
-}
+  updateCounter();
+});
 
-function update(){
+/* CONTADOR */
+
+function updateCounter(){
+
   if(!editor) return;
 
-  const text = editor.getText();
+  const text = editor.innerText || "";
 
-  document.getElementById('lblContador').textContent =
-  `${text.split(/\s+/).length} palabras | ${text.length} caracteres`;
+  const words = text.trim()
+    ? text.trim().split(/\s+/).length
+    : 0;
+
+  document.getElementById('lblContador').innerText =
+    `${words} palabras | ${text.length} caracteres`;
 }
 
-/* BOTONES GLOBALES */
+/* SAFE EXEC */
 
-window.boldText = () => editor.chain().focus().toggleBold().run();
-window.italicText = () => editor.chain().focus().toggleItalic().run();
-window.underlineText = () => editor.chain().focus().toggleUnderline().run();
-window.bulletList = () => editor.chain().focus().toggleBulletList().run();
-window.orderedList = () => editor.chain().focus().toggleOrderedList().run();
-window.undoAction = () => editor.chain().focus().undo().run();
-window.redoAction = () => editor.chain().focus().redo().run();
+function safeExec(cmd){
 
-window.setColorText = (c) =>
-  editor.chain().focus().setColor(c).run();
+  if(!editor) return;
 
-window.saveDocument = () =>
-  localStorage.setItem('wc_doc', editor.getHTML());
+  editor.focus();
 
-window.simulateAI = () =>
-  alert("IA activa");
+  document.execCommand(cmd, false, null);
 
-window.exportPDF = () => {
-  const s = document.createElement('script');
-  s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+  updateCounter();
+}
 
-  s.onload = () => {
-    html2pdf().from(document.querySelector('.paper')).save();
-  };
+/* BOTONES */
 
-  document.body.appendChild(s);
+window.boldText = () => safeExec('bold');
+window.italicText = () => safeExec('italic');
+window.underlineText = () => safeExec('underline');
+window.bulletList = () => safeExec('insertUnorderedList');
+window.orderedList = () => safeExec('insertOrderedList');
+
+window.undoAction = () => safeExec('undo');
+window.redoAction = () => safeExec('redo');
+
+window.setColorText = (c) => {
+  if(!editor) return;
+  editor.focus();
+  document.execCommand('foreColor', false, c);
 };
 
-/* START */
+window.saveDocument = () => {
+  if(!editor) return;
+  localStorage.setItem('wc_doc', editor.innerHTML);
+  alert("Guardado");
+};
 
-window.addEventListener('DOMContentLoaded', init);
+window.toggleCorporateMenu = () => {
+  document.getElementById('corporateDropdown')
+    .classList.toggle('show');
+};
+
+window.simulateAI = () => {
+  alert("IA funcionando (modo estable)");
+};
 
 </script>
 </body>
