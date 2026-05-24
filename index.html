@@ -1,149 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor Pro + IA</title>
-
-<style>
-
-/* =========================
-   BASE
-========================= */
-body{
-  margin:0;
-  font-family:"Segoe UI", Arial;
-  background:#f5f6f8;
-}
-
-/* HEADER */
-.top-header{
-  padding:12px;
-  text-align:center;
-  font-weight:800;
-  background:#fff;
-  border-bottom:1px solid #ddd;
-}
-
-.top-header span{
-  background:linear-gradient(135deg,#0A66FF,#FF6B00);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/* RIBBON */
-.ribbon{
-  display:flex;
-  gap:8px;
-  padding:10px;
-  background:white;
-  border-bottom:1px solid #ddd;
-
-  overflow-x:auto;
-  white-space:nowrap;
-}
-
-.menu{
-  position:relative;
-}
-
-.menu button{
-  padding:8px 12px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#eee;
-}
-
-.menu button:hover{
-  background:linear-gradient(135deg,#0A66FF,#FF6B00);
-  color:white;
-}
-
-.menu-content{
-  display:none;
-  position:absolute;
-  top:40px;
-  left:0;
-  background:white;
-  border:1px solid #ddd;
-  box-shadow:0 8px 20px rgba(0,0,0,0.15);
-  min-width:200px;
-  z-index:9999;
-}
-
-.menu:hover .menu-content{
-  display:block;
-}
-
-.menu-content button{
-  width:100%;
-  padding:10px;
-  border:none;
-  background:white;
-  text-align:left;
-  cursor:pointer;
-}
-
-.menu-content button:hover{
-  background:#eef3ff;
-}
-
-/* SIDEBAR */
-.sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  width:60px;
-  height:100vh;
-  background:linear-gradient(180deg,#0A66FF,#FF6B00);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding-top:10px;
-}
-
-.sidebar button{
-  width:40px;
-  height:40px;
-  margin:5px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* DOCUMENTO */
-.page{
-  width:210mm;
-  min-height:297mm;
-  margin:30px auto;
-  margin-left:120px;
-  background:white;
-  padding:30mm;
-  box-shadow:0 10px 30px rgba(0,0,0,0.12);
-}
-
-#editor{
-  min-height:250mm;
-  outline:none;
-}
-
-/* WC ARTE */
-.wc1{color:#0A66FF;font-weight:bold;}
-.wc2{color:#FF6B00;font-weight:bold;}
-.wc3{font-style:italic;}
-.wc4{
-  font-weight:900;
-  background:linear-gradient(135deg,#0A66FF,#FF6B00);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-</style>
-</head>
-
-<body>
-
 <!-- SIDEBAR -->
 <div class="sidebar">
   <button onclick="insertTemplate('blank')">📄</button>
@@ -153,112 +7,344 @@ body{
 </div>
 
 <!-- HEADER -->
-<div class="top-header">
-  <span>WC CORPORATE EDITOR PRO + IA</span>
-</div>
+<div class="top-header"><span>WC CORPORATE EDITOR PRO + IA</span></div>
 
 <!-- RIBBON -->
 <div class="ribbon">
-
-  <div class="menu">
-    <button>Archivo</button>
+  <div class="menu"><button>Archivo</button>
     <div class="menu-content">
-      <button onclick="nuevo()">Nuevo</button>
-      <button onclick="guardar()">Guardar</button>
-      <button onclick="imprimir()">Imprimir</button>
+      <button onclick="newDoc()">📄 Nuevo</button>
+      <button onclick="openDoc()">📂 Abrir</button>
+      <button onclick="save()">💾 Guardar</button>
+      <button onclick="saveAs()">💾 Guardar como</button>
+      <button onclick="printDoc()">🖨️ Imprimir</button>
+      <button onclick="exportPDF()">📄 Exportar PDF</button>
     </div>
   </div>
-
-  <div class="menu">
-    <button>Editar</button>
+  <div class="menu"><button>Editar</button>
     <div class="menu-content">
-      <button onclick="cmd('undo')">Deshacer</button>
-      <button onclick="cmd('redo')">Rehacer</button>
-      <button onclick="cmd('cut')">Cortar</button>
-      <button onclick="cmd('copy')">Copiar</button>
-      <button onclick="cmd('paste')">Pegar</button>
+      <button onclick="bold()">Negrita</button>
+      <button onclick="italic()">Cursiva</button>
+      <button onclick="underline()">Subrayado</button>
+      <button onclick="undo()">↩️ Deshacer</button>
+      <button onclick="redo()">↪️ Rehacer</button>
     </div>
   </div>
-
+  <div class="menu"><button>Insertar</button>
+    <div class="menu-content">
+      <button onclick="insertTemplate('cv')">CV</button>
+      <button onclick="insertTemplate('letter')">Carta</button>
+      <button onclick="insertTemplate('report')">Informe</button>
+    </div>
+  </div>
+  <div class="menu"><button>WC Arte</button>
+    <div class="menu-content">
+      <input id="wcText" placeholder="Texto">
+      <select id="wcStyle">
+        <option value="wc1">Azul</option><option value="wc2">Naranja</option>
+        <option value="wc3">Itálico</option><option value="wc4">Degradado</option>
+        <option value="wc5">Sombra</option><option value="wc6">Mayúsculas</option>
+        <option value="wc7">Código</option><option value="wc8">Comic</option>
+        <option value="wc9">Grande</option><option value="wc10">Glass</option>
+      </select>
+      <button onclick="applyWC()">Aplicar</button>
+    </div>
+  </div>
 </div>
 
 <!-- DOCUMENTO -->
-<div class="page">
-  <div id="editor" contenteditable="true">
-    Escribe aquí...
+<div class="workspace">
+  <div class="page">
+    <div id="editor" contenteditable="true">Escribe aquí...</div>
   </div>
 </div>
 
+<!-- STATUSBAR -->
+<div id="statusbar">
+  <span id="wordCount">Palabras: 0</span> |
+  <span id="charCount">Caracteres: 0</span> |
+  <span id="readTime">Tiempo lectura: 0 min</span> |
+  <label for="langSelect">Idioma:</label>
+  <select id="langSelect" onchange="updateLangStatus()">
+    <option value="es">Español</option><option value="en">English</option>
+    <option value="br">Bribri</option><option value="cb">Cabécar</option>
+  </select> |
+  <span id="styleStatus">Estilo: Normal</span> |
+  <input id="newWord" placeholder="Añadir palabra"><button onclick="addWord()">➕</button>
+</div>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <button onclick="insertTemplate('blank')">📄</button>
+  <button onclick="insertTemplate('cv')">📑</button>
+  <button onclick="insertTemplate('letter')">✉️</button>
+  <button onclick="insertTemplate('report')">📊</button>
+</div>
+
+<!-- HEADER -->
+<div class="top-header"><span>WC CORPORATE EDITOR PRO + IA</span></div>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <div class="menu"><button>Archivo</button>
+    <div class="menu-content">
+      <button onclick="newDoc()">📄 Nuevo</button>
+      <button onclick="openDoc()">📂 Abrir</button>
+      <button onclick="save()">💾 Guardar</button>
+      <button onclick="saveAs()">💾 Guardar como</button>
+      <button onclick="printDoc()">🖨️ Imprimir</button>
+      <button onclick="exportPDF()">📄 Exportar PDF</button>
+    </div>
+  </div>
+  <div class="menu"><button>Editar</button>
+    <div class="menu-content">
+      <button onclick="bold()">Negrita</button>
+      <button onclick="italic()">Cursiva</button>
+      <button onclick="underline()">Subrayado</button>
+      <button onclick="undo()">↩️ Deshacer</button>
+      <button onclick="redo()">↪️ Rehacer</button>
+    </div>
+  </div>
+  <div class="menu"><button>Insertar</button>
+    <div class="menu-content">
+      <button onclick="insertTemplate('cv')">CV</button>
+      <button onclick="insertTemplate('letter')">Carta</button>
+      <button onclick="insertTemplate('report')">Informe</button>
+    </div>
+  </div>
+  <div class="menu"><button>WC Arte</button>
+    <div class="menu-content">
+      <input id="wcText" placeholder="Texto">
+      <select id="wcStyle">
+        <option value="wc1">Azul</option><option value="wc2">Naranja</option>
+        <option value="wc3">Itálico</option><option value="wc4">Degradado</option>
+        <option value="wc5">Sombra</option><option value="wc6">Mayúsculas</option>
+        <option value="wc7">Código</option><option value="wc8">Comic</option>
+        <option value="wc9">Grande</option><option value="wc10">Glass</option>
+      </select>
+      <button onclick="applyWC()">Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- DOCUMENTO -->
+<div class="workspace">
+  <div class="page">
+    <div id="editor" contenteditable="true">Escribe aquí...</div>
+  </div>
+</div>
+
+<!-- STATUSBAR -->
+<div id="statusbar">
+  <span id="wordCount">Palabras: 0</span> |
+  <span id="charCount">Caracteres: 0</span> |
+  <span id="readTime">Tiempo lectura: 0 min</span> |
+  <label for="langSelect">Idioma:</label>
+  <select id="langSelect" onchange="updateLangStatus()">
+    <option value="es">Español</option><option value="en">English</option>
+    <option value="br">Bribri</option><option value="cb">Cabécar</option>
+  </select> |
+  <span id="styleStatus">Estilo: Normal</span> |
+  <input id="newWord" placeholder="Añadir palabra"><button onclick="addWord()">➕</button>
+</div>
 <script>
+const editor=document.getElementById("editor");
 
-/* EDITOR */
-function cmd(c){
-  document.execCommand(c,false,null);
+/* =========================
+   HISTORIAL UNDO/REDO
+========================= */
+let history=[];let historyIndex=-1;
+function saveHistory(){
+  history=history.slice(0,historyIndex+1);
+  history.push(editor.innerHTML);
+  historyIndex++;
 }
-
-/* NUEVO DOCUMENTO DESDE PLANTILLA (FIX REAL) */
-function insertTemplate(type){
-
-  const editor = document.getElementById("editor");
-
-  let html = "";
-
-  if(type === "blank"){
-    html = "<h2>Documento WC</h2><p>Escribe aquí...</p>";
+function undo(){
+  if(historyIndex>0){
+    historyIndex--;
+    editor.innerHTML=history[historyIndex];
   }
-
-  if(type === "cv"){
-    html = `
-      <h1 style="color:#0A66FF;">Currículum Vitae</h1>
-      <p><b>Nombre:</b></p>
-      <p><b>Perfil:</b></p>
-      <h3>Experiencia</h3>
-      <p>- Empresa</p>
-    `;
+}
+function redo(){
+  if(historyIndex<history.length-1){
+    historyIndex++;
+    editor.innerHTML=history[historyIndex];
   }
+}
+saveHistory();
+editor.addEventListener("input",saveHistory);
 
-  if(type === "letter"){
-    html = `
-      <p>San José, Costa Rica</p>
-      <p>Estimado/a:</p>
-      <p>Contenido de carta...</p>
-    `;
-  }
-
-  if(type === "report"){
-    html = `
-      <h1>Informe</h1>
-      <p>Resumen...</p>
-    `;
-  }
-
-  // 🔥 REEMPLAZO TOTAL (ESTILO WORD REAL)
-  editor.innerHTML = html;
-
-  const range = document.createRange();
-  const sel = window.getSelection();
-
-  range.selectNodeContents(editor);
-  range.collapse(true);
-
+/* =========================
+   FORMATO CON RANGE API
+========================= */
+function applyFormat(tagName){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0) return;
+  const range=sel.getRangeAt(0);
+  const el=document.createElement(tagName);
+  el.appendChild(range.extractContents());
+  range.insertNode(el);
+  range.selectNodeContents(el);
   sel.removeAllRanges();
   sel.addRange(range);
+  saveHistory();
+}
+function bold(){applyFormat("strong");}
+function italic(){applyFormat("em");}
+function underline(){applyFormat("u");}
+
+/* =========================
+   ATAJOS DE TECLADO
+========================= */
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey&&e.key.toLowerCase()==="z"){e.preventDefault();undo();}
+  if(e.ctrlKey&&e.key.toLowerCase()==="y"){e.preventDefault();redo();}
+  if(e.ctrlKey&&e.key.toLowerCase()==="b"){e.preventDefault();bold();}
+  if(e.ctrlKey&&e.key.toLowerCase()==="i"){e.preventDefault();italic();}
+  if(e.ctrlKey&&e.key.toLowerCase()==="u"){e.preventDefault();underline();}
+});
+
+/* =========================
+   ARCHIVO
+========================= */
+function newDoc(){editor.innerHTML="";}
+function save(){localStorage.setItem("wc_doc",editor.innerHTML);}
+function openDoc(){const data=localStorage.getItem("wc_doc");if(data){editor.innerHTML=data;}}
+function saveAs(){
+  const name=prompt("Nombre del documento:");
+  if(name){localStorage.setItem(name,editor.innerHTML);}
+}
+function printDoc(){window.print();}
+function exportPDF(){alert("Exportar a PDF (simulado)");}
+
+/* =========================
+   PLANTILLAS
+========================= */
+function insertTemplate(type){
+  newDoc();
+  let html="";
+  if(type==="cv"){
+    html=`<h1>Currículum Vitae</h1>
+          <p><strong>Nombre:</strong> ...</p>
+          <p><strong>Experiencia:</strong> ...</p>`;
+  }
+  if(type==="letter"){
+    html=`<h1>Carta Formal</h1>
+          <p>San José, Costa Rica</p>
+          <p>Estimado/a ...</p>
+          <p>Contenido de la carta...</p>
+          <p>Atentamente,</p>`;
+  }
+  if(type==="report"){
+    html=`<div style="text-align:center; margin-top:100px;">
+             <h1 class="wc4">Informe Corporativo / Corporate Report</h1>
+             <h2 class="wc2">Proyecto / Cliente – Project / Client</h2>
+             <p class="wc3">Fecha / Date: __________</p>
+           </div>
+           <hr style="margin:40px 0;">
+           <h2>Índice / Index</h2>
+           <ol>
+             <li>Resumen Ejecutivo / Executive Summary</li>
+             <li>Objetivos / Objectives</li>
+             <li>Metodología / Methodology</li>
+             <li>Resultados / Results</li>
+             <li>Conclusiones / Conclusions</li>
+             <li>Recomendaciones / Recommendations</li>
+           </ol>
+           <hr style="margin:40px 0;">
+           <h2>1. Resumen Ejecutivo / Executive Summary</h2><p>...</p>
+           <h2>2. Objetivos / Objectives</h2><p>...</p>
+           <h2>3. Metodología / Methodology</h2><p>...</p>
+           <h2>4. Resultados / Results</h2><p>...</p>
+           <h2>5. Conclusiones / Conclusions</h2><p>...</p>
+           <h2>6. Recomendaciones / Recommendations</h2><p>...</p>`;
+  }
+  editor.innerHTML=html;
 }
 
-/* UTILIDADES */
-function nuevo(){
-  document.getElementById("editor").innerHTML = "";
+/* =========================
+   WC ARTE
+========================= */
+function applyWC(){
+  const text=document.getElementById("wcText").value;
+  const style=document.getElementById("wcStyle").value;
+  if(text){
+    editor.innerHTML+=`<p class="${style}">${text}</p>`;
+  }
 }
 
-function guardar(){
-  localStorage.setItem("wc_doc", document.getElementById("editor").innerHTML);
+/* =========================
+   BARRA DE ESTADO
+========================= */
+function updateStatus(){
+  const text=editor.innerText.trim();
+  const words=text.length>0?text.split(/\s+/).length:0;
+  const chars=text.length;
+  const readTime=Math.ceil(words/200);
+  document.getElementById("wordCount").textContent="Palabras: "+words;
+  document.getElementById("charCount").textContent="Caracteres: "+chars;
+  document.getElementById("readTime").textContent="Tiempo lectura: "+readTime+" min";
+  const sel=window.getSelection();
+  let style="Normal";
+  if(sel&&sel.rangeCount>0){
+    const node=sel.anchorNode.parentNode;
+    if(node.tagName==="STRONG") style="Negrita";
+    if(node.tagName==="EM") style="Cursiva";
+    if(node.tagName==="U") style="Subrayado";
+  }
+  document.getElementById("styleStatus").textContent="Estilo: "+style;
 }
-
-function imprimir(){
-  window.print();
+function updateLangStatus(){
+  const lang=document.getElementById("langSelect").value;
+  let label="Español";
+  if(lang==="en") label="English";
+  if(lang==="br") label="Bribri";
+  if(lang==="cb") label="Cabécar";
+  document.getElementById("langSelect").title="Idioma activo: "+label;
 }
+editor.addEventListener("input",updateStatus);
+document.addEventListener("selectionchange",updateStatus);
+updateStatus();updateLangStatus();
 
+/* =========================
+   CORRECTOR ORTOGRÁFICO
+========================= */
+const dictionaries={
+  es:["hola","informe","corporativo","proyecto","cliente","fecha","resumen","objetivos","metodología","resultados","conclusiones","recomendaciones"],
+  en:["hello","report","corporate","project","client","date","summary","objectives","methodology","results","conclusions","recommendations"],
+  br:["wak","tsiru","yök","dör","bribri"],
+  cb:["kaska","tö","cabécar"]
+};
+function spellCheck(){
+  const lang=document.getElementById("langSelect").value;
+  const dict=dictionaries[lang]||[];
+  let text=editor.innerText;
+  let words=text.split(/\s+/);
+  let checkedHTML=words.map(word=>{
+    const clean=word.toLowerCase().replace(/[.,;:!?]/g,"");
+    if(clean&&!dict.includes(clean)){
+      return `<span style="color:red; text-decoration:underline dotted;">${word}</span>`;
+    }
+    return word;
+  }).join(" ");
+  editor.innerHTML=checkedHTML;
+}
+editor.addEventListener("input",spellCheck);
+
+/* =========================
+   DICCIONARIO DINÁMICO
+========================= */
+function addWord(){
+  const lang=document.getElementById("langSelect").value;
+  const word=document.getElementById("newWord").value.trim().toLowerCase();
+  if(!word) return;
+  if(!dictionaries[lang]) dictionaries[lang]=[];
+  if(!dictionaries[lang].includes(word)){
+    dictionaries[lang].push(word);
+    alert(`Palabra añadida al diccionario (${lang}): ${word}`);
+  }
+  document.getElementById("newWord").value="";
+  spellCheck();
+}
 </script>
-
 </body>
 </html>
