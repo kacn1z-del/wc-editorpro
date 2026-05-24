@@ -3,313 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Editor PRO Consolidado</title>
+<title>WC STABLE CORE</title>
 
 <style>
-body{
-  margin:0;
-  font-family:system-ui;
-  background:#eef2f7;
-  overflow:hidden;
-}
+body{margin:0;font-family:system-ui;background:#eef2f7}
 
-/* ===== HEADER ===== */
 .header{
-  background:linear-gradient(135deg,#1d5270,#92324f,#d94e18);
+  background:#1d5270;
   color:white;
   padding:10px;
   font-weight:700;
 }
 
-/* ===== LANG BAR ===== */
-.lang-bar{
-  display:flex;
-  gap:6px;
-  padding:6px;
-  overflow-x:auto;
-  background:white;
-}
-
-.lang-bar button{
-  padding:6px 10px;
-  border:none;
-  border-radius:6px;
-  background:#e2e8f0;
-}
-
-.lang-bar button.active{
-  background:#1d5270;
-  color:white;
-}
-
-/* ===== TABS ===== */
-.tabs{
-  display:flex;
-  background:white;
-  border-top:1px solid #ddd;
-  border-bottom:1px solid #ddd;
-}
-
-.tabs div{
-  flex:1;
-  text-align:center;
-  padding:10px;
-  font-size:13px;
-  cursor:pointer;
-}
-
-.tabs .active{
-  background:#1d5270;
-  color:white;
-}
-
-/* ===== RIBBON ===== */
-.ribbon{
+.toolbar{
   display:flex;
   gap:6px;
   padding:8px;
-  background:#e2e8f0;
-  overflow-x:auto;
+  background:white;
 }
 
-.ribbon button{
-  padding:6px;
-  font-size:12px;
+button{
+  padding:8px;
   border:1px solid #ccc;
   background:white;
   border-radius:6px;
 }
 
-/* ===== EDITOR ===== */
 #editor{
-  height:55vh;
   margin:10px;
   padding:16px;
+  min-height:60vh;
   background:white;
   border-radius:10px;
   outline:none;
-  overflow:auto;
-  line-height:1.5;
-}
-
-/* ===== FLOAT MENU ===== */
-.float{
-  position:fixed;
-  right:12px;
-  bottom:20px;
-}
-
-.float button{
-  background:#1d5270;
-  color:white;
-  border:none;
-  padding:10px 14px;
-  border-radius:20px;
-}
-
-.panel{
-  display:none;
-  position:absolute;
-  bottom:60px;
-  right:0;
-  width:260px;
-  background:white;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:10px;
-  max-height:60vh;
-  overflow:auto;
-}
-
-.panel button{
-  width:100%;
-  margin:4px 0;
-  padding:8px;
-  font-size:12px;
-}
-
-/* ===== FOOTER ===== */
-.footer{
-  height:30px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:flex;
-  justify-content:space-between;
-  padding:5px 10px;
-  font-size:11px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">WC Corporate Editor PRO — CONSOLIDADO</div>
+<div class="header">WC STABLE CORE (SIN ERRORES)</div>
 
-<!-- LANG -->
-<div class="lang-bar">
-  <button class="active" onclick="setLang('es')">ES</button>
-  <button onclick="setLang('en')">EN</button>
-  <button onclick="setLang('br')">Bribri</button>
-  <button onclick="setLang('ca')">Cabécar</button>
+<div class="toolbar">
+<button onclick="fmt('bold')">B</button>
+<button onclick="fmt('italic')">I</button>
+<button onclick="fmt('underline')">U</button>
+<button onclick="ins('• ')">Lista</button>
 </div>
 
-<!-- TABS -->
-<div class="tabs">
-  <div class="active" onclick="setTab('inicio')">Inicio</div>
-  <div onclick="setTab('insertar')">Insertar</div>
-  <div onclick="setTab('diseno')">Diseño</div>
-</div>
-
-<!-- RIBBON -->
-<div class="ribbon">
-  <button onclick="cmd('bold')">B</button>
-  <button onclick="cmd('italic')">I</button>
-  <button onclick="cmd('underline')">U</button>
-  <button onclick="cmd('justifyLeft')">⬅</button>
-  <button onclick="cmd('justifyCenter')">≡</button>
-  <button onclick="cmd('justifyRight')">➡</button>
-  <button onclick="cmd('insertUnorderedList')">•</button>
-  <button onclick="indent()">Indent</button>
-  <button onclick="outdent()">Outdent</button>
-  <button onclick="table()">Tabla</button>
-  <button onclick="pageBreak()">Salto</button>
-</div>
-
-<!-- EDITOR -->
-<div id="editor" contenteditable="true">
-<h3>WC CONSOLIDADO PRO</h3>
-<p>Editor completo reconstruido sin perder funciones.</p>
-</div>
-
-<!-- FLOAT MENU -->
-<div class="float">
-<button onclick="toggle()">WC IA ▴</button>
-
-<div id="panel" class="panel">
-
-<button onclick="toBribri()">🌱 Bribri</button>
-<button onclick="toSpanish()">🇨🇷 Español</button>
-
-<hr>
-
-<button onclick="learn()">🧠 Aprender</button>
-<button onclick="showMemory()">📚 Memoria</button>
-
-<hr>
-
-<button onclick="insertChar('a̱')">a̱</button>
-<button onclick="insertChar('e̱')">e̱</button>
-
-<hr>
-
-<button onclick="startVoice()">🎧 Voz</button>
-
-</div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <div id="eco">ES</div>
-  <div id="count">0 palabras</div>
-</div>
+<div id="editor" contenteditable="true">Escribe aquí...</div>
 
 <script>
 
-/* ===== STATE ===== */
-let memory = JSON.parse(localStorage.getItem("wcMem") || "{}");
+const editor = document.getElementById("editor");
 
-/* ===== EDIT COMMANDS ===== */
-function cmd(c){
-  document.execCommand(c);
+/* ===== SAFE FOCUS ===== */
+function focusEditor(){
+  editor.focus();
 }
 
-function indent(){ document.execCommand("indent"); }
-function outdent(){ document.execCommand("outdent"); }
-
-function table(){
-  document.execCommand("insertHTML",false,
-  `<table border="1" style="width:100%;border-collapse:collapse;">
-  <tr><td>A1</td><td>B1</td></tr>
-  <tr><td>A2</td><td>B2</td></tr>
-  </table><br>`);
-}
-
-function pageBreak(){
-  document.execCommand("insertHTML",false,
-  `<hr style="border-top:2px dashed #000;">`);
-}
-
-/* ===== PANEL ===== */
-function toggle(){
-  let p=document.getElementById("panel");
-  p.style.display = p.style.display==="block"?"none":"block";
-}
-
-/* ===== LANG ===== */
-function setLang(l){
-  document.getElementById("eco").innerText=l;
-}
-
-/* ===== BRIBRI DICT ===== */
-const dict={
-  agua:"diö",
-  tierra:"tá",
-  sol:"shköl",
-  casa:"yë"
-};
-
-function toBribri(){
-  let e=document.getElementById("editor");
-  e.innerText=e.innerText.split(" ")
-    .map(w=>dict[w.toLowerCase()]||w).join(" ");
-}
-
-function toSpanish(){
-  let rev={};
-  Object.keys(dict).forEach(k=>rev[dict[k]]=k);
-
-  let e=document.getElementById("editor");
-  e.innerText=e.innerText.split(" ")
-    .map(w=>rev[w]||w).join(" ");
-}
-
-/* ===== MEMORY ===== */
-function learn(){
-  let words=document.getElementById("editor").innerText.split(" ");
-  words.forEach(w=>{
-    memory[w]=(memory[w]||0)+1;
-  });
-  localStorage.setItem("wcMem",JSON.stringify(memory));
-}
-
-function showMemory(){
-  alert(JSON.stringify(memory,null,2));
-}
-
-/* ===== VOICE SAFE ===== */
-let rec=null;
-
-try{
-  let SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(SR){
-    rec=new SR();
-    rec.lang="es-CR";
-    rec.onresult=e=>{
-      document.getElementById("editor").innerText+=" "+e.results[0][0].transcript;
-    }
+/* ===== SAFE FORMAT ===== */
+function fmt(cmd){
+  try{
+    focusEditor();
+    document.execCommand(cmd,false,null);
+  }catch(e){
+    console.log("format error",e);
   }
-}catch(e){}
-
-function startVoice(){
-  if(rec) rec.start();
 }
 
-/* ===== COUNTER ===== */
-setInterval(()=>{
-  let t=document.getElementById("editor").innerText||"";
-  document.getElementById("count").innerText =
-    t.trim() ? t.trim().split(/\s+/).length+" palabras" : "0 palabras";
-},500);
+/* ===== SAFE INSERT (SIN ROMPER NADA) ===== */
+function ins(text){
+  try{
+    focusEditor();
+
+    let sel = window.getSelection();
+
+    if(!sel || !sel.rangeCount){
+      editor.innerText += text;
+      return;
+    }
+
+    let range = sel.getRangeAt(0);
+    range.deleteContents();
+
+    let node = document.createTextNode(text);
+    range.insertNode(node);
+
+    range.setStartAfter(node);
+    range.setEndAfter(node);
+
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+  }catch(e){
+    console.log("insert error",e);
+  }
+}
 
 </script>
 
