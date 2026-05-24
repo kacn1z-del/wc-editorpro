@@ -4,60 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Word Pro Mobile</title>
+<title>WC Corporate Editor - Stable</title>
 
 <style>
 
 html, body{
   margin:0;
+  padding:0;
   height:100%;
-  background:#e9eef5;
   font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+  background:#e9eef5;
   overflow:auto;
 }
 
-/* HEADER */
+/* HEADER SIMPLE */
 .header{
-  background:linear-gradient(135deg,#1d5270,#92324f);
+  background:linear-gradient(135deg,#1d5270,#92324f,#d94e18);
   color:white;
   padding:10px;
   font-weight:700;
-  position:sticky;
-  top:0;
 }
 
-/* TOOLBAR */
+/* TOOLBAR SIMPLE (SIN OVERLAYS) */
 .toolbar{
   display:flex;
+  flex-wrap:wrap;
   gap:6px;
   padding:8px;
   background:white;
-  border-bottom:1px solid #ddd;
+  border-bottom:1px solid #ccc;
   position:sticky;
-  top:44px;
+  top:0;
   z-index:10;
-  flex-wrap:wrap;
 }
 
-.toolbar button{
+.toolbar button, .toolbar select{
   padding:6px 10px;
   border:1px solid #ccc;
   background:white;
   border-radius:6px;
 }
 
-/* HOJA WORD REAL */
-.page{
-  margin:15px;
+/* EDITOR REALMENTE SEGURO */
+#editor{
+  margin:12px;
+  padding:20px;
+  min-height:70vh;
   background:white;
   border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-  padding:25px;
-}
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
 
-/* EDITOR */
-#editor{
-  min-height:70vh;
   outline:none;
 
   font-size:16px;
@@ -71,10 +67,12 @@ html, body{
 
 /* FOOTER */
 .footer{
-  text-align:center;
+  background:white;
+  border-top:1px solid #ddd;
+  padding:8px;
   font-size:12px;
-  padding:10px;
-  color:#64748b;
+  display:flex;
+  justify-content:space-between;
 }
 
 </style>
@@ -83,7 +81,7 @@ html, body{
 <body>
 
 <div class="header">
-💎 WC Word Pro Mobile
+💼 WC Corporate Editor (Stable Mode)
 </div>
 
 <div class="toolbar">
@@ -99,32 +97,63 @@ html, body{
 <button onclick="cmd('justifyCenter')">↔</button>
 <button onclick="cmd('justifyRight')">➡</button>
 
+<button onclick="save()">💾</button>
+
 </div>
 
-<div class="page">
-  <div id="editor" contenteditable="true">
-    Escribe tu documento aquí...
-  </div>
+<div id="editor" contenteditable="true">
+<h2>Documento WC</h2>
+<p>Este es el editor estable recuperado.</p>
 </div>
 
 <div class="footer">
-WC Word Pro Engine
+<span id="counter">0 palabras</span>
+<span>WC Stable Engine</span>
 </div>
 
 <script>
 
 const editor = document.getElementById("editor");
 
-/* iPhone safe focus */
+/* 🔥 IMPORTANTE: FOCO FIJO iPhone */
 window.onload = () => {
-  setTimeout(() => editor.focus(), 200);
+  setTimeout(() => editor.focus(), 250);
 };
 
-editor.addEventListener("touchstart", () => editor.focus());
+editor.addEventListener("touchstart", () => {
+  editor.focus();
+});
 
-function cmd(c){
-  document.execCommand(c,false,null);
+/* COMMANDS */
+function cmd(action){
+  document.execCommand(action,false,null);
+  updateCounter();
 }
+
+/* SAVE */
+function save(){
+  localStorage.setItem("wc_doc", editor.innerHTML);
+  alert("Guardado ✔");
+}
+
+/* COUNTER */
+function updateCounter(){
+  const text = editor.innerText || "";
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  document.getElementById("counter").innerText =
+    `${words} palabras`;
+}
+
+editor.addEventListener("input", updateCounter);
+
+/* LOAD */
+window.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("wc_doc");
+  if(saved){
+    editor.innerHTML = saved;
+  }
+  updateCounter();
+});
 
 </script>
 
