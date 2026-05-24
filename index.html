@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Corporate Editor Platinum</title>
+<title>WC Word Editor Stable</title>
 
 <style>
 
 :root{
-  --bg-gradient: linear-gradient(135deg,#1d5270 0%,#92324f 50%,#d94e18 100%);
-  --panel-bg:#0f172a;
+  --blue:#1d5270;
+  --red:#92324f;
+  --orange:#d94e18;
   --border:#cbd5e1;
 }
 
@@ -18,67 +19,43 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
+  font-family:Segoe UI, sans-serif;
 }
 
 body{
   height:100vh;
-  overflow:hidden;
   display:flex;
   flex-direction:column;
-  background:#dbe4ee;
+  background:#eef2f7;
+  overflow:hidden;
 }
 
 /* HEADER */
 
-.header-suite{
-  background:var(--bg-gradient);
-  padding:14px;
+.header{
+  background:linear-gradient(135deg,var(--blue),var(--red),var(--orange));
   color:white;
-  box-shadow:0 4px 14px rgba(0,0,0,0.15);
+  padding:12px;
+  font-weight:800;
+}
+
+/* TOOLBAR */
+
+.toolbar{
+  display:flex;
+  gap:6px;
+  padding:10px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
   flex-shrink:0;
 }
 
-.brand-title{
-  font-size:22px;
-  font-weight:800;
-  margin-bottom:12px;
-}
-
-.mobile-tabs-scroll{
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-}
-
-.tab-node{
-  padding:7px 14px;
-  background:rgba(255,255,255,0.1);
-  border-radius:8px;
-  font-size:13px;
-}
-
-.tab-node.active{
-  background:white;
-  color:#0f172a;
-  font-weight:700;
-}
-
-/* TOP BAR */
-
-.ribbon-commands-panel{
-  background:#f8fafc;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  border-bottom:1px solid var(--border);
-}
-
-.cmd-btn{
-  background:white;
+.toolbar button,
+.toolbar select{
+  padding:7px 10px;
   border:1px solid var(--border);
-  padding:8px 14px;
+  background:white;
   border-radius:8px;
   cursor:pointer;
 }
@@ -87,140 +64,86 @@ body{
 
 .workspace{
   flex:1;
-  overflow:auto;
   display:flex;
   justify-content:center;
-  padding:18px;
+  padding:20px;
+  overflow:auto;
 }
 
-.paper{
+.page{
   width:100%;
-  max-width:850px;
-  min-height:1000px;
+  max-width:900px;
   background:white;
-  border-radius:8px;
-  padding:50px;
+  padding:40px;
+  border-radius:10px;
   box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
 /* EDITOR */
 
-.ProseMirror{
+#editor{
+  min-height:750px;
   outline:none;
-  min-height:850px;
-  line-height:1.7;
   font-size:16px;
-}
-
-.ProseMirror p{
-  margin-bottom:14px;
-}
-
-/* FLOAT PANEL */
-
-.floating-corporate-container{
-  position:fixed;
-  right:20px;
-  bottom:140px;
-  z-index:9999;
-}
-
-.trigger-menu-btn{
-  background:var(--bg-gradient);
-  color:white;
-  border:none;
-  padding:14px 22px;
-  border-radius:30px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.dropdown-up-panel{
-  position:absolute;
-  bottom:115%;
-  right:0;
-  width:360px;
-  background:var(--panel-bg);
-  border-radius:16px;
-  padding:14px;
-  display:none;
-  flex-direction:column;
-  gap:14px;
-}
-
-.dropdown-up-panel.show{
-  display:flex;
-}
-
-.group-label{
-  color:#38bdf8;
-  font-size:11px;
-  font-weight:700;
-  margin-bottom:6px;
-}
-
-.group-row{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.icon-btn{
-  width:38px;
-  height:38px;
-  border:none;
-  border-radius:8px;
-  background:rgba(255,255,255,0.08);
-  color:white;
-  cursor:pointer;
-  font-weight:700;
-}
-
-/* IA */
-
-.ai-assistant-panel{
-  position:fixed;
-  left:12px;
-  bottom:110px;
-  width:240px;
-  background:rgba(15,23,42,0.96);
-  border-radius:14px;
-  padding:12px;
-  color:white;
-}
-
-.ai-assistant-panel textarea{
-  width:100%;
-  height:70px;
-  border:none;
-  border-radius:8px;
-  padding:8px;
-  margin-top:8px;
-}
-
-.ai-assistant-panel button{
-  width:100%;
-  margin-top:8px;
-  border:none;
-  border-radius:8px;
-  padding:10px;
-  background:linear-gradient(135deg,#2563eb,#9333ea);
-  color:white;
-  font-weight:700;
+  line-height:1.8;
 }
 
 /* FOOTER */
 
-.footer-bar{
-  height:34px;
+.footer{
+  height:38px;
   background:white;
   border-top:1px solid var(--border);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:0 14px;
+  padding:0 12px;
   font-size:12px;
   color:#475569;
+  flex-shrink:0;
+}
+
+/* FLOAT MENU */
+
+.floating{
+  position:fixed;
+  right:18px;
+  bottom:120px;
+}
+
+.fab{
+  background:linear-gradient(135deg,var(--blue),var(--red));
+  color:white;
+  border:none;
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.menu{
+  display:none;
+  position:absolute;
+  bottom:110%;
+  right:0;
+  background:#0f172a;
+  padding:12px;
+  border-radius:12px;
+  width:220px;
+  gap:8px;
+  flex-direction:column;
+}
+
+.menu.show{
+  display:flex;
+}
+
+.menu button{
+  background:#1e293b;
+  color:white;
+  border:none;
+  padding:8px;
+  border-radius:8px;
 }
 
 </style>
@@ -229,385 +152,164 @@ body{
 <body>
 
 <!-- HEADER -->
-
-<div class="header-suite">
-
-  <div class="brand-title">
-    💎 WC Corporate Editor Platinum
-  </div>
-
-  <div class="mobile-tabs-scroll">
-
-    <div class="tab-node active">
-      Inicio
-    </div>
-
-    <div class="tab-node">
-      Insertar
-    </div>
-
-    <div class="tab-node">
-      Diseño
-    </div>
-
-    <div class="tab-node">
-      IA
-    </div>
-
-  </div>
-
+<div class="header">
+💎 WC Word Editor Stable PRO
 </div>
 
-<!-- TOP COMMANDS -->
+<!-- TOOLBAR -->
+<div class="toolbar">
 
-<div class="ribbon-commands-panel">
+<button onclick="exec('bold')"><b>B</b></button>
+<button onclick="exec('italic')"><i>I</i></button>
+<button onclick="exec('underline')"><u>U</u></button>
 
-<button class="cmd-btn"
-onclick="undoAction()">
-↩️ Undo
-</button>
+<button onclick="exec('insertUnorderedList')">• Lista</button>
+<button onclick="exec('insertOrderedList')">1. Lista</button>
 
-<button class="cmd-btn"
-onclick="redoAction()">
-↪️ Redo
-</button>
+<button onclick="exec('justifyLeft')">⬅</button>
+<button onclick="exec('justifyCenter')">↔</button>
+<button onclick="exec('justifyRight')">➡</button>
 
-<button class="cmd-btn"
-onclick="saveDocument()">
-💾 Guardar
-</button>
+<select onchange="fontSize(this.value)">
+  <option value="3">14px</option>
+  <option value="4" selected>16px</option>
+  <option value="5">20px</option>
+</select>
 
-<button class="cmd-btn"
-onclick="exportPDF()">
-📄 Export PDF
-</button>
+<button onclick="color('#1d5270')">Azul</button>
+<button onclick="color('#92324f')">Rojo</button>
+<button onclick="color('#d94e18')">Naranja</button>
+
+<button onclick="undo()">↩</button>
+<button onclick="redo()">↪</button>
+
+<button onclick="save()">💾</button>
 
 </div>
 
 <!-- WORKSPACE -->
-
 <div class="workspace">
-
-  <div class="paper">
-    <div id="editor"></div>
+  <div class="page">
+    <div id="editor" contenteditable="true"></div>
   </div>
-
 </div>
 
-<!-- FLOATING TOOLS -->
+<!-- FLOAT MENU -->
+<div class="floating">
 
-<div class="floating-corporate-container">
+<button class="fab" onclick="toggleMenu()">💼 IA</button>
 
-<div class="dropdown-up-panel"
-id="corporateDropdown">
+<div class="menu" id="menu">
 
-<div>
-
-<div class="group-label">
-FORMATO CORPORATIVO
-</div>
-
-<div class="group-row">
-
-<button class="icon-btn"
-onclick="boldText()">
-B
-</button>
-
-<button class="icon-btn"
-onclick="italicText()">
-I
-</button>
-
-<button class="icon-btn"
-onclick="underlineText()">
-U
-</button>
-
-<button class="icon-btn"
-onclick="bulletList()">
-•
-</button>
-
-<button class="icon-btn"
-onclick="orderedList()">
-1.
-</button>
+<button onclick="insertText('Resumen automático...')">🧠 Resumen</button>
+<button onclick="insertText('Texto mejorado...')">✨ Mejorar</button>
+<button onclick="clearDoc()">🧹 Limpiar</button>
 
 </div>
-
-</div>
-
-<div>
-
-<div class="group-label">
-COLORES
-</div>
-
-<div class="group-row">
-
-<button class="icon-btn"
-onclick="setColorText('#1d5270')">
-🎨
-</button>
-
-<button class="icon-btn"
-onclick="setColorText('#92324f')">
-🎨
-</button>
-
-<button class="icon-btn"
-onclick="setColorText('#d94e18')">
-🎨
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<button class="trigger-menu-btn"
-onclick="toggleCorporateMenu()">
-
-💼 Herramientas Platinum
-
-</button>
-
-</div>
-
-<!-- IA -->
-
-<div class="ai-assistant-panel">
-
-<div>
-🤖 WC IA Assistant
-</div>
-
-<textarea placeholder="Pregunte a la IA..."></textarea>
-
-<button onclick="simulateAI()">
-Generar
-</button>
 
 </div>
 
 <!-- FOOTER -->
+<div class="footer">
 
-<div class="footer-bar">
-
-<span>
-WC Platinum Engine • TipTap Powered
-</span>
-
-<span id="lblContador">
-0 palabras | 0 caracteres
-</span>
+<span id="counter">0 palabras | 0 caracteres</span>
+<span>WC Engine Stable</span>
 
 </div>
 
-<!-- SCRIPT -->
-
-<script type="module">
-
-import { Editor } from 'https://esm.sh/@tiptap/core'
-import StarterKit from 'https://esm.sh/@tiptap/starter-kit'
-import Underline from 'https://esm.sh/@tiptap/extension-underline'
-import TextStyle from 'https://esm.sh/@tiptap/extension-text-style'
-import Color from 'https://esm.sh/@tiptap/extension-color'
+<script>
 
 let editor;
 
-/* INIT */
-
-function initEditor(){
-
-  editor = new Editor({
-
-    element: document.querySelector('#editor'),
-
-    extensions: [
-      StarterKit,
-      Underline,
-      TextStyle,
-      Color
-    ],
-
-    content:
-      localStorage.getItem('wc_doc') ||
-
-      `
-      <h1>WC Corporate Editor Platinum</h1>
-
-      <p>
-      Bienvenido al nuevo ecosistema WC.
-      </p>
-
-      <p>
-      Motor moderno TipTap + ProseMirror.
-      </p>
-      `,
-
-    onUpdate(){
-
-      updateCounters();
-
-      localStorage.setItem(
-        'wc_doc',
-        editor.getHTML()
-      );
-    }
-
-  });
-
-  updateCounters();
-}
-
-/* COUNTER */
-
-function updateCounters(){
-
-  if(!editor) return;
-
-  const text = editor.getText();
-
-  const words =
-    text.trim() === ''
-    ? 0
-    : text.trim().split(/\s+/).length;
-
-  document.getElementById('lblContador')
-    .textContent =
-    `${words} palabras | ${text.length} caracteres`;
-}
-
-/* MENU */
-
-window.toggleCorporateMenu = () => {
-
-  document
-    .getElementById('corporateDropdown')
-    .classList
-    .toggle('show');
-}
-
-/* BUTTONS */
-
-window.boldText = () => {
-  editor.chain().focus().toggleBold().run();
-}
-
-window.italicText = () => {
-  editor.chain().focus().toggleItalic().run();
-}
-
-window.underlineText = () => {
-  editor.chain().focus().toggleUnderline().run();
-}
-
-window.bulletList = () => {
-  editor.chain().focus().toggleBulletList().run();
-}
-
-window.orderedList = () => {
-  editor.chain().focus().toggleOrderedList().run();
-}
-
-window.undoAction = () => {
-  editor.chain().focus().undo().run();
-}
-
-window.redoAction = () => {
-  editor.chain().focus().redo().run();
-}
-
-/* COLORS */
-
-window.setColorText = (color) => {
-
-  editor
-    .chain()
-    .focus()
-    .setColor(color)
-    .run();
-}
-
-/* SAVE */
-
-window.saveDocument = () => {
-
-  localStorage.setItem(
-    'wc_doc',
-    editor.getHTML()
-  );
-
-  alert('Documento guardado');
-}
-
-/* PDF */
-
-window.exportPDF = async () => {
-
-  const script =
-    document.createElement('script');
-
-  script.src =
-    'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-
-  script.onload = () => {
-
-    html2pdf()
-      .from(document.querySelector('.paper'))
-      .save('WC_Document.pdf');
-  };
-
-  document.body.appendChild(script);
-}
-
-/* IA */
-
-window.simulateAI = () => {
-
-  alert(
-    'WC IA generó sugerencias.'
-  );
-}
-
-/* START */
-
-initEditor();
-
-<script>
-
-let editor = null;
-
-/* INICIALIZAR CUANDO TODO EXISTE */
 window.addEventListener('DOMContentLoaded', () => {
 
   editor = document.getElementById('editor');
 
-  if(!editor){
-    alert("ERROR: No existe #editor en el HTML");
-    return;
-  }
-
   editor.contentEditable = true;
 
   editor.innerHTML = localStorage.getItem('wc_doc') || `
-    <h2>WC Corporate Editor</h2>
-    <p>Editor listo y funcionando.</p>
+    <h1>Documento WC Word</h1>
+    <p>Editor estable listo para usar.</p>
   `;
 
   editor.addEventListener('input', updateCounter);
 
+  editor.addEventListener('click', () => editor.focus());
+
   updateCounter();
 });
 
-/* CONTADOR */
+/* 🔥 CORE FIX: SIEMPRE SELECCIÓN + FOCO */
+
+function exec(cmd){
+
+  editor.focus();
+
+  const sel = window.getSelection();
+
+  if (!sel.rangeCount) {
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  document.execCommand(cmd, false, null);
+
+  updateCounter();
+}
+
+/* FONT SIZE */
+
+function fontSize(v){
+  editor.focus();
+  document.execCommand('fontSize', false, v);
+}
+
+/* COLOR */
+
+function color(c){
+  editor.focus();
+  document.execCommand('foreColor', false, c);
+}
+
+/* UNDO REDO */
+
+function undo(){
+  document.execCommand('undo');
+}
+
+function redo(){
+  document.execCommand('redo');
+}
+
+/* SAVE */
+
+function save(){
+  localStorage.setItem('wc_doc', editor.innerHTML);
+  alert("Guardado");
+}
+
+/* IA MENU */
+
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('show');
+}
+
+function insertText(text){
+  editor.focus();
+  document.execCommand('insertText', false, text);
+  updateCounter();
+}
+
+function clearDoc(){
+  editor.innerHTML = "";
+}
+
+/* COUNTER */
 
 function updateCounter(){
-
-  if(!editor) return;
 
   const text = editor.innerText || "";
 
@@ -615,55 +317,11 @@ function updateCounter(){
     ? text.trim().split(/\s+/).length
     : 0;
 
-  document.getElementById('lblContador').innerText =
+  document.getElementById('counter').innerText =
     `${words} palabras | ${text.length} caracteres`;
 }
 
-/* SAFE EXEC */
-
-function safeExec(cmd){
-
-  if(!editor) return;
-
-  editor.focus();
-
-  document.execCommand(cmd, false, null);
-
-  updateCounter();
-}
-
-/* BOTONES */
-
-window.boldText = () => safeExec('bold');
-window.italicText = () => safeExec('italic');
-window.underlineText = () => safeExec('underline');
-window.bulletList = () => safeExec('insertUnorderedList');
-window.orderedList = () => safeExec('insertOrderedList');
-
-window.undoAction = () => safeExec('undo');
-window.redoAction = () => safeExec('redo');
-
-window.setColorText = (c) => {
-  if(!editor) return;
-  editor.focus();
-  document.execCommand('foreColor', false, c);
-};
-
-window.saveDocument = () => {
-  if(!editor) return;
-  localStorage.setItem('wc_doc', editor.innerHTML);
-  alert("Guardado");
-};
-
-window.toggleCorporateMenu = () => {
-  document.getElementById('corporateDropdown')
-    .classList.toggle('show');
-};
-
-window.simulateAI = () => {
-  alert("IA funcionando (modo estable)");
-};
-
 </script>
+
 </body>
 </html>
