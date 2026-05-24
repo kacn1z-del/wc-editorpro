@@ -11,14 +11,17 @@
       --panel: #ffffff;
       --text: #1e1e1e;
       --border: #d1d1d1;
-      --sidebar-w: 180px;
-      --assistant-w: 180px;
+      --sidebar-w: 60px;
+      --sidebar-expanded: 180px;
+      --assistant-w: 60px;
+      --assistant-expanded: 180px;
       --assistant-collapsed: 0px;
       --ribbon-h: 145px;
       --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
       --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
-      --page-width: 816px;
-      --page-margin: 32px;
+      --page-width: 100%;
+      --page-max-width: 1200px;
+      --page-margin: 16px;
     }
     
     [data-theme="dark"] {
@@ -45,8 +48,17 @@
       padding:16px 0;
       height:100vh;
       overflow-y:auto;
+      overflow-x:hidden;
       z-index:100;
+      transition: width 0.3s;
     }
+    .sidebar-docs:hover { width:var(--sidebar-expanded); }
+    .sidebar-docs h3 span, .sidebar-docs li span, .storage {
+      opacity:0; transition: opacity 0.2s; white-space:nowrap;
+    }
+    .sidebar-docs:hover h3 span, 
+    .sidebar-docs:hover li span, 
+    .sidebar-docs:hover .storage { opacity:1; }
    .sidebar-docs h3 { 
       font-size:11px; margin:16px 12px 6px; 
       text-transform:uppercase; font-weight:700; opacity:0.8;
@@ -78,7 +90,7 @@
       position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
       background:var(--panel); border-bottom:1px solid var(--border);
       height:var(--ribbon-h); z-index:50;
-      transition: right 0.3s;
+      transition: right 0.3s, left 0.3s;
     }
     body.ai-collapsed .ribbon { right: var(--assistant-collapsed); }
     
@@ -112,53 +124,57 @@
     }
     
    .toolbar {
-      height:75px; display:flex; align-items:stretch; padding:4px 12px; gap:8px;
-      border-top:1px solid var(--border); overflow-x:auto;
+      height:75px; display:flex; align-items:flex-start; padding:4px 12px; gap:0;
+      border-top:1px solid var(--border); overflow-x:auto; overflow-y:hidden;
     }
    .tool-group {
-      display:flex; flex-direction:column; justify-content:space-between;
-      padding:0 12px; border-right:1px solid var(--border);
-      min-width:fit-content;
+      display:flex; flex-direction:column; justify-content:flex-start;
+      padding:0 10px; border-right:1px solid var(--border);
+      min-width:fit-content; height:67px;
     }
    .tool-group:last-child { border:none; }
    .tool-group-main {
-      display:flex; gap:8px; align-items:flex-start; flex:1; padding-top:4px;
+      display:flex; gap:6px; align-items:flex-start; flex:1; padding-top:2px;
     }
    .tool-group-col {
-      display:flex; flex-direction:column; gap:2px;
+      display:flex; flex-direction:row; gap:2px; flex-wrap:wrap; max-width:180px;
     }
    .tool-group-col button {
-      padding:2px 8px; border:1px solid transparent; background:transparent;
-      border-radius:3px; cursor:pointer; font-size:12px; text-align:left; color:var(--text);
+      padding:3px 8px; border:1px solid var(--border); background:var(--panel);
+      border-radius:3px; cursor:pointer; font-size:12px; color:var(--text);
+      height:26px; display:flex; align-items:center; gap:4px;
     }
-   .tool-group-col button:hover { background:var(--bg); border-color:var(--border); }
+   .tool-group-col button:hover { background:var(--bg); }
    .tool-group-label {
-      font-size:11px; text-align:center; color:var(--text); opacity:0.6;
-      padding:4px 0 2px; border-top:1px solid var(--border); margin-top:4px;
+      font-size:10px; text-align:center; color:var(--text); opacity:0.6;
+      padding:3px 0 1px; border-top:1px solid var(--border); margin-top:auto;
+      white-space:nowrap;
     }
    .big-btn {
-      display:flex; flex-direction:column; align-items:center; gap:2px;
-      padding:4px 12px; border:1px solid transparent; background:transparent;
-      border-radius:4px; cursor:pointer; font-size:12px; color:var(--text);
+      display:flex; flex-direction:column; align-items:center; gap:1px;
+      padding:2px 10px; border:1px solid transparent; background:transparent;
+      border-radius:4px; cursor:pointer; font-size:11px; color:var(--text);
+      min-width:55px;
     }
    .big-btn:hover { background:var(--bg); border-color:var(--border); }
    .tool-row {
-      display:flex; gap:2px; margin-bottom:2px;
+      display:flex; gap:2px; margin-bottom:2px; flex-wrap:nowrap;
     }
    .tool-row button,.tool-row select,.tool-row input[type="color"] {
       padding:4px 6px; border:1px solid var(--border); 
       background:var(--panel); border-radius:3px; cursor:pointer;
-      color:var(--text); font-size:13px; height:26px;
+      color:var(--text); font-size:13px; height:26px; flex-shrink:0;
     }
    .tool-row input[type="color"] { width:26px; padding:2px; }
    .tool-row button:hover { background:var(--bg); }
    .tool-row button.active { background:var(--blue); color:white; border-color:var(--blue); }
    .style-gallery {
-      display:flex; gap:4px; align-items:flex-start; padding-top:4px;
+      display:flex; gap:3px; align-items:flex-start; padding-top:2px; flex-wrap:nowrap;
     }
    .style-item {
-      padding:8px 12px; border:1px solid var(--border); background:var(--panel);
-      border-radius:4px; cursor:pointer; font-size:13px; min-width:70px; color:var(--text);
+      padding:6px 10px; border:1px solid var(--border); background:var(--panel);
+      border-radius:4px; cursor:pointer; font-size:12px; color:var(--text);
+      white-space:nowrap; height:26px; display:flex; align-items:center;
     }
    .style-item.active { 
       background:var(--gradient-soft); border-color:var(--blue); 
@@ -189,7 +205,7 @@
       flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
       padding:calc(var(--ribbon-h) + 16px) 16px 50px; 
       height:100vh; overflow-y:auto;
-      transition: margin-right 0.3s;
+      transition: margin-right 0.3s, margin-left 0.3s;
     }
     body.ai-collapsed .workspace { margin-right: var(--assistant-collapsed); }
     
@@ -199,7 +215,8 @@
       margin:0 auto;
       box-shadow:0 2px 8px rgba(0,0,0,0.15); 
       min-height:1056px;
-      width:var(--page-width); 
+      width:var(--page-width);
+      max-width:var(--page-max-width);
       border-radius:2px; 
       outline:none;
     }
@@ -220,8 +237,15 @@
       position:fixed; top:0; right:0; width:var(--assistant-w); height:100vh;
       background:var(--panel); border-left:1px solid var(--border); 
       padding:10px; display:flex; flex-direction:column;
-      transition: transform 0.3s;
+      transition: width 0.3s; overflow:hidden;
     }
+    .assistant:hover { width:var(--assistant-expanded); }
+    .assistant-header h3, .assistant-tabs, .assistant-content {
+      opacity:0; transition: opacity 0.2s;
+    }
+    .assistant:hover .assistant-header h3,
+    .assistant:hover .assistant-tabs,
+    .assistant:hover .assistant-content { opacity:1; }
     body.ai-collapsed .assistant { transform: translateX(100%); }
     
    .assistant-header {
@@ -259,15 +283,6 @@
     }
    .ai-actions button:hover { background:var(--gradient-soft); }
 
-   .template-grid {
-      display:grid; grid-template-columns:1fr; gap:10px;
-    }
-   .template {
-      border:1px solid var(--border); border-radius:8px; padding:10px;
-      cursor:pointer; text-align:center; transition:all.2s;
-    }
-   .template:hover { border-color:var(--blue); transform:translateY(-2px); }
-
    .ai-toggle {
       position:fixed; right:12px; top:50%; transform:translateY(-50%);
       background:var(--gradient); color:white; border:none;
@@ -282,28 +297,42 @@
       height:30px; background:var(--panel); border-top:1px solid var(--border);
       font-size:12px; color:var(--text); display:flex; align-items:center; 
       padding:0 16px; gap:20px;
-      transition: right 0.3s;
+      transition: right 0.3s, left 0.3s;
     }
     body.ai-collapsed .statusbar { right: var(--assistant-collapsed); }
    .statusbar.right { margin-left:auto; display:flex; gap:16px; }
+
+   body.focus-mode .sidebar-docs,
+   body.focus-mode .assistant,
+   body.focus-mode .ribbon,
+   body.focus-mode .statusbar {
+      display:none !important;
+    }
+    body.focus-mode .workspace {
+      margin:0 !important;
+      padding:20px !important;
+    }
+    body.focus-mode .page {
+      max-width:900px;
+    }
   </style>
 </head>
 <body>
   <aside class="sidebar-docs">
-    <h3>Documentos <button onclick="newDoc()">+</button></h3>
+    <h3><span>Documentos</span> <button onclick="newDoc()">+</button></h3>
     <ul id="doc-list">
-      <li class="active">📄 Documento 1</li>
-      <li>📊 Informe</li>
-      <li>📈 Propuesta</li>
-      <li>📋 Proyecto</li>
-      <li>📝 Notas</li>
-      <li>🎨 WC Arte</li>
+      <li class="active">📄 <span>Documento 1</span></li>
+      <li>📊 <span>Informe</span></li>
+      <li>📈 <span>Propuesta</span></li>
+      <li>📋 <span>Proyecto</span></li>
+      <li>📝 <span>Notas</span></li>
+      <li>🎨 <span>WC Arte</span></li>
     </ul>
-    <h3>Recientes</h3>
+    <h3><span>Recientes</span></h3>
     <ul>
-      <li>📁 Contrato_2024</li>
-      <li>📁 Reporte_Mensual</li>
-      <li>📁 Proyecto_Final</li>
+      <li>📁 <span>Contrato_2024</span></li>
+      <li>📁 <span>Reporte_Mensual</span></li>
+      <li>📁 <span>Proyecto_Final</span></li>
     </ul>
     <div class="storage">
       Almacenamiento
@@ -318,6 +347,7 @@
       <div class="title">WC Corporate Editor v20</div>
       <input type="search" placeholder="Buscar comandos..." id="search-cmd">
       <div class="profile">
+        <button onclick="toggleFocusMode()" style="background:none;border:none;cursor:pointer;font-size:16px;" title="Modo Enfoque F11">🎯</button>
         👤 Keny Chinchilla
         <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:16px;">🌙</button>
       </div>
@@ -422,10 +452,19 @@
       </div>
 
       <div class="tool-group">
-        <div class="tool-group-col">
-          <button onclick="findText()">🔍 Buscar</button>
-          <button onclick="replaceText()">🔄 Reemplazar</button>
-          <button onclick="execCmd('selectAll')">📍 Seleccionar todo</button>
+        <div class="tool-group-main">
+          <button class="big-btn" onclick="findText()">
+            <div style="font-size:18px;">🔍</div>
+            <span>Buscar</span>
+          </button>
+          <button class="big-btn" onclick="replaceText()">
+            <div style="font-size:18px;">🔄</div>
+            <span>Reemplazar</span>
+          </button>
+          <button class="big-btn" onclick="execCmd('selectAll')">
+            <div style="font-size:18px;">📍</div>
+            <span>Seleccionar</span>
+          </button>
         </div>
         <div class="tool-group-label">Edición</div>
       </div>
@@ -457,8 +496,7 @@
       </div>
     </div>
   </main>
-
-  <aside class="assistant">
+    <aside class="assistant">
     <div class="assistant-header">
       <h3>IA Asistente WC</h3>
       <button class="collapse-btn" onclick="toggleAI()" title="Ocultar panel">→</button>
@@ -495,7 +533,8 @@
       <span>✓ Guardado automático</span>
     </div>
   </footer>
-    <script>
+
+  <script>
     const editor = document.getElementById('editor');
     let formatPainterData = null;
 
@@ -634,7 +673,8 @@
       const rows = prompt('Filas:', '3');
       const cols = prompt('Columnas:', '3');
       if(rows && cols) {
-        let html = '<table border="1" style="border-collapse:collapse;width:100%;margin:10px 0;">';
+        let html = '<table border
+                let html = '<table border="1" style="border-collapse:collapse;width:100%;margin:10px 0;">';
         for(let i=0; i<rows; i++) {
           html += '<tr>';
           for(let j=0; j<cols; j++) {
@@ -660,7 +700,7 @@
     }
 
     function showHelp() {
-      alert('WC Corporate Editor v20\n\nAtajos:\nCtrl+B: Negrita\nCtrl+I: Cursiva\nCtrl+U: Subrayado\nCtrl+Z: Deshacer\nCtrl+Y: Rehacer\nCtrl+S: Guardar\nCtrl+F: Buscar');
+      alert('WC Corporate Editor v20\n\nAtajos:\nCtrl+B: Negrita\nCtrl+I: Cursiva\nCtrl+U: Subrayado\nCtrl+Z: Deshacer\nCtrl+Y: Rehacer\nCtrl+S: Guardar\nCtrl+F: Buscar\nF11: Modo Enfoque');
     }
 
     function showMenu(type) {
@@ -668,8 +708,8 @@
         const action = prompt('Archivo:\n1. Nuevo\n2. Guardar\n3. Exportar PDF\n4. Imprimir\n5. Cerrar');
         if(action === '1') newDoc();
         if(action === '2') { localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
-        if(action === '3
-                if(action === '4') window.print();
+        if(action === '3') window.print();
+        if(action === '4') window.print();
       }
     }
 
@@ -770,6 +810,10 @@
       localStorage.setItem('wc_ai_collapsed', document.body.classList.contains('ai-collapsed'));
     }
 
+    function toggleFocusMode() {
+      document.body.classList.toggle('focus-mode');
+    }
+
     function handleShortcuts(e) {
       if(e.ctrlKey || e.metaKey) {
         if(e.key === 's') { e.preventDefault(); localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
@@ -777,6 +821,10 @@
         if(e.key === 'b') { e.preventDefault(); toggleFormat('bold'); }
         if(e.key === 'i') { e.preventDefault(); toggleFormat('italic'); }
         if(e.key === 'u') { e.preventDefault(); toggleFormat('underline'); }
+      }
+      if(e.key === 'F11') {
+        e.preventDefault();
+        toggleFocusMode();
       }
     }
   </script>
