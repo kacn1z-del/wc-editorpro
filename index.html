@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20.4 - Premium Suite</title>
+<title>WC Corporate Editor v20 - Ultimate Edition</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -26,7 +26,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 
 /* BARRA DE IDIOMAS */
-.lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+.lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
 .lang-bar::-webkit-scrollbar { display: none; }
 .lang-btn {
   background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25);
@@ -34,7 +34,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
 
-/* CINTA DESLIZABLE DE PESTAÑAS (Fiel a tu video) */
+/* CINTA DESLIZABLE DE PESTAÑAS */
 .mobile-tabs-scroll {
   display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; padding-bottom: 4px; scrollbar-width: none;
 }
@@ -45,20 +45,31 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
 
-/* CONTENEDOR DE MANDOS DINÁMICOS (Sub-pestaña) */
+/* CONTENEDOR DE MANDOS DINÁMICOS */
 .ribbon-commands-panel {
-  background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0;
+  background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0; scrollbar-width: none;
 }
+.ribbon-commands-panel::-webkit-scrollbar { display: none; }
 .cmd-btn {
   background: white; border: 1px solid var(--border-color); padding: 6px 12px;
   border-radius: 6px; font-size: 12px; color: #334155; display: flex; align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
 
-/* BARRA DE SELECTORES RÁPIDOS */
-.font-bar { background: #e2e8f0; padding: 2px 12px 8px 12px; display: flex; gap: 8px; flex-shrink: 0; overflow-x: auto; }
+/* 🛠️ BARRA DE SELECTORES RÁPIDOS OPTIMIZADA CON COLOR DE META */
+.font-bar { 
+  background: #e2e8f0; 
+  padding: 2px 12px 8px 12px; 
+  display: flex; 
+  gap: 6px; 
+  flex-shrink: 0; 
+  overflow-x: auto; 
+  align-items: center;
+  scrollbar-width: none;
+}
+.font-bar::-webkit-scrollbar { display: none; }
 .font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
 
-/* 🏛️ MENÚ CORPORATIVO FIJO INFERIOR (Estilo Estética Ejecutiva de tu captura) */
+/* MENÚ CORPORATIVO FIJO INFERIOR */
 .corporate-ribbon-dock {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
@@ -70,20 +81,14 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   overflow-x: auto;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  scrollbar-width: none;
 }
-.ribbon-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-right: 1px solid #e2e8f0;
-  padding-right: 12px;
-  gap: 4px;
-}
+.corporate-ribbon-dock::-webkit-scrollbar { display: none; }
+.ribbon-group { display: flex; flex-direction: column; align-items: center; border-right: 1px solid #e2e8f0; padding-right: 12px; gap: 4px; }
 .ribbon-group:last-child { border-right: none; padding-right: 0; }
 .group-row { display: flex; gap: 4px; }
 .group-label { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
 
-/* Botones icónicos de la barra fija */
 .icon-btn {
   background: white; border: 1px solid var(--border-color);
   width: 32px; height: 32px; border-radius: 6px;
@@ -102,8 +107,25 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 
 /* BARRA DE ESTADO INFERIOR */
 .footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
-#toast-alert { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 6px 14px; border-radius: 6px; font-size: 12px; opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; }
-#toast-alert.show { opacity: 1; }
+
+/* 🏛️ VENTANA MODAL ESTILO CORPORATIVO FIEL A TU CAPTURA */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
+  z-index: 20000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+}
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+.corporate-modal {
+  background: white; width: 85%; max-width: 340px; border-radius: 14px;
+  padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  text-align: center; transform: scale(0.9); transition: transform 0.2s ease;
+}
+.modal-overlay.show .corporate-modal { transform: scale(1); }
+.modal-title { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 14px; }
+.modal-btn-close {
+  background: transparent; border: none; color: #2563eb; font-size: 14px;
+  font-weight: 500; cursor: pointer; margin-top: 10px; padding: 8px 16px; width: 100%; text-align: right;
+}
 </style>
 </head>
 <body>
@@ -130,7 +152,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   <div class="ribbon-commands-panel" id="panelComandos"></div>
 
   <div class="font-bar">
-    <select class="font-select" style="min-width:140px;" onchange="applyTypography('fontName', this.value)">
+    <select class="font-select" style="min-width:110px;" onchange="applyTypography('fontName', this.value)">
       <option value="Segoe UI" selected>Segoe UI</option>
       <option value="Arial">Arial</option>
       <option value="Calibri">Calibri</option>
@@ -140,7 +162,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="Verdana">Verdana</option>
     </select>
 
-    <select class="font-select" style="min-width:80px;" onchange="applyTypography('fontSize', this.value)">
+    <select class="font-select" style="min-width:75px;" onchange="applyTypography('fontSize', this.value)">
       <option value="12px">12 px</option>
       <option value="14px">14 px</option>
       <option value="16px" selected>16 px</option>
@@ -148,40 +170,48 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="24px">24 px</option>
       <option value="32px">32 px</option>
     </select>
+
+    <select class="font-select" style="min-width:105px; border-left: 2px solid #92324f;" onchange="applyTypography('foreColor', this.value)">
+      <option value="#1e293b" selected>🎨 Color Meta</option>
+      <option value="#1d5270">Corporate Blue</option>
+      <option value="#92324f">Executive Wine</option>
+      <option value="#d94e18">Meta Orange</option>
+      <option value="#0f172a">Deep Dark</option>
+      <option value="#16a34a">Eco Green</option>
+      <option value="#2563eb">Digital Blue</option>
+    </select>
   </div>
 
   <div class="corporate-ribbon-dock">
-    
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('bold')" title="Negrita"><b>B</b></button>
-        <button class="icon-btn" onclick="execCmd('italic')" title="Cursiva"><i>I</i></button>
-        <button class="icon-btn" onclick="execCmd('underline')" title="Subrayado"><u>U</u></button>
+        <button class="icon-btn" onclick="execCmd('bold')"><b>B</b></button>
+        <button class="icon-btn" onclick="execCmd('italic')"><i>I</i></button>
+        <button class="icon-btn" onclick="execCmd('underline')"><u>U</u></button>
       </div>
       <div class="group-label" id="lblG1">Fuente</div>
     </div>
 
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('justifyLeft')" title="Alinear izquierda">⟨=</button>
-        <button class="icon-btn" onclick="execCmd('justifyCenter')" title="Centrar">=⌵=</button>
-        <button class="icon-btn" onclick="execCmd('justifyRight')" title="Alinear derecha">=⟩</button>
-        <button class="icon-btn" onclick="execCmd('justifyFull')" title="Justificar">===</button>
+        <button class="icon-btn" onclick="execCmd('justifyLeft')">⟨=</button>
+        <button class="icon-btn" onclick="execCmd('justifyCenter')">=⌵=</button>
+        <button class="icon-btn" onclick="execCmd('justifyRight')">=⟩</button>
+        <button class="icon-btn" onclick="execCmd('justifyFull')">===</button>
       </div>
       <div class="group-label" id="lblG2">Párrafo</div>
     </div>
 
     <div class="ribbon-group">
       <div class="group-row">
-        <button class="icon-btn" onclick="execCmd('insertUnorderedList')" title="Viñetas">•=</button>
-        <button class="icon-btn" onclick="execCmd('insertOrderedList')" title="Numeración">1=</button>
+        <button class="icon-btn" onclick="execCmd('insertUnorderedList')">•=</button>
+        <button class="icon-btn" onclick="execCmd('insertOrderedList')">1=</button>
         <button class="icon-btn icon-btn-large id-mic-btn" id="btnDictado" onclick="toggleDictation()">
           🎙️ <span id="lblMic">Dictar</span>
         </button>
       </div>
       <div class="group-label" id="lblG3">Herramientas</div>
     </div>
-
   </div>
 
   <div class="workspace">
@@ -196,29 +226,44 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
     <span id="lblContador">0 palabras | 0 caracteres</span>
   </div>
 
-  <div id="toast-alert">Aviso</div>
+  <div class="modal-overlay" id="customModal">
+    <div class="corporate-modal">
+      <div class="modal-title" id="customModalContent">Acción ejecutada</div>
+      <button class="modal-btn-close" onclick="closeModal()">Cerrar</button>
+    </div>
+  </div>
 
 <script>
 let currentTab = 'inicio';
 let currentLang = 'es';
-let toastTimer;
 let recognition = null;
 let isRecording = false;
 
+// Base de datos de traducciones y comandos dinámicos por pestaña móvil
 const translationsDb = {
   es: {
     eco: "Ecosistema Activo: Español 🇨🇷",
     hTitle: "Bienvenido a WC Corporate Editor",
     hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
     g1: "Fuente", g2: "Párrafo", g3: "Herramientas", micStart: "Dictar", micStop: "Grabando...",
-    toastTable: "Tabla insertada", toastMargin: "Margen cambiado", toastArte: "Estilo WC Arte aplicado",
     tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB" },
     cmds: {
       inicio: [{ txt: "📋 Cortar", action: "cut" }, { txt: "🖨️ Copiar", action: "copy" }],
       insertar: [{ txt: "📊 Tabla", action: "insertTable" }, { txt: "🔗 Vínculo", action: "insertLink" }],
-      diseno: [{ txt: "🔴 Texto Rojo", action: "colorRed" }, { txt: "🔵 Texto Azul", action: "colorBlue" }],
-      disposicion: [{ txt: "📐 M. Normal", action: "marginNormal" }, { txt: "🥞 M. Estrecho", action: "marginNarrow" }],
-      arte: [{ txt: "⭐ Neón", action: "arteNeon" }, { txt: "👑 Oro", action: "arteOro" }]
+      diseno: [{ txt: "🎨 Corporate Theme", action: "themeCorp" }, { txt: "🏁 Fondo Gris", action: "bgGray" }],
+      disposicion: [{ txt: "📐 Margen Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
+      arte: [
+        { txt: "👑 Oro Líquido", action: "arteOro" },
+        { txt: "⭐ Estilo Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Meta Glow", action: "arteGlow" },
+        { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" },
+        { txt: "🍃 Eco Bio", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" },
+        { txt: "💼 Ejecutivo Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon Cyber", action: "arteNeon" },
+        { txt: "🍫 Bronce Real", action: "arteBronce" }
+      ]
     }
   },
   en: {
@@ -226,14 +271,24 @@ const translationsDb = {
     hTitle: "Welcome to WC Corporate Editor",
     hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
     g1: "Font", g2: "Paragraph", g3: "Tools", micStart: "Dictate", micStop: "Listening...",
-    toastTable: "Table inserted", toastMargin: "Margin updated", toastArte: "WC Art Style applied",
     tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB" },
     cmds: {
       inicio: [{ txt: "📋 Cut", action: "cut" }, { txt: "🖨️ Copy", action: "copy" }],
       insertar: [{ txt: "📊 Table", action: "insertTable" }, { txt: "🔗 Link", action: "insertLink" }],
-      diseno: [{ txt: "🔴 Red Text", action: "colorRed" }, { txt: "🔵 Blue Text", action: "colorBlue" }],
-      disposicion: [{ txt: "📐 Std Margin", action: "marginNormal" }, { txt: "🥞 Narrow M.", action: "marginNarrow" }],
-      arte: [{ txt: "⭐ Neon", action: "arteNeon" }, { txt: "👑 Gold", action: "arteOro" }]
+      diseno: [{ txt: "🎨 Corp Theme", action: "themeCorp" }, { txt: "🏁 Gray Background", action: "bgGray" }],
+      disposicion: [{ txt: "📐 Normal Margin", action: "marginNormal" }, { txt: "🥞 Columns", action: "columnsToggle" }],
+      arte: [
+        { txt: "👑 Liquid Gold", action: "arteOro" },
+        { txt: "⭐ Rainbow Style", action: "arteArcoiris" },
+        { txt: "⚡ Meta Glow", action: "arteGlow" },
+        { txt: "💎 Diamond", action: "arteDiamante" },
+        { txt: "🌌 Deep Space", action: "arteEspacial" },
+        { txt: "🍃 Eco Fresh", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" },
+        { txt: "💼 Executive Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Cyber Neon", action: "arteNeon" },
+        { txt: "🍫 Royal Bronze", action: "arteBronce" }
+      ]
     }
   },
   bri: {
@@ -241,14 +296,24 @@ const translationsDb = {
     hTitle: "Kápö - WC Corporate Editor baka",
     hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
     g1: "Ká̱ jë", g2: "Ujtëk já̱", g3: "Sán", micStart: "Pakö", micStop: "Katö...",
-    toastTable: "Tabla sán ujtëk", toastMargin: "Margen ká̱ já̱", toastArte: "WC Arte sán ujtëk",
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
       inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
       insertar: [{ txt: "📊 Tabla sán", action: "insertTable" }, { txt: "🔗 Enlace", action: "insertLink" }],
-      diseno: [{ txt: "🔴 Bee", action: "colorRed" }, { txt: "🔵 Sĩĩ", action: "colorBlue" }],
-      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Sér", action: "marginNarrow" }],
-      arte: [{ txt: "⭐ Neon sán", action: "arteNeon" }, { txt: "👑 Oro sán", action: "arteOro" }]
+      diseno: [{ txt: "🎨 Ká̱ theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
+      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
+      arte: [
+        { txt: "👑 Oro Líquido", action: "arteOro" },
+        { txt: "⭐ Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Glow", action: "arteGlow" },
+        { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" },
+        { txt: "🍃 Eco", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" },
+        { txt: "💼 Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon", action: "arteNeon" },
+        { txt: "🍫 Bronce", action: "arteBronce" }
+      ]
     }
   },
   cab: {
@@ -256,23 +321,35 @@ const translationsDb = {
     hTitle: "Sáwá - Editor Suite",
     hDesc: "Cabécar jula sán editor por etnolingüística.",
     g1: "Jula", g2: "Márgenes", g3: "Herramientas", micStart: "Jula pak", micStop: "Sáwá...",
-    toastTable: "Tabla sán tsoñ", toastMargin: "Ká wá m.", toastArte: "WC Style applied",
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
       inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
       insertar: [{ txt: "📊 Tabla", action: "insertTable" }, { txt: "🔗 Link", action: "insertLink" }],
-      diseno: [{ txt: "🔴 Red", action: "colorRed" }, { txt: "🔵 Blue", action: "colorBlue" }],
-      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Estrecho", action: "marginNarrow" }],
-      arte: [{ txt: "⭐ Style 1", action: "arteNeon" }, { txt: "👑 Style 2", action: "arteOro" }]
+      diseno: [{ txt: "🎨 Theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
+      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
+      arte: [
+        { txt: "👑 Oro Líquido", action: "arteOro" },
+        { txt: "⭐ Arcoíris", action: "arteArcoiris" },
+        { txt: "⚡ Glow", action: "arteGlow" },
+        { txt: "💎 Diamante", action: "arteDiamante" },
+        { txt: "🌌 Espacial", action: "arteEspacial" },
+        { txt: "🍃 Eco", action: "arteEco" },
+        { txt: "🔥 Vulcano", action: "arteVulcano" },
+        { txt: "💼 Pro", action: "arteEjecutivo" },
+        { txt: "🔮 Neon", action: "arteNeon" },
+        { txt: "🍫 Bronce", action: "arteBronce" }
+      ]
     }
   }
 };
 
-function showToast(msg) {
-  const t = document.getElementById('toast-alert');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+// MODAL CORPORATIVO INTERACTIVO
+function openModal(message) {
+  document.getElementById('customModalContent').innerHTML = `Acción ejecutada: ${message}`;
+  document.getElementById('customModal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('customModal').classList.remove('show');
 }
 
 function execCmd(cmd, val = null) {
@@ -284,61 +361,26 @@ function execCmd(cmd, val = null) {
 function applyTypography(type, value) {
   document.getElementById('lienzoTexto').focus();
   const selection = window.getSelection();
+  
   if (!selection.rangeCount || selection.isCollapsed) {
     if (type === 'fontName') execCmd('fontName', value);
     if (type === 'fontSize') {
       let sizeMap = {"12px":2,"14px":3,"16px":4,"18px":5,"24px":6,"32px":7};
       execCmd('fontSize', sizeMap[value] || 4);
     }
+    if (type === 'foreColor') execCmd('foreColor', value);
     return;
   }
+
   const range = selection.getRangeAt(0);
   const span = document.createElement('span');
   if (type === 'fontName') span.style.fontFamily = value;
   if (type === 'fontSize') span.style.fontSize = value;
+  if (type === 'foreColor') span.style.color = value;
+  
   span.appendChild(range.extractContents());
   range.insertNode(span);
   updateCounters();
-}
-
-// 🎙️ SISTEMA DE DICTADO POR VOZ INTEGRADO (NATIVO CORPORATIVO)
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-  const SpeechObj = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechObj();
-  recognition.continuous = true;
-  recognition.interimResults = false;
-
-  recognition.onresult = (event) => {
-    let resultText = "";
-    for (let i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
-    }
-    document.getElementById('lienzoTexto').focus();
-    document.execCommand('insertText', false, resultText + " ");
-  };
-
-  recognition.onend = () => {
-    isRecording = false;
-    document.getElementById('btnDictado').classList.remove('recording');
-    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStart;
-  };
-}
-
-function toggleDictation() {
-  if (!recognition) {
-    alert("El dictado por voz no es soportado por este navegador.");
-    return;
-  }
-  if (isRecording) {
-    recognition.stop();
-  } else {
-    // Configurar idioma según ecosistema activo
-    recognition.lang = currentLang === 'en' ? 'en-US' : 'es-CR'; 
-    recognition.start();
-    isRecording = true;
-    document.getElementById('btnDictado').classList.add('recording');
-    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStop;
-  }
 }
 
 function insertHTMLAtCursor(html) {
@@ -356,31 +398,104 @@ function insertHTMLAtCursor(html) {
   updateCounters();
 }
 
-function triggerCommandAction(actionKey) {
-  const currentDict = translationsDb[currentLang];
+// INYECCIÓN DE LOS 10 ESTILOS WC ARTE EXCLUSIVOS EN TIEMPO REAL
+function injectArtStyle(styleKey, label) {
+  let styleCSS = "";
+  switch(styleKey) {
+    case "arteOro":
+      styleCSS = `font-family:'Times New Roman'; font-size:26px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
+      break;
+    case "arteArcoiris":
+      styleCSS = `font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
+      break;
+    case "arteGlow":
+      styleCSS = `font-family:'Segoe UI'; font-size:22px; color: #fff; text-shadow: 0 0 4px #ff007f, 0 0 10px #ff007f; font-weight:bold;`;
+      break;
+    case "arteDiamante":
+      styleCSS = `font-family:'Arial'; font-size:24px; background:linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #38bdf8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:900; filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); display:inline-block;`;
+      break;
+    case "arteEspacial":
+      styleCSS = `font-family:'Courier New'; font-size:22px; background:linear-gradient(to right, #06b6d4, #3b82f6, #6366f1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
+      break;
+    case "arteEco":
+      styleCSS = `font-family:'Verdana'; font-size:20px; background:linear-gradient(to bottom, #22c55e, #15803d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
+      break;
+    case "arteVulcano":
+      styleCSS = `font-family:'Impact'; font-size:26px; background:linear-gradient(to top, #b91c1c, #f97316, #facc15); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
+      break;
+    case "arteEjecutivo":
+      styleCSS = `font-family:'Georgia'; font-size:22px; color:#1e3a8a; border-bottom:2px dashed #1e3a8a; font-style:italic; font-weight:bold;`;
+      break;
+    case "arteNeon":
+      styleCSS = `font-family:'Arial Black'; font-size:24px; background:linear-gradient(45deg, #00ffff, #00ff00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
+      break;
+    case "arteBronce":
+      styleCSS = `font-family:'Times New Roman'; font-size:24px; background:linear-gradient(135deg, #a16207, #ca8a04, #713f12); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
+      break;
+  }
+  insertHTMLAtCursor(`<span style="${styleCSS}">${label}</span>&nbsp;`);
+  openModal(label);
+}
+
+function triggerCommandAction(actionKey, label) {
   document.getElementById('lienzoTexto').focus();
 
+  if (actionKey.startsWith("arte")) {
+    injectArtStyle(actionKey, label);
+    return;
+  }
+
   switch(actionKey) {
-    case "cut": execCmd("cut"); break;
-    case "copy": execCmd("copy"); break;
+    case "cut": execCmd("cut"); openModal(label); break;
+    case "copy": execCmd("copy"); openModal(label); break;
     case "insertTable":
       insertHTMLAtCursor(`<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr><tr><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
-      showToast(currentDict.toastTable); break;
+      openModal(label); break;
     case "insertLink":
       const url = prompt("URL:", "https://");
-      if(url) insertHTMLAtCursor(`<a href="${url}" style="color:#2563eb; text-decoration:underline;">${url}</a>&nbsp;`); break;
-    case "colorRed": execCmd("foreColor", "#dc2626"); break;
-    case "colorBlue": execCmd("foreColor", "#2563eb"); break;
+      if(url) insertHTMLAtCursor(`<a href="${url}" style="color:#2563eb; text-decoration:underline;">${url}</a>&nbsp;`);
+      break;
+    case "themeCorp":
+      document.getElementById('lienzoTexto').style.color = "#1d5270";
+      openModal(label); break;
+    case "bgGray":
+      document.getElementById('lienzoTexto').style.backgroundColor = "#f1f5f9";
+      openModal(label); break;
     case "marginNormal":
-      document.getElementById('lienzoTexto').style.padding = "40px"; showToast(currentDict.toastMargin); break;
-    case "marginNarrow":
-      document.getElementById('lienzoTexto').style.padding = "15px"; showToast(currentDict.toastMargin); break;
-    case "arteNeon":
-      insertHTMLAtCursor(`<span style="font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;">WC Neon</span>&nbsp;`);
-      showToast(currentDict.toastArte); break;
-    case "arteOro":
-      insertHTMLAtCursor(`<span style="font-family:'Times New Roman'; font-size:26px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;">WC Oro</span>&nbsp;`);
-      showToast(currentDict.toastArte); break;
+      document.getElementById('lienzoTexto').style.padding = "40px";
+      openModal(label); break;
+    case "columnsToggle":
+      document.getElementById('lienzoTexto').style.columnCount = 
+        document.getElementById('lienzoTexto').style.columnCount === "2" ? "1" : "2";
+      openModal(label); break;
+  }
+}
+
+// 🎙️ SISTEMA DE DICTADO POR VOZ NATIVO
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechObj = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechObj(); recognition.continuous = true; recognition.interimResults = false;
+
+  recognition.onresult = (event) => {
+    let resultText = "";
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) resultText += event.results[i][0].transcript;
+    }
+    document.getElementById('lienzoTexto').focus();
+    document.execCommand('insertText', false, resultText + " ");
+  };
+  recognition.onend = () => {
+    isRecording = false; document.getElementById('btnDictado').classList.remove('recording');
+    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStart;
+  };
+}
+
+function toggleDictation() {
+  if (!recognition) { alert("Dictado no soportado en este navegador."); return; }
+  if (isRecording) { recognition.stop(); } else {
+    recognition.lang = currentLang === 'en' ? 'en-US' : 'es-CR'; recognition.start();
+    isRecording = true; document.getElementById('btnDictado').classList.add('recording');
+    document.getElementById('lblMic').textContent = translationsDb[currentLang].micStop;
   }
 }
 
@@ -416,15 +531,14 @@ function changeActiveTab(tabName) {
 }
 
 function renderActiveCommands() {
-  const panel = document.getElementById('panelComandos');
-  panel.innerHTML = "";
+  const panel = document.getElementById('panelComandos'); panel.innerHTML = "";
   const currentCmds = translationsDb[currentLang].cmds[currentTab];
   if (currentCmds) {
     currentCmds.forEach(cmdObj => {
       const button = document.createElement('button');
       button.className = "cmd-btn";
       button.innerHTML = cmdObj.txt;
-      button.onclick = () => triggerCommandAction(cmdObj.action);
+      button.onclick = () => triggerCommandAction(cmdObj.action, cmdObj.txt);
       panel.appendChild(button);
     });
   }
