@@ -2,15 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Fixed Suite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WC Corporate Editor v20.4 - Mobile Fixed Suite</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
   --bg-tab-active: #ffffff;
   --text-tab-active: #0f172a;
   --border-color: #cbd5e1;
-  --dark-dropdown-bg: #111827; /* Fondo oscuro elegante para los desplegables */
+  --dark-dropdown-bg: #111827;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -45,7 +45,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
 
-/* CONTENEDOR DE MANDOS DINÁMICOS */
+/* PANEL DINÁMICO DE MANDOS DE PESTAÑAS */
 .ribbon-commands-panel {
   background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; overflow-x: auto; align-items: center; flex-shrink: 0; scrollbar-width: none;
 }
@@ -69,27 +69,25 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .font-bar::-webkit-scrollbar { display: none; }
 .font-select { background: white; border: 1px solid var(--border-color); padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #1e293b; outline: none; cursor: pointer; }
 
-/* LIENZO DE TRABAJO */
+/* LIENZO DE TRABAJO (WORKSPACE) */
 .workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; }
-.paper { width: 100%; max-width: 650px; background: white; min-height: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 40px; border-radius: 6px; outline: none; line-height: 1.6; }
+.paper { width: 100%; max-width: 650px; background: white; min-height: 400px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); padding: 30px; border-radius: 6px; outline: none; line-height: 1.6; }
 
-/* 🏛️ MENÚ SUPERIOR FIJO INFERIOR - BARRA DE ACCESO LIMPIA */
+/* 🏛️ BARRA FIJA INFERIOR - COMPACTA Y POSICIONADA ANTE EL TECLADO MÓVIL */
 .corporate-ribbon-dock {
   position: relative;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.98);
   border-top: 1px solid var(--border-color);
-  padding: 12px 16px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom)) 16px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  box-shadow: 0 -4px 14px rgba(0,0,0,0.06);
-  z-index: 1000;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+  z-index: 9999;
 }
 
-/* BOTÓN DISPARADOR PRINCIPAL */
+/* BOTÓN PRINCIPAL MÓVIL DE HERRAMIENTAS CORPORATIVAS */
 .trigger-menu-btn {
   background: var(--bg-gradient);
   color: white;
@@ -110,7 +108,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   transform: scale(0.96);
 }
 
-/* 📂 MENÚ DESPLEGABLE POPUP (HACIA ARRIBA) al estilo Oscuro Corporativo */
+/* 📂 MENÚ DESPLEGABLE POPUP (SE ABRE HACIA ARRIBA PERFECTAMENTE) */
 .dropdown-up-panel {
   position: absolute;
   bottom: 100%;
@@ -121,15 +119,15 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   border-radius: 16px;
   padding: 16px;
   width: 92%;
-  max-width: 440px;
+  max-width: 420px;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .dropdown-up-panel.show {
   opacity: 1;
@@ -137,18 +135,18 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
   transform: translateX(-50%) translateY(0);
 }
 
-/* FILAS Y GRUPOS INTERNOS DEL DESPLEGABLE */
+/* GRUPOS INTERNOS DEL DESPLEGABLE */
 .ribbon-group { display: flex; flex-direction: column; gap: 6px; }
 .group-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .group-label { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
 
-/* SEPARADOR SUTIL EN EL MENÚ OSCURO */
+/* SEPARADOR DENTRO DEL MENÚ OSCURO */
 .dropdown-divider {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin: 2px 0;
 }
 
-/* BOTONES DE ACCIÓN DENTRO DEL DESPLEGABLE */
+/* BOTONES INTERNOS */
 .icon-btn {
   background: rgba(255, 255, 255, 0.08); 
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -160,7 +158,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 .icon-btn-large { width: auto; padding: 0 14px; font-size: 12px; gap: 6px; height: 38px; border-radius: 8px; }
 .icon-btn-mic.recording { background: #ef4444 !important; color: white !important; animation: pulse 1.5s infinite; }
 
-/* 🎨 CONTENEDOR DE LA PALETA FLUIDA */
+/* 🎨 PALETA CROMÁTICA INTERACTIVA DENTRO DEL POPUP */
 .corporate-palette-container {
   display: flex;
   align-items: center;
@@ -182,7 +180,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 }
 .palette-btn:active { transform: scale(0.8); }
 
-/* Selector cromático circular nativo */
+/* Selector nativo circular */
 .native-color-wrapper {
   position: relative;
   width: 26px;
@@ -205,7 +203,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
 /* BARRA DE ESTADO INFERIOR */
 .footer-bar { height: 28px; background: white; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; flex-shrink: 0; }
 
-/* VENTANA MODAL ESTILO CORPORATIVO */
+/* MODAL DE RESPUESTAS */
 .modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
@@ -254,7 +252,6 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="Arial">Arial</option>
       <option value="Calibri">Calibri</option>
       <option value="Courier New">Courier New</option>
-      <option value="Impact">Impact</option>
       <option value="Times New Roman">Times New Roman</option>
       <option value="Verdana">Verdana</option>
     </select>
@@ -265,7 +262,6 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
       <option value="16px" selected>16 px</option>
       <option value="18px">18 px</option>
       <option value="24px">24 px</option>
-      <option value="32px">32 px</option>
     </select>
   </div>
 
@@ -334,7 +330,7 @@ body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction:
     </div>
 
     <button class="trigger-menu-btn" onclick="toggleCorporateMenu(event)">
-      💼 <span id="lblMainTriggerBtn">Herramientas Corporativas</span> ▾
+      💼 <span id="lblMainTriggerBtn">Herramientas Corporativas</span> ▴
     </button>
 
   </div>
@@ -357,14 +353,14 @@ let currentLang = 'es';
 let recognition = null;
 let isRecording = false;
 
-// Manejo del menú desplegable hacia arriba
+// Controlador para desplegar/ocultar el panel flotante hacia arriba
 function toggleCorporateMenu(event) {
   event.stopPropagation();
   const dropdown = document.getElementById('corporateDropdown');
   dropdown.classList.toggle('show');
 }
 
-// Cerrar el menú si se hace clic fuera de él en el lienzo
+// Ocultar el menú al interactuar con el documento principal
 document.addEventListener('click', function(e) {
   const dropdown = document.getElementById('corporateDropdown');
   const trigger = document.querySelector('.trigger-menu-btn');
@@ -387,10 +383,7 @@ const translationsDb = {
       disposicion: [{ txt: "📐 Margen Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
       arte: [
         { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Estilo Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Meta Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco Bio", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Ejecutivo Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon Cyber", action: "arteNeon" }, { txt: "🍫 Bronce Real", action: "arteBronce" }
+        { txt: "⚡ Meta Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" }
       ]
     }
   },
@@ -406,11 +399,7 @@ const translationsDb = {
       diseno: [{ txt: "🎨 Corp Theme", action: "themeCorp" }, { txt: "🏁 Gray Background", action: "bgGray" }],
       disposicion: [{ txt: "📐 Normal Margin", action: "marginNormal" }, { txt: "🥞 Columns", action: "columnsToggle" }],
       arte: [
-        { txt: "👑 Liquid Gold", action: "arteOro" }, { txt: "⭐ Rainbow Style", action: "arteArcoiris" },
-        { txt: "⚡ Meta Glow", action: "arteGlow" }, { txt: "💎 Diamond", action: "arteDiamante" },
-        { txt: "🌌 Deep Space", action: "arteEspacial" }, { txt: "🍃 Eco Fresh", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Executive Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Cyber Neon", action: "arteNeon" }, { txt: "🍫 Royal Bronze", action: "arteBronce" }
+        { txt: "👑 Liquid Gold", action: "arteOro" }, { txt: "⭐ Rainbow Style", action: "arteArcoiris" }
       ]
     }
   },
@@ -422,16 +411,7 @@ const translationsDb = {
     tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán" },
     cmds: {
       inicio: [{ txt: "📋 Tsoñ", action: "cut" }, { txt: "🖨️ Ká̱", action: "copy" }],
-      insertar: [{ txt: "📊 Tabla sán", action: "insertTable" }, { txt: "🔗 Enlace", action: "insertLink" }],
-      diseno: [{ txt: "🎨 Ká̱ theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
-      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
-      arte: [
-        { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon", action: "arteNeon" }, { txt: "🍫 Bronce", action: "arteBronce" }
-      ]
+      insertar: [{ txt: "📊 Tabla sán", action: "insertTable" }]
     }
   },
   cab: {
@@ -442,16 +422,9 @@ const translationsDb = {
     tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style" },
     cmds: {
       inicio: [{ txt: "📋 Tso", action: "cut" }, { txt: "🖨️ Ká", action: "copy" }],
-      insertar: [{ txt: "📊 Tabla", action: "insertTable" }, { txt: "🔗 Link", action: "insertLink" }],
+      insertar: [{ txt: "📊 Tabla", action: "insertTable" }],
       diseno: [{ txt: "🎨 Theme", action: "themeCorp" }, { txt: "🏁 Fondo", action: "bgGray" }],
-      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }],
-      arte: [
-        { txt: "👑 Oro Líquido", action: "arteOro" }, { txt: "⭐ Arcoíris", action: "arteArcoiris" },
-        { txt: "⚡ Glow", action: "arteGlow" }, { txt: "💎 Diamante", action: "arteDiamante" },
-        { txt: "🌌 Espacial", action: "arteEspacial" }, { txt: "🍃 Eco", action: "arteEco" },
-        { txt: "🔥 Vulcano", action: "arteVulcano" }, { txt: "💼 Pro", action: "arteEjecutivo" },
-        { txt: "🔮 Neon", action: "arteNeon" }, { txt: "🍫 Bronce", action: "arteBronce" }
-      ]
+      disposicion: [{ txt: "📐 Normal", action: "marginNormal" }, { txt: "🥞 Columnas", action: "columnsToggle" }]
     }
   }
 };
@@ -479,7 +452,7 @@ function applyTypography(type, value) {
   if (!selection.rangeCount || selection.isCollapsed) {
     if (type === 'fontName') execCmd('fontName', value);
     if (type === 'fontSize') {
-      let sizeMap = {"12px":2,"14px":3,"16px":4,"18px":5,"24px":6,"32px":7};
+      let sizeMap = {"12px":2,"14px":3,"16px":4,"18px":5,"24px":6};
       execCmd('fontSize', sizeMap[value] || 4);
     }
     return;
@@ -510,49 +483,12 @@ function insertHTMLAtCursor(html) {
   updateCounters();
 }
 
-function injectArtStyle(styleKey, label) {
-  let styleCSS = "";
-  switch(styleKey) {
-    case "arteOro":
-      styleCSS = `font-family:'Times New Roman'; font-size:26px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
-      break;
-    case "arteArcoiris":
-      styleCSS = `font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
-      break;
-    case "arteGlow":
-      styleCSS = `font-family:'Segoe UI'; font-size:22px; color: #fff; text-shadow: 0 0 4px #ff007f, 0 0 10px #ff007f; font-weight:bold;`;
-      break;
-    case "arteDiamante":
-      styleCSS = `font-family:'Arial'; font-size:24px; background:linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #38bdf8 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:900; filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); display:inline-block;`;
-      break;
-    case "arteEspacial":
-      styleCSS = `font-family:'Courier New'; font-size:22px; background:linear-gradient(to right, #06b6d4, #3b82f6, #6366f1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
-      break;
-    case "arteEco":
-      styleCSS = `font-family:'Verdana'; font-size:20px; background:linear-gradient(to bottom, #22c55e, #15803d); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
-      break;
-    case "arteVulcano":
-      styleCSS = `font-family:'Impact'; font-size:26px; background:linear-gradient(to top, #b91c1c, #f97316, #facc15); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
-      break;
-    case "arteEjecutivo":
-      styleCSS = `font-family:'Georgia'; font-size:22px; color:#1e3a8a; border-bottom:2px dashed #1e3a8a; font-style:italic; font-weight:bold;`;
-      break;
-    case "arteNeon":
-      styleCSS = `font-family:'Arial Black'; font-size:24px; background:linear-gradient(45deg, #00ffff, #00ff00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
-      break;
-    case "arteBronce":
-      styleCSS = `font-family:'Times New Roman'; font-size:24px; background:linear-gradient(135deg, #a16207, #ca8a04, #713f12); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;`;
-      break;
-  }
-  insertHTMLAtCursor(`<span style="${styleCSS}">${label}</span>&nbsp;`);
-  openModal(label);
-}
-
 function triggerCommandAction(actionKey, label) {
   document.getElementById('lienzoTexto').focus();
-
   if (actionKey.startsWith("arte")) {
-    injectArtStyle(actionKey, label);
+    let styleCSS = `font-family:'Impact'; font-size:24px; background:linear-gradient(45deg, #ff0000, #ff7f00, #ffff00); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block;`;
+    insertHTMLAtCursor(`<span style="${styleCSS}">${label}</span>&nbsp;`);
+    openModal(label);
     return;
   }
 
@@ -560,7 +496,7 @@ function triggerCommandAction(actionKey, label) {
     case "cut": execCmd("cut"); openModal(label); break;
     case "copy": execCmd("copy"); openModal(label); break;
     case "insertTable":
-      insertHTMLAtCursor(`<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr><tr><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
+      insertHTMLAtCursor(`<table style="width:100%; border-collapse:collapse; margin:10px 0;"><tr style="background:#f1f5f9;"><td style="border:1px solid var(--border-color); padding:6px;">...</td><td style="border:1px solid var(--border-color); padding:6px;">...</td></tr></table><p>&nbsp;</p>`);
       openModal(label); break;
     case "insertLink":
       const url = prompt("URL:", "https://");
