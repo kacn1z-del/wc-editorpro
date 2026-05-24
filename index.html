@@ -4,176 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Word Editor Pro UI</title>
+<title>WC iPhone Fix Editor</title>
 
 <style>
 
-:root{
-  --blue:#1d5270;
-  --red:#92324f;
-  --orange:#d94e18;
-  --paper:#ffffff;
-  --bg:#dbe4ee;
-  --border:#cbd5e1;
+/* 🔥 CLAVE iOS */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* BASE */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Segoe UI, sans-serif;
+/* TOOLBAR SIMPLE */
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  z-index: 10;
 }
 
-body{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  background:var(--bg);
-  overflow:hidden;
+/* 🔥 EDITOR iOS SAFE */
+#editor {
+  min-height: 80vh;
+  padding: 20px;
+  margin: 10px;
+  background: white;
+  border-radius: 10px;
+
+  outline: none;
+
+  /* CLAVE iPHONE */
+  -webkit-user-select: text;
+  user-select: text;
+
+  /* evita bloqueo de toque */
+  touch-action: auto;
 }
 
-/* HEADER */
-
-.header{
-  background:linear-gradient(135deg,var(--blue),var(--red),var(--orange));
-  color:white;
-  padding:12px;
-  font-weight:800;
-}
-
-/* TOOLBAR */
-
-.toolbar{
-  display:flex;
-  gap:6px;
-  padding:10px;
-  background:white;
-  border-bottom:1px solid var(--border);
-  overflow-x:auto;
-  flex-shrink:0;
-}
-
-.toolbar button,
-.toolbar select{
-  padding:7px 10px;
-  border:1px solid var(--border);
-  background:white;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* WORKSPACE (EFECTO WORD REAL) */
-
-.workspace{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding:30px;
-  overflow:auto;
-}
-
-/* 📄 HOJA TIPO A4 */
-
-.page{
-  width:100%;
-  max-width:850px;
-  min-height:1100px;
-  background:var(--paper);
-  padding:80px 70px;
-  border-radius:6px;
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.15),
-    0 2px 6px rgba(0,0,0,0.05);
-  position:relative;
-}
-
-/* LÍNEA LATERAL ESTILO WORD */
-
-.page::before{
-  content:"";
-  position:absolute;
-  left:40px;
-  top:0;
-  bottom:0;
-  width:1px;
-  background:#e5e7eb;
-}
-
-/* EDITOR */
-
-#editor{
-  min-height:900px;
-  outline:none;
-  font-size:17px;
-  line-height:1.9;
-  color:#111827;
-}
-
-/* ESTILO DE TEXTO TIPO DOCUMENTO */
-
-#editor p{
-  margin-bottom:14px;
-}
-
-/* FOOTER */
-
-.footer{
-  height:38px;
-  background:white;
-  border-top:1px solid var(--border);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 12px;
-  font-size:12px;
-  color:#475569;
-  flex-shrink:0;
-}
-
-/* FLOAT MENU */
-
-.floating{
-  position:fixed;
-  right:18px;
-  bottom:120px;
-}
-
-.fab{
-  background:linear-gradient(135deg,var(--blue),var(--red));
-  color:white;
-  border:none;
-  padding:14px 18px;
-  border-radius:50px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.menu{
-  display:none;
-  position:absolute;
-  bottom:110%;
-  right:0;
-  background:#0f172a;
-  padding:12px;
-  border-radius:12px;
-  width:220px;
-  flex-direction:column;
-  gap:8px;
-}
-
-.menu.show{
-  display:flex;
-}
-
-.menu button{
-  background:#1e293b;
-  color:white;
-  border:none;
-  padding:8px;
-  border-radius:8px;
+button {
+  padding: 8px;
 }
 
 </style>
@@ -181,169 +57,33 @@ body{
 
 <body>
 
-<div class="header">
-💎 WC Word Editor Pro UI
-</div>
-
-<!-- TOOLBAR -->
 <div class="toolbar">
-
-<button onclick="exec('bold')"><b>B</b></button>
-<button onclick="exec('italic')"><i>I</i></button>
-<button onclick="exec('underline')"><u>U</u></button>
-
-<button onclick="exec('insertUnorderedList')">• Lista</button>
-<button onclick="exec('insertOrderedList')">1. Lista</button>
-
-<button onclick="exec('justifyLeft')">⬅</button>
-<button onclick="exec('justifyCenter')">↔</button>
-<button onclick="exec('justifyRight')">➡</button>
-
-<select onchange="fontSize(this.value)">
-  <option value="3">14px</option>
-  <option value="4" selected>16px</option>
-  <option value="5">20px</option>
-</select>
-
-<button onclick="color('#1d5270')">Azul</button>
-<button onclick="color('#92324f')">Rojo</button>
-
-<button onclick="undo()">↩</button>
-<button onclick="redo()">↪</button>
-
-<button onclick="save()">💾</button>
-
+  <button onclick="cmd('bold')">B</button>
+  <button onclick="cmd('italic')">I</button>
+  <button onclick="cmd('underline')">U</button>
 </div>
 
-<!-- WORKSPACE -->
-<div class="workspace">
-
-  <div class="page">
-
-    <div id="editor" contenteditable="true"></div>
-
-  </div>
-
-</div>
-
-<!-- FLOAT -->
-<div class="floating">
-
-<button class="fab" onclick="toggleMenu()">💼 IA</button>
-
-<div class="menu" id="menu">
-
-<button onclick="insertText('Resumen automático...')">🧠 Resumen</button>
-<button onclick="insertText('Texto mejorado...')">✨ Mejorar</button>
-<button onclick="clearDoc()">🧹 Limpiar</button>
-
-</div>
-
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-
-<span id="counter">0 palabras | 0 caracteres</span>
-<span>WC Engine Pro UI</span>
-
+<div id="editor" contenteditable="true">
+Escribe aquí en iPhone...
 </div>
 
 <script>
 
-let editor;
+const editor = document.getElementById("editor");
 
-window.addEventListener('DOMContentLoaded', () => {
+/* 🔥 CLAVE iOS: focus retrasado */
+window.onload = () => {
+  setTimeout(() => {
+    editor.focus();
+  }, 300);
+};
 
-  editor = document.getElementById('editor');
-
-  editor.innerHTML = localStorage.getItem('wc_doc') || `
-    <h1>Documento tipo Word</h1>
-    <p>Ahora ya parece un editor real.</p>
-  `;
-
-  editor.addEventListener('input', updateCounter);
-
-  editor.addEventListener('click', () => editor.focus());
-
-  updateCounter();
+editor.addEventListener("touchstart", () => {
+  editor.focus();
 });
 
-/* CORE */
-
-function exec(cmd){
-
-  editor.focus();
-
-  const sel = window.getSelection();
-
-  if (!sel.rangeCount) {
-    const range = document.createRange();
-    range.selectNodeContents(editor);
-    range.collapse(false);
-    sel.removeAllRanges();
-    sel.addRange(range);
-  }
-
-  document.execCommand(cmd,false,null);
-
-  updateCounter();
-}
-
-/* FONT */
-
-function fontSize(v){
-  editor.focus();
-  document.execCommand('fontSize',false,v);
-}
-
-/* COLOR */
-
-function color(c){
-  editor.focus();
-  document.execCommand('foreColor',false,c);
-}
-
-/* UNDO */
-
-function undo(){ document.execCommand('undo'); }
-function redo(){ document.execCommand('redo'); }
-
-/* SAVE */
-
-function save(){
-  localStorage.setItem('wc_doc', editor.innerHTML);
-  alert("Guardado");
-}
-
-/* FLOAT MENU */
-
-function toggleMenu(){
-  document.getElementById('menu').classList.toggle('show');
-}
-
-function insertText(t){
-  editor.focus();
-  document.execCommand('insertText',false,t);
-  updateCounter();
-}
-
-function clearDoc(){
-  editor.innerHTML = "";
-}
-
-/* COUNTER */
-
-function updateCounter(){
-
-  const text = editor.innerText || "";
-
-  const words = text.trim()
-    ? text.trim().split(/\s+/).length
-    : 0;
-
-  document.getElementById('counter').innerText =
-    `${words} palabras | ${text.length} caracteres`;
+function cmd(c){
+  document.execCommand(c, false, null);
 }
 
 </script>
