@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC Corporate Word Pro</title>
+<title>WC Corporate Word Pro + IA</title>
 
 <style>
 
@@ -19,6 +19,7 @@ body{
   background: rgba(255,255,255,0.75);
   text-align:center;
   padding:10px;
+  backdrop-filter: blur(20px);
 }
 
 .title{
@@ -29,7 +30,7 @@ body{
   -webkit-text-fill-color:transparent;
 }
 
-/* 📑 TABS (ESTILO WORD REAL) */
+/* 📑 TABS TIPO WORD */
 .tabs{
   display:flex;
   background: rgba(255,255,255,0.85);
@@ -42,15 +43,15 @@ body{
   padding:8px 14px;
   background:white;
   border-radius:8px;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
 }
 
 .tab.active{
   background:#e6f0ff;
 }
 
-/* 🎛️ CONTENIDO DE CADA TAB */
+/* 🧩 PANELES */
 .panel{
   display:none;
   background: rgba(255,255,255,0.85);
@@ -64,6 +65,37 @@ body{
   display:flex;
 }
 
+/* 📄 DOCUMENTO */
+.page{
+  width:210mm;
+  min-height:297mm;
+  background:white;
+  margin:20px auto;
+  padding:20mm;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+  border-radius:8px;
+}
+
+#editor{
+  min-height:250mm;
+  outline:none;
+}
+
+/* 🎨 WC ARTE ESTILO REAL */
+.wc-style{
+  font-size:26px;
+  font-weight:900;
+
+  background: linear-gradient(135deg,#1b75ed,#ff6b00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 12px rgba(27,117,237,0.4),
+               0 0 20px rgba(255,107,0,0.3);
+  display:inline-block;
+  padding:2px;
+}
+
 /* BOTONES */
 button{
   background:white;
@@ -73,27 +105,10 @@ button{
   cursor:pointer;
 }
 
-/* 📄 DOCUMENTO */
-.page{
-  width:210mm;
-  min-height:297mm;
-  background:white;
-  margin:20px auto;
-  padding:20mm;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-#editor{
-  min-height:250mm;
-  outline:none;
-}
-
-/* ✨ WC ARTE */
-.wc{
-  font-weight:bold;
-  font-size:24px;
-  color:white;
-  text-shadow:0 0 10px #1b75ed,0 0 20px #ff6b00;
+input,select{
+  padding:6px;
+  border-radius:6px;
+  border:1px solid #ccc;
 }
 
 </style>
@@ -101,6 +116,7 @@ button{
 
 <body>
 
+<!-- 🧠 TOPBAR -->
 <div class="topbar">
   <div class="title">WC CORPORATE WORD PRO + IA</div>
 </div>
@@ -142,8 +158,11 @@ button{
 </div>
 
 <div id="wc" class="panel">
-  <input id="textoArte" placeholder="Texto">
-  <button onclick="insertWC()">Insertar WC Arte</button>
+  <input id="textoArte" placeholder="Texto WC Arte">
+  <select id="estiloArte">
+    <option value="wc-style">Glow WC</option>
+  </select>
+  <button onclick="insertWC()">Insertar</button>
 </div>
 
 <!-- 📄 EDITOR -->
@@ -162,33 +181,56 @@ function openTab(id){
   event.target.classList.add('active');
 }
 
-/* EDITOR */
+/* 🧠 EDITOR */
 function cmd(c){document.execCommand(c,false,null);}
 function insertText(t){document.execCommand("insertText",false,t);}
+
 function insertTable(){
   document.execCommand("insertHTML",false,
   "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
 }
 
-/* WC ARTE */
+/* 🎨 WC ARTE - MOTOR REAL */
 function insertWC(){
-  let t=document.getElementById("textoArte").value;
-  let span=document.createElement("span");
-  span.className="wc";
-  span.textContent=t;
+  const texto = document.getElementById("textoArte").value;
+  const estilo = document.getElementById("estiloArte").value;
 
-  let sel=window.getSelection();
-  let r=sel.getRangeAt(0);
-  r.deleteContents();
-  r.insertNode(span);
+  if(!texto) return;
+
+  const span = document.createElement("span");
+  span.className = estilo;
+  span.textContent = texto;
+
+  insertAtCursor(span);
 }
 
-/* ARCHIVO */
+/* 📍 INSERTAR EN CURSOR REAL */
+function insertAtCursor(node){
+  const sel = window.getSelection();
+  if(!sel.rangeCount) return;
+
+  const range = sel.getRangeAt(0);
+  range.deleteContents();
+
+  range.insertNode(node);
+
+  range.setStartAfter(node);
+  range.setEndAfter(node);
+
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+/* 💾 ARCHIVO */
 function guardar(){
-  localStorage.setItem("wc",document.getElementById("editor").innerHTML);
+  localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
 }
-function nuevo(){document.getElementById("editor").innerHTML="";}
-function imprimir(){window.print();}
+function nuevo(){
+  document.getElementById("editor").innerHTML="";
+}
+function imprimir(){
+  window.print();
+}
 
 </script>
 
