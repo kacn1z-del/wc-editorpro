@@ -30,9 +30,10 @@ body{
   -webkit-text-fill-color:transparent;
 }
 
-/* 🎛️ RIBBON (WORD STYLE) */
+/* 🎛️ RIBBON */
 .ribbon{
   display:flex;
+  flex-wrap:wrap;
   background: rgba(255,255,255,0.75);
   backdrop-filter: blur(25px);
   padding:8px;
@@ -61,7 +62,7 @@ body{
   left:0;
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(25px);
-  min-width:200px;
+  min-width:220px;
   border-radius:10px;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
   z-index:1000;
@@ -72,13 +73,13 @@ body{
 }
 
 .menu-content button,
-.menu-content input,
 .menu-content select{
   width:100%;
   padding:10px;
   border:none;
   background:transparent;
   text-align:left;
+  cursor:pointer;
 }
 
 .menu-content button:hover{
@@ -107,7 +108,7 @@ body{
 .wc-arte-3{color:#fff;text-shadow:3px 3px 10px rgba(0,0,0,0.4);font-size:26px;font-weight:bold;}
 .wc-arte-4{color:#fff;text-shadow:0 0 15px #1b75ed,0 0 25px #ff6b00;font-size:26px;font-weight:bold;}
 
-/* 🤖 IA FLOTANTE (pequeña tipo Word assistant) */
+/* 🤖 IA */
 .ai-float{
   position:fixed;
   right:20px;
@@ -122,8 +123,8 @@ body{
 
 .ai-float input{
   width:100%;
-  margin-top:5px;
   padding:6px;
+  margin-top:5px;
 }
 
 .ai-float button{
@@ -160,8 +161,9 @@ body{
     <div class="menu-content">
       <button onclick="cmd('undo')">Deshacer</button>
       <button onclick="cmd('redo')">Rehacer</button>
-      <button onclick="cmd('copy')">Copiar</button>
-      <button onclick="cmd('paste')">Pegar</button>
+      <button onclick="cmd('cut')">✂ Cortar</button>
+      <button onclick="cmd('copy')">📋 Copiar</button>
+      <button onclick="cmd('paste')">📌 Pegar</button>
     </div>
   </div>
 
@@ -169,10 +171,33 @@ body{
   <div class="menu">
     <button>Formato</button>
     <div class="menu-content">
+
       <button onclick="cmd('bold')">Negrita</button>
       <button onclick="cmd('italic')">Cursiva</button>
       <button onclick="cmd('underline')">Subrayado</button>
+
+      <button onclick="cmd('justifyLeft')">Izquierda</button>
       <button onclick="cmd('justifyCenter')">Centro</button>
+      <button onclick="cmd('justifyRight')">Derecha</button>
+      <button onclick="cmd('justifyFull')">Justificar</button>
+
+      <hr>
+
+      <select onchange="setFont(this.value)">
+        <option value="Arial">Arial</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Georgia">Georgia</option>
+      </select>
+
+      <select onchange="setFontSize(this.value)">
+        <option value="2">Pequeño</option>
+        <option value="3">Normal</option>
+        <option value="4">Mediano</option>
+        <option value="5">Grande</option>
+        <option value="6">Extra grande</option>
+      </select>
+
     </div>
   </div>
 
@@ -200,21 +225,13 @@ body{
     </div>
   </div>
 
-  <!-- HERRAMIENTAS -->
-  <div class="menu">
-    <button>Herramientas</button>
-    <div class="menu-content">
-      <button onclick="limpiar()">Limpiar</button>
-      <button onclick="zoomIn()">Zoom +</button>
-      <button onclick="zoomOut()">Zoom -</button>
-    </div>
-  </div>
-
 </div>
 
 <!-- 📄 DOCUMENTO -->
 <div class="page">
-  <div id="editor" contenteditable="true">Escribe aquí tu documento...</div>
+  <div id="editor" contenteditable="true">
+    Escribe aquí tu documento...
+  </div>
 </div>
 
 <!-- 🤖 IA -->
@@ -250,17 +267,21 @@ function insertarArte(){
   r.insertNode(span);
 }
 
+/* FORMATO EXTRA */
+function setFont(font){
+  document.execCommand("fontName",false,font);
+}
+
+function setFontSize(size){
+  document.execCommand("fontSize",false,size);
+}
+
 /* ARCHIVO */
 function guardar(){
   localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
 }
 function nuevo(){document.getElementById("editor").innerHTML="";}
 function imprimir(){window.print();}
-
-/* HERRAMIENTAS */
-function limpiar(){document.getElementById("editor").innerHTML="";}
-function zoomIn(){document.body.style.zoom="110%";}
-function zoomOut(){document.body.style.zoom="100%";}
 
 /* IA */
 function usarIA(){
