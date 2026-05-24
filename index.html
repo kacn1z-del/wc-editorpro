@@ -1,3 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WC Corporate Editor - Suite Profesional</title>
+<style>
+  :root { --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%); }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+  body { background-color: #f1f5f9; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+  .header-suite { background: var(--bg-gradient); padding: 12px 12px 6px 12px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .mobile-tabs-scroll { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+  .tab-node { padding: 6px 14px; font-size: 13px; color: rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.1); border-radius: 6px; cursor: pointer; }
+  .tab-node.active { background: white; color: #0f172a; font-weight: 700; }
+  .ribbon-commands-panel { background: #e2e8f0; padding: 8px 12px; display: flex; gap: 6px; align-items: center; min-height: 45px; }
+  .cmd-btn { background: white; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+  .workspace { flex: 1; padding: 16px; overflow-y: auto; display: flex; justify-content: center; background-color: #cbd5e1; }
+  .paper { width: 100%; max-width: 650px; background: white; min-height: 600px; padding: 40px; outline: none; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+  .floating-corporate-container { position: absolute; bottom: 150px; right: 20px; z-index: 99999; }
+  .trigger-menu-btn { background: var(--bg-gradient); color: white; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 22px rgba(0,0,0,0.3); }
+</style>
+</head>
+<body>
+
+  <div class="header-suite">
+    <div class="brand-title">WC Corporate Editor</div>
+    <div class="mobile-tabs-scroll">
+      <div class="tab-node active" id="t-inicio" onclick="changeTab('inicio')">Inicio</div>
+      <div class="tab-node" id="t-insertar" onclick="changeTab('insertar')">Insertar</div>
+      <div class="tab-node" id="t-diseno" onclick="changeTab('diseno')">Diseño</div>
+    </div>
+  </div>
+
+  <div class="ribbon-commands-panel" id="panelComandos"></div>
+
+  <div class="workspace">
+    <div class="paper" contenteditable="true" id="lienzoTexto">Escribe tu documento aquí...</div>
+  </div>
+
+  <div class="floating-corporate-container">
+    <button class="trigger-menu-btn" onclick="alert('Herramientas Corporativas')">Herramientas ▴</button>
+  </div>
+
 <script>
   let currentTab = 'inicio';
   
@@ -23,14 +67,9 @@
     }
   }
 
-  // LÓGICA ACTIVADA: Ahora los botones ejecutan acciones reales del navegador
   function exec(cmd) {
     document.getElementById('lienzoTexto').focus();
-    try {
-        document.execCommand(cmd, false, null);
-    } catch (e) {
-        console.log("Acción no soportada en este entorno");
-    }
+    document.execCommand(cmd, false, null);
   }
 
   function insertBreak(type) {
@@ -43,6 +82,7 @@
     document.getElementById('lienzoTexto').style.padding = m;
   }
 
-  // Inicializar
   renderPanel();
 </script>
+</body>
+</html>
