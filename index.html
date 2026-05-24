@@ -1,3 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WC Corporate Editor Platinum</title>
+
+<style>
+
+:root{
+  --bg-gradient: linear-gradient(135deg,#1d5270 0%,#92324f 50%,#d94e18 100%);
+  --panel-bg:#0f172a;
+  --border:#cbd5e1;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  background:#dbe4ee;
+}
+
+/* HEADER */
+
+.header-suite{
+  background:var(--bg-gradient);
+  padding:14px;
+  color:white;
+  box-shadow:0 4px 14px rgba(0,0,0,0.15);
+  flex-shrink:0;
+}
+
+.brand-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+.mobile-tabs-scroll{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+}
+
+.tab-node{
+  padding:7px 14px;
+  background:rgba(255,255,255,0.1);
+  border-radius:8px;
+  font-size:13px;
+}
+
+.tab-node.active{
+  background:white;
+  color:#0f172a;
+  font-weight:700;
+}
+
+/* TOP BAR */
+
+.ribbon-commands-panel{
+  background:#f8fafc;
+  padding:10px;
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  border-bottom:1px solid var(--border);
+}
+
+.cmd-btn{
+  background:white;
+  border:1px solid var(--border);
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* WORKSPACE */
+
+.workspace{
+  flex:1;
+  overflow:auto;
+  display:flex;
+  justify-content:center;
+  padding:18px;
+}
+
+.paper{
+  width:100%;
+  max-width:850px;
+  min-height:1000px;
+  background:white;
+  border-radius:8px;
+  padding:50px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* EDITOR */
+
+.ProseMirror{
+  outline:none;
+  min-height:850px;
+  line-height:1.7;
+  font-size:16px;
+}
+
+.ProseMirror p{
+  margin-bottom:14px;
+}
+
+/* FLOAT PANEL */
+
+.floating-corporate-container{
+  position:fixed;
+  right:20px;
+  bottom:140px;
+  z-index:9999;
+}
+
+.trigger-menu-btn{
+  background:var(--bg-gradient);
+  color:white;
+  border:none;
+  padding:14px 22px;
+  border-radius:30px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.dropdown-up-panel{
+  position:absolute;
+  bottom:115%;
+  right:0;
+  width:360px;
+  background:var(--panel-bg);
+  border-radius:16px;
+  padding:14px;
+  display:none;
+  flex-direction:column;
+  gap:14px;
+}
+
+.dropdown-up-panel.show{
+  display:flex;
+}
+
+.group-label{
+  color:#38bdf8;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.group-row{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.icon-btn{
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:8px;
+  background:rgba(255,255,255,0.08);
+  color:white;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* IA */
+
+.ai-assistant-panel{
+  position:fixed;
+  left:12px;
+  bottom:110px;
+  width:240px;
+  background:rgba(15,23,42,0.96);
+  border-radius:14px;
+  padding:12px;
+  color:white;
+}
+
+.ai-assistant-panel textarea{
+  width:100%;
+  height:70px;
+  border:none;
+  border-radius:8px;
+  padding:8px;
+  margin-top:8px;
+}
+
+.ai-assistant-panel button{
+  width:100%;
+  margin-top:8px;
+  border:none;
+  border-radius:8px;
+  padding:10px;
+  background:linear-gradient(135deg,#2563eb,#9333ea);
+  color:white;
+  font-weight:700;
+}
+
+/* FOOTER */
+
+.footer-bar{
+  height:34px;
+  background:white;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 14px;
+  font-size:12px;
+  color:#475569;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header-suite">
+
+  <div class="brand-title">
+    💎 WC Corporate Editor Platinum
+  </div>
+
+  <div class="mobile-tabs-scroll">
+
+    <div class="tab-node active">
+      Inicio
+    </div>
+
+    <div class="tab-node">
+      Insertar
+    </div>
+
+    <div class="tab-node">
+      Diseño
+    </div>
+
+    <div class="tab-node">
+      IA
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOP COMMANDS -->
+
+<div class="ribbon-commands-panel">
+
+<button class="cmd-btn"
+onclick="undoAction()">
+↩️ Undo
+</button>
+
+<button class="cmd-btn"
+onclick="redoAction()">
+↪️ Redo
+</button>
+
+<button class="cmd-btn"
+onclick="saveDocument()">
+💾 Guardar
+</button>
+
+<button class="cmd-btn"
+onclick="exportPDF()">
+📄 Export PDF
+</button>
+
+</div>
+
+<!-- WORKSPACE -->
+
+<div class="workspace">
+
+  <div class="paper">
+    <div id="editor"></div>
+  </div>
+
+</div>
+
+<!-- FLOATING TOOLS -->
+
+<div class="floating-corporate-container">
+
+<div class="dropdown-up-panel"
+id="corporateDropdown">
+
+<div>
+
+<div class="group-label">
+FORMATO CORPORATIVO
+</div>
+
+<div class="group-row">
+
+<button class="icon-btn"
+onclick="boldText()">
+B
+</button>
+
+<button class="icon-btn"
+onclick="italicText()">
+I
+</button>
+
+<button class="icon-btn"
+onclick="underlineText()">
+U
+</button>
+
+<button class="icon-btn"
+onclick="bulletList()">
+•
+</button>
+
+<button class="icon-btn"
+onclick="orderedList()">
+1.
+</button>
+
+</div>
+
+</div>
+
+<div>
+
+<div class="group-label">
+COLORES
+</div>
+
+<div class="group-row">
+
+<button class="icon-btn"
+onclick="setColorText('#1d5270')">
+🎨
+</button>
+
+<button class="icon-btn"
+onclick="setColorText('#92324f')">
+🎨
+</button>
+
+<button class="icon-btn"
+onclick="setColorText('#d94e18')">
+🎨
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<button class="trigger-menu-btn"
+onclick="toggleCorporateMenu()">
+
+💼 Herramientas Platinum
+
+</button>
+
+</div>
+
+<!-- IA -->
+
+<div class="ai-assistant-panel">
+
+<div>
+🤖 WC IA Assistant
+</div>
+
+<textarea placeholder="Pregunte a la IA..."></textarea>
+
+<button onclick="simulateAI()">
+Generar
+</button>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer-bar">
+
+<span>
+WC Platinum Engine • TipTap Powered
+</span>
+
+<span id="lblContador">
+0 palabras | 0 caracteres
+</span>
+
+</div>
+
+<!-- SCRIPT -->
+
 <script type="module">
 
 import { Editor } from 'https://esm.sh/@tiptap/core'
@@ -8,7 +418,7 @@ import Color from 'https://esm.sh/@tiptap/extension-color'
 
 let editor;
 
-/* INICIALIZAR */
+/* INIT */
 
 function initEditor(){
 
@@ -23,13 +433,20 @@ function initEditor(){
       Color
     ],
 
-    content: `
+    content:
+      localStorage.getItem('wc_doc') ||
+
+      `
       <h1>WC Corporate Editor Platinum</h1>
 
       <p>
-      Bienvenido al nuevo motor TipTap.
+      Bienvenido al nuevo ecosistema WC.
       </p>
-    `,
+
+      <p>
+      Motor moderno TipTap + ProseMirror.
+      </p>
+      `,
 
     onUpdate(){
 
@@ -46,7 +463,7 @@ function initEditor(){
   updateCounters();
 }
 
-/* CONTADOR */
+/* COUNTER */
 
 function updateCounters(){
 
@@ -74,7 +491,7 @@ window.toggleCorporateMenu = () => {
     .toggle('show');
 }
 
-/* BOTONES */
+/* BUTTONS */
 
 window.boldText = () => {
   editor.chain().focus().toggleBold().run();
@@ -104,7 +521,7 @@ window.redoAction = () => {
   editor.chain().focus().redo().run();
 }
 
-/* COLOR */
+/* COLORS */
 
 window.setColorText = (color) => {
 
@@ -115,7 +532,7 @@ window.setColorText = (color) => {
     .run();
 }
 
-/* GUARDAR */
+/* SAVE */
 
 window.saveDocument = () => {
 
@@ -161,3 +578,84 @@ window.simulateAI = () => {
 initEditor();
 
 </script>
+<script type="module">
+
+import { Editor } from 'https://cdn.jsdelivr.net/npm/@tiptap/core@2.6.6/+esm'
+import StarterKit from 'https://cdn.jsdelivr.net/npm/@tiptap/starter-kit@2.6.6/+esm'
+import Underline from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-underline@2.6.6/+esm'
+import TextStyle from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-text-style@2.6.6/+esm'
+import Color from 'https://cdn.jsdelivr.net/npm/@tiptap/extension-color@2.6.6/+esm'
+
+let editor;
+
+function init(){
+
+  editor = new Editor({
+    element: document.querySelector('#editor'),
+
+    extensions: [
+      StarterKit,
+      Underline,
+      TextStyle,
+      Color
+    ],
+
+    content: `
+      <h2>WC Corporate Editor</h2>
+      <p>Motor estable cargado correctamente.</p>
+    `,
+
+    onUpdate(){
+      update();
+    }
+  });
+
+  update();
+}
+
+function update(){
+  if(!editor) return;
+
+  const text = editor.getText();
+
+  document.getElementById('lblContador').textContent =
+  `${text.split(/\s+/).length} palabras | ${text.length} caracteres`;
+}
+
+/* BOTONES GLOBALES */
+
+window.boldText = () => editor.chain().focus().toggleBold().run();
+window.italicText = () => editor.chain().focus().toggleItalic().run();
+window.underlineText = () => editor.chain().focus().toggleUnderline().run();
+window.bulletList = () => editor.chain().focus().toggleBulletList().run();
+window.orderedList = () => editor.chain().focus().toggleOrderedList().run();
+window.undoAction = () => editor.chain().focus().undo().run();
+window.redoAction = () => editor.chain().focus().redo().run();
+
+window.setColorText = (c) =>
+  editor.chain().focus().setColor(c).run();
+
+window.saveDocument = () =>
+  localStorage.setItem('wc_doc', editor.getHTML());
+
+window.simulateAI = () =>
+  alert("IA activa");
+
+window.exportPDF = () => {
+  const s = document.createElement('script');
+  s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+
+  s.onload = () => {
+    html2pdf().from(document.querySelector('.paper')).save();
+  };
+
+  document.body.appendChild(s);
+};
+
+/* START */
+
+window.addEventListener('DOMContentLoaded', init);
+
+</script>
+</body>
+</html>
