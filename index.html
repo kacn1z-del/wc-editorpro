@@ -8,854 +8,546 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-  background:#1e1e1e; height:100vh; overflow:hidden;
-  display:flex; flex-direction:column; font-size:13px; color:#333;
-  user-select:none;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  height:100vh; overflow:hidden;
+  display:flex; flex-direction:column; font-size:13px; color:#fff;
+  user-select:none; padding: 10px;
+}
+
+/* Contenedor Principal con Bordes Redondeados */
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #141d2f;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
 /* ── TITLE BAR ── */
 .title-bar {
-  height:46px;
-  background:linear-gradient(90deg,#e85d1a 0%,#c94d8c 40%,#7b4fd4 70%,#5b6fd4 100%);
-  display:flex; align-items:center; padding:0 12px; gap:10px;
+  height:50px;
+  background: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 40%, #db2777 70%, #ea580c 100%);
+  display:flex; align-items:center; padding:0 16px; gap:12px;
   color:white; flex-shrink:0;
 }
 .wc-logo {
-  width:34px; height:34px; background:white; border-radius:6px;
+  width:34px; height:34px; background:white; border-radius:8px;
   display:flex; align-items:center; justify-content:center;
-  font-weight:800; font-size:14px; color:#d4541a; letter-spacing:-1px; flex-shrink:0;
+  font-weight:800; font-size:15px; color:#1d4ed8; letter-spacing:-1px; flex-shrink:0;
 }
-.app-title { font-weight:600; font-size:14px; }
+.app-title { font-weight:700; font-size:14px; letter-spacing: 0.5px; }
 .app-subtitle {
-  font-size:12px; opacity:.85;
-  border-left:1px solid rgba(255,255,255,.4); padding-left:10px; margin-left:2px;
+  font-size:11px; opacity:.75; font-weight: 400;
+  border-left:1px solid rgba(255,255,255,.3); padding-left:12px; margin-left:2px;
 }
-.title-actions { margin-left:auto; display:flex; align-items:center; gap:14px; }
-.title-actions svg { width:18px; height:18px; cursor:pointer; opacity:.9; }
+.title-actions { margin-left:auto; display:flex; align-items:center; gap:16px; }
+.title-actions svg { width:18px; height:18px; cursor:pointer; opacity:.85; color: white; transition: opacity 0.2s; }
 .title-actions svg:hover { opacity:1; }
+
 .user-chip {
-  display:flex; align-items:center; gap:7px;
-  background:rgba(255,255,255,.15); border-radius:20px;
-  padding:3px 10px 3px 4px; cursor:pointer;
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.12); border-radius:20px;
+  padding:4px 12px 4px 4px; cursor:pointer; border: 1px solid rgba(255,255,255,0.08);
 }
-.user-chip:hover { background:rgba(255,255,255,.25); }
 .user-avatar {
   width:26px; height:26px; border-radius:50%;
-  background:linear-gradient(135deg,#f97316,#ec4899);
+  background: #3b82f6;
   display:flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:700; color:white;
+  font-size:10px; font-weight:700; color:white; overflow: hidden;
 }
-.user-info { line-height:1.2; }
-.user-name { font-size:11px; font-weight:600; }
-.user-role { font-size:9px; opacity:.8; }
-.win-btns { display:flex; margin-left:6px; }
+.user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.user-info { line-height: 1.1; }
+.user-name { font-size:11px; font-weight:600; color: white; }
+.user-role { font-size:9px; opacity:.7; color: #94a3b8; }
+
+.win-btns { display:flex; margin-left:8px; gap: 4px; }
 .win-btn {
-  width:40px; height:46px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; opacity:.85; font-size:14px; color:white;
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; opacity:.8; font-size:12px; color:white; border-radius: 6px;
 }
 .win-btn:hover { background:rgba(255,255,255,.15); opacity:1; }
-.win-btn.close:hover { background:#c00; opacity:1; }
+.win-btn.close:hover { background:#ef4444; opacity:1; }
 
 /* ── MENU BAR ── */
 .menu-bar {
-  height:44px;
-  background:linear-gradient(90deg,#cc4a10 0%,#b03880 35%,#6440c0 70%,#4a5ec0 100%);
-  display:flex; align-items:center; padding:0 8px; gap:2px;
+  height:46px;
+  background: #1e293b;
+  display:flex; align-items:center; padding:0 12px; gap:6px;
   flex-shrink:0; position:relative; z-index:200;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 .menu-item {
   display:flex; align-items:center; gap:6px;
-  padding:5px 12px; border-radius:5px;
-  color:white; cursor:pointer; font-size:13px;
-  transition:background .12s; position:relative;
+  padding:6px 14px; border-radius:8px;
+  color:#white; font-weight: 500; cursor:pointer; font-size:13px;
+  transition: all .2s; position:relative;
 }
-.menu-item:hover, .menu-item.open { background:rgba(255,255,255,.2); }
-.menu-item svg { width:15px; height:15px; flex-shrink:0; }
-.menu-item .caret { font-size:10px; opacity:.8; }
+.menu-item:hover, .menu-item.open { background:rgba(255,255,255,.08); color: #3b82f6; }
+.menu-item svg { width:14px; height:14px; flex-shrink:0; opacity: 0.9; }
+.menu-item .caret { font-size:9px; opacity:.7; margin-left: 2px; }
+
 .search-bar {
-  margin-left:auto;
-  background:rgba(255,255,255,.2); border-radius:20px;
-  display:flex; align-items:center; gap:6px; padding:5px 12px;
-  min-width:200px;
+  margin-left:auto; background:rgba(255,255,255,.05); border-radius:8px;
+  display:flex; align-items:center; gap:8px; padding:6px 12px; min-width:240px;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 .search-bar input {
-  background:none; border:none; outline:none;
-  color:white; font-size:12px; width:140px;
+  background:none; border:none; outline:none; color:white; font-size:12px; width:100%;
 }
-.search-bar input::placeholder { color:rgba(255,255,255,.65); }
-.search-bar svg { width:14px; height:14px; color:rgba(255,255,255,.7); flex-shrink:0; }
-.menu-icons { display:flex; align-items:center; gap:10px; margin-left:10px; }
-.menu-icons svg { width:18px; height:18px; color:white; cursor:pointer; opacity:.85; }
-.menu-icons svg:hover { opacity:1; }
+.search-bar input::placeholder { color:rgba(255,255,255,.4); }
+.search-bar svg { width:14px; height:14px; color:rgba(255,255,255,.4); flex-shrink:0; }
+.menu-icons { display:flex; align-items:center; gap:12px; margin-left:12px; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 12px;}
+.menu-icons svg { width:16px; height:16px; color:#94a3b8; cursor:pointer; transition: color 0.2s; }
+.menu-icons svg:hover { color:white; }
 
-/* ── DROPDOWN SYSTEM ── */
+/* ── MODERNO MENU FLOATING (Glassmorphism de la Imagen) ── */
 .dropdown-menu {
-  position:absolute; top:calc(100% + 4px); left:0;
-  min-width:260px; background:white;
-  border-radius:10px; box-shadow:0 8px 40px rgba(0,0,0,.22);
+  position:absolute; top:calc(100% + 6px); left:0;
+  min-width:240px; 
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.08);
   overflow:hidden; z-index:9999;
-  animation:dropIn .15s ease;
-  display:none;
+  display:none; padding: 6px;
 }
-.dropdown-menu.visible { display:block; }
+.dropdown-menu.visible { display:block; animation: dropIn .15s ease-out; }
 @keyframes dropIn {
-  from { opacity:0; transform:translateY(-6px); }
+  from { opacity:0; transform:translateY(-8px); }
   to   { opacity:1; transform:translateY(0); }
 }
 .dm-item {
-  display:flex; align-items:center; gap:10px;
-  padding:8px 14px; cursor:pointer;
-  transition:background .1s; position:relative;
+  display:flex; align-items:center; gap:12px;
+  padding:10px 14px; border-radius:8px; cursor:pointer;
+  transition: all .2s; color: #cbd5e1;
 }
-.dm-item:hover { background:#f0f4ff; }
-.dm-item.danger:hover { background:#fff0f0; }
-.dm-item.danger .dm-label { color:#dc2626; }
-.dm-sep { height:1px; background:#eee; margin:4px 0; }
+.dm-item:hover { background: rgba(255,255,255,0.08); color: white; }
 .dm-icon {
-  width:28px; height:28px; border-radius:6px;
+  width:24px; height:24px; border-radius:6px;
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  font-size: 14px;
 }
-.dm-icon svg { width:14px; height:14px; }
-.dm-label { font-size:13px; color:#222; flex:1; }
-.dm-shortcut { font-size:11px; color:#aaa; margin-left:auto; }
-.dm-arrow { color:#bbb; font-size:12px; margin-left:6px; }
-.dm-section { font-size:10px; color:#aaa; font-weight:600; letter-spacing:.06em; padding:8px 14px 2px; }
-/* icon colors */
-.ic-blue   { background:#eff6ff; } .ic-blue svg   { color:#3b82f6; }
-.ic-green  { background:#f0fdf4; } .ic-green svg  { color:#16a34a; }
-.ic-orange { background:#fff7ed; } .ic-orange svg { color:#ea580c; }
-.ic-red    { background:#fef2f2; } .ic-red svg    { color:#dc2626; }
-.ic-violet { background:#f5f3ff; } .ic-violet svg { color:#7c3aed; }
-.ic-teal   { background:#f0fdfa; } .ic-teal svg   { color:#0d9488; }
-.ic-yellow { background:#fefce8; } .ic-yellow svg { color:#ca8a04; }
-.ic-gray   { background:#f9fafb; } .ic-gray svg   { color:#6b7280; }
-/* submenu */
-.dm-item.has-sub:hover > .submenu { display:block; }
-.submenu {
-  display:none; position:absolute;
-  left:100%; top:0; min-width:200px;
-  background:white; border-radius:10px;
-  box-shadow:0 8px 30px rgba(0,0,0,.18);
-  overflow:hidden; z-index:10000;
-}
-/* toast notification */
-#toast {
-  position:fixed; bottom:40px; left:50%; transform:translateX(-50%) translateY(20px);
-  background:#1e2a3a; color:white; padding:10px 20px;
-  border-radius:8px; font-size:13px; opacity:0;
-  transition:all .25s; pointer-events:none; z-index:99999;
-  border-left:3px solid #6366f1;
-}
-#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.dm-label { font-size:12.5px; font-weight: 500; flex:1; }
+.dm-arrow { color:#64748b; font-size:12px; margin-left:auto; }
 
 /* ── RIBBON ── */
 .ribbon {
-  background:#f8f8f8; border-bottom:1px solid #ddd;
-  padding:6px 10px; display:flex; align-items:center; gap:14px; flex-shrink:0;
+  background:#1e293b; border-bottom:1px solid rgba(255,255,255,0.05);
+  padding:8px 12px; display:flex; align-items:center; gap:16px; flex-shrink:0;
 }
-.ribbon-group { display:flex; align-items:center; gap:4px; }
-.ribbon-sep { width:1px; height:36px; background:#ddd; }
-.ribbon-label { font-size:10px; color:#888; text-align:center; margin-top:2px; }
+.ribbon-group { display:flex; align-items:center; gap:6px; }
+.ribbon-sep { width:1px; height:40px; background:rgba(255,255,255,0.1); }
+.ribbon-label { font-size:10px; color:#64748b; text-align:center; margin-top:4px; font-weight: 500; }
 .clipboard-btn {
   display:flex; flex-direction:column; align-items:center;
-  padding:4px 6px; cursor:pointer; border-radius:4px; min-width:44px;
+  padding:6px; cursor:pointer; border-radius:6px; min-width:48px; transition: background 0.2s;
 }
-.clipboard-btn:hover { background:#e8e8e8; }
+.clipboard-btn:hover { background:rgba(255,255,255,0.05); }
 .paste-icon {
-  width:32px; height:32px; background:linear-gradient(135deg,#3b82f6,#6366f1);
-  border-radius:5px; display:flex; align-items:center; justify-content:center;
+  width:28px; height:28px; background:linear-gradient(135deg,#3b82f6,#6366f1);
+  border-radius:6px; display:flex; align-items:center; justify-content:center;
 }
-.paste-icon svg { width:18px; height:18px; color:white; }
+.paste-icon svg { width:16px; height:16px; color:white; }
 .small-btn {
-  display:flex; align-items:center; gap:4px;
-  padding:2px 6px; border-radius:3px; cursor:pointer; font-size:11.5px; color:#444;
+  display:flex; align-items:center; gap:6px;
+  padding:3px 8px; border-radius:4px; cursor:pointer; font-size:11px; color:#cbd5e1;
 }
-.small-btn:hover { background:#e8e8e8; }
-.small-btn svg { width:13px; height:13px; }
+.small-btn:hover { background:rgba(255,255,255,0.05); color: white; }
+.small-btn svg { width:12px; height:12px; }
 .font-select,.size-select {
-  border:1px solid #ccc; border-radius:3px; padding:3px 6px;
-  font-size:12px; background:white; outline:none; cursor:pointer;
+  border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:4px 8px;
+  font-size:11.5px; background:#0f172a; color: white; outline:none; cursor:pointer;
 }
-.font-select { width:130px; }
-.size-select { width:50px; }
+.font-select { width:110px; }
+.size-select { width:52px; }
 .font-size-btn {
-  width:22px; height:22px; display:flex; align-items:center; justify-content:center;
-  border:1px solid #ccc; border-radius:3px; cursor:pointer; background:white; font-size:12px;
+  width:24px; height:24px; display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,0.1); border-radius:4px; cursor:pointer; background:#0f172a; font-size:11px;
 }
-.font-size-btn:hover { background:#e8e8e8; }
+.font-size-btn:hover { background:rgba(255,255,255,0.05); }
 .fmt-btn {
   width:24px; height:24px; display:flex; align-items:center; justify-content:center;
-  border-radius:3px; cursor:pointer; font-size:13px; color:#333;
+  border-radius:4px; cursor:pointer; font-size:12px; color:#cbd5e1; transition: all 0.15s;
 }
-.fmt-btn:hover { background:#ddd; }
+.fmt-btn:hover { background:rgba(255,255,255,0.08); color: white; }
 .style-btn {
-  padding:4px 14px; border-radius:4px; cursor:pointer; font-size:13px;
-  border:1.5px solid transparent; transition:background .1s;
+  padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px; font-weight: 500;
+  border:1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); color: #cbd5e1; transition:all .1s;
 }
-.style-btn:hover { background:#e8e8e8; }
-.style-btn.active { border-color:#6366f1; background:#eef2ff; color:#4f46e5; }
+.style-btn:hover { background:rgba(255,255,255,0.05); }
+.style-btn.active { border-color:#3b82f6; background:rgba(59,130,246,0.15); color:#60a5fa; }
 .edit-btn {
-  display:flex; align-items:center; gap:4px; font-size:12px; color:#444;
-  cursor:pointer; padding:2px 6px; border-radius:3px;
+  display:flex; align-items:center; gap:6px; font-size:11.5px; color:#cbd5e1;
+  cursor:pointer; padding:4px 8px; border-radius:4px;
 }
-.edit-btn:hover { background:#e8e8e8; }
-.edit-btn svg { width:13px; height:13px; }
+.edit-btn:hover { background:rgba(255,255,255,0.05); color: white; }
+.edit-btn svg { width:12px; height:12px; }
 
 /* ── BODY ── */
-.body-wrap { display:flex; flex:1; overflow:hidden; }
+.body-wrap { display:flex; flex:1; overflow:hidden; background: #0b0f19; }
 
 /* ── SIDEBAR ── */
 .sidebar {
-  width:195px; background:#1e2a3a;
+  width:210px; background:#0f172a;
   display:flex; flex-direction:column; flex-shrink:0; overflow:hidden;
+  border-right: 1px solid rgba(255,255,255,0.05);
 }
-.sidebar-section { padding:10px 10px 4px; }
+.sidebar-section { padding:14px; }
 .sidebar-heading {
-  font-size:11px; font-weight:600; color:#8da4c0; letter-spacing:.04em;
-  display:flex; align-items:center; justify-content:space-between; padding:0 4px 6px;
+  font-size:11px; font-weight:600; color:#64748b; letter-spacing:.05em;
+  display:flex; align-items:center; justify-content:space-between; padding:0 4px 8px;
+  text-transform: uppercase;
 }
-.sidebar-heading svg { width:14px; height:14px; cursor:pointer; color:#8da4c0; }
+.sidebar-heading svg { width:14px; height:14px; cursor:pointer; color:#64748b; }
 .sidebar-heading svg:hover { color:white; }
 .doc-item {
-  display:flex; align-items:center; gap:8px;
-  padding:6px 8px; border-radius:6px; cursor:pointer;
-  color:#c5d8f0; font-size:12px; transition:background .12s;
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:8px; cursor:pointer;
+  color:#94a3b8; font-size:12.5px; transition:all .15s;
 }
-.doc-item:hover { background:rgba(255,255,255,.08); }
-.doc-item.active { background:rgba(99,102,241,.25); color:white; }
+.doc-item:hover { background:rgba(255,255,255,.04); color: white; }
+.doc-item.active { background:rgba(59,130,246,.15); color:#60a5fa; font-weight: 500; }
 .doc-item svg { width:14px; height:14px; flex-shrink:0; opacity:.7; }
-.sidebar-divider { height:1px; background:rgba(255,255,255,.07); margin:6px 10px; }
-.storage-box {
-  margin:auto 10px 10px; background:rgba(255,255,255,.06); border-radius:8px; padding:10px;
-}
-.storage-label { font-size:11px; color:#8da4c0; margin-bottom:5px; }
-.storage-bar { height:5px; background:rgba(255,255,255,.12); border-radius:10px; overflow:hidden; margin-bottom:4px; }
-.storage-fill { height:100%; width:45.2%; background:linear-gradient(90deg,#3b82f6,#6366f1); border-radius:10px; }
-.storage-nums { font-size:11px; color:#7090b0; display:flex; justify-content:space-between; }
-.storage-upload { display:flex; align-items:center; justify-content:flex-end; margin-top:6px; }
-.upload-btn {
-  width:26px; height:26px; border-radius:50%;
-  background:linear-gradient(135deg,#3b82f6,#6366f1);
-  display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative;
-}
-.upload-btn::after {
-  content:'✓'; position:absolute; bottom:-2px; right:-2px;
-  width:12px; height:12px; border-radius:50%; background:#22c55e;
-  font-size:8px; color:white; display:flex; align-items:center; justify-content:center;
-}
-.upload-btn svg { width:14px; height:14px; color:white; }
+.sidebar-divider { height:1px; background:rgba(255,255,255,.05); margin:4px 14px; }
 
-/* ── CONTENT AREA ── */
+.storage-box {
+  margin:auto 14px 14px; background:rgba(255,255,255,.03); border-radius:10px; padding:12px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.storage-label { font-size:11px; color:#64748b; margin-bottom:6px; }
+.storage-bar { height:6px; background:rgba(255,255,255,.08); border-radius:10px; overflow:hidden; margin-bottom:6px; }
+.storage-fill { height:100%; width:45.2%; background:linear-gradient(90deg,#3b82f6,#6366f1); border-radius:10px; }
+.storage-nums { font-size:11px; color:#64748b; display:flex; justify-content:space-between; }
+.storage-upload { display:flex; align-items:center; justify-content:flex-end; margin-top:4px; }
+.upload-btn {
+  width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,0.05);
+  display:flex; align-items:center; justify-content:center; cursor:pointer; border: 1px solid rgba(255,255,255,0.1);
+}
+.upload-btn svg { width:13px; height:13px; color:#94a3b8; }
+.upload-btn:hover { background: rgba(255,255,255,0.1); }
+
+/* ── CONTENT AREA (LIENZO REALÍSTICO) ── */
 .content-area {
-  flex:1; background:#e4e4e4; overflow-y:auto;
-  display:flex; flex-direction:column; align-items:center; padding:0 20px 24px;
+  flex:1; background:#121824; overflow-y:auto;
+  display:flex; flex-direction:column; align-items:center; padding:0 24px 30px;
 }
 .ruler {
-  width:700px; height:22px; background:#e8e8e8; border-bottom:1px solid #ccc;
+  width:740px; height:22px; background:#1e293b; border-bottom:1px solid rgba(255,255,255,0.05);
   display:flex; align-items:flex-end; padding:0 0 2px 60px; overflow:hidden; flex-shrink:0;
 }
 .ruler-inner { display:flex; flex:1; }
-.ruler-tick { font-size:9px; color:#888; width:46px; text-align:center; border-left:1px solid #bbb; padding-left:2px; }
+.ruler-tick { font-size:9px; color:#475569; width:46px; text-align:center; border-left:1px solid rgba(255,255,255,0.05); padding-left:2px; }
+
 .page {
-  width:700px; min-height:500px; background:white;
-  box-shadow:0 2px 16px rgba(0,0,0,.15); border-radius:2px;
-  padding:50px 60px; position:relative; margin-top:0;
+  width:740px; min-height:550px; background:white;
+  box-shadow:0 15px 35px rgba(0,0,0,.3); border-radius:8px;
+  padding:50px 60px; position:relative; margin-top:16px; color: #1e293b;
 }
-.page-left-bar { position:absolute; left:32px; top:50px; bottom:50px; width:4px; background:#e85d1a; border-radius:2px; }
-.page-title { font-size:32px; font-weight:700; color:#1a2540; margin-bottom:4px; }
-.page-subtitle { font-size:14px; color:#e85d1a; font-weight:600; margin-bottom:18px; letter-spacing:.02em; }
-.page-body { font-size:14px; color:#333; line-height:1.55; margin-bottom:22px; }
+.page-left-bar { position:absolute; left:32px; top:50px; bottom:50px; width:4px; background:#ea580c; border-radius:2px; }
+.page-title { font-size:32px; font-weight:700; color:#0f172a; margin-bottom:4px; }
+.page-subtitle { font-size:13px; color:#ea580c; font-weight:700; margin-bottom:20px; letter-spacing:.05em; text-transform: uppercase; }
+.page-body { font-size:14px; color:#334155; line-height:1.6; margin-bottom:30px; }
 .page-cursor {
-  display:inline-block; width:1.5px; height:16px; background:#333;
+  display:inline-block; width:1.5px; height:16px; background:#0f172a;
   margin-left:2px; animation:blink 1s step-end infinite; vertical-align:text-bottom;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-.feature-row { display:flex; gap:28px; margin-top:20px; }
-.feature-card { flex:1; display:flex; gap:12px; align-items:flex-start; }
-.feature-icon { width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.fi-orange { background:linear-gradient(135deg,#f97316,#ea580c); }
-.fi-blue   { background:linear-gradient(135deg,#3b82f6,#6366f1); }
-.fi-red    { background:linear-gradient(135deg,#f43f5e,#e11d48); }
-.feature-icon svg { width:22px; height:22px; color:white; }
-.feature-name { font-weight:700; font-size:13.5px; color:#1a2540; margin-bottom:3px; }
-.feature-desc { font-size:11.5px; color:#666; line-height:1.4; }
 
-/* ── AI PANEL ── */
+/* Tarjetas Inferiores del Lienzo */
+.feature-row { display:flex; gap:20px; margin-top:24px; }
+.feature-card { 
+  flex:1; display:flex; gap:14px; align-items:center; 
+  background: #f8fafc; padding: 16px; border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e2e8f0;
+}
+.feature-icon { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.fi-orange { background: rgba(234, 88, 12, 0.1); color: #ea580c; }
+.fi-blue   { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.fi-red    { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.feature-icon svg { width:18px; height:18px; }
+.feature-name { font-weight:700; font-size:13px; color:#0f172a; }
+.feature-desc { font-size:11px; color:#64748b; line-height:1.4; }
+
+/* ── AI PANEL (ESTILO MODERNO) ── */
 .ai-panel {
-  width:240px; background:#0f172a;
+  width:260px; background:#0f172a;
   display:flex; flex-direction:column; flex-shrink:0; overflow:hidden;
+  border-left: 1px solid rgba(255,255,255,0.05);
 }
 .ai-header {
   display:flex; align-items:center; justify-content:space-between;
-  padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.08);
+  padding:14px; border-bottom:1px solid rgba(255,255,255,.05);
 }
-.ai-title-row { display:flex; align-items:center; gap:7px; }
-.ai-star { color:#6366f1; font-size:16px; }
-.ai-title { font-size:13px; font-weight:600; color:white; }
-.ai-header-btns { display:flex; gap:8px; }
-.ai-header-btns svg { width:15px; height:15px; color:#8da4c0; cursor:pointer; }
+.ai-title-row { display:flex; align-items:center; gap:8px; }
+.ai-star { color:#6366f1; font-size:15px; }
+.ai-title { font-size:12.5px; font-weight:600; color:white; }
+.ai-header-btns { display:flex; gap:10px; }
+.ai-header-btns svg { width:15px; height:15px; color:#64748b; cursor:pointer; }
 .ai-header-btns svg:hover { color:white; }
-.ai-tabs { display:flex; border-bottom:1px solid rgba(255,255,255,.08); padding:0 10px; }
-.ai-tab { font-size:12px; color:#8da4c0; padding:8px 10px; cursor:pointer; border-bottom:2px solid transparent; }
-.ai-tab.active { color:#818cf8; border-color:#818cf8; }
-.ai-tab:hover { color:#c0c8f0; }
-.ai-body { flex:1; overflow-y:auto; padding:14px 12px; }
-.ai-avatar-wrap { text-align:center; margin-bottom:12px; }
+.ai-tabs { display:flex; border-bottom:1px solid rgba(255,255,255,.05); padding:0 10px; }
+.ai-tab { font-size:11.5px; color:#64748b; padding:10px 12px; cursor:pointer; border-bottom:2px solid transparent; }
+.ai-tab.active { color:#818cf8; border-color:#818cf8; font-weight: 500; }
+.ai-body { flex:1; overflow-y:auto; padding:16px 14px; }
+.ai-avatar-wrap { text-align:center; margin-bottom:16px; }
 .ai-bot-icon {
-  width:52px; height:52px; border-radius:50%;
-  background:linear-gradient(135deg,#6366f1,#818cf8);
-  margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:22px;
+  width:48px; height:48px; border-radius:50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:20px;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
-.ai-greeting { font-size:14px; font-weight:600; color:white; margin-bottom:2px; }
-.ai-greeting-sub { font-size:11px; color:#8da4c0; }
-.ai-suggestions { display:flex; flex-direction:column; gap:6px; margin-top:10px; }
+.ai-greeting { font-size:13.5px; font-weight:600; color:white; }
+.ai-greeting-sub { font-size:11px; color:#64748b; margin-top:2px; }
+.ai-suggestions { display:flex; flex-direction:column; gap:8px; margin-top:16px; }
 .ai-sugg {
-  background:rgba(255,255,255,.06); border-radius:7px; padding:8px 10px;
+  background:rgba(255,255,255,.03); border-radius:8px; padding:10px 12px;
   display:flex; align-items:center; justify-content:space-between;
-  cursor:pointer; transition:background .12s;
+  cursor:pointer; border: 1px solid rgba(255,255,255,0.03); transition:all .15s;
 }
-.ai-sugg:hover { background:rgba(255,255,255,.12); }
-.ai-sugg-row { display:flex; align-items:center; gap:7px; }
+.ai-sugg:hover { background:rgba(255,255,255,.07); border-color: rgba(255,255,255,0.08); }
+.ai-sugg-row { display:flex; align-items:center; gap:8px; }
 .ai-sugg-row svg { width:13px; height:13px; color:#818cf8; flex-shrink:0; }
-.ai-sugg-text { font-size:11.5px; color:#c0c8f0; }
-.ai-sugg-arrow { color:#555; font-size:12px; }
-.ai-input-bar { border-top:1px solid rgba(255,255,255,.08); padding:8px 10px; display:flex; align-items:center; gap:8px; }
-.ai-input { flex:1; background:rgba(255,255,255,.07); border-radius:20px; padding:7px 12px; font-size:11.5px; color:white; border:none; outline:none; }
-.ai-input::placeholder { color:#4a5878; }
-.ai-send { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#6366f1,#818cf8); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; font-size:14px; }
+.ai-sugg-text { font-size:11.5px; color:#cbd5e1; }
+.ai-sugg-arrow { color:#475569; font-size:12px; }
+.ai-input-bar { border-top:1px solid rgba(255,255,255,.05); padding:10px 12px; display:flex; align-items:center; gap:8px; }
+.ai-input { flex:1; background:rgba(255,255,255,.05); border-radius:8px; padding:8px 12px; font-size:11.5px; color:white; border:1px solid rgba(255,255,255,0.05); outline:none; }
+.ai-input::placeholder { color:#475569; }
+.ai-send { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,#3b82f6,#7c3aed); display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; color: white; font-size: 12px;}
 
 /* ── STATUS BAR ── */
 .status-bar {
-  height:28px; background:#1e2a3a; display:flex; align-items:center;
-  padding:0 12px; gap:16px; flex-shrink:0;
+  height:32px; background:#0f172a; display:flex; align-items:center;
+  padding:0 14px; gap:16px; flex-shrink:0; border-top: 1px solid rgba(255,255,255,0.05);
 }
-.status-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#8da4c0; }
+.status-item { display:flex; align-items:center; gap:6px; font-size:11px; color:#64748b; }
 .status-item svg { width:13px; height:13px; }
-.status-dot { width:7px; height:7px; border-radius:50%; }
-.status-dot.green { background:#22c55e; }
-.status-sep { width:1px; height:16px; background:rgba(255,255,255,.1); }
-.zoom-bar { display:flex; align-items:center; gap:6px; margin-left:auto; margin-right:10px; }
-.zoom-btn { width:18px; height:18px; border-radius:3px; background:rgba(255,255,255,.1); color:#8da4c0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; }
-.zoom-slider { width:80px; height:4px; background:rgba(255,255,255,.15); border-radius:10px; position:relative; }
-.zoom-fill { position:absolute; left:0; top:0; height:100%; width:50%; background:#6366f1; border-radius:10px; }
-.zoom-thumb { position:absolute; top:50%; left:50%; width:12px; height:12px; border-radius:50%; background:white; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,.3); }
-.status-mode { display:flex; align-items:center; gap:5px; font-size:11px; color:#22c55e; margin-right:6px; }
-.status-save { display:flex; align-items:center; gap:5px; font-size:11px; color:#8da4c0; }
+.status-dot { width:6px; height:6px; border-radius:50%; }
+.status-dot.green { background:#10b981; }
+.status-sep { width:1px; height:16px; background:rgba(255,255,255,.08); }
+.zoom-bar { display:flex; align-items:center; gap:8px; margin-left:auto; margin-right:12px; }
+.zoom-btn { width:18px; height:18px; color:#64748b; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:14px; }
+.zoom-slider { width:100px; height:4px; background:rgba(255,255,255,.1); border-radius:10px; position:relative; }
+.zoom-fill { position:absolute; left:0; top:0; height:100%; width:50%; background:#3b82f6; border-radius:10px; }
+.zoom-thumb { position:absolute; top:50%; left:50%; width:10px; height:10px; border-radius:50%; background:white; transform:translate(-50%,-50%); }
+.status-mode { display:flex; align-items:center; gap:6px; font-size:11px; color:#10b981; font-weight: 500; }
+.status-save { display:flex; align-items:center; gap:4px; font-size:11px; color:#64748b; cursor: pointer; }
 
-/* modal */
-.modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,.5);
-  display:none; align-items:center; justify-content:center; z-index:9999;
+/* toast notification */
+#toast {
+  position:fixed; bottom:50px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:#1e293b; color:white; padding:12px 24px;
+  border-radius:8px; font-size:12.5px; opacity:0;
+  transition:all .25s; pointer-events:none; z-index:99999;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
-.modal-overlay.visible { display:flex; }
-.modal {
-  background:white; border-radius:12px; padding:28px 32px;
-  min-width:360px; box-shadow:0 20px 60px rgba(0,0,0,.3);
-  animation:dropIn .2s ease;
-}
-.modal h3 { font-size:16px; color:#1a2540; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-.modal p { font-size:13px; color:#555; margin-bottom:20px; line-height:1.5; }
-.modal-btns { display:flex; gap:10px; justify-content:flex-end; }
-.modal-btn {
-  padding:8px 20px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:500;
-  border:none; transition:background .15s;
-}
-.modal-btn.cancel { background:#f0f0f0; color:#555; }
-.modal-btn.cancel:hover { background:#e0e0e0; }
-.modal-btn.primary { background:linear-gradient(135deg,#6366f1,#818cf8); color:white; }
-.modal-btn.primary:hover { background:linear-gradient(135deg,#4f46e5,#6366f1); }
-.modal-btn.danger { background:#dc2626; color:white; }
-.modal-btn.danger:hover { background:#b91c1c; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- TITLE BAR -->
-<div class="title-bar">
-  <div class="wc-logo">WC</div>
-  <span class="app-title">WC Corporate Editor v20</span>
-  <span class="app-subtitle">ULTIMATE PRO UI v26 – ESTÉTICA EJECUTIVA</span>
-  <div class="title-actions">
-    <svg title="Deshacer" onclick="toast('Deshacer')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h10a6 6 0 0 1 0 12H7"/><polyline points="3 6 3 10 7 10"/></svg>
-    <svg title="Rehacer" onclick="toast('Rehacer')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H11a6 6 0 0 0 0 12h6"/><polyline points="21 6 21 10 17 10"/></svg>
-    <svg title="Guardar" onclick="toast('✅ Documento guardado correctamente')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-    <svg title="Compartir" onclick="toast('🔗 Enlace de compartir copiado')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-    <svg title="Notificaciones" onclick="toast('🔔 No hay notificaciones nuevas')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-    <svg title="Perfil" onclick="toast('👤 Keny Chinchilla Navarro — Desarrollador')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <div class="user-chip" onclick="toast('👤 Perfil de usuario')">
-      <div class="user-avatar">KN</div>
-      <div class="user-info">
-        <div class="user-name">Keny Chinchilla Navarro</div>
-        <div class="user-role">Desarrollador</div>
-      </div>
-    </div>
-    <div class="win-btns">
-      <div class="win-btn" onclick="toast('— Minimizado')">–</div>
-      <div class="win-btn" onclick="toast('⬜ Maximizar')">⬜</div>
-      <div class="win-btn close" onclick="showModal('closeModal')">✕</div>
-    </div>
-  </div>
-</div>
-
-<!-- MENU BAR -->
-<div class="menu-bar" id="menuBar">
-
-  <!-- ARCHIVO -->
-  <div class="menu-item" id="mi-archivo" onclick="toggleMenu('archivo')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    Archivo <span class="caret">▾</span>
-    <div class="dropdown-menu" id="dd-archivo">
-      <div class="dm-section">DOCUMENTO</div>
-      <div class="dm-item" onclick="toast('📄 Nuevo documento creado')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <span class="dm-label">Nuevo</span><span class="dm-shortcut">Ctrl+N</span>
-      </div>
-      <div class="dm-item" onclick="toast('📂 Abriendo explorador de archivos…')">
-        <div class="dm-icon ic-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
-        <span class="dm-label">Abrir</span><span class="dm-shortcut">Ctrl+O</span>
-      </div>
-      <div class="dm-item" onclick="toast('✅ Documento guardado')">
-        <div class="dm-icon ic-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg></div>
-        <span class="dm-label">Guardar</span><span class="dm-shortcut">Ctrl+S</span>
-      </div>
-      <div class="dm-item" onclick="toast('💾 Guardado como nuevo archivo')">
-        <div class="dm-icon ic-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg></div>
-        <span class="dm-label">Guardar como…</span><span class="dm-shortcut">Ctrl+Shift+S</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-section">EXPORTAR</div>
-      <div class="dm-item" onclick="toast('📤 Exportando como PDF…')">
-        <div class="dm-icon ic-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <span class="dm-label">Exportar como PDF</span>
-      </div>
-      <div class="dm-item" onclick="toast('🖨️ Enviando a impresora…')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
-        <span class="dm-label">Imprimir</span><span class="dm-shortcut">Ctrl+P</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-item danger" onclick="showModal('closeModal')">
-        <div class="dm-icon ic-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-        <span class="dm-label">Salir</span><span class="dm-shortcut">Alt+F4</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDITAR -->
-  <div class="menu-item" id="mi-editar" onclick="toggleMenu('editar')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    Editar <span class="caret">▾</span>
-    <div class="dropdown-menu" id="dd-editar">
-      <div class="dm-item" onclick="toast('↩️ Acción deshecha')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h10a6 6 0 0 1 0 12H7"/><polyline points="3 6 3 10 7 10"/></svg></div>
-        <span class="dm-label">Deshacer</span><span class="dm-shortcut">Ctrl+Z</span>
-      </div>
-      <div class="dm-item" onclick="toast('↪️ Acción rehecha')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H11a6 6 0 0 0 0 12h6"/><polyline points="21 6 21 10 17 10"/></svg></div>
-        <span class="dm-label">Rehacer</span><span class="dm-shortcut">Ctrl+Y</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-item" onclick="toast('✂️ Texto cortado al portapapeles')">
-        <div class="dm-icon ic-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>
-        <span class="dm-label">Cortar</span><span class="dm-shortcut">Ctrl+X</span>
-      </div>
-      <div class="dm-item" onclick="toast('📋 Texto copiado al portapapeles')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></div>
-        <span class="dm-label">Copiar</span><span class="dm-shortcut">Ctrl+C</span>
-      </div>
-      <div class="dm-item" onclick="toast('📌 Texto pegado')">
-        <div class="dm-icon ic-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
-        <span class="dm-label">Pegar</span><span class="dm-shortcut">Ctrl+V</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-item" onclick="toast('🔲 Todo el texto seleccionado')">
-        <div class="dm-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-        <span class="dm-label">Seleccionar todo</span><span class="dm-shortcut">Ctrl+A</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-item" onclick="toast('🔍 Abriendo panel de búsqueda…')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-        <span class="dm-label">Buscar</span><span class="dm-shortcut">Ctrl+F</span>
-      </div>
-      <div class="dm-item" onclick="toast('🔄 Abriendo panel Buscar y reemplazar…')">
-        <div class="dm-icon ic-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg></div>
-        <span class="dm-label">Buscar y reemplazar</span><span class="dm-shortcut">Ctrl+H</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- INSERTAR -->
-  <div class="menu-item" id="mi-insertar" onclick="toggleMenu('insertar')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-    Insertar <span class="caret">▾</span>
-    <div class="dropdown-menu" id="dd-insertar">
-      <div class="dm-section">CONTENIDO</div>
-      <div class="dm-item" onclick="toast('🖼️ Abriendo selector de imagen…')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-        <span class="dm-label">Imagen</span>
-      </div>
-      <div class="dm-item" onclick="toast('📊 Insertando tabla 3×3…')">
-        <div class="dm-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></div>
-        <span class="dm-label">Tabla</span>
-      </div>
-      <div class="dm-item" onclick="toast('🔗 Insertando hipervínculo…')">
-        <div class="dm-icon ic-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-        <span class="dm-label">Hipervínculo</span><span class="dm-shortcut">Ctrl+K</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-section">ELEMENTOS</div>
-      <div class="dm-item" onclick="toast('📌 Nota al pie insertada')">
-        <div class="dm-icon ic-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="5 12 12 5 19 12"/></svg></div>
-        <span class="dm-label">Nota al pie</span>
-      </div>
-      <div class="dm-item" onclick="toast('📑 Número de página insertado')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <span class="dm-label">Número de página</span>
-      </div>
-      <div class="dm-item" onclick="toast('📅 Fecha y hora insertada')">
-        <div class="dm-icon ic-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-        <span class="dm-label">Fecha y hora</span>
-      </div>
-      <div class="dm-item" onclick="toast('✏️ Símbolo especial insertado')">
-        <div class="dm-icon ic-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
-        <span class="dm-label">Símbolo especial</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- FORMATO -->
-  <div class="menu-item" id="mi-formato" onclick="toggleMenu('formato')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M14 3h7v7"/><line x1="21" y1="3" x2="9" y2="15"/></svg>
-    Formato <span class="caret">▾</span>
-    <div class="dropdown-menu" id="dd-formato">
-      <div class="dm-section">TEXTO</div>
-      <div class="dm-item" onclick="toast('B Negrita aplicada')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg></div>
-        <span class="dm-label">Negrita</span><span class="dm-shortcut">Ctrl+B</span>
-      </div>
-      <div class="dm-item" onclick="toast('I Cursiva aplicada')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg></div>
-        <span class="dm-label">Cursiva</span><span class="dm-shortcut">Ctrl+I</span>
-      </div>
-      <div class="dm-item" onclick="toast('U Subrayado aplicado')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><line x1="4" y1="21" x2="20" y2="21"/></svg></div>
-        <span class="dm-label">Subrayado</span><span class="dm-shortcut">Ctrl+U</span>
-      </div>
-      <div class="dm-item" onclick="toast('S Tachado aplicado')">
-        <div class="dm-icon ic-gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"/><path d="M17.5 7C17.5 5.07 15 3 12 3S6.5 5.07 6.5 7"/><path d="M6.5 17c0 1.93 2.5 4 5.5 4s5.5-2.07 5.5-4"/></svg></div>
-        <span class="dm-label">Tachado</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-section">PÁRRAFO</div>
-      <div class="dm-item" onclick="toast('⬅️ Alineación: izquierda')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg></div>
-        <span class="dm-label">Alinear izquierda</span><span class="dm-shortcut">Ctrl+L</span>
-      </div>
-      <div class="dm-item" onclick="toast('↔️ Alineación: centrado')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></div>
-        <span class="dm-label">Centrar</span><span class="dm-shortcut">Ctrl+E</span>
-      </div>
-      <div class="dm-item" onclick="toast('➡️ Alineación: derecha')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg></div>
-        <span class="dm-label">Alinear derecha</span><span class="dm-shortcut">Ctrl+R</span>
-      </div>
-      <div class="dm-item" onclick="toast('⇔ Alineación: justificado')">
-        <div class="dm-icon ic-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
-        <span class="dm-label">Justificar</span><span class="dm-shortcut">Ctrl+J</span>
-      </div>
-      <div class="dm-sep"></div>
-      <div class="dm-item" onclick="toast('🎨 Abriendo panel de estilos…')">
-        <div class="dm-icon ic-violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-        <span class="dm-label">Estilos de párrafo</span>
-      </div>
-      <div class="dm-item" onclick="toast('📏 Abriendo configuración de interlineado…')">
-        <div class="dm-icon ic-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
-        <span class="dm-label">Interlineado</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="search-bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" placeholder="Buscar comandos…" onkeydown="if(event.key==='Enter')toast('🔍 Buscando: '+this.value)">
-  </div>
-  <div class="menu-icons">
-    <svg onclick="toast('❓ Centro de ayuda — WC Corporate')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    <svg onclick="toast('💡 Sugerencias activadas')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  </div>
-</div>
-
-<!-- RIBBON -->
-<div class="ribbon">
-  <div class="ribbon-group" style="flex-direction:column;gap:2px;">
-    <div style="display:flex;gap:6px;align-items:flex-end;">
-      <div>
-        <div class="clipboard-btn" onclick="toast('📌 Pegando del portapapeles…')">
-          <div class="paste-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-          </div>
-          <span style="font-size:10px;color:#555;margin-top:2px;">Pegar</span>
+<div class="app-container">
+  <div class="title-bar">
+    <div class="wc-logo">WC</div>
+    <span class="app-title">WC Corporate Editor v20</span>
+    <span class="app-subtitle">ULTIMATE PRO UI v26 – ESTÉTICA EJECUTIVA</span>
+    <div class="title-actions">
+      <svg title="Deshacer" onclick="toast('Deshacer')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h10a6 6 0 0 1 0 12H7"/><polyline points="3 6 3 10 7 10"/></svg>
+      <svg title="Rehacer" onclick="toast('Rehacer')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H11a6 6 0 0 0 0 12h6"/><polyline points="21 6 21 10 17 10"/></svg>
+      <svg title="Guardar" onclick="toast('✅ Documento guardado')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+      <svg title="Compartir" onclick="toast('🔗 Enlace de compartir copiado')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      <svg title="Notificaciones" onclick="toast('🔔 No hay notificaciones')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      
+      <div class="user-chip">
+        <div class="user-avatar">KN</div>
+        <div class="user-info">
+          <div class="user-name">Keny Chinchilla Navarro</div>
+          <div class="user-role">Desarrollador</div>
         </div>
+      </div>
+      <div class="win-btns">
+        <div class="win-btn">–</div>
+        <div class="win-btn">⬜</div>
+        <div class="win-btn close">✕</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-bar" id="menuBar">
+    <div class="menu-item" onclick="toast('Menú Archivo')">Archivo <span class="caret">▾</span></div>
+    
+    <div class="menu-item open" id="mi-editar" onclick="toggleMenu('editar')">
+      Editar <span class="caret">▾</span>
+      
+      <div class="dropdown-menu visible" id="dd-editar">
+        <div class="dm-item" onclick="toast('Abriendo WC Arte...')">
+          <div class="dm-icon">🎨</div>
+          <span class="dm-label">WC Arte</span>
+          <span class="dm-arrow">›</span>
+        </div>
+        <div class="dm-item" onclick="toast('Abriendo Herramientas...')">
+          <div class="dm-icon">🛠️</div>
+          <span class="dm-label">Herramientas</span>
+          <span class="dm-arrow">›</span>
+        </div>
+        <div class="dm-item" onclick="toast('Desarrollador: Keny Chinchilla')">
+          <div class="dm-icon">💻</div>
+          <span class="dm-label">Desarrollador <br><small style="color:#64748b; font-size:10px;">Keny Chinchilla Navarro</small></span>
+          <span class="dm-arrow">›</span>
+        </div>
+        <div class="dm-item" onclick="toast('Abriendo Ayuda...')">
+          <div class="dm-icon">❓</div>
+          <span class="dm-label">Ayuda</span>
+          <span class="dm-arrow">›</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-item" onclick="toast('Menú Insertar')">Insertar <span class="caret">▾</span></div>
+    <div class="menu-item" onclick="toast('Menú Formato')">Formato <span class="caret">▾</span></div>
+
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Buscar comandos…">
+    </div>
+    <div class="menu-icons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    </div>
+  </div>
+
+  <div class="ribbon">
+    <div class="ribbon-group" style="gap:8px;">
+      <div class="clipboard-btn" onclick="toast('Pegar')">
+        <div class="paste-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></div>
+        <span style="font-size:10px;color:#94a3b8;margin-top:4px;">Pegar</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:2px;">
-        <div class="small-btn" onclick="toast('✂️ Texto cortado')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg> Cortar</div>
-        <div class="small-btn" onclick="toast('📋 Copiado al portapapeles')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar</div>
-        <div class="small-btn" onclick="toast('🎨 Formato copiado')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/></svg> Copiar form…</div>
+        <div class="small-btn" onclick="toast('Cortar')">Cortar</div>
+        <div class="small-btn" onclick="toast('Copiar')">Copiar</div>
       </div>
     </div>
-    <div class="ribbon-label">Portapapeles</div>
-  </div>
-  <div class="ribbon-sep"></div>
-  <div class="ribbon-group" style="flex-direction:column;gap:4px;">
-    <div style="display:flex;gap:4px;align-items:center;">
-      <select class="font-select" onchange="toast('🔤 Fuente: '+this.value)">
-        <option>Segoe UI</option><option>Arial</option><option>Times New Roman</option>
-        <option>Calibri</option><option>Georgia</option>
-      </select>
-      <select class="size-select" onchange="toast('📏 Tamaño: '+this.value+'pt')">
-        <option>10</option><option>11</option><option selected>12</option>
-        <option>14</option><option>16</option><option>18</option><option>24</option>
-      </select>
-      <div class="font-size-btn" onclick="toast('A+ Tamaño aumentado')">A⁺</div>
-      <div class="font-size-btn" onclick="toast('A- Tamaño reducido')">A⁻</div>
+    <div class="ribbon-sep"></div>
+    <div class="ribbon-group" style="flex-direction:column;gap:4px;">
+      <div style="display:flex;gap:6px;align-items:center;">
+        <select class="font-select"><option>Segoe UI</option><option>Arial</option></select>
+        <select class="size-select"><option>12</option><option>14</option></select>
+        <div class="font-size-btn">A⁺</div>
+        <div class="font-size-btn">A⁻</div>
+      </div>
+      <div style="display:flex;gap:4px;">
+        <div class="fmt-btn" style="font-weight:700;">B</div>
+        <div class="fmt-btn" style="font-style:italic;">I</div>
+        <div class="fmt-btn" style="text-decoration:underline;">U</div>
+      </div>
     </div>
-    <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap;">
-      <div class="fmt-btn" style="font-weight:700;" onclick="toast('B Negrita')">B</div>
-      <div class="fmt-btn" style="font-style:italic;" onclick="toast('I Cursiva')">I</div>
-      <div class="fmt-btn" style="text-decoration:underline;" onclick="toast('U Subrayado')">U</div>
-      <div class="fmt-btn" style="text-decoration:line-through;" onclick="toast('S Tachado')">ab</div>
-      <div class="fmt-btn" style="font-size:11px;" onclick="toast('x₂ Subíndice')">x₂</div>
-      <div class="fmt-btn" style="font-size:11px;" onclick="toast('x² Superíndice')">x²</div>
-      <div class="fmt-btn" style="font-size:11px;color:#f97316;" onclick="toast('🎨 Resaltar texto')">A̲</div>
-      <div class="fmt-btn" onclick="toast('🎨 Color de fuente')">A</div>
-      <div class="fmt-btn" onclick="toast('☰ Lista con viñetas')">☰</div>
-      <div class="fmt-btn" onclick="toast('≡ Lista numerada')">≡</div>
-      <div class="fmt-btn" onclick="toast('⬅️ Alinear izquierda')">⬅</div>
-      <div class="fmt-btn" onclick="toast('↔️ Centrar')">↔</div>
-      <div class="fmt-btn" onclick="toast('➡️ Alinear derecha')">➡</div>
-      <div class="fmt-btn" onclick="toast('⇔ Justificar')">⇔</div>
-      <div class="fmt-btn" onclick="toast('¶ Mostrar marcas de formato')">¶</div>
+    <div class="ribbon-sep"></div>
+    <div class="ribbon-group">
+      <div class="style-btn active">Normal</div>
+      <div class="style-btn">Título 1</div>
+      <div class="style-btn">Título 2</div>
+      <div class="style-btn">Subtítulo</div>
     </div>
-    <div class="ribbon-label">Fuente &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Párrafo</div>
   </div>
-  <div class="ribbon-sep"></div>
-  <div class="ribbon-group" style="flex-direction:column;gap:4px;">
-    <div style="display:flex;gap:4px;align-items:center;">
-      <div class="style-btn active" onclick="applyStyle(this,'Normal')">Normal</div>
-      <div class="style-btn" style="font-size:14px;font-weight:600;" onclick="applyStyle(this,'Título 1')">Título 1</div>
-      <div class="style-btn" style="font-size:13px;font-weight:500;" onclick="applyStyle(this,'Título 2')">Título 2</div>
-      <div class="style-btn" style="font-size:12px;color:#666;" onclick="applyStyle(this,'Subtítulo')">Subtítulo</div>
-    </div>
-    <div class="ribbon-label">Estilos</div>
-  </div>
-  <div class="ribbon-sep"></div>
-  <div class="ribbon-group" style="flex-direction:column;gap:3px;">
-    <div class="edit-btn" onclick="toast('🔍 Panel de búsqueda abierto')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar</div>
-    <div class="edit-btn" onclick="toast('🔄 Panel Buscar y reemplazar abierto')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg> Reemplazar</div>
-    <div class="edit-btn" onclick="toast('🔲 Todo el texto seleccionado')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Seleccionar ▾</div>
-    <div class="ribbon-label">Edición</div>
-  </div>
-</div>
 
-<!-- BODY -->
-<div class="body-wrap">
+  <div class="body-wrap">
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Documentos</div>
+        <div class="doc-item active">Documento 1</div>
+        <div class="doc-item">Informe Corporativo</div>
+        <div class="doc-item">Propuesta Ejecutiva</div>
+        <div class="doc-item">Presentación Proyecto</div>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Recientes</div>
+        <div class="doc-item">Contrato_2024</div>
+        <div class="doc-item">Reporte_Mensual</div>
+      </div>
+      <div class="storage-box">
+        <div class="storage-label">Almacenamiento local</div>
+        <div class="storage-bar"><div class="storage-fill"></div></div>
+        <div class="storage-nums"><span>45.2 MB</span><span>100 MB</span></div>
+      </div>
+    </div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-heading">
-        Documentos
-        <svg onclick="toast('➕ Nuevo documento')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </div>
-      <div class="doc-item active" onclick="switchDoc(this,'Documento 1','Editor profesional con diseño corporativo moderno, potente y creado para productividad total.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Documento 1
-      </div>
-      <div class="doc-item" onclick="switchDoc(this,'Informe Corporativo','Este informe presenta los resultados del Q3 2024. Las métricas de rendimiento superaron las expectativas en un 18% respecto al trimestre anterior.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Informe Corporativo
-      </div>
-      <div class="doc-item" onclick="switchDoc(this,'Propuesta Ejecutiva','Propuesta para la implementación de WC Corporate Editor en toda la organización. Estimamos un ahorro del 35% en tiempo de producción documental.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Propuesta Ejecutiva
-      </div>
-      <div class="doc-item" onclick="switchDoc(this,'Presentación Proyecto','Proyecto WC Arte — Fase 2. Objetivos: expandir el módulo de diseño gráfico con soporte para vectores SVG y exportación multipágina.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Presentación Proyecto
-      </div>
-      <div class="doc-item" onclick="switchDoc(this,'Notas rápidas','— Revisar integración API v3\n— Reunión jueves 10am\n— Actualizar librería de iconos\n— Demo cliente viernes 3pm')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Notas rápidas
-      </div>
-      <div class="doc-item" onclick="switchDoc(this,'Ideas WC Arte','Ideas para WC Arte v3:\n• Modo pizarra colaborativa\n• Paletas de colores corporativas\n• Exportación a Figma y Adobe XD\n• Plantillas animadas')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Ideas WC Arte
-      </div>
-    </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">
-      <div class="sidebar-heading">Recientes</div>
-      <div class="doc-item" onclick="toast('📂 Abriendo Contrato_2024…')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Contrato_2024
-      </div>
-      <div class="doc-item" onclick="toast('📂 Abriendo Reporte_Mensual…')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Reporte_Mensual
-      </div>
-      <div class="doc-item" onclick="toast('📂 Abriendo Proyecto_Final…')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Proyecto_Final
-      </div>
-    </div>
-    <div class="storage-box">
-      <div class="storage-label">Almacenamiento local</div>
-      <div class="storage-bar"><div class="storage-fill"></div></div>
-      <div class="storage-nums"><span>45.2 MB</span><span>100 MB</span></div>
-      <div class="storage-upload">
-        <div class="upload-btn" onclick="toast('☁️ Sincronizando con la nube…')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+    <div class="content-area">
+      <div class="ruler">
+        <div class="ruler-inner">
+          <div class="ruler-tick">1</div><div class="ruler-tick">2</div><div class="ruler-tick">3</div><div class="ruler-tick">4</div><div class="ruler-tick">5</div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- CONTENT AREA -->
-  <div class="content-area">
-    <div class="ruler" style="margin-bottom:0;border-radius:0;">
-      <div class="ruler-inner">
-        <div class="ruler-tick">1</div><div class="ruler-tick">2</div>
-        <div class="ruler-tick">3</div><div class="ruler-tick">4</div>
-        <div class="ruler-tick">5</div><div class="ruler-tick">6</div>
-        <div class="ruler-tick">7</div><div class="ruler-tick">8</div>
-        <div class="ruler-tick">9</div><div class="ruler-tick">10</div>
-        <div class="ruler-tick">11</div><div class="ruler-tick">12</div>
-        <div class="ruler-tick">13</div>
-      </div>
-    </div>
-    <div class="page">
-      <div class="page-left-bar"></div>
-      <div class="page-title" id="pageTitle">WC Corporate Editor v20</div>
-      <div class="page-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</div>
-      <div class="page-body" id="pageBody">
-        Editor profesional con diseño corporativo moderno, potente y
-        creado para productividad total.<span class="page-cursor"></span>
-      </div>
-      <div class="feature-row">
-        <div class="feature-card">
-          <div class="feature-icon fi-orange">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <div class="page">
+        <div class="page-left-bar"></div>
+        <div class="page-title">WC Corporate Editor v20</div>
+        <div class="page-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</div>
+        <div class="page-body">
+          Editor profesional con diseño corporativo moderno, potente y creado para productividad total.<span class="page-cursor"></span>
+        </div>
+        <div class="feature-row">
+          <div class="feature-card">
+            <div class="feature-icon fi-orange">🎨</div>
+            <div><div class="feature-name">WC Arte</div><div class="feature-desc">Crea diseños profesionales herramientas únicas.</div></div>
           </div>
-          <div><div class="feature-name">WC Arte</div><div class="feature-desc">Crea diseños profesionales<br>con herramientas únicas.</div></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-blue">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <div class="feature-card">
+            <div class="feature-icon fi-blue">⚙️</div>
+            <div><div class="feature-name">Herramientas</div><div class="feature-desc">Optimiza tu flujo de trabajo avanzado.</div></div>
           </div>
-          <div><div class="feature-name">Herramientas</div><div class="feature-desc">Optimiza tu flujo de trabajo<br>con funciones avanzadas.</div></div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-red">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <div class="feature-card">
+            <div class="feature-icon fi-red">💻</div>
+            <div><div class="feature-name">Desarrollador</div><div class="feature-desc">Keny Chinchilla Navarro.</div></div>
           </div>
-          <div><div class="feature-name">Desarrollador</div><div class="feature-desc">Keny Chinchilla Navarro<br>Innovación sin límites.</div></div>
         </div>
+      </div>
+    </div>
+
+    <div class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-title-row"><span class="ai-star">✦</span><span class="ai-title">IA Asistente WC</span></div>
+      </div>
+      <div class="ai-tabs">
+        <div class="ai-tab active">Asistente</div>
+        <div class="ai-tab">Plantillas</div>
+        <div class="ai-tab">Sugerencias</div>
+      </div>
+      <div class="ai-body">
+        <div class="ai-avatar-wrap">
+          <div class="ai-bot-icon">🤖</div>
+          <div class="ai-greeting">Hola, Keny 👋</div>
+          <div class="ai-greeting-sub">¿En qué puedo ayudarte hoy?</div>
+        </div>
+        <div class="ai-suggestions">
+          <div class="ai-sugg"><span class="ai-sugg-text">Redactar un resumen</span><span>›</span></div>
+          <div class="ai-sugg"><span class="ai-sugg-text">Mejorar este texto</span><span>›</span></div>
+          <div class="ai-sugg"><span class="ai-sugg-text">Corregir ortografía</span><span>›</span></div>
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <input class="ai-input" type="text" placeholder="Escribe tu solicitud…">
+        <div class="ai-send">✦</div>
       </div>
     </div>
   </div>
 
-  <!-- AI PANEL -->
-  <div class="ai-panel">
-    <div class="ai-header">
-      <div class="ai-title-row"><span class="ai-star">✦</span><span class="ai-title">IA Asistente WC</span></div>
-      <div class="ai-header-btns">
-        <svg onclick="toast('⚙️ Configuración del asistente')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-        <svg onclick="toast('✕ Panel IA cerrado')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </div>
+  <div class="status-bar">
+    <div class="status-item">Página 1 de 1</div>
+    <div class="status-sep"></div>
+    <div class="status-item">Palabras: 28</div>
+    <div class="zoom-bar">
+      <span style="font-size:11px;color:#64748b;">100%</span>
     </div>
-    <div class="ai-tabs">
-      <div class="ai-tab active" onclick="switchTab(this)">Asistente</div>
-      <div class="ai-tab" onclick="switchTab(this)">Plantillas</div>
-      <div class="ai-tab" onclick="switchTab(this)">Sugerencias</div>
-    </div>
-    <div class="ai-body">
-      <div class="ai-avatar-wrap">
-        <div class="ai-bot-icon">🤖</div>
-        <div class="ai-greeting">Hola, Keny 👋</div>
-        <div class="ai-greeting-sub">¿En qué puedo ayudarte hoy?</div>
-      </div>
-      <div class="ai-suggestions">
-        <div class="ai-sugg" onclick="toast('📝 Redactando resumen del documento…')">
-          <div class="ai-sugg-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span class="ai-sugg-text">Redactar un resumen</span></div>
-          <span class="ai-sugg-arrow">›</span>
-        </div>
-        <div class="ai-sugg" onclick="toast('✨ Mejorando el texto seleccionado…')">
-          <div class="ai-sugg-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg><span class="ai-sugg-text">Mejorar este texto</span></div>
-          <span class="ai-sugg-arrow">›</span>
-        </div>
-        <div class="ai-sugg" onclick="toast('✅ Revisando ortografía y gramática…')">
-          <div class="ai-sugg-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="ai-sugg-text">Corregir ortografía</span></div>
-          <span class="ai-sugg-arrow">›</span>
-        </div>
-        <div class="ai-sugg" onclick="toast('🌐 Traduciendo al inglés…')">
-          <div class="ai-sugg-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span class="ai-sugg-text">Traducir al inglés</span></div>
-          <span class="ai-sugg-arrow">›</span>
-        </div>
-      </div>
-    </div>
-    <div class="ai-input-bar">
-      <input class="ai-input" type="text" id="aiInput" placeholder="Escribe tu solicitud…" onkeydown="if(event.key==='Enter')sendAI()">
-      <div class="ai-send" onclick="sendAI()">✦</div>
-    </div>
+    <div class="status-mode"><div class="status-dot green"></div>Modo Corporativo Activado</div>
+    <div class="status-sep"></div>
+    <div class="status-save">Guardado automático ▾</div>
   </div>
 </div>
 
-<!-- STATUS BAR -->
-<div class="status-bar">
-  <div class="status-item">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
-    Página 1 de 1
-  </div>
-  <div class="status-sep"></div>
-  <div class="status-item" id="wordCount">Palabras: 28</div>
-  <div class="status-sep"></div>
-  <div class="status-item">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-    Español (España)
-  </div>
-  <div class="status-sep"></div>
-  <div class="zoom-bar" style="margin-left:0;">
-    <div class="zoom-btn" onclick="changeZoom(-10)">–</div>
-    <div class="zoom-slider"><div class="zoom-fill" id="zoomFill"></div><div class="zoom-thumb" id="zoomThumb"></div></div>
-    <div class="zoom-btn" onclick="changeZoom(10)">+</div>
-    <span style="font-size:11px;color:#8da4c0;" id="zoomLabel">100%</span>
-  </div>
-  <div style="display:flex;gap:8px;margin-right:auto;">
-    <svg onclick="toast('⊞ Vista de cuadrícula')" viewBox="0 0 24 24" fill="none" stroke="#8da4c0" stroke-width="2" style="width:14px;height:14px;cursor:pointer;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-    <svg onclick="toast('▭ Vista de página completa')" viewBox="0 0 24 24" fill="none" stroke="#8da4c0" stroke-width="2" style="width:14px;height:14px;cursor:pointer;"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-  </div>
-  <div class="status-mode"><div class="status-dot green"></div>Modo Corporativo Activado</div>
-  <div class="status-sep"></div>
-  <div class="status-save" onclick="toast('✅ Guardado automático activo')"><div class="status-dot green"></div>Guardado automático ▾</div>
-</div>
-
-<!-- MODAL: Cerrar -->
-<div class="modal-overlay" id="closeModal">
-  <div class="modal">
-    <h3>⚠️ Salir de WC Corporate Editor</h3>
-    <p>¿Deseas guardar los cambios antes de salir? Los cambios sin guardar se perderán.</p>
-    <div class="modal-btns">
-      <div class="modal-btn cancel" onclick="hideModal('closeModal')">Cancelar</div>
-      <div class="modal-btn primary" onclick="hideModal('closeModal');toast('✅ Documento guardado. Cerrando…')">Guardar y salir</div>
-      <div class="modal-btn danger" onclick="hideModal('closeModal');toast('👋 Cerrando sin guardar…')">Salir sin guardar</div>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-// ── TOAST ──
 let toastTimer;
 function toast(msg) {
   const el = document.getElementById('toast');
@@ -865,215 +557,16 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-// ── MENU SYSTEM ──
-let openMenu = null;
 function toggleMenu(name) {
-  const item = document.getElementById('mi-' + name);
-  const dd   = document.getElementById('dd-' + name);
-  if (openMenu && openMenu !== name) closeAllMenus();
-  if (dd.classList.contains('visible')) {
-    closeAllMenus();
-  } else {
-    dd.classList.add('visible');
-    item.classList.add('open');
-    openMenu = name;
-  }
+  const dd = document.getElementById('dd-' + name);
+  dd.classList.toggle('visible');
 }
-function closeAllMenus() {
-  ['archivo','editar','insertar','formato'].forEach(n => {
-    const dd = document.getElementById('dd-' + n);
-    const mi = document.getElementById('mi-' + n);
-    if (dd) dd.classList.remove('visible');
-    if (mi) mi.classList.remove('open');
-  });
-  openMenu = null;
-}
+
 document.addEventListener('click', e => {
-  if (!e.target.closest('.menu-item')) closeAllMenus();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeAllMenus();
-});
-
-// Keyboard shortcuts
-document.addEventListener('keydown', e => {
-  if (e.ctrlKey || e.metaKey) {
-    const map = {
-      's': '✅ Documento guardado', 'n': '📄 Nuevo documento creado',
-      'o': '📂 Abrir documento', 'p': '🖨️ Enviando a impresora…',
-      'z': '↩️ Acción deshecha', 'y': '↪️ Acción rehecha',
-      'b': 'B Negrita aplicada', 'i': 'I Cursiva aplicada',
-      'u': 'U Subrayado aplicado', 'f': '🔍 Panel de búsqueda abierto',
-      'h': '🔄 Panel Buscar y reemplazar', 'k': '🔗 Hipervínculo insertado',
-      'a': '🔲 Todo el texto seleccionado'
-    };
-    if (map[e.key.toLowerCase()]) {
-      e.preventDefault();
-      toast(map[e.key.toLowerCase()]);
-    }
+  if (!e.target.closest('.menu-item')) {
+    document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('visible'));
   }
 });
-
-// ── MODAL ──
-function showModal(id) { closeAllMenus(); document.getElementById(id).classList.add('visible'); }
-function hideModal(id) { document.getElementById(id).classList.remove('visible'); }
-
-// ── STYLES ──
-function applyStyle(btn, name) {
-  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  toast('🎨 Estilo aplicado: ' + name);
-}
-
-// ── AI TABS ──
-function switchTab(tab) {
-  document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
-  toast('📋 Panel: ' + tab.textContent);
-}
-
-// ── AI INPUT ──
-function sendAI() {
-  const input = document.getElementById('aiInput');
-  const val = input.value.trim();
-  if (val) { toast('🤖 IA procesando: "' + val + '"'); input.value = ''; }
-}
-
-// ── SIDEBAR DOCS ──
-function switchDoc(el, title, body) {
-  document.querySelectorAll('.doc-item').forEach(d => d.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('pageTitle').textContent = title;
-  document.getElementById('pageBody').innerHTML = body.replace(/\n/g,'<br>') + '<span class="page-cursor"></span>';
-  const words = body.split(/\s+/).filter(Boolean).length;
-  document.getElementById('wordCount').textContent = 'Palabras: ' + words;
-  toast('📄 Documento: ' + title);
-}
-
-// ── ZOOM ──
-let zoom = 100;
-function changeZoom(delta) {
-  zoom = Math.min(200, Math.max(50, zoom + delta));
-  document.getElementById('zoomLabel').textContent = zoom + '%';
-  const pct = ((zoom - 50) / 150) * 100;
-  document.getElementById('zoomFill').style.width = pct + '%';
-  document.getElementById('zoomThumb').style.left = pct + '%';
-  toast('🔍 Zoom: ' + zoom + '%');
-}
-changeZoom(0);
 </script>
 </body>
 </html>
-// ── TOAST NOTIFICATION ──
-let toastTimer;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    el.classList.remove('show');
-  }, 2500);
-}
-
-// ── DROPDOWN SYSTEM ──
-function toggleMenu(menuId) {
-  // Cerrar otros menús abiertos primero
-  const menus = document.querySelectorAll('.dropdown-menu');
-  const items = document.querySelectorAll('.menu-item');
-  
-  menus.forEach(menu => {
-    if (menu.id !== `dd-${menuId}`) menu.classList.remove('visible');
-  });
-  
-  items.forEach(item => {
-    if (item.id !== `mi-${menuId}`) item.classList.remove('open');
-  });
-
-  // Alternar el menú seleccionado
-  const currentMenu = document.getElementById(`dd-${menuId}`);
-  const currentItem = document.getElementById(`mi-${menuId}`);
-  if (currentMenu) {
-    currentMenu.classList.toggle('visible');
-    currentItem.classList.toggle('open');
-  }
-}
-
-// Cerrar menús al hacer clic fuera de la barra de menús
-document.addEventListener('click', function(e) {
-  if (!document.getElementById('menuBar').contains(e.target)) {
-    document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('visible'));
-    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('open'));
-  }
-});
-
-// ── DOCUMENT SWITCHER ──
-function switchDoc(element, title, bodyText) {
-  // Actualizar clase activa en la barra lateral
-  document.querySelectorAll('.doc-item').forEach(item => item.classList.remove('active'));
-  element.classList.add('active');
-  
-  // Cambiar contenido de la página
-  document.getElementById('pageTitle').textContent = title;
-  
-  // Mantener el cursor parpadeante al final del texto
-  const pageBody = document.getElementById('pageBody');
-  pageBody.innerHTML = bodyText + '<span class="page-cursor"></span>';
-  
-  // Actualizar contador de palabras aproximado
-  const words = bodyText.trim().split(/\s+/).filter(w => w.length > 0).length;
-  document.getElementById('wordCount').textContent = `Palabras: ${words}`;
-  
-  toast(`📂 Abierto: ${title}`);
-}
-
-// ── RIBBON STYLE BUTTONS ──
-function applyStyle(btn, styleName) {
-  document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  toast(`✨ Estilo aplicado: ${styleName}`);
-}
-
-// ── AI ASSISTANT PANEL ──
-function switchTab(tabElement) {
-  document.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
-  tabElement.classList.add('active');
-  toast(`🔄 Pestaña de IA: ${tabElement.textContent}`);
-}
-
-function sendAI() {
-  const input = document.getElementById('aiInput');
-  if (input.value.trim() !== '') {
-    toast(`✦ IA procesando: "${input.value}"`);
-    input.value = '';
-  }
-}
-
-// ── ZOOM SYSTEM ──
-let currentZoom = 100;
-function changeZoom(value) {
-  currentZoom += value;
-  if (currentZoom < 50) currentZoom = 50;
-  if (currentZoom > 150) currentZoom = 150;
-  
-  // Actualizar etiqueta e interfaz visual del slider
-  document.getElementById('zoomLabel').textContent = `${currentZoom}%`;
-  
-  // Calcular posiciones del slider basadas en el rango 50% - 150%
-  const percentage = ((currentZoom - 50) / 100) * 100;
-  document.getElementById('zoomFill').style.width = `${percentage}%`;
-  document.getElementById('zoomThumb').style.left = `${percentage}%`;
-  
-  toast(`🔍 Zoom: ${currentZoom}%`);
-}
-
-// ── MODAL SYSTEM ──
-function showModal(modalId) {
-  document.getElementById(modalId).classList.add('visible');
-}
-
-function hideModal(modalId) {
-  document.getElementById(modalId).classList.remove('visible');
-}
-</script>
