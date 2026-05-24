@@ -1,482 +1,4 @@
-<!DOCTYPE html>
-<html lang="es" data-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <title>WC Corporate Editor v20 - ULTIMATE PRO UI v26</title>
-  <style>
-    :root {
-      --blue: #0A66FF;
-      --orange: #FF6B00;
-      --bg: #e8e9ec;
-      --panel: #ffffff;
-      --text: #1e1e1e;
-      --border: #d1d1d1;
-      --sidebar-w: 240px;
-      --assistant-w: 280px;
-      --ribbon-h: 145px;
-      --gradient: linear-gradient(135deg, #0A66FF, #FF6B00);
-      --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.1), rgba(255,107,0,0.1));
-      --page-width: 816px;
-      --page-margin: 96px;
-    }
-    
-    [data-theme="dark"] {
-      --bg: #1a1c20;
-      --panel: #25272d;
-      --text: #e8e8e8;
-      --border: #3a3d44;
-      --gradient-soft: linear-gradient(90deg, rgba(10,102,255,0.2), rgba(255,107,0,0.2));
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family:"Segoe UI", Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      display:flex;
-      overflow:hidden;
-    }
-    
-    /* SIDEBAR DOCS */
-   .sidebar-docs {
-      width:var(--sidebar-w);
-      background:var(--gradient);
-      color:white;
-      padding:20px 0;
-      height:100vh;
-      overflow-y:auto;
-      z-index:100;
-    }
-   .sidebar-docs h3 { 
-      font-size:12px; margin:20px 16px 8px; 
-      text-transform:uppercase; font-weight:700; opacity:0.8;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-   .sidebar-docs h3 button {
-      background:rgba(255,255,255,0.2); border:none; color:white;
-      width:20px; height:20px; border-radius:4px; cursor:pointer;
-    }
-   .sidebar-docs ul { list-style:none; }
-   .sidebar-docs li { 
-      margin:2px 8px; padding:8px 12px; cursor:pointer; 
-      border-radius:6px; font-size:14px; display:flex; align-items:center; gap:8px;
-      transition:all.2s;
-    }
-   .sidebar-docs li:hover { background:rgba(255,255,255,0.15); }
-   .sidebar-docs li.active { background:rgba(255,255,255,0.25); font-weight:600; }
-   .storage {
-      margin:20px 16px; padding:12px; background:rgba(0,0,0,0.2);
-      border-radius:8px; font-size:12px;
-    }
-   .storage-bar { 
-      height:4px; background:rgba(255,255,255,0.3); 
-      border-radius:2px; margin-top:8px; overflow:hidden;
-    }
-   .storage-bar div { height:100%; background:white; width:45%; }
-
-    /* RIBBON */
-   .ribbon {
-      position:fixed; top:0; left:var(--sidebar-w); right:var(--assistant-w);
-      background:var(--panel); border-bottom:1px solid var(--border);
-      height:var(--ribbon-h); z-index:50;
-    }
-   .title-bar {
-      height:35px; background:var(--gradient-soft); 
-      display:flex; align-items:center; padding:0 16px; gap:12px;
-    }
-   .title-bar.logo { font-weight:800; color:var(--blue); }
-   .title-bar.title { font-size:13px; opacity:0.8; }
-   .title-bar input {
-      flex:1; max-width:400px; padding:4px 32px 4px 12px;
-      border:1px solid var(--border); border-radius:16px; 
-      background:var(--panel); color:var(--text); font-size:13px;
-    }
-   .title-bar.profile { 
-      font-size:13px; font-weight:600; display:flex; 
-      align-items:center; gap:8px; margin-left:auto;
-    }
-    
-   .tabs {
-      height:35px; display:flex; align-items:flex-end; padding:0 12px; gap:4px;
-    }
-   .tabs button {
-      padding:6px 16px; border:none; background:transparent;
-      border-radius:6px 6px 0 0; cursor:pointer; font-weight:600; font-size:14px;
-      color:var(--text); opacity:0.7;
-    }
-   .tabs button.active { 
-      background:var(--panel); opacity:1; 
-      box-shadow:0 -2px 0 var(--blue) inset;
-    }
-    
-   .toolbar {
-      height:75px; display:flex; align-items:stretch; padding:4px 12px; gap:8px;
-      border-top:1px solid var(--border); overflow-x:auto;
-    }
-   .tool-group {
-      display:flex; flex-direction:column; justify-content:space-between;
-      padding:0 12px; border-right:1px solid var(--border);
-      min-width:fit-content;
-    }
-   .tool-group:last-child { border:none; }
-   .tool-group-main {
-      display:flex; gap:8px; align-items:flex-start; flex:1; padding-top:4px;
-    }
-   .tool-group-col {
-      display:flex; flex-direction:column; gap:2px;
-    }
-   .tool-group-col button {
-      padding:2px 8px; border:1px solid transparent; background:transparent;
-      border-radius:3px; cursor:pointer; font-size:12px; text-align:left; color:var(--text);
-    }
-   .tool-group-col button:hover { background:var(--bg); border-color:var(--border); }
-   .tool-group-label {
-      font-size:11px; text-align:center; color:var(--text); opacity:0.6;
-      padding:4px 0 2px; border-top:1px solid var(--border); margin-top:4px;
-    }
-   .big-btn {
-      display:flex; flex-direction:column; align-items:center; gap:2px;
-      padding:4px 12px; border:1px solid transparent; background:transparent;
-      border-radius:4px; cursor:pointer; font-size:12px; color:var(--text);
-    }
-   .big-btn:hover { background:var(--bg); border-color:var(--border); }
-   .tool-row {
-      display:flex; gap:2px; margin-bottom:2px;
-    }
-   .tool-row button,.tool-row select,.tool-row input[type="color"] {
-      padding:4px 6px; border:1px solid var(--border); 
-      background:var(--panel); border-radius:3px; cursor:pointer;
-      color:var(--text); font-size:13px; height:26px;
-    }
-   .tool-row input[type="color"] { width:26px; padding:2px; }
-   .tool-row button:hover { background:var(--bg); }
-   .tool-row button.active { background:var(--blue); color:white; border-color:var(--blue); }
-   .style-gallery {
-      display:flex; gap:4px; align-items:flex-start; padding-top:4px;
-    }
-   .style-item {
-      padding:8px 12px; border:1px solid var(--border); background:var(--panel);
-      border-radius:4px; cursor:pointer; font-size:13px; min-width:70px; color:var(--text);
-    }
-   .style-item.active { 
-      background:var(--gradient-soft); border-color:var(--blue); 
-      box-shadow:0 0 0 1px var(--blue) inset;
-    }
-   .style-item:hover { background:var(--bg); }
-    
-   .dropdown { position:relative; }
-   .dropdown-menu {
-      position:absolute; top:100%; left:0; background:var(--panel);
-      border:1px solid var(--border); border-radius:8px; padding:8px;
-      box-shadow:0 8px 24px rgba(0,0,0,0.15); display:none;
-      min-width:240px; z-index:200;
-    }
-   .dropdown-menu.show { display:block; }
-   .dropdown-menu button {
-      display:flex; width:100%; text-align:left; gap:12px;
-      border:none; padding:8px 12px; border-radius:6px; background:transparent; color:var(--text);
-    }
-   .dropdown-menu button:hover { background:var(--gradient-soft); }
-   .dropdown-menu.icon { 
-      width:32px; height:32px; border-radius:6px; 
-      background:var(--gradient); display:flex; 
-      align-items:center; justify-content:center; color:white; font-size:16px;
-    }
-
-    /* WORKSPACE - ANCHO CARTA WORD */
-   .workspace { 
-      flex:1; margin-left:var(--sidebar-w); margin-right:var(--assistant-w); 
-      padding:calc(var(--ribbon-h) + 20px) 20px 50px; 
-      height:100vh; overflow-y:auto;
-    }
-   .page { 
-      background:var(--panel); padding:var(--page-margin); margin:0 auto;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15); min-height:1056px;
-      width:var(--page-width); border-radius:2px; outline:none;
-    }
-   .page h1 { font-size:32px; font-weight:800; color:var(--blue); margin-bottom:4px; }
-   .page h2 { font-size:16px; font-weight:600; color:var(--orange); margin-bottom:20px; }
-   .page.features {
-      display:flex; gap:30px; margin-top:40px;
-    }
-   .page.feature { text-align:center; flex:1; }
-   .page.feature-icon {
-      width:60px; height:60px; margin:0 auto 12px;
-      background:var(--gradient); border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      color:white; font-size:24px;
-    }
-
-    /* PANEL IA */
-   .assistant {
-      position:fixed; top:0; right:0; width:var(--assistant-w); height:100vh;
-      background:var(--panel); border-left:1px solid var(--border); 
-      padding:16px; display:flex; flex-direction:column;
-    }
-   .assistant-header {
-      display:flex; justify-content:space-between; align-items:center;
-      margin-bottom:16px;
-    }
-   .assistant h3 { font-size:16px; font-weight:700; }
-   .assistant-tabs {
-      display:flex; gap:4px; background:var(--bg); 
-      padding:4px; border-radius:8px; margin-bottom:16px;
-    }
-   .assistant-tabs button {
-      flex:1; padding:6px; border:none; background:transparent;
-      border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; color:var(--text);
-    }
-   .assistant-tabs button.active { background:var(--panel); box-shadow:0 2px 4px rgba(0,0,0,0.1); }
-    
-   .assistant-content { flex:1; overflow-y:auto; }
-   .ai-chat { text-align:center; padding:20px; }
-   .ai-avatar {
-      width:60px; height:60px; margin:0 auto 12px;
-      background:var(--gradient); border-radius:50%;
-    }
-   .ai-actions button {
-      display:flex; width:100%; margin-bottom:8px; padding:12px;
-      border:1px solid var(--border); background:var(--panel);
-      border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;
-      text-align:left; justify-content:space-between; align-items:center; color:var(--text);
-    }
-   .ai-actions button:hover { background:var(--gradient-soft); }
-
-   .template-grid {
-      display:grid; grid-template-columns:1fr 1fr; gap:12px;
-    }
-   .template {
-      border:1px solid var(--border); border-radius:8px; padding:12px;
-      cursor:pointer; text-align:center; transition:all.2s;
-    }
-   .template:hover { border-color:var(--blue); transform:translateY(-2px); }
-
-    /* STATUSBAR */
-   .statusbar {
-      position:fixed; bottom:0; left:var(--sidebar-w); right:var(--assistant-w); 
-      height:30px; background:var(--panel); border-top:1px solid var(--border);
-      font-size:12px; color:var(--text); display:flex; align-items:center; 
-      padding:0 16px; gap:20px;
-    }
-   .statusbar.right { margin-left:auto; display:flex; gap:16px; }
-  </style>
-</head>
-<body>
-  <!-- SIDEBAR -->
-  <aside class="sidebar-docs">
-    <h3>Documentos <button onclick="newDoc()">+</button></h3>
-    <ul id="doc-list">
-      <li class="active">📄 Documento 1</li>
-      <li>📊 Informe Corporativo</li>
-      <li>📈 Propuesta Ejecutiva</li>
-      <li>📋 Presentación Proyecto</li>
-      <li>📝 Notas rápidas</li>
-      <li>🎨 Ideas WC Arte</li>
-    </ul>
-    <h3>Recientes</h3>
-    <ul>
-      <li>📁 Contrato_2024</li>
-      <li>📁 Reporte_Mensual</li>
-      <li>📁 Proyecto_Final</li>
-    </ul>
-    <div class="storage">
-      Almacenamiento local
-      <div style="font-weight:600; margin-top:4px;">45.2 MB / 100 MB</div>
-      <div class="storage-bar"><div></div></div>
-    </div>
-  </aside>
-
-  <!-- RIBBON -->
-  <header class="ribbon">
-    <div class="title-bar">
-      <div class="logo">WC</div>
-      <div class="title">WC Corporate Editor v20 - ULTIMATE PRO UI v26</div>
-      <input type="search" placeholder="Buscar comandos..." id="search-cmd">
-      <div class="profile">
-        👤 Keny Chinchilla Navarro
-        <button onclick="toggleTheme()" style="background:none;border:none;cursor:pointer;font-size:16px;">🌙</button>
-      </div>
-    </div>
-    <nav class="tabs">
-      <button onclick="showMenu('archivo')">Archivo</button>
-      <button class="active">Editar</button>
-      <button onclick="insertTable()">Insertar</button>
-      <button onclick="formatMenu()">Formato</button>
-    </nav>
-    <div class="toolbar">
-      <!-- PORTAPAPELES -->
-      <div class="tool-group">
-        <div class="tool-group-main">
-          <button class="big-btn" onclick="pasteText()">
-            <div style="font-size:20px;">📋</div>
-            <span>Pegar</span>
-          </button>
-          <div class="tool-group-col">
-            <button onclick="execCmd('cut')">✂️ Cortar</button>
-            <button onclick="execCmd('copy')">📄 Copiar</button>
-            <button onclick="formatPainter()">🎨 Copiar formato</button>
-          </div>
-        <div class="tool-group-label">Portapapeles</div>
-      </div>
-
-      <!-- WC ARTE -->
-      <div class="tool-group">
-        <div class="dropdown">
-          <button class="big-btn" onclick="toggleDropdown(this)">
-            <div style="font-size:20px;">🎨</div>
-            <span>WC Arte ▼</span>
-          </button>
-          <div class="dropdown-menu">
-            <button onclick="insertWCArte()"><div class="icon">🎨</div><div><strong>WC Arte</strong><br><small>Diseños profesionales</small></div></button>
-            <button onclick="insertTools()"><div class="icon">🛠️</div><div><strong>Herramientas</strong><br><small>Flujo de trabajo</small></div></button>
-            <button onclick="insertDev()"><div class="icon">&lt;/&gt;</div><div><strong>Desarrollador</strong><br><small>Keny Chinchilla Navarro</small></div></button>
-            <button onclick="showHelp()"><div class="icon">?</div><div><strong>Ayuda</strong><br><small>Documentación WC</small></div></button>
-          </div>
-        </div>
-        <div class="tool-group-label">WC Suite</div>
-      </div>
-
-      <!-- FUENTE -->
-      <div class="tool-group">
-        <div class="tool-group-main">
-          <div>
-            <div class="tool-row">
-              <select onchange="execCmd('fontName', this.value)" style="width:120px;" id="fontFamily">
-                <option value="Segoe UI">Segoe UI</option>
-                <option value="Arial">Arial</option>
-                <option value="Georgia">Georgia</option>
-                <option value="Calibri">Calibri</option>
-                <option value="Times New Roman">Times New Roman</option>
-              </select>
-              <select onchange="execCmd('fontSize', this.value)" style="width:50px;" id="fontSize">
-                <option value="1">8</option><option value="2">10</option><option value="3" selected>12</option>
-                <option value="4">14</option><option value="5">18</option><option value="6">24</option><option value="7">36</option>
-              </select>
-            </div>
-            <div class="tool-row">
-              <button onclick="toggleFormat('bold')" id="btnBold" title="Negrita"><strong>B</strong></button>
-              <button onclick="toggleFormat('italic')" id="btnItalic" title="Cursiva"><em>I</em></button>
-              <button onclick="toggleFormat('underline')" id="btnUnderline" title="Subrayado"><u>U</u></button>
-              <button onclick="execCmd('strikeThrough')" title="Tachado">ab</button>
-              <button onclick="execCmd('superscript')" title="Superíndice">x²</button>
-              <button onclick="execCmd('subscript')" title="Subíndice">x₂</button>
-              <input type="color" onchange="execCmd('foreColor', this.value)" title="Color de texto" value="#FF6B00">
-              <input type="color" onchange="execCmd('hiliteColor', this.value)" title="Resaltar" value="#FFFF00">
-            </div>
-          </div>
-        </div>
-        <div class="tool-group-label">Fuente</div>
-      </div>
-
-      <!-- PÁRRAFO -->
-      <div class="tool-group">
-        <div class="tool-group-main">
-          <div>
-            <div class="tool-row">
-              <button onclick="execCmd('justifyLeft')" title="Alinear izquierda">⬅️</button>
-              <button onclick="execCmd('justifyCenter')" title="Centrar">↔️</button>
-              <button onclick="execCmd('justifyRight')" title="Alinear derecha">➡️</button>
-              <button onclick="execCmd('justifyFull')" title="Justificar">⬌</button>
-            </div>
-            <div class="tool-row">
-              <button onclick="execCmd('insertUnorderedList')" title="Viñetas">•</button>
-              <button onclick="execCmd('insertOrderedList')" title="Numeración">1.</button>
-              <button onclick="execCmd('indent')" title="Aumentar sangría">→</button>
-              <button onclick="execCmd('outdent')" title="Disminuir sangría">←</button>
-            </div>
-          </div>
-        </div>
-        <div class="tool-group-label">Párrafo</div>
-      </div>
-
-      <!-- ESTILOS -->
-      <div class="tool-group">
-        <div class="style-gallery">
-          <button class="style-item active" onclick="setStyle(this, 'p')">Normal</button>
-          <button class="style-item" onclick="setStyle(this, 'h1')">Título 1</button>
-          <button class="style-item" onclick="setStyle(this, 'h2')">Título 2</button>
-          <button class="style-item" onclick="setStyle(this, 'h3')">Subtítulo</button>
-        </div>
-        <div class="tool-group-label">Estilos</div>
-      </div>
-
-      <!-- EDICIÓN -->
-      <div class="tool-group">
-        <div class="tool-group-col">
-          <button onclick="findText()">🔍 Buscar</button>
-          <button onclick="replaceText()">🔄 Reemplazar</button>
-          <button onclick="execCmd('selectAll')">📍 Seleccionar todo</button>
-        </div>
-        <div class="tool-group-label">Edición</div>
-      </div>
-    </div>
-  </header>
-
-  <!-- WORKSPACE -->
-  <main class="workspace">
-    <div class="page" contenteditable="true" id="editor">
-      <h1>WC Corporate Editor v20</h1>
-      <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-      <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total.</p>
-      <br>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">🎨</div>
-          <h4>WC Arte</h4>
-          <p>Crea diseños profesionales con herramientas únicas.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">⚙️</div>
-          <h4>Herramientas</h4>
-          <p>Optimiza tu flujo de trabajo con funciones avanzadas.</p>
-        </div>
-        <div class="feature">
-          <div class="feature-icon">&lt;/&gt;</div>
-          <h4>Desarrollador</h4>
-          <p>Keny Chinchilla Navarro – Innovación sin límites.</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ASISTENTE IA -->
-  <aside class="assistant">
-    <div class="assistant-header">
-      <h3>IA Asistente WC</h3>
-      <button style="background:none;border:none;cursor:pointer;">⚙️</button>
-    </div>
-    <div class="assistant-tabs">
-      <button class="active" onclick="switchTab(event, 'asistente')">Asistente</button>
-      <button onclick="switchTab(event, 'plantillas')">Plantillas</button>
-      <button onclick="switchTab(event, 'sugerencias')">Sugerencias</button>
-    </div>
-    <div class="assistant-content" id="assistant-content">
-      <div class="ai-chat">
-        <div class="ai-avatar"></div>
-        <h4>Hola, Keny 👋</h4>
-        <p style="font-size:13px; opacity:0.7; margin:8px 0 20px;">¿En qué puedo ayudarte hoy?</p>
-      </div>
-      <div class="ai-actions">
-        <button onclick="aiAction('resumen')">Redactar un resumen →</button>
-        <button onclick="aiAction('mejorar')">Mejorar este texto →</button>
-        <button onclick="aiAction('corregir')">Corregir ortografía →</button>
-        <button onclick="aiAction('traducir')">Traducir al inglés →</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- STATUSBAR -->
-  <footer class="statusbar">
-    <span id="page-count">Página 1 de 1</span>
-    <span id="word-count">Palabras: 28</span>
-    <span>Español (España)</span>
-    <span id="zoom-level">100%</span>
-    <div class="right">
-      <span>🟢 Modo Corporativo Activado</span>
-      <span>✓ Guardado automático</span>
-    </div>
-  </footer>
-    <script>
+  <script>
     const editor = document.getElementById('editor');
     let formatPainterData = null;
 
@@ -757,6 +279,122 @@
     }
 
     // Atajos de teclado
+    function handleShortcuts(e) {
+      if(e.ctrlKey || e.metaKey) {
+        if(e.key === 's') { e.preventDefault(); localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
+        if(e.key === 'f') { e.preventDefault(); findText(); }
+        if(e.key === 'b') { e.preventDefault(); toggleFormat('bold'); }
+        if(e.key === 'i') { e.preventDefault(); toggleFormat('italic'); }
+        if(e.key === 'u') { e.preventDefault(); toggleFormat('underline'); }
+      }
+    }
+  </script>
+</body>
+</html>
+        if(action === '1') newDoc();
+        if(action === '2') { localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
+        if(action === '3') window.print();
+        if(action === '4') window.print();
+      }
+    }
+
+    function formatMenu() {
+      alert('Formato: Usa la barra de herramientas para aplicar Fuente, Párrafo, Bordes, Fondo...');
+    }
+
+    function findText() {
+      const text = prompt('Buscar:');
+      if(text) {
+        const found = window.find(text, false, false, true, false, true, false);
+        if(!found) alert('No se encontró: ' + text);
+      }
+    }
+
+    function replaceText() {
+      const find = prompt('Buscar:');
+      if(!find) return;
+      const replace = prompt('Reemplazar con:');
+      if(replace!== null) {
+        const content = editor.innerHTML;
+        const regex = new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        const newContent = content.replace(regex, replace);
+        const count = (content.match(regex) || []).length;
+        editor.innerHTML = newContent;
+        updateStatusbar();
+        alert(`Se reemplazaron ${count} ocurrencias`);
+      }
+    }
+
+    document.getElementById('search-cmd').addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('.tabs button').forEach(btn => {
+        btn.style.background = btn.textContent.toLowerCase().includes(query) && query? "#dce6ff" : "transparent";
+      });
+    });
+
+    function aiAction(type) {
+      const selection = window.getSelection().toString() || editor.innerText;
+      let result = '';
+      if(type === 'resumen') result = `<blockquote style="border-left:4px solid #0A66FF;padding-left:16px;margin:16px 0;"><strong>Resumen IA:</strong><br>${selection.slice(0,200)}...</blockquote>`;
+      if(type === 'mejorar') result = `<p><strong>Texto mejorado por IA:</strong><br>${selection}</p>`;
+      if(type === 'corregir') result = `<p><em>✓ Corrección ortográfica aplicada</em><br>${selection}</p>`;
+      if(type === 'traducir') result = `<p><em>[Translated to English]</em><br>${selection}</p>`;
+      execCmd('insertHTML', result + '<p><br></p>');
+      updateStatusbar();
+    }
+
+    function switchTab(e, tab) {
+      document.querySelectorAll('.assistant-tabs button').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      const content = document.getElementById('assistant-content');
+      if(tab === 'plantillas') {
+        content.innerHTML = `
+          <h4 style="margin-bottom:12px;">Plantillas WC</h4>
+          <div class="template-grid">
+            <div class="template" onclick="loadTemplate('informe')"><div style="font-size:24px;">📊</div>Informe</div>
+            <div class="template" onclick="loadTemplate('propuesta')"><div style="font-size:24px;">📈</div>Propuesta</div>
+            <div class="template" onclick="loadTemplate('carta')"><div style="font-size:24px;">✉️</div>Carta</div>
+            <div class="template" onclick="loadTemplate('contrato')"><div style="font-size:24px;">📑</div>Contrato</div>
+          </div>`;
+      } else if(tab === 'asistente') {
+        content.innerHTML = `
+          <div class="ai-chat">
+            <div class="ai-avatar"></div>
+            <h4>Hola, Keny 👋</h4>
+            <p style="font-size:13px; opacity:0.7; margin:8px 0 20px;">¿En qué puedo ayudarte hoy?</p>
+          </div>
+          <div class="ai-actions">
+            <button onclick="aiAction('resumen')">Redactar un resumen →</button>
+            <button onclick="aiAction('mejorar')">Mejorar este texto →</button>
+            <button onclick="aiAction('corregir')">Corregir ortografía →</button>
+            <button onclick="aiAction('traducir')">Traducir al inglés →</button>
+          </div>`;
+      } else {
+        content.innerHTML = `<p style="padding:20px; text-align:center; opacity:0.6;">Sugerencias de IA próximamente...</p>`;
+      }
+    }
+
+    function loadTemplate(type) {
+      const templates = {
+        informe: `<h1>Informe Corporativo</h1><h3>Resumen Ejecutivo</h3><p>Durante el período evaluado se observaron...</p><h3>Resultados Clave</h3><ul><li>Indicador 1:...</li><li>Indicador 2:...</li></ul><h3>Conclusiones</h3><p>...</p>`,
+        propuesta: `<h1>Propuesta Ejecutiva</h1><h3>Objetivo</h3><p>El presente documento tiene como objetivo...</p><h3>Alcance del Proyecto</h3><p>...</p><h3>Inversión</h3><p>...</p>`,
+        carta: `<p style="text-align:right">San José, ${new Date().toLocaleDateString('es-CR')}</p><br><p><strong>Estimado/a:</strong></p><p>Por medio de la presente...</p><br><p>Atentamente,</p><p><strong>Keny Chinchilla Navarro</strong><br>WC Corporate</p>`,
+        contrato: `<h1>Contrato de Prestación de Servicios</h1><p><strong>Entre:</strong> WC Corporate S.A. y [Cliente]</p><h3>Cláusula Primera - Objeto</h3><p>...</p><h3>Cláusula Segunda - Plazo</h3><p>...</p>`
+      };
+      editor.innerHTML = templates[type];
+      updateStatusbar();
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      html.dataset.theme = html.dataset.theme === 'dark'? 'light' : 'dark';
+    }
+
+    function toggleAI() {
+      document.body.classList.toggle('ai-collapsed');
+      localStorage.setItem('wc_ai_collapsed', document.body.classList.contains('ai-collapsed'));
+    }
+
     function handleShortcuts(e) {
       if(e.ctrlKey || e.metaKey) {
         if(e.key === 's') { e.preventDefault(); localStorage.setItem('wc_doc_v21', editor.innerHTML); alert('Guardado'); }
