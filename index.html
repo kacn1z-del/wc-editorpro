@@ -11,6 +11,7 @@
             --bg-color: #f8fafc;
             --border-color: #cbd5e1;
             --toolbar-bg: #ffffff;
+            --text-color: #334155;
         }
 
         body {
@@ -23,61 +24,98 @@
             height: 100vh;
         }
 
-        /* Barra de Herramientas */
+        /* --- Barra de Herramientas Compacta --- */
         .toolbar {
             background-color: var(--toolbar-bg);
             border-bottom: 2px solid var(--border-color);
-            padding: 10px;
+            padding: 8px 15px;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 12px;
             align-items: center;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            z-index: 100;
         }
 
-        .group {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            border-right: 1px solid var(--border-color);
-            padding-right: 8px;
+        /* Contenedor del menú desplegable (Dropdown) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
 
-        .group:last-child {
-            border-right: none;
-        }
-
-        button, select {
+        /* Botón Principal del Desplegable */
+        .dropbtn {
             background-color: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 6px 10px;
+            border-radius: 6px;
+            padding: 8px 12px;
             font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             transition: all 0.2s;
         }
 
-        button:hover {
+        .dropbtn:hover {
             background-color: #f1f5f9;
             border-color: var(--secondary-color);
         }
 
-        button:active {
-            background-color: #e2e8f0;
+        .dropbtn::after {
+            content: ' ▾';
+            font-size: 0.8rem;
+            color: #64748b;
         }
 
-        select {
-            outline: none;
+        /* Contenido del Desplegable (Oculto por defecto) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 180px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.12);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 0;
+            z-index: 110;
+            margin-top: 4px;
         }
 
-        /* Área del Documento/Lienzo */
+        /* Botones dentro del desplegable */
+        .dropdown-content button {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 0;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+        }
+
+        /* Mostrar el desplegable con JavaScript */
+        .show {
+            display: block;
+        }
+
+        /* --- Área de Trabajo (Lienzo) --- */
         .container {
             flex: 1;
             overflow-y: auto;
-            padding: 40px 20px;
+            padding: 30px 15px;
             display: flex;
             justify-content: center;
         }
@@ -86,10 +124,11 @@
             background-color: #ffffff;
             width: 100%;
             max-width: 800px;
-            min-height: 297mm; /* Proporción A4 aproximada */
-            padding: 60px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            min-height: 297mm;
+            padding: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
             border: 1px solid var(--border-color);
+            border-radius: 4px;
             outline: none;
             box-sizing: border-box;
             font-size: 16px;
@@ -97,71 +136,83 @@
             word-wrap: break-word;
         }
 
-        /* Clases dinámicas aplicadas por las funciones */
         .justify-text {
             text-align: justify !important;
         }
 
-        /* Pie de página discreto */
+        /* --- Pie de Página --- */
         footer {
             background-color: #ffffff;
             border-top: 1px solid var(--border-color);
-            padding: 6px 20px;
+            padding: 8px 20px;
             text-align: right;
             font-size: 0.8rem;
             color: #64748b;
         }
 
-        /* Ajustes para móviles */
-        @media (max-width: 768px) {
+        footer strong {
+            color: #1e293b;
+        }
+
+        /* Ajustes específicos para que no se desborde en pantallas móviles */
+        @media (max-width: 600px) {
+            .toolbar { padding: 6px; gap: 6px; }
+            .dropbtn { padding: 6px 10px; font-size: 0.85rem; }
             .container { padding: 10px; }
-            .editor-paper { padding: 20px; min-height: auto; }
-            .toolbar { padding: 5px; gap: 4px; }
-            .group { padding-right: 4px; }
+            .editor-paper { padding: 25px; min-height: auto; }
         }
     </style>
 </head>
 <body>
 
     <div class="toolbar">
-        <div class="group">
-            <button onclick="ejecutarComando('copy')" title="Copiar (Ctrl+C)">📋 Copiar</button>
-            <button onclick="ejecutarComando('cut')" title="Cortar (Ctrl+X)">✂️ Cortar</button>
-            <button onclick="ejecutarComando('paste')" title="Pegar (Ctrl+V)">📥 Pegar</button>
+        
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown('drop-edicion')">📋 Edición</button>
+            <div id="drop-edicion" class="dropdown-content">
+                <button onclick="ejecutarComando('copy')">📋 Copiar <small style="margin-left:auto; color:#94a3b8;">Ctrl+C</small></button>
+                <button onclick="ejecutarComando('cut')">✂️ Cortar <small style="margin-left:auto; color:#94a3b8;">Ctrl+X</small></button>
+                <button onclick="ejecutarComando('paste')">📥 Pegar <small style="margin-left:auto; color:#94a3b8;">Ctrl+V</small></button>
+            </div>
         </div>
 
-        <div class="group">
-            <button onclick="ejecutarComando('insertUnorderedList')" title="Lista con viñetas">• Viñetas</button>
-            <button onclick="ejecutarComando('insertOrderedList')" title="Lista Numerada / Multinivel">1. Numeración</button>
-            <button onclick="insertarSaltoPagina()" title="Insertar Salto de Página (Ctrl+Enter)">📄 Salto Pág.</button>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown('drop-parrafo')">🔢 Formato Párrafo</button>
+            <div id="drop-parrafo" class="dropdown-content">
+                <button onclick="ejecutarComando('insertUnorderedList')">• Lista con Viñetas</button>
+                <button onclick="ejecutarComando('insertOrderedList')">1. Lista Multinivel</button>
+                <button onclick="insertarTabulacion()">📏 Insertar Tabulación <small style="margin-left:auto; color:#94a3b8;">Tab</small></button>
+                <hr style="border:none; border-top: 1px solid var(--border-color); margin:4px 0;">
+                <button onclick="cambiarInterlineado('1.0')">↕️ Interlineado 1.0</button>
+                <button onclick="cambiarInterlineado('1.5')">↕️ Interlineado 1.5</button>
+                <button onclick="cambiarInterlineado('2.0')">↕️ Interlineado 2.0</button>
+            </div>
         </div>
 
-        <div class="group">
-            <button onclick="ejecutarComando('justifyLeft')" title="Alinear a la izquierda"> Tala</button>
-            <button onclick="ejecutarComando('justifyCenter')" title="Centrar"> Center</button>
-            <button onclick="ejecutarComando('justifyRight')" title="Alinear a la derecha"> Tára</button>
-            <button onclick="aplicarJustificado()" title="Justificar Texto (Ctrl+J)">🔲 Justificar</button>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown('drop-alineacion')">🔲 Alineación</button>
+            <div id="drop-alineacion" class="dropdown-content">
+                <button onclick="ejecutarComando('justifyLeft')">⬅️ Alinear Izquierda</button>
+                <button onclick="ejecutarComando('justifyCenter')">🔲 Centrar</button>
+                <button onclick="ejecutarComando('justifyRight')">➡️ Alinear Derecha</button>
+                <button onclick="aplicarJustificado()">⏸️ Justificar Texto <small style="margin-left:auto; color:#94a3b8;">Ctrl+J</small></button>
+            </div>
         </div>
 
-        <div class="group">
-            <select id="interlineado" onchange="cambiarInterlineado(this.value)" title="Espaciado entre líneas (Interlineado)">
-                <option value="1.0">↕️ Interlineado: 1.0 (Sencillo)</option>
-                <option value="1.5">↕️ Interlineado: 1.5</option>
-                <option value="2.0">↕️ Interlineado: 2.0 (Doble)</option>
-            </select>
-            <button onclick="insertarTabulacion()" title="Insertar Tabulación (Tab)">📏 Tabulación</button>
+        <div class="dropdown">
+            <button class="dropbtn" onclick="toggleDropdown('drop-insertar')">➕ Insertar</button>
+            <div id="drop-insertar" class="dropdown-content">
+                <button onclick="insertarSaltoPagina()">📄 Salto de Página <small style="margin-left:auto; color:#94a3b8;">Ctrl+Enter</small></button>
+                <button onclick="insertarHipervinculo()">🔗 Hipervínculo <small style="margin-left:auto; color:#94a3b8;">Ctrl+K</small></button>
+                <button onclick="insertarImagen()">🖼️ Imagen Externa</button>
+                <button onclick="insertarReferencia()">🔄 Referencia Cruzada</button>
+            </div>
         </div>
 
-        <div class="group">
-            <button onclick="insertarHipervinculo()" title="Insertar Hipervínculo (Ctrl+K)">🔗 Enlace</button>
-            <button onclick="insertarImagen()" title="Insertar Imagen del Dispositivo o URL">🖼️ Imagen</button>
-            <button onclick="insertarReferencia()" title="Insertar Referencia Cruzada">🔄 Referencia</button>
-        </div>
     </div>
 
     <div class="container">
-        <div id="editor" class="editor-paper" contenteditable="true" placeholder="Comience a escribir aquí...">
-            </div>
+        <div id="editor" class="editor-paper" contenteditable="true" placeholder="Comience a escribir aquí..."></div>
     </div>
 
     <footer>
@@ -171,16 +222,37 @@
     <script>
         const editor = document.getElementById('editor');
 
-        // Función base para ejecutar comandos nativos del navegador
+        // Alternar visibilidad de los menús desplegables
+        function toggleDropdown(id) {
+            // Cerrar otros desplegables abiertos antes de abrir el nuevo
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                if (dropdowns[i].id !== id) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+            document.getElementById(id).classList.toggle("show");
+        }
+
+        // Cerrar menús automáticamente si el usuario hace clic fuera de la barra de herramientas
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+
+        // Ejecutor de comandos nativos
         function ejecutarComando(comando, valor = null) {
             document.execCommand(comando, false, valor);
             editor.focus();
         }
 
-        // Función para aplicar Justificado homogéneo
+        // Justificación homogénea
         function aplicarJustificado() {
             ejecutarComando('justifyFull');
-            // Asegura compatibilidad forzando la clase CSS en el bloque actual
             const seleccion = window.getSelection();
             if (seleccion.rangeCount > 0) {
                 let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
@@ -191,14 +263,13 @@
             }
         }
 
-        // Función para alterar el Interlineado en el bloque de texto seleccionado
+        // Gestión de Interlineado
         function cambiarInterlineado(valor) {
             const seleccion = window.getSelection();
             if (seleccion.rangeCount > 0) {
                 let contenedor = seleccion.getRangeAt(0).commonAncestorContainer;
                 if (contenedor.nodeType === 3) contenedor = contenedor.parentNode;
                 
-                // Si está editando dentro del lienzo, aplica el estilo al bloque
                 if (contenedor === editor) {
                     editor.style.lineHeight = valor;
                 } else {
@@ -208,62 +279,52 @@
             editor.focus();
         }
 
-        // Función para simular inserción de salto de página visual
+        // Inserción de elementos dinámicos
         function insertarSaltoPagina() {
             const hrSalto = '<hr style="border: none; border-top: 2px dashed #3b82f6; margin: 30px 0; position: relative;" data-content="Salto de Página" />';
             ejecutarComando('insertHTML', hrSalto);
         }
 
-        // Función para insertar Tabulación horizontal precisa
         function insertarTabulacion() {
             const espacioTab = '<span style="display:inline-block; width: 40px;"></span>';
             ejecutarComando('insertHTML', espacioTab);
         }
 
-        // Función interactiva para agregar Hipervínculos
         function insertarHipervinculo() {
-            const url = prompt("Ingrese la URL del destino (Web, archivo o correo):", "https://");
-            if (url) {
-                ejecutarComando('createLink', url);
-            }
+            const url = prompt("Ingrese la URL del destino:", "https://");
+            if (url) ejecutarComando('createLink', url);
         }
 
-        // Función para añadir imágenes mediante entrada de origen
         function insertarImagen() {
-            const rutaImagen = prompt("Ingrese la URL de la imagen o ruta del archivo local:", "");
+            const rutaImagen = prompt("Ingrese la URL de la imagen:", "");
             if (rutaImagen) {
-                const estructuraImg = `<img src="${rutaImagen}" style="max-width:100%; height:auto; margin:10px 0; display:block;" title="Imagen insertada" />`;
+                const estructuraImg = `<img src="${rutaImagen}" style="max-width:100%; height:auto; margin:10px 0; display:block;" />`;
                 ejecutarComando('insertHTML', estructuraImg);
             }
         }
 
-        // Función para simular e insertar Referencias Cruzadas en el documento
         function insertarReferencia() {
-            const etiqueta = prompt("Ingrese el nombre del elemento a referenciar (Ej: Tabla 1, Encabezado 2):", "");
+            const etiqueta = prompt("Nombre del elemento a referenciar (Ej: Tabla 1):", "");
             if (etiqueta) {
-                const refHTML = `<a href="#" onclick="return false;" style="color: #3b82f6; text-decoration: underline; font-weight: 500;" title="Referencia a: ${etiqueta}">[Ver ${etiqueta}]</a>`;
+                const refHTML = `<a href="#" onclick="return false;" style="color: #3b82f6; text-decoration: underline;" title="Referencia a: ${etiqueta}">[Ver ${etiqueta}]</a>`;
                 ejecutarComando('insertHTML', refHTML);
             }
         }
 
-        /* --- Capturador de Atajos de Teclado (Keydown Listeners) --- */
+        // Atajos globales de Teclado
         window.addEventListener('keydown', function(e) {
-            // Ctrl + J -> Justificar texto
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'j') {
                 e.preventDefault();
                 aplicarJustificado();
             }
-            // Ctrl + K -> Insertar hipervínculo
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
                 insertarHipervinculo();
             }
-            // Ctrl + Enter -> Salto de página
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
                 insertarSaltoPagina();
             }
-            // Tecla Tab -> Intercepta el foco externo y añade tabulación limpia dentro del papel
             if (e.key === 'Tab' && document.activeElement === editor) {
                 e.preventDefault();
                 insertarTabulacion();
