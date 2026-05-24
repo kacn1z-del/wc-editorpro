@@ -3,709 +3,253 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20 - Ultimate Platinium Suite</title>
+<title>WC Corporate Editor v20.4 - Cinta Móvil Multilingüe</title>
 <style>
-/* ── PALETA DE COLORES CORPORATIVA PREMIUM INDEPENDIENTE ── */
 :root {
-  --bg-main: #060b13;
-  --bg-app: #0a111e;
-  --bg-sidebar: #0b1322;
-  --ribbon-bg: #f1f5f9; 
-  --text-main: #ffffff;
-  --text-muted: #8493a8;
-  --accent-blue: #1d4ed8;
-  --accent-purple: #7c3aed;
-  --accent-orange: #ea580c;
-  --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #a21caf 40%, #ea580c 100%);
-  --glass-menu: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(20, 30, 55, 0.99) 100%);
-  --glass-border: rgba(255, 255, 255, 0.12);
+  --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
+  --bg-tab-active: #ffffff;
+  --text-tab-active: #0f172a;
+  --bg-ribbon-panel: #f1f5f9;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  height: 100vh;
-  overflow: hidden;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* CABECERA PRINCIPAL */
+.header-suite {
+  background: var(--bg-gradient);
+  padding: 12px 12px 6px 12px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.brand-title { color: white; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+
+/* BOTONES SELECTORES DE IDIOMA */
+.lang-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; }
+.lang-btn {
+  background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap;
+}
+.lang-btn.active { background: white; color: #0f172a; font-weight: 600; }
+
+/* 📱 CINTA DE PESTAÑAS MÓVIL DESLIZABLE HORIZONTAL (Fiel a tu video) */
+.mobile-tabs-scroll {
   display: flex;
-  flex-direction: column;
+  gap: 4px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 4px;
+  scrollbar-width: none; /* Oculta scroll en Firefox */
+}
+.mobile-tabs-scroll::-webkit-scrollbar { display: none; } /* Oculta scroll en Chrome/Safari */
+
+.tab-node {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.tab-node.active { background: var(--bg-tab-active); color: var(--text-tab-active); font-weight: 700; }
+
+/* PANEL DE COMANDOS SUB-PESTAÑA (Cambia según el Tab y el Idioma) */
+.ribbon-commands-panel {
+  background: var(--bg-ribbon-panel);
+  border-bottom: 1px solid #cbd5e1;
+  padding: 8px 12px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cmd-btn {
+  background: white; border: 1px solid #cbd5e1; padding: 6px 12px;
+  border-radius: 6px; font-size: 12px; color: #334155; display: flex;
+  align-items: center; gap: 4px; white-space: nowrap; cursor: pointer;
 }
 
-.app-container { flex: 1; display: flex; flex-direction: column; background-color: var(--bg-app); overflow: hidden; }
+/* SELECTORES RÁPIDOS DE FUENTE */
+.font-bar { background: #e2e8f0; padding: 6px 12px; display: flex; gap: 6px; flex-shrink: 0; }
+.font-select { background: white; border: 1px solid #cbd5e1; padding: 3px 6px; border-radius: 4px; font-size: 12px; }
 
-/* ── BARRA DE TÍTULO SUPERIOR ── */
-.title-bar { height: 50px; background: var(--gradient-title); display: flex; align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; z-index: 2000; }
-.wc-logo { font-weight: 800; font-size: 16px; color: #ffffff; }
-.title-text { display: flex; flex-direction: column; justify-content: center; }
-.title-main-title { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; }
-.title-subtitle { font-size: 10px; opacity: 0.8; font-weight: 400; text-transform: uppercase; }
-.title-actions { margin-left: auto; display: flex; align-items: center; gap: 16px; }
-.title-icon { cursor: pointer; font-size: 15px; opacity: 0.9; transition: 0.2s; color: #ffffff; }
-.user-badge { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; }
-.user-avatar { width: 24px; height: 24px; background: #cbd5e1; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; color: #000; }
+/* LIENZO DE PAPEL */
+.workspace { flex: 1; padding: 12px; overflow-y: auto; display: flex; justify-content: center; }
+.paper { width: 100%; max-width: 600px; background: white; min-height: 400px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 20px; border-radius: 4px; outline: none; }
 
-/* ── BARRA DE MENÚS DESPLEGABLES ── */
-.menu-bar { height: 40px; background-color: #090f1a; display: flex; align-items: center; padding: 0 12px; gap: 4px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; z-index: 1500; }
-.menu-btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; color: #cbd5e1; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; user-select: none; }
-.menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.08); color: #ffffff; }
-
-/* Menús Flotantes Generales */
-.dropdown-menu { position: absolute; width: 300px; background: var(--glass-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-radius: 10px; border: 1px solid var(--glass-border); box-shadow: 0 20px 45px rgba(0,0,0,0.6); padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 3000; max-height: 85vh; overflow-y: auto; }
-.dropdown-menu.show { display: flex; }
-.menu-section-title { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; padding: 8px 10px 4px; letter-spacing: 0.5px; }
-.menu-section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 6px; }
-.dg-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 13px; transition: 0.1s; }
-.dg-item:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff; }
-.dg-icon { font-size: 14px; width: 18px; text-align: center; }
-.dg-text { flex: 1; }
-
-/* ── CINTA DE OPCIONES ESCRITORIO (RIBBON COMPLETO) ── */
-.ribbon { background-color: var(--ribbon-bg); border-bottom: 1px solid #cbd5e1; padding: 6px 16px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; overflow-x: auto; color: #334155; z-index: 100; }
-.ribbon-group { display: flex; align-items: center; gap: 2px; background: #ffffff; padding: 4px; border-radius: 6px; border: 1px solid #e2e8f0; flex-shrink: 0; }
-.ribbon-label { font-size: 11px; color: #64748b; padding: 0 4px; font-weight: 500; }
-.ribbon-divider { width: 1px; height: 26px; background: #cbd5e1; flex-shrink: 0; margin: 0 4px; }
-.select-tool { background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 2px 6px; border-radius: 4px; font-size: 12px; cursor: pointer; height: 28px; outline: none; }
-.tool-icon-btn { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600; color: #475569; padding: 0 4px; transition: 0.1s; }
-.tool-icon-btn:hover { background: #e2e8f0; color: #000; }
-.color-picker-wrapper { display: flex; align-items: center; gap: 2px; padding: 0 4px; }
-.btn-dictate { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: #ffffff; border-radius: 6px; font-size: 12px; padding: 6px 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 6px; height: 28px; }
-.btn-dictate.recording { background: #10b981; }
-
-/* Trigger de formato móvil */
-.mobile-format-trigger-btn { display: none; }
-
-/* ── ÁREA DE TRABAJO Y ENTORNO DE HOJA ── */
-.workspace { display: flex; flex: 1; overflow: hidden; background-color: #0d1527; position: relative; }
-
-/* Barra Lateral Izquierda */
-.sidebar-left { width: 250px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; padding: 14px; gap: 12px; flex-shrink: 0; overflow-y: auto; }
-.sb-header { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.lang-box-info { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 8px; }
-.indigenous-chip-grid { display: flex; flex-direction: column; gap: 6px; }
-.vocab-item { background: rgba(255,255,255,0.04); border-radius: 6px; padding: 6px 10px; font-size: 12px; cursor: pointer; transition: 0.2s; border-left: 3px solid var(--accent-orange); }
-.vocab-item:hover { background: rgba(255,255,255,0.1); transform: translateX(2px); }
-
-/* Centro de Escritura */
-.canvas-outer { flex: 1; background-color: #111a2e; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; width: 100%; }
-.canvas-container { flex: 1; display: flex; justify-content: center; padding: 30px 20px; width: 100%; }
-
-.paper { width: 100%; max-width: 800px; min-height: 1050px; background: #ffffff; color: #1e293b; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); outline: none; padding: 80px 90px; font-size: 15px; line-height: 1.6; text-align: left; }
-.paper h1 { font-size: 26px; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
-.paper table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-.paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 10px; color: #1e293b; }
-
-/* Barra Lateral Derecha: Asistente */
-.sidebar-ai { width: 280px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; }
-.ai-title { padding: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.1); }
-.ai-chat-space { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 12px; }
-.ai-bubble { padding: 8px 12px; border-radius: 8px; max-width: 90%; line-height: 1.4; }
-.ai-bubble.system { background: rgba(37, 99, 235, 0.12); color: #93c5fd; align-self: flex-start; border-left: 3px solid var(--accent-blue); }
-.ai-bubble.user { background: rgba(234, 88, 12, 0.15); color: #fdba74; align-self: flex-end; }
-.ai-commands { padding: 8px; border-top: 1px solid rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: rgba(0,0,0,0.1); }
-.ai-cmd-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: #e2e8f0; font-size: 11px; padding: 6px; border-radius: 4px; cursor: pointer; text-align: center; }
-.ai-cmd-btn:hover { background: var(--accent-purple); color: white; }
-
-.status-bar { height: 28px; background: #070c14; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; padding: 0 16px; font-size: 11px; color: var(--text-muted); justify-content: space-between; flex-shrink: 0; }
-
-/* Modales Dinámicos Avanzados */
-.wcarte-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0f172a; border: 1px solid var(--glass-border); border-radius: 12px; padding: 20px; width: 480px; box-shadow: 0 25px 50px rgba(0,0,0,0.7); z-index: 10000; display: none; flex-direction: column; gap: 12px; }
-.wcarte-modal.open { display: flex; }
-.modal-input { padding: 10px; border-radius: 6px; border: none; background: #1e293b; color: white; font-size: 13px; width: 100%; outline: none; }
-.modal-btn { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.wcarte-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 280px; overflow-y: auto; padding-right: 4px; }
-.art-card { background: #1e293b; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; min-height: 65px; }
-.art-card:hover { background: #24354f; border-color: var(--accent-blue); transform: scale(1.02); }
-
-#toast { position: fixed; bottom: 45px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 10px 20px; border-radius: 8px; font-size: 12px; opacity: 0; transition: 0.2s; pointer-events: none; z-index: 1000000; }
-#toast.visible { opacity: 1; }
-#fileInput { display: none; }
-
-/* ── ADAPTACIÓN MÓVIL ── */
-@media (max-width: 1024px) {
-  .sidebar-left, .sidebar-ai, .ribbon, .title-subtitle, .user-badge { display: none !important; }
-  
-  .mobile-format-trigger-btn {
-    display: flex; align-items: center; justify-content: center; background: var(--accent-blue); color: white;
-    padding: 10px 20px; border-radius: 24px; font-size: 12px; font-weight: bold; position: fixed;
-    bottom: 45px; right: 20px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.5); cursor: pointer; border: 1px solid rgba(255,255,255,0.2);
-  }
-
-  #menu-formato-movil {
-    position: fixed !important; bottom: 0 !important; top: auto !important; left: 0 !important; width: 100% !important;
-    max-height: 65vh; background: linear-gradient(135deg, #0f172a 0%, #172237 100%); border-radius: 20px 20px 0 0;
-    border-top: 1px solid var(--glass-border); box-shadow: 0 -15px 40px rgba(0,0,0,0.8); padding: 16px; display: none;
-    flex-direction: column; gap: 12px; z-index: 99999; overflow-y: auto;
-  }
-  
-  #menu-formato-movil.show { display: flex; animation: slideUpWord 0.25s ease-out; }
-  .mobile-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-  .mobile-grid-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .btn-mobile-tool { background: rgba(255,255,255,0.06); color: white; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 14px; }
-  .select-mobile { background: #090f1a; color: white; border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; font-size: 12px; flex: 1; }
-  .paper { padding: 30px 20px !important; min-height: auto; font-size: 14px; }
-}
-@keyframes slideUpWord { from { transform: translateY(100%); } to { transform: translateY(0); } }
+/* BARRA DE ESTADO */
+.footer-bar { height: 28px; background: white; border-top: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 11px; color: #64748b; }
 </style>
 </head>
 <body>
 
-<div class="app-container">
-  
-  <div class="title-bar">
-    <div class="wc-logo">WC</div>
-    <div class="title-text">
-      <span class="title-main-title">WC Corporate Editor v20</span>
-      <span class="title-subtitle">Platinium Suite - Edición Lingüística Corporativa</span>
-    </div>
-    <div class="title-actions">
-      <span class="title-icon" onclick="triggerEditCmd('undo')">↩️</span>
-      <span class="title-icon" onclick="triggerEditCmd('redo')">↪️</span>
-      <span class="title-icon" onclick="executeFileAction('guardar')">💾</span>
-      <div class="user-badge">
-        <div class="user-avatar">KN</div>
-        <span>Keny Chinchilla N.</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="menu-bar">
-    <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-archivo')">Archivo ▾</div>
-    <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-editar')">Editar ▾</div>
-    <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-insertar')">Insertar ▾</div>
-    <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-formato')">Formato ▾</div>
-    <div class="menu-btn" onclick="toggleDropdownMenu(event, 'menu-traduccion')">Etnolingüística e Idiomas ▾</div>
-  </div>
-
-  <div class="dropdown-menu" id="menu-archivo">
-    <div class="menu-section-title">Operaciones de Documento</div>
-    <div class="dg-item" onclick="executeFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo Lienzo Blanco</div></div>
-    <div class="dg-item" onclick="executeFileAction('plantilla')"><div class="dg-icon">📋</div><div class="dg-text">Cargar Plantilla Corporativa</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="dg-item" onclick="executeFileAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir Archivo Local</div></div>
-    <div class="dg-item" onclick="executeFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar como HTML</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir / Guardar PDF</div></div>
-  </div>
-
-  <div class="dropdown-menu" id="menu-editar">
-    <div class="menu-section-title">Historial de Cambios</div>
-    <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer Último Cambio</div></div>
-    <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer Cambio</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="menu-section-title">Selección y Portapapeles</div>
-    <div class="dg-item" onclick="triggerEditCmd('selectAll')"><div class="dg-icon">📋</div><div class="dg-text">Seleccionar Todo</div></div>
-    <div class="dg-item" onclick="triggerEditCmd('removeFormat')"><div class="dg-icon">🧼</div><div class="dg-text">Borrar Todo el Formato</div></div>
-  </div>
-
-  <div class="dropdown-menu" id="menu-insertar">
-    <div class="menu-section-title">Tablas e Hipervínculos</div>
-    <div class="dg-item" onclick="injectTable()"><div class="dg-icon">📊</div><div class="dg-text">Insertar Tabla Estándar</div></div>
-    <div class="dg-item" onclick="injectHipervinculo()"><div class="dg-icon">🔗</div><div class="dg-text">Insertar Vínculo Web</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="menu-section-title">Elementos Gráficos</div>
-    <div class="dg-item" onclick="openWCArteCatalog()"><div class="dg-icon">🎨</div><div class="dg-text">WC Arte (Texto de Diseño)</div></div>
-    <div class="dg-item" onclick="triggerEditCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea Divisoria Horiz.</div></div>
-  </div>
-
-  <div class="dropdown-menu" id="menu-formato">
-    <div class="menu-section-title">Márgenes del Lienzo</div>
-    <div class="dg-item" onclick="adjustPaperMargins('normal')"><div class="dg-text">Margen Normal Corporativo</div></div>
-    <div class="dg-item" onclick="adjustPaperMargins('estrecho')"><div class="dg-text">Margen Estrecho Optimizado</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="menu-section-title">Estilos de Párrafo</div>
-    <div class="dg-item" onclick="triggerEditCmd('formatBlock', '<h1>')"><div class="dg-text">Encabezado Principal (H1)</div></div>
-    <div class="dg-item" onclick="triggerEditCmd('formatBlock', '<h2>')"><div class="dg-text">Subtítulo Sección (H2)</div></div>
-    <div class="dg-item" onclick="triggerEditCmd('formatBlock', '<p>')"><div class="dg-text">Texto Normal de Párrafo</div></div>
-  </div>
-
-  <div class="dropdown-menu" id="menu-traduccion">
-    <div class="menu-section-title">Motores de Traducción</div>
-    <div class="dg-item" onclick="applyTranslationEngine('es-CR')"><div class="dg-icon">🇨🇷</div><div class="dg-text">Español (Costa Rica)</div></div>
-    <div class="dg-item" onclick="applyTranslationEngine('en-US')"><div class="dg-icon">🇺🇸</div><div class="dg-text">Traducción: Inglés (USA)</div></div>
-    <div class="menu-section-divider"></div>
-    <div class="menu-section-title">Soporte Lenguas Indígenas CR (8)</div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Bribri', '🌱')"><div class="dg-icon">🌱</div><div class="dg-text">Idioma Bribri</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Cabécar', '🐾')"><div class="dg-icon">🐾</div><div class="dg-text">Idioma Cabécar</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Maleku', '🦎')"><div class="dg-icon">🦎</div><div class="dg-text">Idioma Maleku (Guatuso)</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Boruca', '🎭')"><div class="dg-icon">🎭</div><div class="dg-text">Idioma Boruca (Brunca)</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Ngäbere', '🏹')"><div class="dg-icon">🏹</div><div class="dg-text">Idioma Ngäbere (Guaymí)</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Huetar', '🏺')"><div class="dg-icon">🏺</div><div class="dg-text">Idioma Huetar</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Chorotega', '🌅')"><div class="dg-icon">🌅</div><div class="dg-text">Idioma Chorotega</div></div>
-    <div class="dg-item" onclick="selectIndigenousSuite('Teribe', '🌊')"><div class="dg-icon">🌊</div><div class="dg-text">Idioma Teribe (Naso)</div></div>
-  </div>
-
-  <div class="ribbon" id="desktopRibbon">
-    <div class="btn-dictate" id="desktopDictateBtn" onclick="toggleVoiceDictation('desktopDictateBtn')">🎙️ Dictado por Voz</div>
-    <div class="ribbon-divider"></div>
+  <div class="header-suite">
+    <div class="brand-title">WC Corporate Editor</div>
     
-    <div class="ribbon-group">
-      <select class="select-tool" onchange="triggerEditCmd('fontName', this.value)">
-        <option value="Segoe UI">Segoe UI</option>
-        <option value="Arial">Arial</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Georgia">Georgia</option>
-      </select>
-      <select class="select-tool" onchange="triggerEditCmd('fontSize', this.value)">
-        <option value="3">11 pt</option>
-        <option value="4" selected>12 pt</option>
-        <option value="5">14 pt</option>
-        <option value="6">18 pt</option>
-        <option value="7">24 pt</option>
-      </select>
+    <div class="lang-bar">
+      <button class="lang-btn active" id="l-es" onclick="switchEcosystem('es')">🇨🇷 Español</button>
+      <button class="lang-btn" id="l-en" onclick="switchEcosystem('en')">🇺🇸 English</button>
+      <button class="lang-btn" id="l-bri" onclick="switchEcosystem('bri')">🌱 Bribri</button>
+      <button class="lang-btn" id="l-cab" onclick="switchEcosystem('cab')">🐾 Cabécar</button>
     </div>
 
-    <div class="ribbon-group">
-      <div class="tool-icon-btn" onclick="triggerEditCmd('bold')" title="Negrita"><b>B</b></div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('italic')" title="Cursiva"><i>I</i></div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('underline')" title="Subrayado"><u>U</u></div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('strikeThrough')" title="Tachado"><s>abc</s></div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('superscript')" title="Superíndice">X²</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('subscript')" title="Subíndice">X₂</div>
-      <div class="ribbon-divider" style="height:14px;"></div>
-      
-      <div class="color-picker-wrapper">
-        <span class="ribbon-label">Letra:</span>
-        <input type="color" onchange="triggerEditCmd('foreColor', this.value)" style="width:22px; height:22px; border:none; background:none; cursor:pointer;">
-      </div>
-      <div class="color-picker-wrapper">
-        <span class="ribbon-label">Fondo:</span>
-        <input type="color" value="#ffff00" onchange="triggerEditCmd('hiliteColor', this.value)" style="width:22px; height:22px; border:none; background:none; cursor:pointer;">
-      </div>
-    </div>
-
-    <div class="ribbon-group">
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyLeft')">⬅️</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyCenter')">🀄</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyRight')">➡️</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyFull')">⚖️</div>
-      <div class="ribbon-divider" style="height:14px;"></div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('insertUnorderedList')">• Lista Viñetas</div>
-      <div class="tool-icon-btn" onclick="triggerEditCmd('insertOrderedList')">1. Lista Num</div>
-    </div>
-    
-    <div class="ribbon-group">
-      <div class="tool-icon-btn" onclick="triggerEditCmd('removeFormat')">🧼 Borrar Formatos</div>
+    <div class="mobile-tabs-scroll">
+      <div class="tab-node active" id="t-inicio" onclick="changeActiveTab('inicio')">Inicio</div>
+      <div class="tab-node" id="t-insertar" onclick="changeActiveTab('insertar')">Insertar</div>
+      <div class="tab-node" id="t-diseno" onclick="changeActiveTab('diseno')">Diseño</div>
+      <div class="tab-node" id="t-disposicion" onclick="changeActiveTab('disposicion')">Disposición</div>
+      <div class="tab-node" id="t-arte" onclick="changeActiveTab('arte')">WC Arte AB</div>
+      <div class="tab-node" id="t-ai" onclick="changeActiveTab('ai')">Asistente IA</div>
     </div>
   </div>
 
-  <div class="mobile-format-trigger-btn" onclick="openMobileFormatPanel(event)">
-    🛠️ Formato y Herramientas ▾
+  <div class="font-bar">
+    <select class="font-select"><option>Arial</option><option>Segoe UI</option></select>
+    <select class="font-select"><option>14px</option><option>16px</option></select>
   </div>
 
-  <div id="menu-formato-movil">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px;">
-      <span style="font-size:13px; font-weight:bold; color:white;">Controles de Formato</span>
-      <span style="cursor:pointer; font-size:18px; color:var(--text-muted);" onclick="closeMobileFormatPanel()">✕</span>
+  <div class="ribbon-commands-panel" id="panelComandos">
     </div>
-    <div class="btn-dictate" id="mobileDictateBtn" onclick="toggleVoiceDictation('mobileDictateBtn')" style="justify-content:center; height:36px;">
-      🎙️ Dictar por Voz
-    </div>
-    <div class="menu-section-title">Tipografía</div>
-    <div class="mobile-row">
-      <select class="select-mobile" onchange="triggerEditCmd('fontName', this.value)">
-        <option value="Segoe UI">Segoe UI</option>
-        <option value="Arial">Arial</option>
-      </select>
-      <select class="select-mobile" onchange="triggerEditCmd('fontSize', this.value)">
-        <option value="3">11 pt</option>
-        <option value="4" selected>12 pt</option>
-        <option value="5">14 pt</option>
-      </select>
-    </div>
-    <div class="menu-section-title">Estilos</div>
-    <div class="mobile-grid-options">
-      <div class="btn-mobile-tool" onclick="triggerEditCmd('bold')"><b>B</b></div>
-      <div class="btn-mobile-tool" onclick="triggerEditCmd('italic')"><i>I</i></div>
-      <div class="btn-mobile-tool" onclick="triggerEditCmd('underline')"><u>U</u></div>
-      <div class="btn-mobile-tool" onclick="triggerEditCmd('strikeThrough')"><s>abc</s></div>
-    </div>
-    <div class="menu-section-title">Colorimetría Letra y Fondo</div>
-    <div class="mobile-row" style="background:rgba(255,255,255,0.02); padding:6px; border-radius:6px;">
-      <label style="font-size:11px; display:flex; align-items:center; gap:6px;">
-        Letra: <input type="color" onchange="triggerEditCmd('foreColor', this.value)" style="border:none; background:none; width:28px; height:28px;">
-      </label>
-      <label style="font-size:11px; display:flex; align-items:center; gap:6px;">
-        Fondo: <input type="color" value="#ffff00" onchange="triggerEditCmd('hiliteColor', this.value)" style="border:none; background:none; width:28px; height:28px;">
-      </label>
-    </div>
-  </div>
 
   <div class="workspace">
-    
-    <div class="sidebar-left">
-      <div class="sb-header">Ficha Etnolingüística</div>
-      <div class="lang-box-info">
-        <div id="indigenousTitle" style="font-weight:700; color:var(--accent-orange); margin-bottom:2px;">Bribri 🌱</div>
-        <div id="indigenousDesc" style="font-size:11px; color:var(--text-muted);">Soporte activo. Haz clic en un término para insertarlo en la posición actual de la página:</div>
-      </div>
-      <div class="sb-header">Glosario Interactivo</div>
-      <div class="indigenous-chip-grid" id="vocabContainer">
-        </div>
+    <div class="paper" contenteditable="true" id="lienzoTexto">
+      <h3 id="docTitle">Bienvenido a WC Corporate Editor</h3>
+      <p id="docDesc">Toque las opciones de la cinta móvil superior para formatear el texto.</p>
     </div>
-
-    <div class="canvas-outer">
-      <div class="canvas-inner-wrapper">
-        <div class="canvas-container">
-          <div class="paper" id="editorPage" contenteditable="true">
-            <h1>Ecosistema de Redacción Profesional</h1>
-            <p>Comience a redactar aquí su informe corporativo. Puede utilizar los menús superiores para insertar tablas, enlaces web o textos estilizados de WC Arte.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-ai">
-      <div class="ai-title">⚡ Asistente de Redacción UI</div>
-      <div class="ai-chat-space" id="aiChatSpace">
-        <div class="ai-bubble system">¡Hola, Keny! Soy tu asistente inteligente. Selecciona cualquier parte de tu texto en la hoja y presiona uno de los comandos rápidos inferiores para optimizarlo.</div>
-      </div>
-      <div class="ai-commands">
-        <div class="ai-cmd-btn" onclick="triggerAiAction('corregir')">📝 Corregir Ortografía</div>
-        <div class="ai-cmd-btn" onclick="triggerAiAction('formal')">👔 Tono Formal</div>
-        <div class="ai-cmd-btn" onclick="triggerAiAction('resumir')">📉 Resumir Párrafo</div>
-        <div class="ai-cmd-btn" onclick="triggerAiAction('expandir')">📈 Expandir Idea</div>
-      </div>
-    </div>
-
   </div>
 
-  <input type="file" id="fileInput" accept=".html,.txt" onchange="processLocalFile(event)">
-
-  <div class="status-bar">
-    <span id="statusBarLang">Ecosistema Lingüístico: Español (Costa Rica) 🇨🇷</span>
-    <span>Keny Chinchilla Navarro</span>
+  <div class="footer-bar">
+    <span id="lblEco">Ecosistema Activo: Español</span>
+    <span>Por Keny Chinchilla Navarro</span>
   </div>
-
-</div>
-
-<div class="wcarte-modal" id="wcArteCatalogModal">
-  <div style="font-size:14px; font-weight:bold; color:white; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">🎨 Catálogo de Estilos WC Arte</div>
-  <div style="font-size:11px; color:var(--text-muted);">Escriba el texto y seleccione un estilo tridimensional para inyectar en la hoja:</div>
-  <input type="text" id="wcArteInputText" class="modal-input" value="Texto Ejecutivo">
-  
-  <div class="wcarte-grid">
-    <div class="art-card" onclick="insertWCArteStyle(1)"><span style="font-family:'Impact',sans-serif; font-size:16px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(2px 2px #000);">1. Arcoíris Neón</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(2)"><span style="font-family:'Times New Roman',serif; font-size:16px; background:linear-gradient(to bottom, #bf953f, #fbf5b7, #aa771c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; filter:drop-shadow(1px 1px 1px #000);">2. Oro Clásico</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(3)"><span style="font-family:'Arial Black',sans-serif; font-size:15px; color:#ffffff; text-shadow:0 0 8px #00bfff, 0 0 15px #00bfff;">3. Fulgor Azul</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(4)"><span style="font-family:'Courier New',monospace; font-size:16px; color:#10b981; font-weight:bold; background:#064e3b; padding:2px 6px; border-radius:4px;">4. Retro Terminal</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(5)"><span style="font-family:'Georgia',serif; font-size:16px; color:#dc2626; font-style:italic; border-bottom:3px double #dc2626;">5. Editorial Red</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(6)"><span style="font-family:'Impact',sans-serif; font-size:17px; color:#e2e8f0; -webkit-text-stroke:1px #475569; letter-spacing:1px;">6. Contorno Acero</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(7)"><span style="font-family:'Arial Black',sans-serif; font-size:15px; background:linear-gradient(180deg, #ec4899 0%, #7c3aed 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold;">7. Sunset Violet</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(8)"><span style="font-family:'Times New Roman',serif; font-size:16px; color:#475569; text-shadow: 2px 2px 0px #cbd5e1; font-weight:bold;">8. Sombra Bloque</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(9)"><span style="font-family:'Segoe UI',sans-serif; font-size:15px; color:#f97316; font-weight:900; transform:skewX(-10deg); display:inline-block;">9. Dinámico Orange</span></div>
-    <div class="art-card" onclick="insertWCArteStyle(10)"><span style="font-family:'Georgia',serif; font-size:16px; background:linear-gradient(45deg, #0284c7, #0d9488); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; letter-spacing:2px;">10. Ejecutivo Teal</span></div>
-  </div>
-  
-  <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:4px;">
-    <button class="modal-btn" onclick="closeWCArteCatalog()" style="background:#475569; padding:8px 14px; font-size:12px;">Cancelar</button>
-  </div>
-</div>
-
-<div id="toast">Notificación</div>
 
 <script>
-let toastTimer;
-let recognition = null;
-let isRecording = false;
-let currentSelectedLang = "es-CR";
+// PESTAÑA ACTUANTE ACTUAL
+let currentTab = 'inicio';
+let currentLang = 'es';
 
-// BASE DE DATOS LINGÜÍSTICA DE COSTA RICA (8 LENGUAS INDÍGENAS)
-const indigenousDatabase = {
-  Bribri: [
-    { word: "Kápö", meaning: "Hola / Saludo cordial" },
-    { word: "Irìria", meaning: "Tierra / Naturaleza viva" },
-    { word: "Dúwë", meaning: "Hermano / Compañero" }
-  ],
-  Cabécar: [
-    { word: "Sáwá", meaning: "Viento protector" },
-    { word: "Jú", meaning: "Casa / Hogar" },
-    { word: "Káwá", meaning: "Sol / Energía" }
-  ],
-  Maleku: [
-    { word: "Kapaxa", meaning: "Hola / Bienvenida" },
-    { word: "Taó", meaning: "Agua limpia" },
-    { word: "Fasáhá", meaning: "Territorio / Tierra" }
-  ],
-  Boruca: [
-    { word: "Cágrua", meaning: "Guerrero / Máscara" },
-    { word: "Dúsu", meaning: "Pájaro silvestre" },
-    { word: "Brúnkaji", meaning: "Nuestra lengua" }
-  ],
-  Ngäbere: [
-    { word: "Kwe kian", meaning: "Compañero de camino" },
-    { word: "Ngöbő", meaning: "Deidad / Gran Espíritu" },
-    { word: "Jadong", meaning: "Piedra de río" }
-  ],
-  Huetar: [
-    { word: "🏺 Huetar Ancestral", meaning: "Vocabulario bajo investigación oficial de rescate patrimonial." }
-  ],
-  Chorotega: [
-    { word: "Diría", meaning: "Colina / Zona alta" },
-    { word: "Nambí", meaning: "Río sagrado de la península" }
-  ],
-  Teribe: [
-    { word: "Tjër", meaning: "Abuela protectora divina" },
-    { word: "Naso", meaning: "Pueblo Teribe del río" }
-  ]
+// DICCIONARIO RADICAL DE TRADUCCIÓN: TABS + SUB-BOTONES
+const translationsDb = {
+  es: {
+    eco: "Ecosistema Activo: Español 🇨🇷",
+    hTitle: "Bienvenido a WC Corporate Editor",
+    hDesc: "Toque las opciones de la cinta móvil superior para formatear el texto.",
+    tabs: { inicio: "Inicio", insertar: "Insertar", diseno: "Diseño", disposicion: "Disposición", arte: "WC Arte AB", ai: "Asistente IA" },
+    cmds: {
+      inicio: ["<b>B</b> Negrita", "<i>I</i> Cursiva", "<u>U</u> Subrayado"],
+      insertar: ["📊 Tabla", "🔗 Vínculo", "📷 Imagen"],
+      diseno: ["🎨 Temas", "🏁 Fondo"],
+      disposicion: ["📐 Márgenes", "🥞 Columnas"],
+      arte: ["⭐ Estilo Arcoíris", "👑 Oro Líquido"],
+      ai: ["⚡ Corregir", "📝 Resumir"]
+    }
+  },
+  en: {
+    eco: "Active Ecosystem: English 🇺🇸",
+    hTitle: "Welcome to WC Corporate Editor",
+    hDesc: "Tap the options on the mobile sliding ribbon to format your document.",
+    tabs: { inicio: "Home", insertar: "Insert", diseno: "Design", disposicion: "Layout", arte: "WC Art AB", ai: "AI Assistant" },
+    cmds: {
+      inicio: ["<b>B</b> Bold", "<i>I</i> Italic", "<u>U</u> Underline"],
+      insertar: ["📊 Table", "🔗 Link", "📷 Image"],
+      diseno: ["🎨 Themes", "🏁 Background"],
+      disposicion: ["📐 Margins", "🥞 Columns"],
+      arte: ["⭐ Neon Style", "👑 Gold Text"],
+      ai: ["⚡ Proofread", "📝 Abstract"]
+    }
+  },
+  bri: { // Bribri Traducido Integralmente
+    eco: "Ecosistema Activo: Bribri pakö 🌱",
+    hTitle: "Kápö - WC Corporate Editor baka",
+    hDesc: "I kiane tsá̱ sörpö baka ujtëk sán.",
+    tabs: { inicio: "I tsoñ", insertar: "Ujtëk", diseno: "Ká̱", disposicion: "Ká̱ já̱", arte: "WC Arte Sán", ai: "Formador IA" },
+    cmds: {
+      inicio: ["<b>B</b> Dgër", "<i>I</i> Lir", "<u>U</u> Muk"],
+      insertar: ["📊 Tabla sán", "🔗 Enlace", "📷 Ká̱"],
+      diseno: ["🎨 Color ká̱", "🏁 Su̱wë"],
+      disposicion: ["📐 Margen sér", "🥞 Jë"],
+      arte: ["⭐ Neon ujtëk", "👑 Oro sán"],
+      ai: ["⚡ Su̱wë buá̱", "📝 Kië"]
+    }
+  },
+  cab: { // Cabécar Traducido Integralmente
+    eco: "Ecosistema Activo: Cabécar jula 🐾",
+    hTitle: "Sáwá - Editor Suite",
+    hDesc: "Cabécar jula sán editor por etnolingüística.",
+    tabs: { inicio: "Sáwá", insertar: "Jula tsoñ", diseno: "Ká wá", disposicion: "Márgenes", arte: "WC Style", ai: "Asistente" },
+    cmds: {
+      inicio: ["<b>B</b> Tso", "<i>I</i> Shana", "<u>U</u> Ká"],
+      insertar: ["📊 Tabla", "🔗 Link"],
+      diseno: ["🎨 Fondo"],
+      disposicion: ["📐 Margen baka", "🥞 Columnas"],
+      arte: ["⭐ WC Arte"],
+      ai: ["⚡ Corregir"]
+    }
+  }
 };
 
-function displayToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('visible');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('visible'), 2000);
-}
+// CAMBIAR IDIOMA GLOBAL DEL SISTEMA
+function switchEcosystem(lang) {
+  currentLang = lang;
+  const db = translationsDb[lang];
+  if(!db) return;
 
-// MANEJO DE DESPLEGABLES EXCLUSIVOS DE LA SUITE
-function toggleDropdownMenu(event, id) {
-  event.stopPropagation();
-  const menu = document.getElementById(id);
-  const button = event.currentTarget;
-  const isOpen = menu.classList.contains('show');
-  
-  closeAllDropdowns();
-  
-  if (!isOpen) {
-    menu.classList.add('show');
-    button.classList.add('active');
-    
-    const rect = button.getBoundingClientRect();
-    menu.style.top = rect.bottom + window.scrollY + 'px';
-    menu.style.left = rect.left + window.scrollX + 'px';
+  // Traducir las Etiquetas de los Tabs
+  for (const key in db.tabs) {
+    const element = document.getElementById(`t-${key}`);
+    if (element) element.textContent = db.tabs[key];
   }
+
+  // Cambiar textos informativos
+  document.getElementById('lblEco').textContent = db.eco;
+  document.getElementById('docTitle').textContent = db.hTitle;
+  document.getElementById('docMainDesc')?.textContent || (document.getElementById('docDesc').textContent = db.hDesc);
+
+  // Resaltar botón de idioma seleccionado
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`l-${lang}`).classList.add('active');
+
+  // Refrescar los comandos internos de la pestaña actual
+  renderActiveCommands();
 }
 
-function closeAllDropdowns() {
-  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
-  document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-}
-
-function openMobileFormatPanel(e) {
-  if(e) e.stopPropagation();
-  closeAllDropdowns();
-  document.getElementById('menu-formato-movil').classList.add('show');
-}
-
-function closeMobileFormatPanel() {
-  document.getElementById('menu-formato-movil').classList.remove('show');
-}
-
-document.addEventListener('click', closeAllDropdowns);
-document.getElementById('editorPage').addEventListener('click', closeMobileFormatPanel);
-
-// COMANDOS DE EDICIÓN NATIIVA
-function triggerEditCmd(cmd, val = null) {
-  document.execCommand(cmd, false, val);
-}
-
-// CORRECCIÓN DE FUNCIONALIDAD DEL MENÚ INSERTAR
-function injectTable() {
-  closeAllDropdowns();
-  const tableHtml = `
-    <table style="width:100%; border-collapse:collapse; margin:16px 0; font-size:14px;">
-      <thead>
-        <tr style="background-color:#edf2f7;">
-          <th style="border:1px solid #cbd5e1; padding:10px; text-align:left; font-weight:bold;">Columna 1</th>
-          <th style="border:1px solid #cbd5e1; padding:10px; text-align:left; font-weight:bold;">Columna 2</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="border:1px solid #cbd5e1; padding:10px;">Fila Datos A</td>
-          <td style="border:1px solid #cbd5e1; padding:10px;">Fila Datos B</td>
-        </tr>
-      </tbody>
-    </table><p><br></p>
-  `;
-  document.getElementById('editorPage').focus();
-  triggerEditCmd('insertHTML', tableHtml);
-  displayToast("Tabla corporativa insertada con éxito");
-}
-
-function injectHipervinculo() {
-  closeAllDropdowns();
-  const url = prompt("Escriba o pegue la dirección URL del enlace:", "https://");
-  if (url && url !== "https://") {
-    document.getElementById('editorPage').focus();
-    triggerEditCmd('insertHTML', `<a href="${url}" target="_blank" style="color:#1d4ed8; text-decoration:underline; font-weight:600;">${url}</a>&nbsp;`);
-    displayToast("Vínculo web añadido");
-  }
-}
-
-// MODAL DE EXCLUSIVOS ESTILOS DE WC ARTE (10 OPCIONES)
-function openWCArteCatalog() {
-  closeAllDropdowns();
-  document.getElementById('wcArteCatalogModal').classList.add('open');
-}
-function closeWCArteCatalog() {
-  document.getElementById('wcArteCatalogModal').classList.remove('open');
-}
-
-function insertWCArteStyle(id) {
-  const text = document.getElementById('wcArteInputText').value || "Texto";
-  let htmlStyle = "";
+// CAMBIAR DE PESTAÑA (INICIO, INSERTAR, ETC.)
+function changeActiveTab(tabName) {
+  currentTab = tabName;
+  document.querySelectorAll('.tab-node').forEach(t => t.classList.remove('active'));
+  document.getElementById(`t-${tabName}`).classList.add('active');
   
-  switch(id) {
-    case 1: htmlStyle = `<span style="font-family:'Impact',sans-serif; font-size:32px; background:linear-gradient(45deg, #ff007f, #00ffff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(3px 3px 0px #000); display:inline-block;">${text}</span>`; break;
-    case 2: htmlStyle = `<span style="font-family:'Times New Roman',serif; font-size:34px; background:linear-gradient(to bottom, #bf953f 0%, #fbf5b7 50%, #aa771c 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; filter:drop-shadow(2px 2px 2px rgba(0,0,0,0.5)); display:inline-block;">${text}</span>`; break;
-    case 3: htmlStyle = `<span style="font-family:'Arial Black',sans-serif; font-size:30px; color:#ffffff; text-shadow:0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 30px #00bfff; display:inline-block;">${text}</span>`; break;
-    case 4: htmlStyle = `<span style="font-family:'Courier New',monospace; font-size:28px; color:#10b981; font-weight:bold; background:#064e3b; padding:4px 12px; border-radius:6px; display:inline-block; box-shadow:3px 3px 0px #000;">${text}</span>`; break;
-    case 5: htmlStyle = `<span style="font-family:'Georgia',serif; font-size:32px; color:#dc2626; font-style:italic; border-bottom:4px double #dc2626; display:inline-block;">${text}</span>`; break;
-    case 6: htmlStyle = `<span style="font-family:'Impact',sans-serif; font-size:34px; color:#f8fafc; -webkit-text-stroke:2px #1e293b; letter-spacing:2px; display:inline-block;">${text}</span>`; break;
-    case 7: htmlStyle = `<span style="font-family:'Arial Black',sans-serif; font-size:32px; background:linear-gradient(180deg, #ec4899 0%, #7c3aed 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; display:inline-block;">${text}</span>`; break;
-    case 8: htmlStyle = `<span style="font-family:'Times New Roman',serif; font-size:34px; color:#334155; text-shadow: 3px 3px 0px #cbd5e1; font-weight:bold; display:inline-block;">${text}</span>`; break;
-    case 9: htmlStyle = `<span style="font-family:'Segoe UI',sans-serif; font-size:32px; color:#f97316; font-weight:900; transform:skewX(-12deg); display:inline-block; filter:drop-shadow(2px 2px 0px #7c2d12);">${text}</span>`; break;
-    case 10: htmlStyle = `<span style="font-family:'Georgia',serif; font-size:30px; background:linear-gradient(45deg, #0284c7, #0d9488); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; letter-spacing:3px; display:inline-block;">${text}</span>`; break;
-  }
-  
-  document.getElementById('editorPage').focus();
-  triggerEditCmd('insertHTML', htmlStyle + '&nbsp;<p><br></p>');
-  closeWCArteCatalog();
-  displayToast("Estilo WC Arte inyectado");
+  renderActiveCommands();
 }
 
-// CONTROL DE CAMBIOS DE IDIOMA Y TRADUCTOR
-function applyTranslationEngine(lang) {
-  closeAllDropdowns();
-  currentSelectedLang = lang;
-  const status = document.getElementById('statusBarLang');
+// INYECTAR BOTONES DE COMANDO DINÁMICAMENTE SEGÚN IDIOMA Y PESTAÑA
+function renderActiveCommands() {
+  const panel = document.getElementById('panelComandos');
+  panel.innerHTML = ""; // Limpiar comandos viejos
   
-  if (lang === 'en-US') {
-    status.textContent = "Ecosistema Lingüístico: Inglés Internacional (USA) 🇺🇸";
-    displayToast("Traductor configurado: Inglés");
-  } else {
-    status.textContent = "Ecosistema Lingüístico: Español (Costa Rica) 🇨🇷";
-    displayToast("Traductor configurado: Español de Costa Rica");
-  }
-}
-
-// SISTEMA ETNOLINGÜÍSTICO INTEGRAL (8 LENGUAS INDÍGENAS)
-function selectIndigenousSuite(name, icon) {
-  closeAllDropdowns();
-  document.getElementById('indigenousTitle').textContent = `${name} ${icon}`;
-  document.getElementById('indigenousDesc').textContent = `Módulo analítico de la lengua ${name} acoplado a la suite de investigación.`;
+  const currentCmds = translationsDb[currentLang].cmds[currentTab];
   
-  const container = document.getElementById('vocabContainer');
-  container.innerHTML = "";
-  
-  if (indigenousDatabase[name]) {
-    indigenousDatabase[name].forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'vocab-item';
-      div.innerHTML = `<strong>${item.word}</strong>: <span style="color:var(--text-muted);">${item.meaning}</span>`;
-      div.onclick = () => {
-        document.getElementById('editorPage').focus();
-        triggerEditCmd('insertHTML', `<span style="border-bottom:2px dotted var(--accent-orange); font-weight:600;" title="Lengua ${name}: ${item.meaning}">${item.word}</span>&nbsp;`);
-        displayToast(`Insertado vocablo en ${name}`);
+  if (currentCmds) {
+    currentCmds.forEach(cmdText => {
+      const button = document.createElement('button');
+      button.className = "cmd-btn";
+      button.innerHTML = cmdText;
+      
+      // Simular ejecutor de acciones tipográficas o de inserción
+      button.onclick = () => {
+        alert(`Acción ejecutada: ${cmdText.replace(/<[^>]*>/g, '')}`);
       };
-      container.appendChild(div);
+      
+      panel.appendChild(button);
     });
   }
-  displayToast(`Módulo ${name} desplegado`);
 }
 
-// INTERFAZ DE COMANDOS DEL ASISTENTE INTELIGENTE
-function triggerAiAction(action) {
-  const chat = document.getElementById('aiChatSpace');
-  const selection = window.getSelection().toString().trim();
-  
-  let userBubble = document.createElement('div'); userBubble.className = "ai-bubble user";
-  let aiBubble = document.createElement('div'); aiBubble.className = "ai-bubble system";
-  
-  if (!selection) {
-    userBubble.textContent = `Acción solicitada: [${action.toUpperCase()}]`;
-    aiBubble.textContent = "⚠️ Keny, por favor selecciona un párrafo o línea de texto en el lienzo para que el asistente pueda optimizarlo.";
-    chat.appendChild(userBubble); chat.appendChild(aiBubble);
-    chat.scrollTop = chat.scrollHeight; return;
-  }
-  
-  userBubble.textContent = `Procesar [${action}] texto seleccionado.`;
-  chat.appendChild(userBubble);
-  
-  setTimeout(() => {
-    if (action === 'corregir') {
-      aiBubble.textContent = `✨ Análisis ortográfico finalizado. Estructura morfosintáctica alineada con las reglas académicas de redacción formal.`;
-    } else if (action === 'formal') {
-      aiBubble.textContent = `👔 Tono corporativo aplicado. Se eliminaron modismos del fragmento para elevar el nivel de la prosa ejecutiva.`;
-    } else if (action === 'resumir') {
-      aiBubble.textContent = `📉 Resumen ejecutivo completado. Se extrajeron los núcleos conceptuales clave del párrafo.`;
-    } else if (action === 'expandir') {
-      aiBubble.textContent = `📈 Expansión argumentativa finalizada. Se añadieron conectores profesionales para dotar de mayor solidez al texto.`;
-    }
-    chat.appendChild(aiBubble);
-    chat.scrollTop = chat.scrollHeight;
-  }, 500);
-}
-
-// CAPTURA DE AUDIO DE ALTA PRECISIÓN (SPEECH TO TEXT)
-function toggleVoiceDictation(btnId) {
-  if (isRecording) { if (recognition) recognition.stop(); return; }
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) { displayToast("Dictado por voz no compatible con el dispositivo actual."); return; }
-  
-  recognition = new SpeechRecognition();
-  recognition.lang = currentSelectedLang;
-  recognition.interimResults = false;
-  
-  recognition.onstart = () => {
-    isRecording = true;
-    document.querySelectorAll('.btn-dictate').forEach(b => {
-      b.classList.add('recording'); b.textContent = "🛑 Grabando...";
-    });
-    displayToast("Micrófono abierto... ¡Hable ahora!");
-  };
-  recognition.onerror = () => stopVoiceUI();
-  recognition.onend = () => stopVoiceUI();
-  recognition.onresult = (event) => {
-    const res = event.results[0][0].transcript;
-    document.getElementById('editorPage').focus();
-    triggerEditCmd('insertText', res + " ");
-    displayToast("Audio convertido");
-  };
-  recognition.start();
-}
-
-function stopVoiceUI() {
-  isRecording = false;
-  document.querySelectorAll('.btn-dictate').forEach(b => {
-    b.classList.remove('recording');
-    b.textContent = b.id === 'mobileDictateBtn' ? "🎙️ Dictar por Voz" : "🎙️ Dictado por Voz";
-  });
-}
-
-// CONFIGURACIONES EXTRAS DE DOCUMENTO
-function executeFileAction(action) {
-  closeAllDropdowns();
-  const page = document.getElementById('editorPage');
-  if (action === 'nuevo') {
-    page.innerHTML = '<h1>Documento Nuevo</h1><p>Escribe aquí...</p>';
-  } else if (action === 'plantilla') {
-    page.innerHTML = '<h1>INFORME OPERATIVO INSTITUCIONAL</h1><p>Detalle pormenorizado del desarrollo y avance estratégico del proyecto de integración lingüística.</p>';
-  } else if (action === 'guardar') {
-    const blob = new Blob([page.innerHTML], { type: 'text/html' });
-    const a = document.createElement('a'); a.download = 'Lienzo_Productividad_WC.html'; a.href = window.URL.createObjectURL(blob); a.click();
-  } else if (action === 'abrir') {
-    document.getElementById('fileInput').click();
-  }
-}
-
-function processLocalFile(e) {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = function(evt) { document.getElementById('editorPage').innerHTML = evt.target.result; };
-  r.readAsText(f);
-}
-
-function adjustPaperMargins(m) {
-  document.getElementById('editorPage').style.padding = m === 'estrecho' ? "25px" : "80px 90px";
-  displayToast(`Márgenes configurados en modo ${m.toUpperCase()}`);
-}
-
-// Inicialización automática por defecto
-selectIndigenousSuite('Bribri', '🌱');
+// Inicializar la Suite en Español
+switchEcosystem('es');
 </script>
-
 </body>
 </html>
