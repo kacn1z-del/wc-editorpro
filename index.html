@@ -7,93 +7,120 @@
 
 <style>
 
-/* 🌈 FONDO */
+/* =========================
+   BASE
+========================= */
 body{
   margin:0;
-  font-family:Arial;
-  background: linear-gradient(135deg,#1b75ed,#ff6b00);
+  font-family:"Segoe UI", Arial;
+  background:#f5f6f8;
 }
 
-/* 🧠 RIBBON GRANDE */
+/* HEADER */
+.top-header{
+  padding:12px;
+  text-align:center;
+  font-weight:800;
+  background:#fff;
+  border-bottom:1px solid #ddd;
+}
+
+.top-header span{
+  background:linear-gradient(135deg,#0A66FF,#FF6B00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* RIBBON */
 .ribbon{
   display:flex;
-  align-items:center;
-  gap:10px;
+  gap:8px;
+  padding:10px;
+  background:white;
+  border-bottom:1px solid #ddd;
 
-  padding:14px 10px;
-  height:70px;
-
-  background: linear-gradient(135deg,#1b75ed,#ff6b00);
-  box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  overflow-x:auto;
+  white-space:nowrap;
 }
 
-/* MENÚ */
 .menu{
   position:relative;
 }
 
-.menu > button{
-  background: rgba(255,255,255,0.9);
+.menu button{
+  padding:8px 12px;
   border:none;
-  padding:10px 14px;
-  border-radius:10px;
-  font-weight:bold;
+  border-radius:6px;
   cursor:pointer;
+  background:#eee;
 }
 
-/* DROPDOWN */
+.menu button:hover{
+  background:linear-gradient(135deg,#0A66FF,#FF6B00);
+  color:white;
+}
+
 .menu-content{
   display:none;
   position:absolute;
-  top:55px;
+  top:40px;
   left:0;
-
-  min-width:220px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(20px);
-
-  border-radius:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
-  z-index:999;
+  background:white;
+  border:1px solid #ddd;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  min-width:200px;
+  z-index:9999;
 }
 
 .menu:hover .menu-content{
   display:block;
 }
 
-.menu-content button,
-.menu-content input,
-.menu-content select{
+.menu-content button{
   width:100%;
   padding:10px;
   border:none;
-  background:transparent;
+  background:white;
   text-align:left;
   cursor:pointer;
 }
 
 .menu-content button:hover{
-  background:#e6f0ff;
+  background:#eef3ff;
 }
 
-/* 🧠 TOP TITLE OCULTO (ya está en ribbon) */
-.title{
-  color:white;
-  font-weight:900;
-  margin-left:auto;
-  margin-right:10px;
-  text-shadow:0 0 10px rgba(0,0,0,0.3);
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  width:60px;
+  height:100vh;
+  background:linear-gradient(180deg,#0A66FF,#FF6B00);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:10px;
 }
 
-/* 📄 DOCUMENTO */
+.sidebar button{
+  width:40px;
+  height:40px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* DOCUMENTO */
 .page{
   width:210mm;
   min-height:297mm;
+  margin:30px auto;
+  margin-left:120px;
   background:white;
-  margin:20px auto;
-  padding:20mm;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
-  border-radius:8px;
+  padding:30mm;
+  box-shadow:0 10px 30px rgba(0,0,0,0.12);
 }
 
 #editor{
@@ -101,14 +128,15 @@ body{
   outline:none;
 }
 
-/* 🎨 WC ARTE */
-.wc-style{
-  font-size:26px;
+/* WC ARTE */
+.wc1{color:#0A66FF;font-weight:bold;}
+.wc2{color:#FF6B00;font-weight:bold;}
+.wc3{font-style:italic;}
+.wc4{
   font-weight:900;
-  background: linear-gradient(135deg,#1b75ed,#ff6b00);
+  background:linear-gradient(135deg,#0A66FF,#FF6B00);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  text-shadow:0 0 12px rgba(0,0,0,0.2);
 }
 
 </style>
@@ -116,20 +144,31 @@ body{
 
 <body>
 
-<!-- 🎛️ RIBBON ÚNICA -->
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <button onclick="insertTemplate('blank')">📄</button>
+  <button onclick="insertTemplate('cv')">📑</button>
+  <button onclick="insertTemplate('letter')">✉️</button>
+  <button onclick="insertTemplate('report')">📊</button>
+</div>
+
+<!-- HEADER -->
+<div class="top-header">
+  <span>WC CORPORATE EDITOR PRO + IA</span>
+</div>
+
+<!-- RIBBON -->
 <div class="ribbon">
 
-  <!-- ARCHIVO -->
   <div class="menu">
     <button>Archivo</button>
     <div class="menu-content">
-      <button onclick="guardar()">Guardar</button>
       <button onclick="nuevo()">Nuevo</button>
+      <button onclick="guardar()">Guardar</button>
       <button onclick="imprimir()">Imprimir</button>
     </div>
   </div>
 
-  <!-- EDITAR -->
   <div class="menu">
     <button>Editar</button>
     <div class="menu-content">
@@ -141,116 +180,83 @@ body{
     </div>
   </div>
 
-  <!-- INSERTAR -->
-  <div class="menu">
-    <button>Insertar</button>
-    <div class="menu-content">
-      <button onclick="insertText('📌 Nota ')">Nota</button>
-      <button onclick="insertTable()">Tabla</button>
-    </div>
-  </div>
-
-  <!-- WC ARTE -->
-  <div class="menu">
-    <button>WC Arte</button>
-    <div class="menu-content">
-      <input id="textoArte" placeholder="Texto WC Arte">
-      <select id="estiloArte">
-        <option value="wc-style">Glow WC</option>
-      </select>
-      <button onclick="insertWC()">Insertar</button>
-    </div>
-  </div>
-
-  <!-- HERRAMIENTAS -->
-  <div class="menu">
-    <button>Herramientas</button>
-    <div class="menu-content">
-      <button onclick="limpiar()">Limpiar</button>
-      <button onclick="zoomIn()">Zoom +</button>
-      <button onclick="zoomOut()">Zoom -</button>
-    </div>
-  </div>
-
-  <!-- DESARROLLADOR -->
-  <div class="menu">
-    <button>Desarrollador</button>
-    <div class="menu-content">
-      <button disabled>Keny Chinchilla Navarro</button>
-      <button onclick="console.log('WC System OK')">Estado sistema</button>
-    </div>
-  </div>
-
-  <!-- AYUDA -->
-  <div class="menu">
-    <button>Ayuda</button>
-    <div class="menu-content">
-      <button>Atajos</button>
-      <button>Documentación</button>
-      <button>Soporte IA</button>
-    </div>
-  </div>
-
 </div>
 
-<!-- 📄 DOCUMENTO -->
+<!-- DOCUMENTO -->
 <div class="page">
-  <div id="editor" contenteditable="true">Escribe aquí...</div>
+  <div id="editor" contenteditable="true">
+    Escribe aquí...
+  </div>
 </div>
 
 <script>
 
 /* EDITOR */
-function cmd(c){document.execCommand(c,false,null);}
-function insertText(t){document.execCommand("insertText",false,t);}
-function insertTable(){
-  document.execCommand("insertHTML",false,
-  "<table border='1' style='width:100%'><tr><td>A</td><td>B</td></tr></table>");
+function cmd(c){
+  document.execCommand(c,false,null);
 }
 
-/* WC ARTE */
-function insertWC(){
-  const texto=document.getElementById("textoArte").value;
-  const span=document.createElement("span");
-  span.className="wc-style";
-  span.textContent=texto;
+/* NUEVO DOCUMENTO DESDE PLANTILLA (FIX REAL) */
+function insertTemplate(type){
 
-  insertAtCursor(span);
-}
+  const editor = document.getElementById("editor");
 
-/* CURSOR */
-function insertAtCursor(node){
-  const sel=window.getSelection();
-  if(!sel.rangeCount) return;
+  let html = "";
 
-  const range=sel.getRangeAt(0);
-  range.deleteContents();
-  range.insertNode(node);
+  if(type === "blank"){
+    html = "<h2>Documento WC</h2><p>Escribe aquí...</p>";
+  }
 
-  range.setStartAfter(node);
-  range.setEndAfter(node);
+  if(type === "cv"){
+    html = `
+      <h1 style="color:#0A66FF;">Currículum Vitae</h1>
+      <p><b>Nombre:</b></p>
+      <p><b>Perfil:</b></p>
+      <h3>Experiencia</h3>
+      <p>- Empresa</p>
+    `;
+  }
+
+  if(type === "letter"){
+    html = `
+      <p>San José, Costa Rica</p>
+      <p>Estimado/a:</p>
+      <p>Contenido de carta...</p>
+    `;
+  }
+
+  if(type === "report"){
+    html = `
+      <h1>Informe</h1>
+      <p>Resumen...</p>
+    `;
+  }
+
+  // 🔥 REEMPLAZO TOTAL (ESTILO WORD REAL)
+  editor.innerHTML = html;
+
+  const range = document.createRange();
+  const sel = window.getSelection();
+
+  range.selectNodeContents(editor);
+  range.collapse(true);
 
   sel.removeAllRanges();
   sel.addRange(range);
 }
 
-/* ARCHIVO */
-function guardar(){
-  localStorage.setItem("wc_doc",document.getElementById("editor").innerHTML);
-}
+/* UTILIDADES */
 function nuevo(){
-  document.getElementById("editor").innerHTML="";
+  document.getElementById("editor").innerHTML = "";
 }
+
+function guardar(){
+  localStorage.setItem("wc_doc", document.getElementById("editor").innerHTML);
+}
+
 function imprimir(){
   window.print();
 }
-
-/* HERRAMIENTAS */
-function limpiar(){
-  document.getElementById("editor").innerHTML="";
-}
-function zoomIn(){document.body.style.zoom="110%";}
-function zoomOut(){document.body.style.zoom="100%";}
 
 </script>
 
