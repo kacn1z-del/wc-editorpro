@@ -15,7 +15,7 @@
   --text-muted: #64748b;
   --accent: #3b82f6;
   --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 40%, #db2777 70%, #ea580c 100%);
-  --gradient-menu: linear-gradient(135deg, rgba(29, 78, 216, 0.9) 0%, rgba(124, 58, 237, 0.9) 50%, rgba(234, 88, 12, 0.9) 100%);
+  --gradient-menu: linear-gradient(135deg, rgba(29, 78, 216, 0.92) 0%, rgba(124, 58, 237, 0.92) 50%, rgba(234, 88, 12, 0.92) 100%);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -72,7 +72,6 @@ body {
 }
 .user-avatar { width: 22px; height: 22px; background: #ea580c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; }
 
-/* Ocultar texto secundario de la cabecera en móviles */
 @media (max-width: 600px) {
   .title-subtitle, .user-tag { display: none; }
 }
@@ -89,23 +88,36 @@ body {
 }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.06); color: white; }
 
-/* Menú Desplegable "Editar" Esmerilado Premium */
+/* ── MENÚS DESPLEGABLES CON ESTILO GLASSMORPHISM ── */
 .dropdown-glass {
-  position: absolute; top: 38px; left: 75px; width: 230px;
+  position: absolute; top: 38px; width: 240px;
   background: var(--gradient-menu); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4); padding: 6px; display: none; flex-direction: column; gap: 2px;
+  border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.45); padding: 6px; display: none; flex-direction: column; gap: 2px;
+  z-index: 999;
 }
-.dropdown-glass.show { display: flex; animation: fadeIn 0.15s ease-out; }
+.dropdown-glass.show { display: flex; animation: fadeIn 0.12s ease-out; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .dg-item {
   display: flex; align-items: center; gap: 12px; padding: 10px 12px;
-  border-radius: 8px; cursor: pointer; transition: 0.2s; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  border-radius: 8px; cursor: pointer; transition: 0.15s; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-.dg-item:hover { background: rgba(255, 255, 255, 0.15); transform: translateX(2px); }
-.dg-icon { font-size: 15px; width: 20px; text-align: center; }
+.dg-item:hover { background: rgba(255, 255, 255, 0.18); transform: translateX(2px); }
+.dg-icon { font-size: 15px; width: 20px; text-align: center; display: flex; align-items: center; justify-content: center; }
 .dg-text { flex: 1; font-size: 12px; font-weight: 500; }
-.dg-text small { opacity: 0.7; font-size: 10px; display: block; }
+.dg-text small { opacity: 0.75; font-size: 9.5px; display: block; margin-top: 1px; }
 .dg-arrow { font-size: 11px; opacity: 0.6; }
+
+/* Posiciones horizontales de cada menú */
+#menu-archivo { left: 10px; }
+#menu-editar { left: 78px; }
+#menu-insertar { left: 144px; }
+#menu-formato { left: 215px; }
 
 /* ── RIBBON (BARRA DE HERRAMIENTAS DESPLAZABLE) ── */
 .ribbon {
@@ -185,14 +197,12 @@ body {
 .ai-in { flex: 1; background: #0b1322; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 10px; color: white; font-size: 11px; outline: none; }
 .ai-btn { width: 28px; height: 28px; background: linear-gradient(135deg, #3b82f6, #7c3aed); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 10px; }
 
-/* ── RESPONSIVIDAD TOTAL (MÓVILES) ── */
-@media (max-width: 900px) {
-  .sidebar-ai { display: none; } /* Ocultar IA en tablets */
-}
+/* RESPONSIVIDAD */
+@media (max-width: 900px) { .sidebar-ai { display: none; } }
 @media (max-width: 720px) {
   body { padding: 0; }
   .app-container { border-radius: 0; border: none; }
-  .sidebar-left { display: none; } /* Ocultar Documentos en móviles */
+  .sidebar-left { display: none; }
   .paper { padding: 25px 30px; }
   .paper-decor { left: 14px; top: 25px; bottom: 25px; }
 }
@@ -240,10 +250,38 @@ body {
   </div>
 
   <div class="menu-bar">
-    <div class="menu-btn" onclick="showToast('Archivo')">Archivo ▾</div>
-    <div class="menu-btn active" id="btn-editar" onclick="toggleMenu(event)">Editar ▾</div>
-    <div class="menu-btn" onclick="showToast('Insertar')">Insertar ▾</div>
-    <div class="menu-btn" onclick="showToast('Formato')">Formato ▾</div>
+    <div class="menu-btn" id="btn-archivo" onclick="openMenu(event, 'menu-archivo')">Archivo ▾</div>
+    <div class="menu-btn" id="btn-editar" onclick="openMenu(event, 'menu-editar')">Editar ▾</div>
+    <div class="menu-btn" id="btn-insertar" onclick="openMenu(event, 'menu-insertar')">Insertar ▾</div>
+    <div class="menu-btn" id="btn-formato" onclick="openMenu(event, 'menu-formato')">Formato ▾</div>
+
+    <div class="dropdown-glass" id="menu-archivo">
+      <div class="dg-item" onclick="showToast('Nuevo documento en blanco creado')">
+        <div class="dg-icon">📄</div>
+        <div class="dg-text">Nuevo<small>Ctrl + N</small></div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Abriendo explorador de archivos...')">
+        <div class="dg-icon">📂</div>
+        <div class="dg-text">Abrir<small>Ctrl + O</small></div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('💾 Cambios guardados correctamente')">
+        <div class="dg-icon">💾</div>
+        <div class="dg-text">Guardar<small>Ctrl + S</small></div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Guardando como copia avanzada...')">
+        <div class="dg-icon">💿</div>
+        <div class="dg-text">Guardar como...</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Abriendo cuadro de diálogo de impresión...')">
+        <div class="dg-icon">🖨️</div>
+        <div class="dg-text">Imprimir<small>Ctrl + P</small></div>
+        <div class="dg-arrow">›</div>
+      </div>
+    </div>
 
     <div class="dropdown-glass" id="menu-editar">
       <div class="dg-item" onclick="showToast('Abriendo WC Arte')">
@@ -258,10 +296,7 @@ body {
       </div>
       <div class="dg-item" onclick="showToast('Creado por Keny Chinchilla')">
         <div class="dg-icon">🖲️</div>
-        <div class="dg-text">
-          Desarrollador
-          <small>Keny Chinchilla Navarro</small>
-        </div>
+        <div class="dg-text">Desarrollador<small>Keny Chinchilla Navarro</small></div>
         <div class="dg-arrow">›</div>
       </div>
       <div class="dg-item" onclick="showToast('Abriendo Ayuda')">
@@ -270,6 +305,63 @@ body {
         <div class="dg-arrow">›</div>
       </div>
     </div>
+
+    <div class="dropdown-glass" id="menu-insertar">
+      <div class="dg-item" onclick="showToast('Añadiendo salto de página...')">
+        <div class="dg-icon">📑</div>
+        <div class="dg-text">Salto de página</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Insertando cuadrícula de tabla...')">
+        <div class="dg-icon">📊</div>
+        <div class="dg-text">Tabla</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Abriendo galería de imágenes...')">
+        <div class="dg-icon">🖼️</div>
+        <div class="dg-text">Imágenes</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Insertando hipervínculo...')">
+        <div class="dg-icon">🔗</div>
+        <div class="dg-text">Vínculo<small>Ctrl + K</small></div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Insertando Encabezado y Pie...')">
+        <div class="dg-icon">🔝</div>
+        <div class="dg-text">Encabezado y pie de página</div>
+        <div class="dg-arrow">›</div>
+      </div>
+    </div>
+
+    <div class="dropdown-glass" id="menu-formato">
+      <div class="dg-item" onclick="showToast('Abriendo configuración de Márgenes...')">
+        <div class="dg-icon">📐</div>
+        <div class="dg-text">Márgenes</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Orientación cambiada')">
+        <div class="dg-icon">🔄</div>
+        <div class="dg-text">Orientación de página</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Abriendo tamaño de papel (Carta/A4)...')">
+        <div class="dg-icon">📏</div>
+        <div class="dg-text">Tamaño del papel</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Configurando columnas de texto...')">
+        <div class="dg-icon">🏛️</div>
+        <div class="dg-text">Columnas</div>
+        <div class="dg-arrow">›</div>
+      </div>
+      <div class="dg-item" onclick="showToast('Espaciado e Interlineado ajustado')">
+        <div class="dg-icon">↕️</div>
+        <div class="dg-text">Interlineado de párrafo</div>
+        <div class="dg-arrow">›</div>
+      </div>
+    </div>
+
   </div>
 
   <div class="ribbon">
@@ -335,7 +427,7 @@ body {
         <div class="p-title" id="doc-title">WC Corporate Editor v20</div>
         <div class="p-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</div>
         <div class="p-content">
-          Editor profesional con diseño corporativo moderno, potente y creado para productividad total.
+          Editor profesional con diseño corporativo moderno, potente y creado para productividad total. Todos los menús superiores ahora están completamente enlazados con las funciones icónicas de Word.
         </div>
         
         <div class="info-row">
@@ -393,7 +485,7 @@ body {
 
   <div class="status-bar">
     <span>Página 1 de 1</span>
-    <span>Palabras: 28</span>
+    <span>Palabras: 39</span>
     <span>Español (España)</span>
     <span>Zoom: 100%</span>
     <div class="st-right">
@@ -417,15 +509,30 @@ function showToast(text) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove('show');
-  }, 2000);
+  }, 2200);
 }
 
-function toggleMenu(event) {
+// Lógica para abrir menús de manera independiente sin encimarse
+function openMenu(event, menuId) {
   event.stopPropagation();
-  const menu = document.getElementById('menu-editar');
-  const btn = document.getElementById('btn-editar');
-  menu.classList.toggle('show');
-  btn.classList.toggle('active');
+  
+  const targetMenu = document.getElementById(menuId);
+  const targetBtn = event.currentTarget;
+  const isAlreadyOpen = targetMenu.classList.contains('show');
+
+  // Cerrar todos los menús primero
+  closeAllMenus();
+
+  // Si no estaba abierto, lo abrimos
+  if (!isAlreadyOpen) {
+    targetMenu.classList.add('show');
+    targetBtn.classList.add('active');
+  }
+}
+
+function closeAllMenus() {
+  document.querySelectorAll('.dropdown-glass').forEach(menu => menu.classList.remove('show'));
+  document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
 }
 
 function changeDoc(el, name) {
@@ -447,10 +554,9 @@ function switchAITab(el) {
   showToast('Pestaña IA: ' + el.textContent);
 }
 
-// Cerrar el menú si se hace clic en cualquier otra parte de la pantalla
+// Evento global para cerrar menús al hacer clic en el lienzo o cualquier área externa
 document.addEventListener('click', () => {
-  document.getElementById('menu-editar').classList.remove('show');
-  document.getElementById('btn-editar').classList.remove('active');
+  closeAllMenus();
 });
 </script>
 
