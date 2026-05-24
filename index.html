@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>WC Word Editor Stable</title>
+<title>WC Word Editor Pro UI</title>
 
 <style>
 
@@ -12,8 +12,12 @@
   --blue:#1d5270;
   --red:#92324f;
   --orange:#d94e18;
+  --paper:#ffffff;
+  --bg:#dbe4ee;
   --border:#cbd5e1;
 }
+
+/* BASE */
 
 *{
   margin:0;
@@ -26,7 +30,7 @@ body{
   height:100vh;
   display:flex;
   flex-direction:column;
-  background:#eef2f7;
+  background:var(--bg);
   overflow:hidden;
 }
 
@@ -60,32 +64,58 @@ body{
   cursor:pointer;
 }
 
-/* WORKSPACE */
+/* WORKSPACE (EFECTO WORD REAL) */
 
 .workspace{
   flex:1;
   display:flex;
   justify-content:center;
-  padding:20px;
+  align-items:flex-start;
+  padding:30px;
   overflow:auto;
 }
 
+/* 📄 HOJA TIPO A4 */
+
 .page{
   width:100%;
-  max-width:900px;
-  background:white;
-  padding:40px;
-  border-radius:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  max-width:850px;
+  min-height:1100px;
+  background:var(--paper);
+  padding:80px 70px;
+  border-radius:6px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.15),
+    0 2px 6px rgba(0,0,0,0.05);
+  position:relative;
+}
+
+/* LÍNEA LATERAL ESTILO WORD */
+
+.page::before{
+  content:"";
+  position:absolute;
+  left:40px;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:#e5e7eb;
 }
 
 /* EDITOR */
 
 #editor{
-  min-height:750px;
+  min-height:900px;
   outline:none;
-  font-size:16px;
-  line-height:1.8;
+  font-size:17px;
+  line-height:1.9;
+  color:#111827;
+}
+
+/* ESTILO DE TEXTO TIPO DOCUMENTO */
+
+#editor p{
+  margin-bottom:14px;
 }
 
 /* FOOTER */
@@ -130,8 +160,8 @@ body{
   padding:12px;
   border-radius:12px;
   width:220px;
-  gap:8px;
   flex-direction:column;
+  gap:8px;
 }
 
 .menu.show{
@@ -151,9 +181,8 @@ body{
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-💎 WC Word Editor Stable PRO
+💎 WC Word Editor Pro UI
 </div>
 
 <!-- TOOLBAR -->
@@ -178,7 +207,6 @@ body{
 
 <button onclick="color('#1d5270')">Azul</button>
 <button onclick="color('#92324f')">Rojo</button>
-<button onclick="color('#d94e18')">Naranja</button>
 
 <button onclick="undo()">↩</button>
 <button onclick="redo()">↪</button>
@@ -189,12 +217,16 @@ body{
 
 <!-- WORKSPACE -->
 <div class="workspace">
+
   <div class="page">
+
     <div id="editor" contenteditable="true"></div>
+
   </div>
+
 </div>
 
-<!-- FLOAT MENU -->
+<!-- FLOAT -->
 <div class="floating">
 
 <button class="fab" onclick="toggleMenu()">💼 IA</button>
@@ -213,7 +245,7 @@ body{
 <div class="footer">
 
 <span id="counter">0 palabras | 0 caracteres</span>
-<span>WC Engine Stable</span>
+<span>WC Engine Pro UI</span>
 
 </div>
 
@@ -225,11 +257,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   editor = document.getElementById('editor');
 
-  editor.contentEditable = true;
-
   editor.innerHTML = localStorage.getItem('wc_doc') || `
-    <h1>Documento WC Word</h1>
-    <p>Editor estable listo para usar.</p>
+    <h1>Documento tipo Word</h1>
+    <p>Ahora ya parece un editor real.</p>
   `;
 
   editor.addEventListener('input', updateCounter);
@@ -239,7 +269,7 @@ window.addEventListener('DOMContentLoaded', () => {
   updateCounter();
 });
 
-/* 🔥 CORE FIX: SIEMPRE SELECCIÓN + FOCO */
+/* CORE */
 
 function exec(cmd){
 
@@ -255,34 +285,29 @@ function exec(cmd){
     sel.addRange(range);
   }
 
-  document.execCommand(cmd, false, null);
+  document.execCommand(cmd,false,null);
 
   updateCounter();
 }
 
-/* FONT SIZE */
+/* FONT */
 
 function fontSize(v){
   editor.focus();
-  document.execCommand('fontSize', false, v);
+  document.execCommand('fontSize',false,v);
 }
 
 /* COLOR */
 
 function color(c){
   editor.focus();
-  document.execCommand('foreColor', false, c);
+  document.execCommand('foreColor',false,c);
 }
 
-/* UNDO REDO */
+/* UNDO */
 
-function undo(){
-  document.execCommand('undo');
-}
-
-function redo(){
-  document.execCommand('redo');
-}
+function undo(){ document.execCommand('undo'); }
+function redo(){ document.execCommand('redo'); }
 
 /* SAVE */
 
@@ -291,15 +316,15 @@ function save(){
   alert("Guardado");
 }
 
-/* IA MENU */
+/* FLOAT MENU */
 
 function toggleMenu(){
   document.getElementById('menu').classList.toggle('show');
 }
 
-function insertText(text){
+function insertText(t){
   editor.focus();
-  document.execCommand('insertText', false, text);
+  document.execCommand('insertText',false,t);
   updateCounter();
 }
 
