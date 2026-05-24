@@ -4,125 +4,61 @@
   <meta charset="UTF-8">
   <title>WC Corporate Editor v20</title>
 
-  <!-- Parte 2: CSS corporativo -->
+  <!-- CSS corporativo -->
   <style>
-    /* --- Layout general --- */
     body {
       margin:0;
       font-family:"Segoe UI", Arial, sans-serif;
       background:#f5f6f8;
       display:flex;
     }
-
-    /* --- Sidebar documentos --- */
     .sidebar-docs {
       width:220px;
       background:linear-gradient(180deg,#0A66FF,#FF6B00);
       color:white;
       padding:20px;
     }
-    .sidebar-docs h3 {
-      font-size:14px;
-      margin-top:20px;
-      margin-bottom:10px;
-      text-transform:uppercase;
-      font-weight:700;
-    }
+    .sidebar-docs h3 { font-size:14px; margin:20px 0 10px; text-transform:uppercase; font-weight:700; }
     .sidebar-docs ul { list-style:none; padding:0; }
     .sidebar-docs li { margin:6px 0; cursor:pointer; }
     .sidebar-docs li:hover { text-decoration:underline; }
 
-    /* --- Ribbon superior --- */
     .topbar {
-      position:fixed;
-      top:0;
-      left:220px;
-      right:300px;
-      height:50px;
-      background:white;
-      border-bottom:1px solid #ddd;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 20px;
+      position:fixed; top:0; left:220px; right:300px; height:50px;
+      background:white; border-bottom:1px solid #ddd;
+      display:flex; align-items:center; justify-content:space-between; padding:0 20px;
     }
     .topbar nav button {
-      margin-right:10px;
-      padding:6px 12px;
-      border:none;
-      background:#eef3ff;
-      border-radius:4px;
-      cursor:pointer;
-      font-weight:600;
+      margin-right:10px; padding:6px 12px; border:none;
+      background:#eef3ff; border-radius:4px; cursor:pointer; font-weight:600;
     }
     .topbar nav button:hover { background:#dce6ff; }
-    .topbar input[type="search"] {
-      flex:1;
-      margin:0 20px;
-      padding:6px 10px;
-      border:1px solid #ccc;
-      border-radius:4px;
-    }
+    .topbar input[type="search"] { flex:1; margin:0 20px; padding:6px 10px; border:1px solid #ccc; border-radius:4px; }
     .profile { font-size:13px; font-weight:600; color:#333; }
 
-    /* --- Área principal --- */
-    .workspace {
-      flex:1;
-      margin-left:220px;
-      margin-right:300px;
-      padding:80px 40px 40px 40px;
-    }
-    .page {
-      background:white;
-      padding:40px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.1);
-      min-height:600px;
-    }
+    .workspace { flex:1; margin-left:220px; margin-right:300px; padding:80px 40px 40px; }
+    .page { background:white; padding:40px; box-shadow:0 4px 12px rgba(0,0,0,0.1); min-height:600px; }
     .page h1 { font-size:24px; font-weight:800; color:#0A66FF; }
     .page h2 { font-size:18px; font-weight:700; color:#FF6B00; }
     .page section h3 { margin-top:20px; font-size:16px; font-weight:700; }
 
-    /* --- Panel IA --- */
     .assistant {
-      position:fixed;
-      top:0;
-      right:0;
-      width:300px;
-      height:100vh;
-      background:#fff;
-      border-left:1px solid #ddd;
-      padding:20px;
+      position:fixed; top:0; right:0; width:300px; height:100vh;
+      background:#fff; border-left:1px solid #ddd; padding:20px;
       box-shadow:-4px 0 12px rgba(0,0,0,0.05);
     }
     .assistant h3 { font-size:16px; font-weight:700; margin-bottom:15px; }
     .assistant button {
-      display:block;
-      width:100%;
-      margin-bottom:10px;
-      padding:10px;
-      border:none;
-      background:linear-gradient(135deg,#0A66FF,#FF6B00);
-      color:white;
-      border-radius:6px;
-      cursor:pointer;
-      font-weight:600;
+      display:block; width:100%; margin-bottom:10px; padding:10px;
+      border:none; background:linear-gradient(135deg,#0A66FF,#FF6B00);
+      color:white; border-radius:6px; cursor:pointer; font-weight:600;
     }
     .assistant button:hover { opacity:0.9; }
 
-    /* --- Indicadores inferiores --- */
     .statusbar {
-      position:fixed;
-      bottom:0;
-      left:220px;
-      right:300px;
-      height:30px;
-      background:#fafafa;
-      border-top:1px solid #ddd;
-      font-size:13px;
-      color:#333;
-      display:flex;
-      align-items:center;
-      padding:0 12px;
+      position:fixed; bottom:0; left:220px; right:300px; height:30px;
+      background:#fafafa; border-top:1px solid #ddd;
+      font-size:13px; color:#333; display:flex; align-items:center; padding:0 12px;
     }
   </style>
 </head>
@@ -185,34 +121,26 @@
     Página 1 de 1 | Palabras: 28 | Español (España) | 100% | Modo Corporativo Activado | Guardado automático
   </footer>
 
-  <!-- Parte 3: Script JS -->
+  <!-- JavaScript -->
   <script>
-    /* Buscador de comandos */
     const searchInput = document.querySelector('.topbar input[type="search"]');
     searchInput.addEventListener('input', function(){
       const query = this.value.toLowerCase();
       const buttons = document.querySelectorAll('.topbar nav button');
       buttons.forEach(btn=>{
-        if(btn.textContent.toLowerCase().includes(query)){
-          btn.style.background="#dce6ff";
-        } else {
-          btn.style.background="#eef3ff";
-        }
+        btn.style.background = btn.textContent.toLowerCase().includes(query) ? "#dce6ff" : "#eef3ff";
       });
     });
 
-    /* Gestión de documentos */
     const sidebarDocs = document.querySelectorAll('.sidebar-docs li');
     sidebarDocs.forEach(item=>{
       item.addEventListener('click',()=>{
         const name=item.textContent;
-        document.querySelector('.page').innerHTML=
-          `<h1>${name}</h1><p>Contenido del documento "${name}"...</p>`;
+        document.querySelector('.page').innerHTML=`<h1>${name}</h1><p>Contenido del documento "${name}"...</p>`;
         updateStatusbar();
       });
     });
 
-    /* Panel IA Asistente */
     const assistantBtns = document.querySelectorAll('.assistant button');
     assistantBtns.forEach(btn=>{
       btn.addEventListener('click',()=>{
@@ -235,7 +163,6 @@
       });
     });
 
-    /* Indicadores inferiores dinámicos */
     function updateStatusbar(){
       const page=document.querySelector('.page');
       const text=page.innerText.trim();
