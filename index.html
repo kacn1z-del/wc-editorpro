@@ -66,7 +66,7 @@ body {
 .win-btn { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); }
 .win-btn.close:hover { background: #ef4444; }
 
-/* ── BARRA DE MENÚS CON MEGA-DROPDOWNS AL ESTILO WORD ── */
+/* ── BARRA DE MENÚS DESPLEGABLES COMPLETOS DE WORD ── */
 .menu-bar {
   height: 36px; background-color: #0b1120;
   display: flex; align-items: center; padding: 0 12px; gap: 4px;
@@ -78,7 +78,6 @@ body {
 }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.06); color: white; }
 
-/* Estilo Mejorado para los Menús Desplegables Ampliados de Word */
 .dropdown-menu {
   position: absolute; top: 34px; width: 280px;
   background: var(--glass-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
@@ -88,12 +87,8 @@ body {
 }
 .dropdown-menu.show { display: flex; }
 
-.menu-section-divider {
-  height: 1px; background: rgba(255,255,255,0.06); margin: 4px 6px;
-}
-.menu-section-title {
-  font-size: 9px; font-weight: 700; color: #475569; text-transform: uppercase; padding: 4px 10px 2px; letter-spacing: 0.5px;
-}
+.menu-section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 4px 6px; }
+.menu-section-title { font-size: 9px; font-weight: 700; color: #475569; text-transform: uppercase; padding: 4px 10px 2px; letter-spacing: 0.5px; }
 
 .dg-item { display: flex; align-items: center; gap: 12px; padding: 7px 10px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 12px; transition: 0.1s; }
 .dg-item:hover { background: rgba(255, 255, 255, 0.08); color: white; }
@@ -130,7 +125,7 @@ body {
 /* ── ÁREA DE TRABAJO PRINCIPAL ── */
 .workspace { display: flex; flex: 1; overflow: hidden; background-color: #080d16; }
 
-/* Barra Lateral de Documentos */
+/* Barra Lateral Izquierda */
 .sidebar-left {
   width: 220px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04);
   display: flex; flex-direction: column; padding: 14px; gap: 14px; flex-shrink: 0;
@@ -139,7 +134,7 @@ body {
 .doc-item-link { padding: 7px 10px; border-radius: 6px; font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
 .doc-item-link.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
 
-/* ── ENTORNO DE LIENZO Y REGLAS ESTILO WORD ── */
+/* ── INTERFAZ DE HOJA CON REGLAS Y MÁRGENES DE WORD ── */
 .canvas-outer {
   flex: 1; background-color: #0e1626; display: flex; flex-direction: column; overflow: hidden; position: relative;
 }
@@ -154,42 +149,38 @@ body {
   display: flex; flex-direction: column; align-items: center; padding-top: 110px; font-size: 9px; color: #64748b; line-height: 3.1; overflow: hidden; pointer-events: none; position: absolute; left: 0; top: 0; bottom: 0; z-index: 10;
 }
 
-.canvas-container { flex: 1; display: flex; justify-content: center; padding: 40px 40px 40px 60px; min-width: 850px; }
+.canvas-container { flex: 1; display: flex; justify-content: center; padding: 40px; min-width: 850px; }
 
-/* ── HOJA REAL CON MÁRGENES DE IMPRESIÓN CONFIGURADOS ── */
+/* ── ÁREA EXCLUSIVA PARA DIGITAR (HOJA BLANCA CON MÁRGENES REALES) ── */
 .paper {
   width: 100%; max-width: 780px; min-height: 1020px; background: white; color: #1e293b;
   border-radius: 4px; box-shadow: 0 15px 40px rgba(0,0,0,0.45); position: relative;
   outline: none;
   
-  /* Márgenes Físicos Exactos de Word (2.5cm Superior/Inferior, 3cm Laterales) */
+  /* Márgenes Físicos Configurables de un documento Word (Padding interno) */
   padding: 95px 110px;
   font-size: 14px; line-height: 1.6;
   text-align: left;
   word-wrap: break-word;
 }
 
-/* Indicadores de Líneas de Margen sutiles (Estilo Guías de Word) */
+/* Delimitadores Visuales de Margen (Líneas guía sutiles al estilo Word) */
 .paper::before {
   content: ""; position: absolute; top: 95px; bottom: 95px; left: 110px; right: 110px;
-  border: 1px dashed rgba(37, 99, 235, 0.05); pointer-events: none;
+  border: 1px dashed rgba(37, 99, 235, 0.04); pointer-events: none;
 }
 
-/* Decorador de línea lateral naranja icónico de tu marca */
+/* Línea vertical decorativa de marca */
 .paper-decor-line { position: absolute; left: 45px; top: 95px; bottom: 95px; width: 4px; background: #ea580c; border-radius: 2px; pointer-events: none; }
 
 .paper h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
 .paper h2 { font-size: 13px; color: #ea580c; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 24px; text-transform: uppercase; }
 .paper p { margin-bottom: 14px; color: #334155; text-align: justify; }
 
-/* Estilos para Tablas Insertadas */
+/* Estilos de tablas dinámicas insertadas */
 .paper table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
 .paper table, .paper th, .paper td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
 .paper th { background-color: #f1f5f9; font-weight: bold; }
-
-.paper-footer-cards { display: flex; gap: 12px; margin-top: 40px; pointer-events: none; }
-.p-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
-.p-card-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
 /* ── BARRA LATERAL DERECHA (IA ASISTENTE) ── */
 .sidebar-ai { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; }
@@ -240,7 +231,7 @@ body {
     <div class="wc-logo">WC</div>
     <div class="title-text">
       <span>WC Corporate Editor v20</span>
-      <span class="title-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</span>
+      <span class="title-subtitle">ULTIMATE PRO UI v26 - AREA DE ESCRITURA EN BLANCO</span>
     </div>
     <div class="title-actions">
       <span class="title-icon">↩️</span>
@@ -315,10 +306,10 @@ body {
       <div class="dg-item" onclick="changeMargins('normal')"><div class="dg-icon">📐</div><div class="dg-text">Márgenes Normales (3cm)</div></div>
       <div class="dg-item" onclick="changeMargins('estrecho')"><div class="dg-icon">🔲</div><div class="dg-text">Márgenes Estrechos (1.5cm)</div></div>
       <div class="dg-item" onclick="fireToast('Orientación: Vertical')"><div class="dg-icon">📄</div><div class="dg-text">Orientación Vertical</div></div>
-      <div class="dg-item" onclick="fireToast('Orientación: Horizontal cambiando estructura')"><div class="dg-icon">📑</div><div class="dg-text">Orientación Horizontal</div></div>
+      <div class="dg-item" onclick="fireToast('Orientación: Horizontal')"><div class="dg-icon">📑</div><div class="dg-text">Orientación Horizontal</div></div>
       <div class="menu-section-divider"></div>
       <div class="menu-section-title">Distribución Texto</div>
-      <div class="dg-item" onclick="setColumns(1)"><div class="dg-icon">vline</div><div class="dg-text">Una Columna</div></div>
+      <div class="dg-item" onclick="setColumns(1)"><div class="dg-icon">𝖨</div><div class="dg-text">Una Columna</div></div>
       <div class="dg-item" onclick="setColumns(2)"><div class="dg-icon">⏸</div><div class="dg-text">Dos Columnas</div></div>
       <div class="menu-section-divider"></div>
       <div class="menu-section-title">Líneas</div>
@@ -397,20 +388,8 @@ body {
         <div class="canvas-container">
           <div class="paper" id="editorPage" contenteditable="true" oninput="countWordsLive()">
             <div class="paper-decor-line"></div>
-            <h1>WC Corporate Editor v20</h1>
-            <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-            <p>Este espacio de trabajo simula con total fidelidad una página física con márgenes de impresión establecidos. Haz clic aquí, borra este bloque de texto corporativo e inicia la creación funcional de tu contenido.</p>
-            
-            <div class="paper-footer-cards">
-              <div class="p-card">
-                <div class="p-card-icon" style="background:rgba(234,88,12,0.1); color:#ea580c;">🎨</div>
-                <div><div style="font-size:12px; font-weight:700;">WC Arte</div><div style="font-size:10px; color:#64748b;">Efectos de texto</div></div>
-              </div>
-              <div class="p-card">
-                <div class="p-card-icon" style="background:rgba(37,99,235,0.1); color:#2563eb;">📊</div>
-                <div><div style="font-size:12px; font-weight:700;">Tablas Word</div><div style="font-size:10px; color:#64748b;">Estructuras de datos</div></div>
-              </div>
-            </div>
+            <h1>Documento de Trabajo</h1>
+            <p>Haz clic aquí para borrar este texto de muestra e iniciar tu proceso de digitación corporativo...</p>
           </div>
         </div>
       </div>
@@ -440,12 +419,12 @@ body {
 
   <div class="status-bar">
     <span>Página 1 de 1</span>
-    <span id="wordLiveCount">Palabras: 39</span>
+    <span id="wordLiveCount">Palabras: 19</span>
     <span>Español (España)</span>
     <span>Márgenes: Estándar A4</span>
     <div class="st-right-section">
       <div class="st-pulse-dot"></div>
-      <span>Modo Operativo Listo</span>
+      <span>Área lista para digitar</span>
     </div>
   </div>
 
