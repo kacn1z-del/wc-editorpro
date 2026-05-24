@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>WC Corporate Editor v20.4 - Tipografía Completa</title>
+<title>WC Corporate Editor v20.4 - Edición Tipográfica Avanzada</title>
 <style>
 :root {
   --bg-gradient: linear-gradient(135deg, #1d5270 0%, #92324f 50%, #d94e18 100%);
@@ -73,7 +73,7 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 }
 .cmd-btn:active { background: #e2e8f0; }
 
-/* 🛠️ BARRA DE HERRAMIENTAS TIPOGRÁFICAS EXPANDIDA */
+/* 🔤 BARRA DE SELECCIÓN TIPOGRÁFICA EXPANDIDA */
 .font-bar { 
   background: #e2e8f0; 
   padding: 6px 12px; 
@@ -86,15 +86,15 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
 .font-select { 
   background: white; 
   border: 1px solid #cbd5e1; 
-  padding: 5px 10px; 
+  padding: 6px 10px; 
   border-radius: 4px; 
   font-size: 13px; 
   color: #1e293b;
   outline: none;
   cursor: pointer;
 }
-.font-select-family { min-width: 140px; }
-.font-select-size { min-width: 70px; }
+.font-select-family { min-width: 160px; font-weight: 500; }
+.font-select-size { min-width: 85px; }
 
 /* LIENZO DE PAPEL */
 .workspace { flex: 1; padding: 12px; overflow-y: auto; display: flex; justify-content: center; }
@@ -130,31 +130,40 @@ body { background-color: #f8fafc; color: #1e293b; display: flex; flex-direction:
   </div>
 
   <div class="font-bar">
-    <select class="font-select font-select-family" onchange="changeFontFamily(this.value)">
-      <option value="Segoe UI" selected>Segoe UI (Predeterminada)</option>
+    <select class="font-select font-select-family" onchange="applyTypography('fontName', this.value)">
+      <option value="Segoe UI" selected>Segoe UI</option>
       <option value="Arial">Arial</option>
       <option value="Arial Black">Arial Black</option>
       <option value="Calibri">Calibri</option>
       <option value="Cambria">Cambria</option>
-      <option value="Courier New">Courier New (Código/Tabular)</option>
+      <option value="Comic Sans MS">Comic Sans MS</option>
+      <option value="Courier New">Courier New</option>
       <option value="Georgia">Georgia</option>
       <option value="Impact">Impact</option>
-      <option value="Times New Roman">Times New Roman (Formal)</option>
+      <option value="Lucida Sans Unicode">Lucida Sans</option>
+      <option value="Tahoma">Tahoma</option>
+      <option value="Times New Roman">Times New Roman</option>
       <option value="Trebuchet MS">Trebuchet MS</option>
       <option value="Verdana">Verdana</option>
     </select>
 
-    <select class="font-select font-select-size" onchange="changeFontSize(this.value)">
+    <select class="font-select font-select-size" onchange="applyTypography('fontSize', this.value)">
+      <option value="8px">8 px</option>
+      <option value="9px">9 px</option>
+      <option value="10px">10 px</option>
+      <option value="11px">11 px</option>
       <option value="12px">12 px</option>
       <option value="14px">14 px</option>
       <option value="16px" selected>16 px</option>
       <option value="18px">18 px</option>
       <option value="20px">20 px</option>
+      <option value="22px">22 px</option>
       <option value="24px">24 px</option>
+      <option value="26px">26 px</option>
       <option value="28px">28 px</option>
-      <option value="32px">32 px</option>
       <option value="36px">36 px</option>
       <option value="48px">48 px</option>
+      <option value="72px">72 px</option>
     </select>
   </div>
 
@@ -309,34 +318,31 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
-// 🔤 LOGICA TIPOGRÁFICA INTERACTIVA DIRECTA EN EL LIENZO
-function changeFontFamily(font) {
+// 🔤 MOTOR OPERATIVO DE CAMBIO TIPOGRÁFICO AVANZADO EN EL SELECCIÓN
+function applyTypography(type, value) {
   document.getElementById('lienzoTexto').focus();
-  document.execCommand('fontName', false, font);
-}
-
-function changeFontSize(size) {
-  document.getElementById('lienzoTexto').focus();
-  // Convierte tamaños en px a elementos escalables válidos
-  let sizeId = "3"; 
-  if(size === "12px") sizeId = "2";
-  if(size === "14px") sizeId = "3";
-  if(size === "16px") sizeId = "4";
-  if(size === "18px") sizeId = "5";
-  if(size === "20px") sizeId = "6";
-  if(parseInt(size) >= 24) sizeId = "7";
-
-  document.execCommand('fontSize', false, sizeId);
   
-  // Ajuste fino para forzar los px exactos del estándar CSS corporativo
   const selection = window.getSelection();
-  if (selection.rangeCount > 0) {
-    const range = selection.getRangeAt(0);
-    const parent = range.commonAncestorContainer.parentElement;
-    if(parent && parent.id !== "lienzoTexto") {
-       parent.style.fontSize = size;
+  if (!selection.rangeCount || selection.isCollapsed) {
+    // Si no hay texto seleccionado, aplica el cambio globalmente al bloque actual o de manera nativa
+    if (type === 'fontName') document.execCommand('fontName', false, value);
+    if (type === 'fontSize') {
+      let sizeMap = {"8px":1,"10px":2,"14px":3,"16px":4,"18px":5,"24px":6,"36px":7};
+      document.execCommand('fontSize', false, sizeMap[value] || 4);
     }
+    return;
   }
+
+  // Generación avanzada mediante contenedores span para asegurar compatibilidad de px exactos
+  const range = selection.getRangeAt(0);
+  const span = document.createElement('span');
+  
+  if (type === 'fontName') span.style.fontFamily = value;
+  if (type === 'fontSize') span.style.fontSize = value;
+  
+  span.appendChild(range.extractContents());
+  range.insertNode(span);
+  updateCounters();
 }
 
 function insertHTMLAtCursor(html) {
