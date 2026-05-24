@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>WC Corporate Editor v20</title>
 <style>
-/* ── VARIABLES Y PALETA DE COLORES PREMIUM ── */
+/* ── CONFIGURACIÓN Y PALETA DE COLORES CORPORATIVA ── */
 :root {
-  --bg-main: #070b12;
-  --bg-app: #0b1322;
-  --bg-sidebar: #0f172a;
-  --ribbon-bg: #131e31;
+  --bg-main: #090e1a;
+  --bg-app: #0d1527;
+  --bg-sidebar: #0f192e;
+  --ribbon-bg: #14213d;
   --text-main: #f8fafc;
   --text-muted: #64748b;
-  --accent: #3b82f6;
-  --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 40%, #db2777 70%, #ea580c 100%);
-  --gradient-menu: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 100%);
+  --accent: #2563eb;
+  --gradient-title: linear-gradient(90deg, #1d4ed8 0%, #7c3aed 35%, #db2777 65%, #ea580c 100%);
+  --glass-menu: linear-gradient(135deg, rgba(20, 33, 61, 0.95) 0%, rgba(15, 25, 46, 0.98) 100%);
   --glass-border: rgba(255, 255, 255, 0.08);
 }
 
@@ -25,194 +25,192 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   height: 100vh;
-  height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 8px;
 }
 
-/* Contenedor Principal */
+/* Contenedor de la Ventana del Programa */
 .app-container {
   flex: 1;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-app);
-  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-/* ── TITLE BAR ── */
+/* ── BARRA DE TÍTULO SUPERIOR ── */
 .title-bar {
-  height: 48px;
+  height: 44px;
   background: var(--gradient-title);
   display: flex;
   align-items: center;
-  padding: 0 14px;
+  padding: 0 16px;
   gap: 12px;
   flex-shrink: 0;
 }
 .wc-logo {
-  width: 32px; height: 32px; background: white; border-radius: 8px;
+  width: 28px; height: 28px; background: white; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 900; font-size: 14px; color: #1d4ed8; letter-spacing: -1px;
+  font-weight: 900; font-size: 13px; color: #1d4ed8;
 }
 .title-text { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; }
 .title-subtitle { font-size: 11px; opacity: 0.7; font-weight: 400; border-left: 1px solid rgba(255,255,255,0.3); padding-left: 8px; }
 
-.title-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-.window-controls { display: flex; gap: 6px; margin-left: 6px; }
-.win-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; }
-.win-dot.close:hover { background: #ef4444; }
+.title-actions { margin-left: auto; display: flex; align-items: center; gap: 16px; font-size: 14px; }
+.title-icon { cursor: pointer; opacity: 0.85; transition: 0.2s; }
+.title-icon:hover { opacity: 1; transform: scale(1.1); }
+.user-badge { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 2px 10px 2px 4px; border-radius: 20px; font-size: 11px; }
+.user-avatar { width: 22px; height: 22px; background: #ea580c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
 
-.user-tag {
-  display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1);
-  padding: 3px 10px 3px 4px; border-radius: 20px; font-size: 11px;
-}
-.user-avatar { width: 22px; height: 22px; background: #ea580c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; }
+.window-controls { display: flex; gap: 8px; margin-left: 8px; }
+.win-btn { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+.win-btn.close:hover { background: #ef4444; }
 
-/* ── MENU BAR ── */
+/* ── BARRA DE MENÚS PRINCIPALES ── */
 .menu-bar {
-  height: 40px; background-color: #10192a;
-  display: flex; align-items: center; padding: 0 10px; gap: 4px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: relative; z-index: 50;
+  height: 36px; background-color: #0b1120;
+  display: flex; align-items: center; padding: 0 12px; gap: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03); position: relative; z-index: 100;
 }
 .menu-btn {
   padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
-  color: #cbd5e1; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;
+  color: #cbd5e1; cursor: pointer; transition: 0.2s;
 }
 .menu-btn:hover, .menu-btn.active { background: rgba(255, 255, 255, 0.06); color: white; }
 
-/* ── MENÚS DESPLEGABLES CON ESTILO REPRODUCIDO ── */
-.dropdown-glass {
-  position: absolute; top: 38px; width: 270px;
-  background: var(--gradient-menu); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  border-radius: 12px; border: 1px solid var(--glass-border);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.6); padding: 6px; display: none; flex-direction: column; gap: 2px;
+/* Menús Flotantes Glassmorphism */
+.dropdown-menu {
+  position: absolute; top: 34px; width: 260px;
+  background: var(--glass-menu); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px; border: 1px solid var(--glass-border);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5); padding: 6px; display: none; flex-direction: column; gap: 2px;
   z-index: 999;
 }
-.dropdown-glass.show { display: flex; animation: fadeIn 0.12s ease-out; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.menu-group-title {
-  font-size: 9px; font-weight: 700; color: #475569; text-transform: uppercase;
-  padding: 6px 10px 2px; letter-spacing: 0.5px;
-}
-
-.dg-item {
-  display: flex; align-items: center; gap: 12px; padding: 8px 10px;
-  border-radius: 6px; cursor: pointer; transition: 0.1s; color: #e2e8f0;
-}
+.dropdown-menu.show { display: flex; }
+.dg-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 6px; cursor: pointer; color: #e2e8f0; font-size: 12px; }
 .dg-item:hover { background: rgba(255, 255, 255, 0.08); color: white; }
-.dg-icon { font-size: 14px; width: 20px; display: flex; align-items: center; justify-content: center; }
-.dg-text { flex: 1; font-size: 12px; font-weight: 500; }
-.dg-text small { opacity: 0.6; font-size: 9.5px; display: block; margin-top: 1px; }
-.dg-arrow { font-size: 10px; opacity: 0.4; }
+.dg-icon { font-size: 14px; width: 20px; text-align: center; }
+.dg-text { flex: 1; }
+.dg-arrow { font-size: 10px; opacity: 0.5; }
 
-#menu-archivo { left: 10px; }
-#menu-editar { left: 76px; }
-#menu-insertar { left: 142px; }
+#menu-archivo { left: 12px; }
+#menu-editar { left: 78px; }
+#menu-insertar { left: 144px; }
 #menu-formato { left: 212px; }
 
-/* ── CINTA DE OPCIONES INTERACTIVA (RIBBON) ── */
+/* ── CINTA O RIBBON INTEGRADO SEGÚN TU DISEÑO ── */
 .ribbon {
   background-color: var(--ribbon-bg); border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  padding: 6px 12px; display: flex; align-items: center; gap: 12px; flex-shrink: 0;
-  overflow-x: auto;
+  padding: 6px 16px; display: flex; align-items: center; gap: 14px; flex-shrink: 0; overflow-x: auto;
 }
-.ribbon-section { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.ribbon-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.08); flex-shrink: 0; }
+.ribbon-group { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.01); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); }
+.ribbon-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.08); }
 
-.btn-paste {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); cursor: pointer;
-}
-.icon-p { width: 20px; height: 20px; background: #2563eb; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-.btn-paste span { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
+.btn-paste-large { display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+.btn-paste-large:hover { background: rgba(255,255,255,0.05); }
+.paste-icon { font-size: 16px; background: #2563eb; padding: 2px 6px; border-radius: 4px; }
+.btn-paste-large span { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
 
-.select-box { background: #0b1322; color: white; border: 1px solid rgba(255,255,255,0.1); padding: 4px; border-radius: 4px; font-size: 11px; outline: none; cursor: pointer; }
-.tool-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; color: #cbd5e1; }
-.tool-btn:hover { background: rgba(255,255,255,0.08); color: white; }
-.tool-btn.active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.select-tool { background: #0b1322; color: white; border: 1px solid rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; outline: none; }
+.tool-icon-btn { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; color: #cbd5e1; }
+.tool-icon-btn:hover { background: rgba(255,255,255,0.08); color: white; }
 
-.style-tag { padding: 6px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; font-size: 11px; cursor: pointer; white-space: nowrap; color: #cbd5e1; }
-.style-tag.active { background: rgba(59,130,246,0.15); border-color: #3b82f6; color: #60a5fa; font-weight: bold; }
+.style-box-container { display: flex; gap: 4px; }
+.style-item-card { padding: 4px 12px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500; }
+.style-item-card.active { background: rgba(59,130,246,0.15); border-color: #3b82f6; color: #60a5fa; }
 
-/* ── ÁREA DE TRABAJO ── */
+/* ── ÁREA DE TRABAJO PRINCIPAL ── */
 .workspace { display: flex; flex: 1; overflow: hidden; background-color: #080d16; }
 
-/* BARRA LATERAL IZQUIERDA */
+/* Barra Lateral de Navegación Izquierda */
 .sidebar-left {
-  width: 220px; background-color: var(--bg-sidebar); display: flex; flex-direction: column;
-  border-right: 1px solid rgba(255, 255, 255, 0.04); flex-shrink: 0; padding: 14px; gap: 16px;
+  width: 220px; background-color: var(--bg-sidebar); border-right: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex; flex-direction: column; padding: 14px; gap: 14px; flex-shrink: 0;
 }
-.section-title { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.doc-list { display: flex; flex-direction: column; gap: 2px; }
-.doc-link { padding: 8px 10px; border-radius: 6px; font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-.doc-link.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
+.sb-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.doc-item-link { padding: 7px 10px; border-radius: 6px; font-size: 12px; color: #94a3b8; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.doc-item-link.active { background: rgba(59, 130, 246, 0.1); color: #60a5fa; font-weight: 600; }
 
-/* LIENZO DE TRABAJO EDITABLE RECTIFICADO */
-.canvas-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 24px; background-color: #0e1626; }
+/* ── INTERFAZ DE HOJA CON REGLAS Y MÁRGENES ── */
+.canvas-outer {
+  flex: 1; background-color: #0e1626; display: flex; flex-direction: column; overflow: hidden; position: relative;
+}
+/* Regla de medición superior */
+.ruler-horizontal {
+  height: 20px; background: #16223f; border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex; align-items: center; padding-left: 20px; font-size: 9px; color: #64748b; letter-spacing: 12px; overflow: hidden; pointer-events: none;
+}
+.canvas-inner-wrapper { display: flex; flex: 1; overflow: auto; }
+/* Regla de medición lateral izquierda */
+.ruler-vertical {
+  width: 20px; background: #16223f; border-right: 1px solid rgba(255,255,255,0.05);
+  display: flex; flex-direction: column; align-items: center; padding-top: 40px; font-size: 9px; color: #64748b; line-height: 2.8; overflow: hidden; pointer-events: none;
+}
+/* Contenedor del documento centrado */
+.canvas-container { flex: 1; display: flex; justify-content: center; padding: 30px; min-width: 800px; }
+
+/* HOJA EDITABLE E INTERACTIVA */
 .paper {
-  width: 100%; max-width: 750px; min-height: 800px; background: white; color: #1e293b;
-  border-radius: 8px; padding: 50px 55px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;
-  outline: none; font-size: 14px; line-height: 1.6;
+  width: 100%; max-width: 760px; min-height: 980px; background: white; color: #1e293b;
+  border-radius: 4px; box-shadow: 0 12px 35px rgba(0,0,0,0.4); position: relative;
+  outline: none;
+  /* Configuración real de márgenes físicos internos */
+  padding: 80px 90px; 
+  font-size: 14px; line-height: 1.6;
 }
-.paper-decor { position: absolute; left: 24px; top: 40px; bottom: 40px; width: 4px; background: #ea580c; border-radius: 2px; content: ""; pointer-events: none; }
+/* Línea vertical decorativa del diseño */
+.paper-decor-line { position: absolute; left: 40px; top: 80px; bottom: 80px; width: 4px; background: #ea580c; border-radius: 2px; pointer-events: none; }
 
-/* Estilos internos editables */
-.paper h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
-.paper h2 { font-size: 20px; font-weight: 700; color: #1e293b; margin-top: 16px; margin-bottom: 6px; }
-.paper p { margin-bottom: 12px; color: #334155; }
+.paper h1 { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+.paper h2 { font-size: 13px; color: #ea580c; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 24px; text-transform: uppercase; }
+.paper p { margin-bottom: 14px; color: #334155; text-align: justify; }
 
-/* ── BARRA LATERAL IA ASISTENTE ── */
-.sidebar-ai { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; }
-.ai-head { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.ai-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.ai-tab { flex: 1; text-align: center; padding: 8px 0; font-size: 11px; color: var(--text-muted); cursor: pointer; }
-.ai-tab.active { color: #818cf8; border-bottom: 2px solid #818cf8; font-weight: 600; }
-.ai-body { flex: 1; padding: 14px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
-.ai-circle { width: 44px; height: 44px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.ai-box { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; font-size: 11px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; color: #cbd5e1; }
-.ai-box:hover { background: rgba(255,255,255,0.05); color: white; }
-.ai-input-area { padding: 10px; border-top: 1px solid rgba(255,255,255,0.04); display: flex; gap: 6px; }
-.ai-in { flex: 1; background: #0b1322; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 10px; color: white; font-size: 11px; outline: none; }
-.ai-btn { width: 28px; height: 28px; background: linear-gradient(135deg, #3b82f6, #7c3aed); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+/* Elementos decorativos inferiores integrados en la página */
+.paper-footer-cards { display: flex; gap: 12px; margin-top: 40px; pointer-events: none; }
+.p-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
+.p-card-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+/* ── BARRA LATERAL DERECHA (IA ASISTENTE) ── */
+.sidebar-ai { width: 260px; background-color: var(--bg-sidebar); border-left: 1px solid rgba(255, 255, 255, 0.04); display: flex; flex-direction: column; flex-shrink: 0; }
+.ai-title { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.ai-tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.04); background: rgba(0,0,0,0.1); }
+.ai-tab-btn { flex: 1; text-align: center; padding: 8px 0; font-size: 11px; color: var(--text-muted); cursor: pointer; }
+.ai-tab-btn.active { color: #818cf8; border-bottom: 2px solid #818cf8; font-weight: 600; }
+.ai-content { flex: 1; padding: 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+.ai-avatar-circle { width: 44px; height: 44px; background: linear-gradient(135deg, #2563eb, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.ai-prompt-pill { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; font-size: 11px; text-align: left; cursor: pointer; display: flex; justify-content: space-between; color: #cbd5e1; }
+.ai-prompt-pill:hover { background: rgba(255,255,255,0.05); color: white; }
+.ai-input-container { padding: 10px; border-top: 1px solid rgba(255,255,255,0.04); display: flex; gap: 6px; }
+.ai-text-field { flex: 1; background: #0b1322; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px 10px; color: white; font-size: 11px; outline: none; }
+.ai-send-btn { width: 28px; height: 28px; background: linear-gradient(135deg, #3b82f6, #7c3aed); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
 /* ── BARRA DE ESTADO INFERIOR ── */
 .status-bar {
-  height: 28px; background-color: var(--bg-sidebar); border-top: 1px solid rgba(255, 255, 255, 0.04);
-  display: flex; align-items: center; padding: 0 12px; gap: 14px; font-size: 10.5px; color: var(--text-muted); flex-shrink: 0;
+  height: 28px; background-color: #0b1120; border-top: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex; align-items: center; padding: 0 16px; gap: 16px; font-size: 11px; color: var(--text-muted); flex-shrink: 0;
 }
-.st-right { margin-left: auto; display: flex; align-items: center; gap: 12px; color: #10b981; font-weight: 500; }
-.st-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
+.st-right-section { margin-left: auto; display: flex; align-items: center; gap: 12px; color: #10b981; }
+.st-pulse-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; }
 
-/* Ventanas Emergentes (Modales para WC Arte) */
-.wc-modal {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-  background: #111827; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
-  padding: 20px; width: 320px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); z-index: 10000;
-  display: none; flex-direction: column; gap: 12px; transition: 0.2s;
+/* Ventana Modal WC Arte */
+.wcarte-modal {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 12px;
+  padding: 20px; width: 325px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000;
+  display: none; flex-direction: column; gap: 12px;
 }
-.wc-modal.show { display: flex; transform: translate(-50%, -50%) scale(1); }
-.modal-btn { background: #2563eb; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.wcarte-modal.open { display: flex; }
+.modal-input { padding: 8px; border-radius: 6px; border: none; background: #1e293b; color: white; font-size: 12px; outline: none; }
+.modal-select { padding: 6px; background: #1e293b; color: white; border: none; border-radius: 4px; }
+.modal-action-btn { background: #2563eb; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; }
 
-/* Toast */
 #toast {
-  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(15px);
-  background: #1e293b; color: white; padding: 8px 18px; border-radius: 6px; font-size: 12px;
-  opacity: 0; transition: 0.2s ease; pointer-events: none; z-index: 10000; border: 1px solid rgba(255,255,255,0.1);
+  position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: #1e293b; color: white; padding: 8px 16px; border-radius: 6px; font-size: 12px;
+  opacity: 0; transition: 0.2s; pointer-events: none; z-index: 10000; border: 1px solid rgba(255,255,255,0.1);
 }
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* Adaptación móvil rápida */
-@media (max-width: 850px) { .sidebar-left, .sidebar-ai { display: none; } }
+#toast.visible { opacity: 1; }
 </style>
 </head>
 <body>
@@ -225,75 +223,72 @@ body {
       <span>WC Corporate Editor v20</span>
       <span class="title-subtitle">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</span>
     </div>
-    <div class="title-right">
-      <div class="user-tag">
+    <div class="title-actions">
+      <span class="title-icon">↩️</span>
+      <span class="title-icon">↪️</span>
+      <span class="title-icon">💾</span>
+      <span class="title-icon">🔗</span>
+      <span class="title-icon">🔔</span>
+      <div class="user-badge">
         <div class="user-avatar">KN</div>
         <span>Keny Chinchilla Navarro</span>
       </div>
       <div class="window-controls">
-        <div class="win-dot"></div>
-        <div class="win-dot"></div>
-        <div class="win-dot close"></div>
+        <div class="win-btn"></div>
+        <div class="win-btn"></div>
+        <div class="win-btn close"></div>
       </div>
     </div>
   </div>
 
-  <div class="menu-bar" id="menuBar">
-    <div class="menu-btn" onclick="toggleMenu(event, 'menu-archivo')">Archivo ▾</div>
-    <div class="menu-btn" onclick="toggleMenu(event, 'menu-editar')">Editar ▾</div>
-    <div class="menu-btn" onclick="toggleMenu(event, 'menu-insertar')">Insertar ▾</div>
-    <div class="menu-btn" onclick="toggleMenu(event, 'menu-formato')">Formato ▾</div>
+  <div class="menu-bar">
+    <div class="menu-btn" onclick="openMenuDropdown(event, 'menu-archivo')">Archivo ▾</div>
+    <div class="menu-btn" onclick="openMenuDropdown(event, 'menu-editar')">Editar ▾</div>
+    <div class="menu-btn" onclick="openMenuDropdown(event, 'menu-insertar')">Insertar ▾</div>
+    <div class="menu-btn" onclick="openMenuDropdown(event, 'menu-formato')">Formato ▾</div>
 
-    <div class="dropdown-glass" id="menu-archivo">
-      <div class="menu-group-title">Documento</div>
-      <div class="dg-item" onclick="executeDocAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
-      <div class="dg-item" onclick="executeDocAction('abrir')"><div class="dg-icon">📂</div><div class="dg-text">Abrir archivo...</div></div>
-      <div class="dg-item" onclick="executeDocAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar<small>Ctrl + S</small></div></div>
-      <div class="menu-group-title">Salida</div>
-      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Imprimir PDF</div></div>
+    <div class="dropdown-menu" id="menu-archivo">
+      <div class="dg-item" onclick="triggerFileAction('nuevo')"><div class="dg-icon">📄</div><div class="dg-text">Nuevo documento</div></div>
+      <div class="dg-item" onclick="triggerFileAction('guardar')"><div class="dg-icon">💾</div><div class="dg-text">Guardar documento</div></div>
+      <div class="dg-item" onclick="window.print()"><div class="dg-icon">🖨️</div><div class="dg-text">Exportar a PDF / Imprimir</div></div>
     </div>
 
-    <div class="dropdown-glass" id="menu-editar">
-      <div class="menu-group-title">Estilo WordArt</div>
-      <div class="dg-item" onclick="openWordArtModal()"><div class="dg-icon">🎨</div><div class="dg-text">Insertar WC Arte</div></div>
-      <div class="menu-group-title">Historial</div>
-      <div class="dg-item" onclick="executeCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div></div>
-      <div class="dg-item" onclick="executeCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div></div>
-      <div class="menu-group-title">Información</div>
-      <div class="dg-item" onclick="showToast('Autor: Keny Chinchilla Navarro')"><div class="dg-icon">💻</div><div class="dg-text">Desarrollador</div></div>
+    <div class="dropdown-menu" id="menu-editar">
+      <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">🎨</div><div class="dg-text">WC Arte (WordArt)</div><div class="dg-arrow">›</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('undo')"><div class="dg-icon">↩️</div><div class="dg-text">Deshacer</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('redo')"><div class="dg-icon">↪️</div><div class="dg-text">Rehacer</div></div>
     </div>
 
-    <div class="dropdown-glass" id="menu-insertar">
-      <div class="menu-group-title">Elementos</div>
-      <div class="dg-item" onclick="executeCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea Divisoria</div></div>
-      <div class="dg-item" onclick="insertLink()"><div class="dg-icon">🔗</div><div class="dg-text">Hipervínculo...</div></div>
-      <div class="dg-item" onclick="openWordArtModal()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte</div></div>
+    <div class="dropdown-menu" id="menu-insertar">
+      <div class="dg-item" onclick="openWCArteDesigner()"><div class="dg-icon">✨</div><div class="dg-text">Texto WC Arte Especial</div></div>
+      <div class="dg-item" onclick="triggerEditCmd('insertHorizontalRule')"><div class="dg-icon">➖</div><div class="dg-text">Línea de separación</div></div>
     </div>
 
-    <div class="dropdown-glass" id="menu-formato">
-      <div class="menu-group-title">Diseño de Hoja</div>
-      <div class="dg-item" onclick="changePageColor('#f8fafc')"><div class="dg-icon">⚪</div><div class="dg-text">Fondo Claro</div></div>
-      <div class="dg-item" onclick="changePageColor('#fffae6')"><div class="dg-icon">🟡</div><div class="dg-text">Fondo Sepia</div></div>
-      <div class="dg-item" onclick="changePageColor('#ffffff')"><div class="dg-icon">🧼</div><div class="dg-text">Restablecer Blanco</div></div>
+    <div class="dropdown-menu" id="menu-formato">
+      <div class="dg-item" onclick="setPaperBg('#f8fafc')"><div class="dg-icon">⚪</div><div class="dg-text">Fondo Corporativo Claro</div></div>
+      <div class="dg-item" onclick="setPaperBg('#ffffff')"><div class="dg-icon">🧼</div><div class="dg-text">Fondo Blanco Puro</div></div>
     </div>
   </div>
 
   <div class="ribbon">
-    <div class="ribbon-section">
-      <div class="btn-paste" onclick="showToast('Usa Ctrl+V para pegar directamente')">
-        <div class="icon-p">📋</div>
+    <div class="ribbon-group">
+      <div class="btn-paste-large" onclick="fireToast('Presiona Ctrl+V para pegar contenido')">
+        <div class="paste-icon">📋</div>
         <span>Pegar</span>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <div class="tool-icon-btn" onclick="fireToast('Cortar')">Cortar</div>
+        <div class="tool-icon-btn" onclick="fireToast('Copiar')">Copiar</div>
       </div>
     </div>
     <div class="ribbon-divider"></div>
-    <div class="ribbon-section">
-      <select class="select-box" onchange="executeCmd('fontName', this.value)">
+    <div class="ribbon-group">
+      <select class="select-tool" onchange="triggerEditCmd('fontName', this.value)">
         <option value="Segoe UI">Segoe UI</option>
         <option value="Arial">Arial</option>
         <option value="Times New Roman">Times New Roman</option>
-        <option value="Courier New">Courier New</option>
       </select>
-      <select class="select-box" onchange="executeCmd('fontSize', this.value)">
+      <select class="select-tool" onchange="triggerEditCmd('fontSize', this.value)">
         <option value="3">12 px</option>
         <option value="4">14 px</option>
         <option value="5">18 px</option>
@@ -301,65 +296,97 @@ body {
       </select>
     </div>
     <div class="ribbon-divider"></div>
-    <div class="ribbon-section">
-      <div class="tool-btn" title="Negrita" onclick="executeCmd('bold')">B</div>
-      <div class="tool-btn" title="Cursiva" onclick="executeCmd('italic')">I</div>
-      <div class="tool-btn" title="Subrayado" onclick="executeCmd('underline')">U</div>
-      <div class="tool-btn" title="Tachado" onclick="executeCmd('strikeThrough')">ab</div>
-      <div class="tool-btn" title="Subíndice" onclick="executeCmd('subscript')">x₂</div>
-      <div class="tool-btn" title="Superíndice" onclick="executeCmd('superscript')">x²</div>
-      <input type="color" title="Color de Fuente" onchange="executeCmd('foreColor', this.value)" style="width:22px; height:22px; border:none; cursor:pointer; background:none;">
+    <div class="ribbon-group">
+      <div class="tool-icon-btn" title="Negrita" onclick="triggerEditCmd('bold')">B</div>
+      <div class="tool-icon-btn" title="Cursiva" onclick="triggerEditCmd('italic')">I</div>
+      <div class="tool-icon-btn" title="Subrayado" onclick="triggerEditCmd('underline')">U</div>
+      <div class="tool-icon-btn" title="Tachado" onclick="triggerEditCmd('strikeThrough')">ab</div>
+      <div class="tool-icon-btn" title="Subíndice" onclick="triggerEditCmd('subscript')">x₂</div>
+      <div class="tool-icon-btn" title="Superíndice" onclick="triggerEditCmd('superscript')">x²</div>
+      <input type="color" title="Color de Letra" onchange="triggerEditCmd('foreColor', this.value)" style="width:20px; height:20px; border:none; cursor:pointer; background:none;">
     </div>
     <div class="ribbon-divider"></div>
-    <div class="ribbon-section">
-      <div class="tool-btn" onclick="executeCmd('justifyLeft')">⬅</div>
-      <div class="tool-btn" onclick="executeCmd('justifyCenter')"> James </div>
-      <div class="tool-btn" onclick="executeCmd('justifyRight')">➡</div>
-      <div class="tool-btn" onclick="executeCmd('insertUnorderedList')">•📋</div>
+    <div class="ribbon-group">
+      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyLeft')">⬅</div>
+      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyCenter')"> Centrar </div>
+      <div class="tool-icon-btn" onclick="triggerEditCmd('justifyRight')">➡</div>
+      <div class="tool-icon-btn" onclick="triggerEditCmd('insertUnorderedList')">•📋</div>
     </div>
     <div class="ribbon-divider"></div>
-    <div class="ribbon-section">
-      <div class="style-tag active" onclick="applyStyle('p', this)">Normal</div>
-      <div class="style-tag" onclick="applyStyle('h1', this)">Título 1</div>
-      <div class="style-tag" onclick="applyStyle('h2', this)">Título 2</div>
+    <div class="style-box-container">
+      <div class="style-item-card active" onclick="changeWordStyle('p', this)">Normal</div>
+      <div class="style-item-card" onclick="changeWordStyle('h1', this)">Título 1</div>
+      <div class="style-item-card" onclick="changeWordStyle('h2', this)">Título 2</div>
     </div>
   </div>
 
   <div class="workspace">
     
     <div class="sidebar-left">
-      <div class="section-title">Documentos activos</div>
+      <div class="sb-header"><span>Documentos</span><span>+</span></div>
       <div class="doc-list">
-        <div class="doc-link active">📄 Documento 1</div>
-        <div class="doc-link">📄 Informe Corporativo</div>
-        <div class="doc-link">📄 Propuesta Ejecutiva</div>
+        <div class="doc-item-link active">📄 Documento 1</div>
+        <div class="doc-item-link">📄 Informe Corporativo</div>
+        <div class="doc-item-link">📄 Propuesta Ejecutiva</div>
+        <div class="doc-item-link">📄 Presentación Proyecto</div>
+        <div class="doc-item-link">📄 Notas rápidas</div>
+        <div class="doc-item-link">📄 Ideas WC Arte</div>
       </div>
     </div>
 
-    <div class="canvas-container">
-      <div class="paper" id="editorPage" contenteditable="true" oninput="updateWordCount()">
-        <div class="paper-decor"></div>
-        <h1>WC Corporate Editor v20</h1>
-        <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
-        <p>Este es tu nuevo procesador corporativo funcional. Puedes hacer doble clic sobre cualquier palabra para cambiar su formato usando la barra superior, reescribir párrafos, o insertar diseños personalizados mediante el menú superior.</p>
+    <div class="canvas-outer">
+      <div class="ruler-horizontal">123456789101112131415161718</div>
+      
+      <div class="canvas-inner-wrapper">
+        <div class="ruler-vertical">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+        
+        <div class="canvas-container">
+          <div class="paper" id="editorPage" contenteditable="true" oninput="countWordsLive()">
+            <div class="paper-decor-line"></div>
+            <h1>WC Corporate Editor v20</h1>
+            <h2>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</h2>
+            <p>Editor profesional con diseño corporativo moderno, potente y creado para productividad total. Esta área es completamente interactiva; puedes hacer clic aquí mismo, borrar este contenido de muestra y comenzar a redactar tus reportes ejecutivos directamente.</p>
+            
+            <div class="paper-footer-cards">
+              <div class="p-card">
+                <div class="p-card-icon" style="background:rgba(234,88,12,0.1); color:#ea580c;">🎨</div>
+                <div><div style="font-size:12px; font-weight:700;">WC Arte</div><div style="font-size:10px; color:#64748b;">Diseños profesionales</div></div>
+              </div>
+              <div class="p-card">
+                <div class="p-card-icon" style="background:rgba(37,99,235,0.1); color:#2563eb;">⚙️</div>
+                <div><div style="font-size:12px; font-weight:700;">Herramientas</div><div style="font-size:10px; color:#64748b;">Flujo optimizado</div></div>
+              </div>
+              <div class="p-card">
+                <div class="p-card-icon" style="background:rgba(124,58,237,0.1); color:#7c3aed;">💻</div>
+                <div><div style="font-size:12px; font-weight:700;">Desarrollador</div><div style="font-size:10px; color:#64748b;">Keny Chinchilla</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="sidebar-ai">
-      <div class="ai-head">✨ IA Asistente WC</div>
+      <div class="ai-title">✨ IA Asistente WC</div>
       <div class="ai-tabs">
-        <div class="ai-tab active">Asistente</div>
-        <div class="ai-tab">Plantillas</div>
+        <div class="ai-tab-btn active">Asistente</div>
+        <div class="ai-tab-btn">Plantillas</div>
+        <div class="ai-tab-btn">Sugerencias</div>
       </div>
-      <div class="ai-body">
-        <div class="ai-circle">🤖</div>
+      <div class="ai-content">
+        <div class="ai-avatar-circle">🤖</div>
         <div style="font-size:13px; font-weight:700;">Hola, Keny 👋</div>
-        <div class="ai-box" onclick="insertAIText('resumen')"><span>📝 Escribir resumen corporativo</span></div>
-        <div class="ai-box" onclick="insertAIText('saludo')"><span>✨ Insertar carta de saludo pro</span></div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:-4px;">¿En qué puedo ayudarte hoy?</div>
+        
+        <div style="width:100%; display:flex; flex-direction:column; gap:6px; margin-top:8px;">
+          <div class="ai-prompt-pill" onclick="injectAIText('resumen')"><span>📝 Redactar un resumen</span><span>›</span></div>
+          <div class="ai-prompt-pill" onclick="injectAIText('mejorar')"><span>✨ Mejorar este texto</span><span>›</span></div>
+          <div class="ai-prompt-pill" onclick="injectAIText('ortografia')"><span>🔍 Corregir ortografía</span><span>›</span></div>
+        </div>
       </div>
-      <div class="ai-input-area">
-        <input type="text" id="aiInput" class="ai-in" placeholder="Pídele algo a la IA...">
-        <div class="ai-btn" onclick="processAIOffline()">✦</div>
+      <div class="ai-input-container">
+        <input type="text" id="aiQuery" class="ai-text-field" placeholder="Escribe tu solicitud...">
+        <div class="ai-btn ai-send-btn" onclick="executeAIFunction()">✦</div>
       </div>
     </div>
 
@@ -367,147 +394,141 @@ body {
 
   <div class="status-bar">
     <span>Página 1 de 1</span>
-    <span id="wordCounter">Palabras: 36</span>
+    <span id="wordLiveCount">Palabras: 42</span>
     <span>Español (España)</span>
-    <div class="st-right">
-      <div class="st-dot"></div>
-      <span>Modo Corporativo Operacional</span>
+    <span>100%</span>
+    <div class="st-right-section">
+      <div class="st-pulse-dot"></div>
+      <span>Modo Corporativo Activado</span>
+      <span style="color:#64748b; margin-left:10px;">✔ Guardado automático</span>
     </div>
   </div>
 
 </div>
 
-<div class="wc-modal" id="wordArtModal">
+<div class="wcarte-modal" id="wcarteModal">
   <div style="font-size:14px; font-weight:bold; color:white;">✨ Diseñador de WC Arte</div>
-  <input type="text" id="waText" placeholder="Escribe tu texto llamativo..." style="padding:8px; border-radius:6px; border:none; background:#1f2937; color:white; font-size:12px;">
-  <select id="waColor" style="padding:6px; background:#1f2937; color:white; border:none; border-radius:4px;">
+  <input type="text" id="wcarteInputText" placeholder="Escribe tu texto llamativo..." style="padding:8px; border-radius:6px; border:none; background:#1e293b; color:white; font-size:12px;">
+  <select id="wcarteSelectGradient" style="padding:6px; background:#1e293b; color:white; border:none; border-radius:4px;">
     <option value="linear-gradient(45deg, #f59e0b, #ef4444)">Degradado Fuego 🔥</option>
-    <option value="linear-gradient(45deg, #3b82f6, #8b5cf6)">Degradado Real ⚡</option>
+    <option value="linear-gradient(45deg, #3b82f6, #8b5cf6)">Degradado Eléctrico ⚡</option>
     <option value="linear-gradient(45deg, #10b981, #059669)">Degradado Esmeralda 💎</option>
   </select>
-  <button class="modal-btn" onclick="insertWordArt()">Insertar en Documento</button>
-  <button class="modal-btn" onclick="closeWordArtModal()" style="background:#4b5563; margin-top:-4px;">Cancelar</button>
+  <button class="modal-action-btn" onclick="insertWCArteNode()">Insertar WC Arte</button>
+  <button class="modal-action-btn" onclick="closeWCArteDesigner()" style="background:#475569; margin-top:-4px;">Cancelar</button>
 </div>
 
 <div id="toast">Notificación</div>
 
 <script>
-let toastTimer;
+let toastClock;
 
-function showToast(text) {
+function fireToast(text) {
   const toast = document.getElementById('toast');
   toast.textContent = text;
-  toast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  toast.classList.add('visible');
+  clearTimeout(toastClock);
+  toastClock = setTimeout(() => toast.classList.remove('visible'), 2200);
 }
 
-// Control inteligente de menús desplegables
-function toggleMenu(event, menuId) {
+// Control de menús desplegables
+function openMenuDropdown(event, menuId) {
   event.stopPropagation();
-  const currentMenu = document.getElementById(menuId);
-  const isOpen = currentMenu.classList.contains('show');
+  const targetMenu = document.getElementById(menuId);
+  const isOpen = targetMenu.classList.contains('show');
   
-  closeMenus();
+  shutAllMenus();
   
   if (!isOpen) {
-    currentMenu.classList.add('show');
+    targetMenu.classList.add('show');
     event.currentTarget.classList.add('active');
   }
 }
 
-function closeMenus() {
-  document.querySelectorAll('.dropdown-glass').forEach(m => m.classList.remove('show'));
+function shutAllMenus() {
+  document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
   document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
 }
 
-document.addEventListener('click', closeMenus);
+document.addEventListener('click', shutAllMenus);
 
-// COMANDOS DE EDICIÓN NATIVOS (PROCESADOR DE TEXTO REAL)
-function executeCmd(command, value = null) {
+// COMANDOS DE FORMATO NATIVOS
+function triggerEditCmd(command, value = null) {
   document.execCommand(command, false, value);
-  updateWordCount();
+  countWordsLive();
 }
 
-function applyStyle(tagName, element) {
-  document.querySelectorAll('.style-tag').forEach(t => t.classList.remove('active'));
+function changeWordStyle(tag, element) {
+  document.querySelectorAll('.style-item-card').forEach(t => t.classList.remove('active'));
   element.classList.add('active');
-  document.execCommand('formatBlock', false, `<${tagName}>`);
+  document.execCommand('formatBlock', false, `<${tag}>`);
 }
 
-// Contador Real de Palabras
-function updateWordCount() {
+// Contador de palabras
+function countWordsLive() {
   const text = document.getElementById('editorPage').innerText || "";
-  const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-  document.getElementById('wordCounter').textContent = `Palabras: ${words}`;
+  const wordsArray = text.trim().split(/\s+/).filter(w => w.length > 0);
+  document.getElementById('wordLiveCount').textContent = `Palabras: ${wordsArray.length}`;
 }
 
-// Acciones de Archivo Básicas
-function executeDocAction(action) {
-  if (action === 'nuevo') {
-    document.getElementById('editorPage').innerHTML = '<h1>Nuevo Documento</h1><p>Comienza a escribir aquí...</p>';
-    showToast('Nuevo lienzo en blanco listo');
-  } else if (action === 'guardar') {
-    showToast('💾 Guardado correctamente en el almacenamiento local');
-  } else if (action === 'abrir') {
-    showToast('Buscando archivos locales...');
+function triggerFileAction(type) {
+  if (type === 'nuevo') {
+    document.getElementById('editorPage').innerHTML = '<div class="paper-decor-line"></div><h1>Nuevo Documento</h1><p>Comienza a escribir tu nuevo contenido...</p>';
+    fireToast('Lienzo limpio e inicializado');
+  } else if (type === 'guardar') {
+    fireToast('💾 Cambios guardados en local storage');
   }
-  updateWordCount();
+  countWordsLive();
 }
 
-function changePageColor(color) {
+function setPaperBg(color) {
   document.getElementById('editorPage').style.backgroundColor = color;
-  showToast('Color de página actualizado');
+  fireToast('Fondo de página modificado');
 }
 
-function insertLink() {
-  const url = prompt('Introduce la URL del enlace:');
-  if (url) executeCmd('createLink', url);
+// DISEÑADOR WC ARTE
+function openWCArteDesigner() {
+  document.getElementById('wcarteModal').classList.add('open');
 }
-
-// FUNCIONES ESPECIALES PARA MODAL: WC ARTE (WORDART REPLICADO)
-function openWordArtModal() {
-  document.getElementById('wordArtModal').classList.add('show');
+function closeWCArteDesigner() {
+  document.getElementById('wcarteModal').classList.remove('open');
 }
-function closeWordArtModal() {
-  document.getElementById('wordArtModal').classList.remove('show');
-}
-function insertWordArt() {
-  const text = document.getElementById('waText').value || "WC Arte";
-  const gradient = document.getElementById('waColor').value;
+function insertWCArteNode() {
+  const userText = document.getElementById('wcarteInputText').value || "WC Arte";
+  const selectedGrad = document.getElementById('wcarteSelectGradient').value;
   
-  // Código HTML estructurado con estilos inline llamativos imitando WordArt
-  const wordArtHTML = `<span style="display:inline-block; font-family:'Impact', sans-serif; font-size:32px; background:${gradient}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; text-transform:uppercase; filter:drop-shadow(2px 2px 2px rgba(0,0,0,0.25)); margin:10px 0;">${text}</span>&nbsp;`;
+  const wordArtMarkup = `<span style="display:inline-block; font-family:'Impact', 'Arial Black', sans-serif; font-size:34px; background:${selectedGrad}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:bold; text-transform:uppercase; filter:drop-shadow(3px 3px 2px rgba(0,0,0,0.2)); margin:12px 0;">${userText}</span>&nbsp;`;
   
-  executeCmd('insertHTML', wordArtHTML);
-  closeWordArtModal();
-  showToast('¡Elemento WC Arte insertado con éxito!');
+  triggerEditCmd('insertHTML', wordArtMarkup);
+  closeWCArteDesigner();
+  fireToast('¡Elemento WC Arte añadido!');
 }
 
-// Simulaciones de Asistente de Inteligencia Artificial
-function insertAIText(type) {
-  let html = "";
-  if (type === 'resumen') {
-    html = "<p><strong>Resumen Ejecutivo:</strong> Tras analizar las métricas comerciales del presente período corporativo, se identifica un incremento sustancial en la conversión digital y eficiencia operativa.</p>";
-  } else if (type === 'saludo') {
-    html = "<p>Estimados colaboradores,<br>Es un placer dirigirme a ustedes con el propósito de extenderles un cordial saludo y presentar las nuevas directrices del proyecto ejecutivo...</p>";
+// Funciones Simuladas de Asistente de IA
+function injectAIText(mode) {
+  let textToInsert = "";
+  if (mode === 'resumen') {
+    textToInsert = "<p><strong>Resumen de IA:</strong> El proyecto actual describe una plataforma estructurada bajo metodologías corporativas ágiles, maximizando el rendimiento visual de la suite.</p>";
+  } else if (mode === 'mejorar') {
+    textToInsert = "<p><em>Texto Optimizado:</em> Procesador de textos de alto impacto desarrollado para optimizar la productividad y los flujos organizacionales corporativos.</p>";
+  } else {
+    textToInsert = "<p>✔ <em>Revisión Ortográfica:</em> No se encontraron errores en el último bloque de texto analizado.</p>";
   }
-  executeCmd('insertHTML', html);
-  showToast('Texto de asistencia insertado');
+  triggerEditCmd('insertHTML', textToInsert);
+  fireToast('Texto de IA inyectado');
 }
 
-function processAIOffline() {
-  const query = document.getElementById('aiInput').value;
+function executeAIFunction() {
+  const query = document.getElementById('aiQuery').value;
   if(query) {
-    executeCmd('insertHTML', `<p><em>✨ Respuesta IA sobre "${query}":</em> Contenido optimizado y redactado para la audiencia de Keny Chinchilla.</p>`);
-    document.getElementById('aiInput').value = "";
-    showToast('Sugerencia generada');
+    triggerEditCmd('insertHTML', `<p><strong>🤖 Respuesta IA sobre "${query}":</strong> Kenya Corporate Suite procesó con éxito tu consulta de optimización.</p>`);
+    document.getElementById('aiQuery').value = "";
+    fireToast('Consulta de asistente finalizada');
   }
 }
 
-// Ejecución inicial
 window.onload = () => {
-  updateWordCount();
+  countWordsLive();
 };
 </script>
 
