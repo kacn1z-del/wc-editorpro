@@ -569,6 +569,18 @@ switchEcosystem('es');
     const selected = window.getSelection().toString();
     saveToClipboardHistory(selected);
   });
+  <script>
+function applyWCArtModerno() {
+  const selection = window.getSelection();
+  if (!selection.rangeCount || selection.toString() === "") {
+    openModal("Selecciona el texto para convertirlo en Arte.");
+    return;
+  }
+  const text = selection.toString();
+  const artHTML = `<div style="background: linear-gradient(135deg, rgba(29, 82, 112, 0.1), rgba(217, 78, 24, 0.1)); backdrop-filter: blur(5px); border: 1px solid rgba(146, 50, 79, 0.3); padding: 15px 30px; border-radius: 12px; display: inline-block; margin: 15px 0; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #1d5270; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">${text}</div>`;
+  document.execCommand('insertHTML', false, artHTML);
+  openModal("Estilo Moderno aplicado.");
+}
 </script>
 </body>
 </html>
