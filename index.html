@@ -297,7 +297,7 @@
             border-radius:16px;
             padding:24px;
             text-align:center;
-            min-width:280px;
+            min-width:300px;
             box-shadow:0 8px 32px rgba(0,0,0,.2);
         }
         #wordartModal h3 { margin-bottom:12px; color:#333; }
@@ -316,9 +316,25 @@
             margin-bottom:12px;
             min-height:44px;
         }
-        #wordartModal .modal-btns { display:flex; gap:8px; justify-content:center; }
+        #wordartModal .modal-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
         #btnInsertWordArt { background:#0084ff; color:#fff; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
         #btnCancelWordArt { background:#eee; color:#333; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
+        .wordart-presets {
+            display:grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap:8px;
+            margin-top:12px;
+        }
+        .wordart-preset {
+            border:none;
+            border-radius:10px;
+            padding:10px 8px;
+            cursor:pointer;
+            font-size:12px;
+            font-weight:700;
+            color:#333;
+            background:#f3f3f3;
+        }
     </style>
 </head>
 <body>
@@ -514,12 +530,27 @@
             <h3>✨ WC Arte</h3>
             <input type="text" id="wordartText" placeholder="Escribe tu texto aquí..." maxlength="60">
             <div id="wordartPreview">Vista previa</div>
-            <div class="modal-btns">
+            <div class="wordart-presets">
+                <button class="wordart-preset" data-style="1">1. Clásico</button>
+                <button class="wordart-preset" data-style="2">2. Fluido</button>
+                <button class="wordart-preset" data-style="3">3. Neon</button>
+                <button class="wordart-preset" data-style="4">4. Solar</button>
+                <button class="wordart-preset" data-style="5">5. Marina</button>
+                <button class="wordart-preset" data-style="6">6. Fuego</button>
+                <button class="wordart-preset" data-style="7">7. Pastel</button>
+                <button class="wordart-preset" data-style="8">8. Elegante</button>
+                <button class="wordart-preset" data-style="9">9. Bosque</button>
+                <button class="wordart-preset" data-style="10">10. Glitch</button>
+            </div>
+            <div class="modal-btns" style="margin-top:12px;">
                 <button id="btnInsertWordArt">Insertar</button>
                 <button id="btnCancelWordArt">Cancelar</button>
             </div>
         </div>
     </div>
+
+    <input type="file" id="imageFileInput" accept="image/*" hidden>
+    <input type="file" id="videoFileInput" accept="video/*" hidden>
 
     <script type="module">
         import { Editor } from 'https://esm.sh/@tiptap/core@2.6.6'
@@ -549,7 +580,7 @@
                 <p><br></p>
                 <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
             `,
-            onUpdate: ({ editor }) => updateStats(),
+            onUpdate: () => updateStats(),
         });
         
         function updateStats() {
@@ -569,32 +600,60 @@
 
         let trackChangesOn = false;
 
-        function insertWordArtBanner(text) {
+        function insertWordArtBanner(text, style = 1) {
             const banner = document.getElementById('wordart-banner');
+            const styles = {
+                1: 'linear-gradient(90deg,#ff6b35,#0084ff)',
+                2: 'linear-gradient(90deg,#9b59b6,#27ae60)',
+                3: 'linear-gradient(90deg,#00c6ff,#0072ff)',
+                4: 'linear-gradient(90deg,#f7971e,#ffd200)',
+                5: 'linear-gradient(90deg,#0f2027,#2c5364)',
+                6: 'linear-gradient(90deg,#ff512f,#f09819)',
+                7: 'linear-gradient(90deg,#ffafbd,#ffc3a0)',
+                8: 'linear-gradient(90deg,#232526,#414345)',
+                9: 'linear-gradient(90deg,#11998e,#38ef7d)',
+                10: 'linear-gradient(90deg,#8e2de2,#4a00e0)',
+            };
             banner.textContent = text;
+            banner.style.background = styles[style] || styles[1];
+            banner.style.webkitBackgroundClip = 'text';
+            banner.style.backgroundClip = 'text';
+            banner.style.webkitTextFillColor = 'transparent';
             banner.style.display = 'block';
         }
 
         const wordartModal = document.getElementById('wordartModal');
         const wordartText  = document.getElementById('wordartText');
         const wordartPrev  = document.getElementById('wordartPreview');
+        let currentWordArtStyle = 1;
+
         wordartText.addEventListener('input', () => {
             wordartPrev.textContent = wordartText.value || 'Vista previa';
         });
+
+        document.querySelectorAll('.wordart-preset').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentWordArtStyle = Number(btn.dataset.style);
+                showToast(`WC Arte estilo ${currentWordArtStyle}`);
+            });
+        });
+
         document.getElementById('btnInsertWordArt').onclick = () => {
             const txt = wordartText.value.trim();
             if (txt) {
-                insertWordArtBanner(txt);
+                insertWordArtBanner(txt, currentWordArtStyle);
                 showToast('WC Arte insertado ✨');
             }
             wordartModal.classList.remove('show');
             wordartText.value = '';
             wordartPrev.textContent = 'Vista previa';
+            currentWordArtStyle = 1;
         };
         document.getElementById('btnCancelWordArt').onclick = () => {
             wordartModal.classList.remove('show');
             wordartText.value = '';
             wordartPrev.textContent = 'Vista previa';
+            currentWordArtStyle = 1;
         };
 
         const colorModal = document.getElementById('colorModal');
@@ -695,6 +754,41 @@
             updateStats();
             showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
         }
+
+        function openImagePicker() {
+            document.getElementById('imageFileInput').click();
+        }
+
+        function openVideoPicker() {
+            document.getElementById('videoFileInput').click();
+        }
+
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        document.getElementById('imageFileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const dataUrl = await fileToDataURL(file);
+            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto"></p>`).run();
+            showToast('Imagen insertada desde archivo');
+            e.target.value = '';
+        });
+
+        document.getElementById('videoFileInput').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto"><source src="${url}" type="${file.type}"></video></p>`).run();
+            showToast('Video insertado desde archivo');
+            e.target.value = '';
+        });
         
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -733,7 +827,7 @@
         function pasteText() {
             showToast('Pegar depende del permiso del navegador');
         }
-        
+
         function handleAction(action) {
             switch(action) {
                 case 'bold': editor.chain().focus().toggleBold().run(); break;
@@ -800,7 +894,7 @@
                     showToast(`Control de cambios: ${trackChangesOn ? 'ACTIVADO 🟢' : 'DESACTIVADO 🔴'}`);
                     break;
                 case 'autoCorrect':
-                    showToast('Autocorrección activa (usa el corrector del navegador)');
+                    showToast('Autocorrección activa');
                     break;
                 case 'save':
                     localStorage.setItem('wc-editor', editor.getHTML());
@@ -850,10 +944,12 @@
                     }
                     break;
                 case 'image': {
-                    const url = prompt('URL de la imagen:');
-                    if (url) {
-                        editor.chain().focus().insertContent(`<img src="${url}" style="max-width:100%">`).run();
-                        showToast('Imagen insertada');
+                    const choice = prompt('Escribe "archivo" para seleccionar imagen o pega una URL:', 'archivo');
+                    if (choice && choice.toLowerCase() === 'archivo') {
+                        openImagePicker();
+                    } else if (choice) {
+                        editor.chain().focus().insertContent(`<p><img src="${choice}" style="max-width:100%;height:auto"></p>`).run();
+                        showToast('Imagen insertada por enlace');
                     }
                     break;
                 }
@@ -909,10 +1005,12 @@
                     showToast('Espacio de gráfico insertado');
                     break;
                 case 'video': {
-                    const vurl = prompt('URL del video (YouTube embed):');
-                    if (vurl) {
-                        editor.chain().focus().insertContent(`<p><a href="${vurl}" target="_blank">▶ Ver video</a></p>`).run();
-                        showToast('Enlace de video insertado');
+                    const choice = prompt('Escribe "archivo" para seleccionar video o pega una URL:', 'archivo');
+                    if (choice && choice.toLowerCase() === 'archivo') {
+                        openVideoPicker();
+                    } else if (choice) {
+                        editor.chain().focus().insertContent(`<p><a href="${choice}" target="_blank">▶ Ver video</a></p>`).run();
+                        showToast('Video insertado por enlace');
                     }
                     break;
                 }
