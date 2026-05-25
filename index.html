@@ -5,336 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WC Corporate Editor v20.4</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #0084ff 0%, #ff6b35 100%);
-            padding: 24px 20px 140px 20px;
-            text-align: center;
-            color: white;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .header p {
-            font-size: 12px;
-            opacity: 0.9;
-            letter-spacing: 1px;
-        }
-        
-        .menu-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin: -100px 20px 0 20px;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .menu-row {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 16px;
-            position: relative;
-        }
-        
-        .menu-col {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            position: relative;
-        }
-        
-        .menu-item {
-            position: relative;
-        }
-        
-        .menu-btn {
-            background: none;
-            border: none;
-            color: #1a1a1a;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .menu-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            padding: 8px;
-            margin-top: 8px;
-            display: none;
-            z-index: 100;
-            min-width: 200px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .dropdown.show {
-            display: block;
-            animation: fadeIn 0.2s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        
-        .dropdown-item {
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .dropdown-item:hover {
-            background: #f0f7ff;
-        }
-        
-        .dropdown-divider {
-            height: 1px;
-            background: #eee;
-            margin: 4px 8px;
-        }
-        
-        .content {
-            background: #ffffff;
-            padding: 24px 20px 100px 20px;
-            min-height: 500px;
-        }
-        
-        .content-title {
-            font-size: 18px;
-            color: #0066cc;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        #wordart-banner {
-            display: none;
-            text-align: center;
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 4px;
-            text-shadow: none;
-            margin-bottom: 12px;
-            animation: wordartPulse 2s ease-in-out infinite;
-        }
-        @keyframes wordartPulse {
-            0%,100%{filter:drop-shadow(0 0 6px rgba(0,132,255,.5));}
-            50%{filter:drop-shadow(0 0 18px rgba(255,107,53,.7));}
-        }
-        
-        .tiptap {
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 16px;
-            min-height: 300px;
-            outline: none;
-        }
-        
-        .tiptap:focus {
-            border-color: #0084ff;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+        .header { background: linear-gradient(135deg, #0084ff 0%, #ff6b35 100%); padding: 24px 20px 140px 20px; text-align: center; color: white; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header p { font-size: 12px; opacity: 0.9; letter-spacing: 1px; }
+        .menu-card { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 20px; margin: -100px 20px 0 20px; position: relative; z-index: 10; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+        .menu-row { display: flex; justify-content: space-around; margin-bottom: 16px; position: relative; }
+        .menu-col { display: flex; flex-direction: column; gap: 12px; align-items: center; position: relative; }
+        .menu-item { position: relative; }
+        .menu-btn { background: none; border: none; color: #1a1a1a; font-size: 15px; font-weight: 500; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .menu-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        .menu-btn:active { transform: scale(0.95); }
+        .dropdown { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 8px; margin-top: 8px; display: none; z-index: 100; min-width: 200px; max-height: 70vh; overflow-y: auto; }
+        .dropdown.show { display: block; animation: fadeIn 0.2s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-50%) translateY(-10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .dropdown-item { padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .dropdown-item:hover { background: #f0f7ff; }
+        .dropdown-divider { height: 1px; background: #eee; margin: 4px 8px; }
+        .content { background: #ffffff; padding: 24px 20px 100px 20px; min-height: 500px; }
+        .content-title { font-size: 18px; color: #0066cc; font-weight: 600; margin-bottom: 16px; }
+        #wordart-banner { display: none; text-align: center; font-size: 32px; font-weight: 900; background: linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: 4px; margin-bottom: 12px; animation: wordartPulse 2s ease-in-out infinite; }
+        @keyframes wordartPulse { 0%,100%{filter:drop-shadow(0 0 6px rgba(0,132,255,.5));} 50%{filter:drop-shadow(0 0 18px rgba(255,107,53,.7));} }
+        .tiptap { border: 1px solid #ddd; border-radius: 12px; padding: 16px; min-height: 300px; outline: none; }
+        .tiptap:focus { border-color: #0084ff; }
         .tiptap p { margin: 8px 0; }
         .tiptap h1, .tiptap h2, .tiptap h3 { margin: 16px 0 8px 0; }
         .tiptap ul, .tiptap ol { padding-left: 24px; margin: 8px 0; }
-        
-        .footer {
-            background: #ffffff;
-            padding: 16px 20px;
-            border-top: 1px solid #eee;
-            position: fixed;
-            bottom: 60px;
-            left: 0;
-            right: 0;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .author {
-            text-align: center;
-            font-size: 12px;
-            color: #999;
-        }
-        
-        .bottom-nav {
-            background: #ffffff;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .nav-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        
+        .footer { background: #ffffff; padding: 16px 20px; border-top: 1px solid #eee; position: fixed; bottom: 60px; left: 0; right: 0; }
+        .stats { display: flex; justify-content: space-around; font-size: 13px; color: #666; margin-bottom: 8px; }
+        .author { text-align: center; font-size: 12px; color: #999; }
+        .bottom-nav { background: #ffffff; position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 20px; display: flex; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-radius: 20px 20px 0 0; }
+        .nav-btn { background: none; border: none; padding: 8px; cursor: pointer; border-radius: 8px; transition: all 0.2s; }
         .nav-btn:hover { background: #f0f0f0; }
-        
-        .toast {
-            position: fixed;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
-        }
-        
+        .toast { position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 1000; }
         .toast.show { opacity: 1; }
-        
-        .badge {
-            background: #0084ff;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        #colorModal {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.4);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-        }
-        #colorModal.show { display:flex; }
-        #colorModal .modal-box {
-            background:#fff;
-            border-radius:16px;
-            padding:24px;
-            text-align:center;
-            box-shadow:0 8px 32px rgba(0,0,0,.2);
-        }
-        #colorModal h3 { margin-bottom:16px; color:#333; }
+        .badge { background: #0084ff; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+        #colorModal, #wordartModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:9999; align-items:center; justify-content:center; }
+        #colorModal.show, #wordartModal.show { display:flex; }
+        #colorModal .modal-box, #wordartModal .modal-box { background:#fff; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.2); }
+        #colorModal h3, #wordartModal h3 { margin-bottom:16px; color:#333; }
         #colorPicker { width:80px; height:40px; border:none; cursor:pointer; }
         #colorModal .modal-btns { margin-top:16px; display:flex; gap:8px; justify-content:center; }
-        #colorModal button {
-            padding:8px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600;
-        }
+        #colorModal button, #btnInsertWordArt, #btnCancelWordArt { padding:8px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
         #btnApplyColor { background:#0084ff; color:#fff; }
         #btnCancelColor { background:#eee; color:#333; }
-
-        #wordartModal {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.4);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-        }
-        #wordartModal.show { display:flex; }
-        #wordartModal .modal-box {
-            background:#fff;
-            border-radius:16px;
-            padding:24px;
-            text-align:center;
-            min-width:300px;
-            box-shadow:0 8px 32px rgba(0,0,0,.2);
-        }
-        #wordartModal h3 { margin-bottom:12px; color:#333; }
-        #wordartText {
-            width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;
-            font-size:15px; margin-bottom:12px;
-        }
-        #wordartPreview {
-            font-size:28px;
-            font-weight:900;
-            background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            background-clip:text;
-            letter-spacing:3px;
-            margin-bottom:12px;
-            min-height:44px;
-        }
-        #wordartModal .modal-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-        #btnInsertWordArt { background:#0084ff; color:#fff; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
-        #btnCancelWordArt { background:#eee; color:#333; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
-        .wordart-presets {
-            display:grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap:8px;
-            margin-top:12px;
-        }
-        .wordart-preset {
-            border:none;
-            border-radius:10px;
-            padding:10px 8px;
-            cursor:pointer;
-            font-size:12px;
-            font-weight:700;
-            color:#333;
-            background:#f3f3f3;
-        }
+        #wordartText { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:15px; margin-bottom:12px; }
+        #wordartPreview { font-size:28px; font-weight:900; background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:3px; margin-bottom:12px; min-height:44px; }
+        .wordart-presets { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:12px; }
+        .wordart-preset { border:none; border-radius:10px; padding:10px 8px; cursor:pointer; font-size:12px; font-weight:700; color:#333; background:#f3f3f3; }
+        .track-add { background: rgba(39,174,96,.18); text-decoration: none; }
+        .track-del { background: rgba(231,76,60,.15); text-decoration: line-through; }
+        .track-del[data-track="off"] { background: transparent; text-decoration: line-through; }
+        .track-marker { display:inline; }
     </style>
 </head>
 <body>
@@ -342,7 +65,7 @@
         <h1>WC Corporate Editor v20.4</h1>
         <p>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</p>
     </div>
-    
+
     <div class="menu-card">
         <div class="menu-row">
             <div class="menu-item">
@@ -354,7 +77,7 @@
                     <div class="dropdown-item" data-action="dashboard">Panel principal</div>
                 </div>
             </div>
-            
+
             <div class="menu-item">
                 <button class="menu-btn" data-menu="archivo">Archivo</button>
                 <div class="dropdown" id="menu-archivo">
@@ -369,7 +92,7 @@
                     <div class="dropdown-item" data-action="share">Compartir documento</div>
                 </div>
             </div>
-            
+
             <div class="menu-item">
                 <button class="menu-btn" data-menu="editar">Editar</button>
                 <div class="dropdown" id="menu-editar">
@@ -385,7 +108,7 @@
                     <div class="dropdown-item" data-action="trackChanges">Control de cambios</div>
                 </div>
             </div>
-            
+
             <div class="menu-item">
                 <button class="menu-btn" data-menu="insertar">Insertar</button>
                 <div class="dropdown" id="menu-insertar">
@@ -406,7 +129,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="menu-col">
             <div class="menu-item">
                 <button class="menu-btn" data-menu="herramientas">Herramientas</button>
@@ -420,7 +143,7 @@
                     <div class="dropdown-item" data-action="autoCorrect">Autocorrección</div>
                 </div>
             </div>
-            
+
             <div class="menu-item">
                 <button class="menu-btn" data-menu="formato">Formato</button>
                 <div class="dropdown" id="menu-formato">
@@ -465,7 +188,7 @@
                     <div class="dropdown-item" data-action="sizeLegal">Tamaño Oficio</div>
                 </div>
             </div>
-            
+
             <div class="menu-item">
                 <button class="menu-btn" data-menu="lenguas">Lenguas Indígenas CR</button>
                 <div class="dropdown" id="menu-lenguas">
@@ -488,13 +211,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="content">
         <div class="content-title" id="contentTitle">📋 Diccionario 300 palabras - Lenguas Indígenas CR</div>
         <div id="wordart-banner"></div>
         <div id="editor"></div>
     </div>
-    
+
     <div class="footer">
         <div class="stats">
             <span id="wordCount">✓ 0 palabras</span>
@@ -503,7 +226,7 @@
         </div>
         <div class="author">Por Keny Chinchilla Navarro</div>
     </div>
-    
+
     <div class="bottom-nav">
         <button class="nav-btn" id="btnBack">←</button>
         <button class="nav-btn" id="btnForward">→</button>
@@ -511,7 +234,7 @@
         <button class="nav-btn" id="btnSave">💾</button>
         <button class="nav-btn" id="btnCopy">⧉</button>
     </div>
-    
+
     <div class="toast" id="toast"></div>
 
     <div id="colorModal">
@@ -559,7 +282,20 @@
         import TextAlign from 'https://esm.sh/@tiptap/extension-text-align@2.6.6'
         import TextStyle from 'https://esm.sh/@tiptap/extension-text-style@2.6.6'
         import Color from 'https://esm.sh/@tiptap/extension-color@2.6.6'
-        
+        import htmlDocx from 'https://esm.sh/html-docx-js@0.4.1'
+
+        const defaultContent = `
+            <h2>Lenguas Indígenas de Costa Rica</h2>
+            <p><strong>Bribri:</strong> Hola = Shkëkë</p>
+            <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
+            <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
+            <p><strong>Boruca:</strong> Gracias = Shíi</p>
+            <p><strong>Térraba:</strong> Agua = Di</p>
+            <p><strong>Ngäbe:</strong> Casa = Ju</p>
+            <p><br></p>
+            <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
+        `
+
         const editor = new Editor({
             element: document.querySelector('#editor'),
             extensions: [
@@ -569,39 +305,33 @@
                 TextStyle,
                 Color,
             ],
-            content: `
-                <h2>Lenguas Indígenas de Costa Rica</h2>
-                <p><strong>Bribri:</strong> Hola = Shkëkë</p>
-                <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
-                <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
-                <p><strong>Boruca:</strong> Gracias = Shíi</p>
-                <p><strong>Térraba:</strong> Agua = Di</p>
-                <p><strong>Ngäbe:</strong> Casa = Ju</p>
-                <p><br></p>
-                <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
-            `,
-            onUpdate: () => updateStats(),
-        });
-        
+            content: defaultContent,
+            onUpdate: () => {
+                updateStats()
+                localStorage.setItem('wc-editor', editor.getHTML())
+            },
+        })
+
         function updateStats() {
-            const text = editor.getText();
-            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-            const chars = text.length;
-            document.getElementById('wordCount').textContent = `✓ ${words} palabras`;
-            document.getElementById('charCount').textContent = `✓ ${chars} caracteres`;
-        }
-        
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+            const text = editor.getText()
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length
+            const chars = text.length
+            document.getElementById('wordCount').textContent = `✓ ${words} palabras`
+            document.getElementById('charCount').textContent = `✓ ${chars} caracteres`
         }
 
-        let trackChangesOn = false;
+        function showToast(msg) {
+            const toast = document.getElementById('toast')
+            toast.textContent = msg
+            toast.classList.add('show')
+            setTimeout(() => toast.classList.remove('show'), 2500)
+        }
+
+        let trackChangesOn = false
+        let lastHTML = editor.getHTML()
 
         function insertWordArtBanner(text, style = 1) {
-            const banner = document.getElementById('wordart-banner');
+            const banner = document.getElementById('wordart-banner')
             const styles = {
                 1: 'linear-gradient(90deg,#ff6b35,#0084ff)',
                 2: 'linear-gradient(90deg,#9b59b6,#27ae60)',
@@ -613,59 +343,57 @@
                 8: 'linear-gradient(90deg,#232526,#414345)',
                 9: 'linear-gradient(90deg,#11998e,#38ef7d)',
                 10: 'linear-gradient(90deg,#8e2de2,#4a00e0)',
-            };
-            banner.textContent = text;
-            banner.style.background = styles[style] || styles[1];
-            banner.style.webkitBackgroundClip = 'text';
-            banner.style.backgroundClip = 'text';
-            banner.style.webkitTextFillColor = 'transparent';
-            banner.style.display = 'block';
+            }
+            banner.textContent = text
+            banner.style.background = styles[style] || styles[1]
+            banner.style.webkitBackgroundClip = 'text'
+            banner.style.backgroundClip = 'text'
+            banner.style.webkitTextFillColor = 'transparent'
+            banner.style.display = 'block'
         }
 
-        const wordartModal = document.getElementById('wordartModal');
-        const wordartText  = document.getElementById('wordartText');
-        const wordartPrev  = document.getElementById('wordartPreview');
-        let currentWordArtStyle = 1;
+        const wordartModal = document.getElementById('wordartModal')
+        const wordartText  = document.getElementById('wordartText')
+        const wordartPrev  = document.getElementById('wordartPreview')
+        let currentWordArtStyle = 1
 
         wordartText.addEventListener('input', () => {
-            wordartPrev.textContent = wordartText.value || 'Vista previa';
-        });
+            wordartPrev.textContent = wordartText.value || 'Vista previa'
+        })
 
         document.querySelectorAll('.wordart-preset').forEach(btn => {
             btn.addEventListener('click', () => {
-                currentWordArtStyle = Number(btn.dataset.style);
-                showToast(`WC Arte estilo ${currentWordArtStyle}`);
-            });
-        });
+                currentWordArtStyle = Number(btn.dataset.style)
+                showToast(`WC Arte estilo ${currentWordArtStyle}`)
+            })
+        })
 
         document.getElementById('btnInsertWordArt').onclick = () => {
-            const txt = wordartText.value.trim();
-            if (txt) {
-                insertWordArtBanner(txt, currentWordArtStyle);
-                showToast('WC Arte insertado ✨');
-            }
-            wordartModal.classList.remove('show');
-            wordartText.value = '';
-            wordartPrev.textContent = 'Vista previa';
-            currentWordArtStyle = 1;
-        };
+            const txt = wordartText.value.trim()
+            if (txt) insertWordArtBanner(txt, currentWordArtStyle)
+            wordartModal.classList.remove('show')
+            wordartText.value = ''
+            wordartPrev.textContent = 'Vista previa'
+            currentWordArtStyle = 1
+            showToast('WC Arte insertado ✨')
+        }
         document.getElementById('btnCancelWordArt').onclick = () => {
-            wordartModal.classList.remove('show');
-            wordartText.value = '';
-            wordartPrev.textContent = 'Vista previa';
-            currentWordArtStyle = 1;
-        };
+            wordartModal.classList.remove('show')
+            wordartText.value = ''
+            wordartPrev.textContent = 'Vista previa'
+            currentWordArtStyle = 1
+        }
 
-        const colorModal = document.getElementById('colorModal');
+        const colorModal = document.getElementById('colorModal')
         document.getElementById('btnApplyColor').onclick = () => {
-            const color = document.getElementById('colorPicker').value;
-            editor.chain().focus().setColor(color).run();
-            colorModal.classList.remove('show');
-            showToast('Color aplicado');
-        };
+            const color = document.getElementById('colorPicker').value
+            editor.chain().focus().setColor(color).run()
+            colorModal.classList.remove('show')
+            showToast('Color aplicado')
+        }
         document.getElementById('btnCancelColor').onclick = () => {
-            colorModal.classList.remove('show');
-        };
+            colorModal.classList.remove('show')
+        }
 
         const uiLangs = {
             espanol: {
@@ -693,27 +421,17 @@
                 header: 'WC Corporate Editor v20.4',
                 sub: 'MALEKU UI - ESTÉTICA INDÍGENA',
             },
-        };
+        }
 
         function switchLang(lang) {
-            const ui = uiLangs[lang] || uiLangs.espanol;
-            document.getElementById('contentTitle').textContent = ui.title;
-            document.querySelector('.header h1').textContent = ui.header;
-            document.querySelector('.header p').textContent = ui.sub;
-            document.documentElement.lang = lang === 'ingles' ? 'en' : 'es';
+            const ui = uiLangs[lang] || uiLangs.espanol
+            document.getElementById('contentTitle').textContent = ui.title
+            document.querySelector('.header h1').textContent = ui.header
+            document.querySelector('.header p').textContent = ui.sub
+            document.documentElement.lang = lang === 'ingles' ? 'en' : 'es'
 
             const langContent = {
-                espanol: `
-                    <h2>Lenguas Indígenas de Costa Rica</h2>
-                    <p><strong>Bribri:</strong> Hola = Shkëkë</p>
-                    <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
-                    <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
-                    <p><strong>Boruca:</strong> Gracias = Shíi</p>
-                    <p><strong>Térraba:</strong> Agua = Di</p>
-                    <p><strong>Ngäbe:</strong> Casa = Ju</p>
-                    <p><br></p>
-                    <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
-                `,
+                espanol: defaultContent,
                 ingles: `
                     <h2>Indigenous Languages of Costa Rica</h2>
                     <p><strong>Bribri:</strong> Hello = Shkëkë</p>
@@ -748,84 +466,111 @@
                     <p><br></p>
                     <p>Escribe aquí...</p>
                 `,
-            };
+            }
 
-            editor.commands.setContent(langContent[lang] || langContent.espanol);
-            updateStats();
-            showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
+            editor.commands.setContent(langContent[lang] || langContent.espanol)
+            updateStats()
+            localStorage.setItem('wc-editor', editor.getHTML())
+            lastHTML = editor.getHTML()
+            showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`)
         }
 
-        function openImagePicker() {
-            document.getElementById('imageFileInput').click();
-        }
-
-        function openVideoPicker() {
-            document.getElementById('videoFileInput').click();
-        }
+        function openImagePicker() { document.getElementById('imageFileInput').click() }
+        function openVideoPicker() { document.getElementById('videoFileInput').click() }
 
         function fileToDataURL(file) {
             return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
+                const reader = new FileReader()
+                reader.onload = () => resolve(reader.result)
+                reader.onerror = reject
+                reader.readAsDataURL(file)
+            })
         }
 
         document.getElementById('imageFileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const dataUrl = await fileToDataURL(file);
-            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto"></p>`).run();
-            showToast('Imagen insertada desde archivo');
-            e.target.value = '';
-        });
+            const file = e.target.files[0]
+            if (!file) return
+            const dataUrl = await fileToDataURL(file)
+            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto"></p>`).run()
+            showToast('Imagen insertada desde archivo')
+            e.target.value = ''
+        })
 
         document.getElementById('videoFileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const url = URL.createObjectURL(file);
-            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto"><source src="${url}" type="${file.type}"></video></p>`).run();
-            showToast('Video insertado desde archivo');
-            e.target.value = '';
-        });
-        
+            const file = e.target.files[0]
+            if (!file) return
+            const url = URL.createObjectURL(file)
+            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto"><source src="${url}" type="${file.type}"></video></p>`).run()
+            showToast('Video insertado desde archivo')
+            e.target.value = ''
+        })
+
+        function getDefaultContent() {
+            return defaultContent
+        }
+
+        function exportWord() {
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>WC Editor</title></head><body>${editor.getHTML()}</body></html>`
+            const blob = htmlDocx.asBlob(html)
+            const a = document.createElement('a')
+            a.href = URL.createObjectURL(blob)
+            a.download = 'documento.docx'
+            a.click()
+            showToast('Documento Word descargado ✅')
+        }
+
+        function toggleTrackChanges() {
+            trackChangesOn = !trackChangesOn
+            const el = document.querySelector('.tiptap')
+            if (!el) return
+            if (trackChangesOn) {
+                lastHTML = editor.getHTML()
+                el.style.outline = '2px dashed #ff6b35'
+                el.style.background = '#fffdf7'
+                showToast('Control de cambios ACTIVADO')
+            } else {
+                el.style.outline = ''
+                el.style.background = ''
+                showToast('Control de cambios DESACTIVADO')
+            }
+        }
+
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const menuId = 'menu-' + btn.dataset.menu;
-                const dropdown = document.getElementById(menuId);
+                e.stopPropagation()
+                const menuId = 'menu-' + btn.dataset.menu
+                const dropdown = document.getElementById(menuId)
                 document.querySelectorAll('.dropdown').forEach(d => {
-                    if (d !== dropdown) d.classList.remove('show');
-                });
-                dropdown.classList.toggle('show');
-            });
-        });
-        
+                    if (d !== dropdown) d.classList.remove('show')
+                })
+                dropdown.classList.toggle('show')
+            })
+        })
+
         document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
-        });
-        
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'))
+        })
+
         document.querySelectorAll('.dropdown-item').forEach(item => {
             item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const action = item.dataset.action;
-                handleAction(action);
-                item.closest('.dropdown').classList.remove('show');
-            });
-        });
-        
+                e.stopPropagation()
+                const action = item.dataset.action
+                handleAction(action)
+                item.closest('.dropdown').classList.remove('show')
+            })
+        })
+
         async function copyText(text) {
             try {
-                await navigator.clipboard.writeText(text);
-                return true;
+                await navigator.clipboard.writeText(text)
+                return true
             } catch {
-                return false;
+                return false
             }
         }
 
         function pasteText() {
-            showToast('Pegar depende del permiso del navegador');
+            showToast('Pegar depende del permiso del navegador')
         }
 
         function handleAction(action) {
@@ -845,291 +590,261 @@
                 case 'alignJustify': editor.chain().focus().setTextAlign('justify').run(); showToast('Justificado'); break;
                 case 'indent': editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
                 case 'outdent': editor.chain().focus().liftListItem('listItem').run(); showToast('Sangría quitada'); break;
-                case 'fontColor':
-                    colorModal.classList.add('show');
-                    break;
+                case 'fontColor': colorModal.classList.add('show'); break;
                 case 'fontSize': {
-                    const size = prompt('Tamaño de fuente (ej: 18px, 1.5em):', '16px');
-                    if (size) {
-                        editor.chain().focus().setMark('textStyle', { fontSize: size }).run();
-                        showToast(`Tamaño: ${size}`);
-                    }
+                    const size = prompt('Tamaño de fuente (ej: 18px, 1.5em):', '16px')
+                    if (size) { editor.chain().focus().setMark('textStyle', { fontSize: size }).run(); showToast(`Tamaño: ${size}`) }
                     break;
                 }
                 case 'lineSpacing': {
-                    const choice = prompt(`Interlineado:\n1 = simple\n1.15 = predeterminado\n1.5 = doble\n2 = doble amplio\n\nEscribe el valor:`, '1.5');
-                    if (choice) {
-                        const el = document.querySelector('.tiptap');
-                        if (el) el.style.lineHeight = choice;
-                        showToast(`Interlineado: ${choice}`);
-                    }
+                    const choice = prompt(`Interlineado:\n1 = simple\n1.15 = predeterminado\n1.5 = doble\n2 = doble amplio\n\nEscribe el valor:`, '1.5')
+                    if (choice) { const el = document.querySelector('.tiptap'); if (el) el.style.lineHeight = choice; showToast(`Interlineado: ${choice}`) }
                     break;
                 }
-                case 'wordart':
-                    wordartModal.classList.add('show');
-                    wordartText.focus();
-                    break;
+                case 'wordart': wordartModal.classList.add('show'); wordartText.focus(); break;
                 case 'undo': editor.chain().focus().undo().run(); break;
                 case 'redo': editor.chain().focus().redo().run(); break;
                 case 'cut': document.execCommand('cut'); break;
-                case 'copy':
-                    copyText(editor.getText()).then(ok => showToast(ok ? 'Copiado ✅' : 'No se pudo copiar'));
-                    break;
-                case 'paste':
-                    pasteText();
-                    break;
+                case 'copy': copyText(editor.getText()).then(ok => showToast(ok ? 'Copiado ✅' : 'No se pudo copiar')); break;
+                case 'paste': pasteText(); break;
                 case 'selectAll': editor.chain().focus().selectAll().run(); showToast('Todo seleccionado'); break;
                 case 'find': {
-                    const term = prompt('Buscar texto:');
-                    if (!term) break;
-                    const replacement = prompt(`Reemplazar "${term}" por:`);
-                    if (replacement === null) break;
-                    const html = editor.getHTML().split(term).join(replacement);
-                    editor.commands.setContent(html);
-                    showToast(`"${term}" → "${replacement}"`);
+                    const term = prompt('Buscar texto:')
+                    if (!term) break
+                    const replacement = prompt(`Reemplazar "${term}" por:`)
+                    if (replacement === null) break
+                    const html = editor.getHTML().split(term).join(replacement)
+                    editor.commands.setContent(html)
+                    showToast(`"${term}" → "${replacement}"`)
                     break;
                 }
                 case 'trackChanges':
-                    trackChangesOn = !trackChangesOn;
-                    showToast(`Control de cambios: ${trackChangesOn ? 'ACTIVADO 🟢' : 'DESACTIVADO 🔴'}`);
+                    toggleTrackChanges()
                     break;
                 case 'autoCorrect':
-                    showToast('Autocorrección activa');
+                    showToast('Autocorrección activa')
                     break;
                 case 'save':
-                    localStorage.setItem('wc-editor', editor.getHTML());
-                    showToast('Documento guardado 💾');
+                    localStorage.setItem('wc-editor', editor.getHTML())
+                    showToast('Documento guardado 💾')
                     break;
                 case 'saveAs': {
-                    const name = prompt('Nombre del archivo:', 'documento');
-                    if (name) {
-                        localStorage.setItem('wc-editor-' + name, editor.getHTML());
-                        showToast(`Guardado como: ${name}`);
-                    }
+                    const name = prompt('Nombre del archivo:', 'documento')
+                    if (name) { localStorage.setItem('wc-editor-' + name, editor.getHTML()); showToast(`Guardado como: ${name}`) }
                     break;
                 }
                 case 'export':
-                    window.print();
-                    showToast('Abriendo impresión/PDF...');
+                    window.print()
+                    showToast('Abriendo impresión/PDF...')
                     break;
                 case 'exportDocx':
-                    showToast('Exportar Word: copia el texto y pégalo en Word');
+                    exportWord()
                     break;
                 case 'exportHtml': {
-                    const blob = new Blob([editor.getHTML()], { type: 'text/html' });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'documento.html';
-                    a.click();
-                    showToast('HTML descargado ✅');
+                    const blob = new Blob([editor.getHTML()], { type: 'text/html' })
+                    const a = document.createElement('a')
+                    a.href = URL.createObjectURL(blob)
+                    a.download = 'documento.html'
+                    a.click()
+                    showToast('HTML descargado ✅')
                     break;
                 }
                 case 'exportTxt': {
-                    const blob = new Blob([editor.getText()], { type: 'text/plain' });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'documento.txt';
-                    a.click();
-                    showToast('TXT descargado ✅');
+                    const blob = new Blob([editor.getText()], { type: 'text/plain' })
+                    const a = document.createElement('a')
+                    a.href = URL.createObjectURL(blob)
+                    a.download = 'documento.txt'
+                    a.click()
+                    showToast('TXT descargado ✅')
                     break;
                 }
                 case 'print':
-                    window.print();
-                    break;
+                    window.print()
+                    break
                 case 'share':
-                    if (navigator.share) {
-                        navigator.share({ title: 'WC Editor', text: editor.getText() });
-                    } else {
-                        copyText(editor.getText()).then(() => showToast('Texto copiado al portapapeles para compartir'));
-                    }
-                    break;
+                    if (navigator.share) navigator.share({ title: 'WC Editor', text: editor.getText() })
+                    else copyText(editor.getText()).then(() => showToast('Texto copiado al portapapeles para compartir'))
+                    break
                 case 'image': {
-                    const choice = prompt('Escribe "archivo" para seleccionar imagen o pega una URL:', 'archivo');
-                    if (choice && choice.toLowerCase() === 'archivo') {
-                        openImagePicker();
-                    } else if (choice) {
-                        editor.chain().focus().insertContent(`<p><img src="${choice}" style="max-width:100%;height:auto"></p>`).run();
-                        showToast('Imagen insertada por enlace');
+                    const choice = prompt('Escribe "archivo" para seleccionar imagen o pega una URL:', 'archivo')
+                    if (choice && choice.toLowerCase() === 'archivo') openImagePicker()
+                    else if (choice) {
+                        editor.chain().focus().insertContent(`<p><img src="${choice}" style="max-width:100%;height:auto"></p>`).run()
+                        showToast('Imagen insertada por enlace')
                     }
                     break;
                 }
                 case 'table':
-                    editor.chain().focus().insertContent('<table border="1" style="border-collapse:collapse;width:100%"><tr><td style="padding:8px">Celda 1</td><td style="padding:8px">Celda 2</td></tr><tr><td style="padding:8px">Celda 3</td><td style="padding:8px">Celda 4</td></tr></table>').run();
-                    showToast('Tabla insertada');
-                    break;
+                    editor.chain().focus().insertContent('<table border="1" style="border-collapse:collapse;width:100%"><tr><td style="padding:8px">Celda 1</td><td style="padding:8px">Celda 2</td></tr><tr><td style="padding:8px">Celda 3</td><td style="padding:8px">Celda 4</td></tr></table>').run()
+                    showToast('Tabla insertada')
+                    break
                 case 'link': {
-                    const url = prompt('URL del enlace:');
+                    const url = prompt('URL del enlace:')
                     if (url) {
-                        editor.chain().focus().insertContent(`<a href="${url}">${url}</a>`).run();
-                        showToast('Enlace insertado');
+                        editor.chain().focus().insertContent(`<a href="${url}">${url}</a>`).run()
+                        showToast('Enlace insertado')
                     }
                     break;
                 }
                 case 'emoji': {
-                    const emojis = ['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥'];
-                    const e = emojis[Math.floor(Math.random() * emojis.length)];
-                    editor.chain().focus().insertContent(e).run();
-                    showToast(`Emoji insertado: ${e}`);
+                    const emojis = ['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥']
+                    const e = emojis[Math.floor(Math.random() * emojis.length)]
+                    editor.chain().focus().insertContent(e).run()
+                    showToast(`Emoji insertado: ${e}`)
                     break;
                 }
                 case 'pageBreak':
-                    editor.chain().focus().insertContent('<hr>').run();
-                    showToast('Salto de página insertado');
-                    break;
+                    editor.chain().focus().insertContent('<hr>').run()
+                    showToast('Salto de página insertado')
+                    break
                 case 'header': {
-                    const h = prompt('Texto del encabezado:');
-                    if (h) {
-                        editor.chain().focus().insertContentAt(0, `<p style="border-bottom:2px solid #0084ff;padding-bottom:8px;font-weight:bold;text-align:center">${h}</p>`).run();
-                        showToast('Encabezado insertado');
-                    }
+                    const h = prompt('Texto del encabezado:')
+                    if (h) { editor.chain().focus().insertContentAt(0, `<p style="border-bottom:2px solid #0084ff;padding-bottom:8px;font-weight:bold;text-align:center">${h}</p>`).run(); showToast('Encabezado insertado') }
                     break;
                 }
                 case 'footer': {
-                    const f = prompt('Texto del pie de página:');
-                    if (f) {
-                        editor.chain().focus().insertContent(`<p style="border-top:2px solid #0084ff;padding-top:8px;font-weight:bold;text-align:center;margin-top:40px">${f}</p>`).run();
-                        showToast('Pie de página insertado');
-                    }
+                    const f = prompt('Texto del pie de página:')
+                    if (f) { editor.chain().focus().insertContent(`<p style="border-top:2px solid #0084ff;padding-top:8px;font-weight:bold;text-align:center;margin-top:40px">${f}</p>`).run(); showToast('Pie de página insertado') }
                     break;
                 }
                 case 'pageNumber':
-                    editor.chain().focus().insertContent('<p style="text-align:center;color:#666">— Página 1 —</p>').run();
-                    showToast('Número de página insertado');
-                    break;
+                    editor.chain().focus().insertContent('<p style="text-align:center;color:#666">— Página 1 —</p>').run()
+                    showToast('Número de página insertado')
+                    break
                 case 'shape':
-                    editor.chain().focus().insertContent('<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#ff6b35);border-radius:8px;display:inline-block;margin:8px"></div>').run();
-                    showToast('Forma insertada');
-                    break;
+                    editor.chain().focus().insertContent('<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#ff6b35);border-radius:8px;display:inline-block;margin:8px"></div>').run()
+                    showToast('Forma insertada')
+                    break
                 case 'chart':
-                    editor.chain().focus().insertContent('<div style="border:1px solid #ddd;border-radius:8px;padding:16px;text-align:center;color:#666;margin:8px 0">📊 [Gráfico — inserta datos aquí]</div>').run();
-                    showToast('Espacio de gráfico insertado');
-                    break;
+                    editor.chain().focus().insertContent('<div style="border:1px solid #ddd;border-radius:8px;padding:16px;text-align:center;color:#666;margin:8px 0">📊 [Gráfico — inserta datos aquí]</div>').run()
+                    showToast('Espacio de gráfico insertado')
+                    break
                 case 'video': {
-                    const choice = prompt('Escribe "archivo" para seleccionar video o pega una URL:', 'archivo');
-                    if (choice && choice.toLowerCase() === 'archivo') {
-                        openVideoPicker();
-                    } else if (choice) {
-                        editor.chain().focus().insertContent(`<p><a href="${choice}" target="_blank">▶ Ver video</a></p>`).run();
-                        showToast('Video insertado por enlace');
+                    const choice = prompt('Escribe "archivo" para seleccionar video o pega una URL:', 'archivo')
+                    if (choice && choice.toLowerCase() === 'archivo') openVideoPicker()
+                    else if (choice) {
+                        editor.chain().focus().insertContent(`<p><a href="${choice}" target="_blank">▶ Ver video</a></p>`).run()
+                        showToast('Video insertado por enlace')
                     }
                     break;
                 }
                 case 'new':
-                    editor.commands.setContent('<p></p>');
-                    showToast('Nuevo documento');
-                    break;
+                    editor.commands.setContent('<p></p>')
+                    localStorage.removeItem('wc-editor')
+                    showToast('Nuevo documento')
+                    break
+                case 'open': {
+                    const recent = localStorage.getItem('wc-editor')
+                    if (recent) {
+                        editor.commands.setContent(recent)
+                        showToast('Abrir reciente: cargado ✅')
+                    } else {
+                        editor.commands.setContent(getDefaultContent())
+                        showToast('No hay reciente, se cargó el panel principal')
+                    }
+                    break
+                }
+                case 'dashboard':
+                    editor.commands.setContent(getDefaultContent())
+                    document.getElementById('contentTitle').textContent = '📋 Diccionario 300 palabras - Lenguas Indígenas CR'
+                    document.querySelector('.header h1').textContent = 'WC Corporate Editor v20.4'
+                    document.querySelector('.header p').textContent = 'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA'
+                    document.documentElement.lang = 'es'
+                    showToast('Panel principal restaurado')
+                    break
                 case 'wordcount':
-                    showToast(`Total: ${editor.getText().trim().split(/\s+/).filter(w=>w).length} palabras`);
-                    break;
+                    showToast(`Total: ${editor.getText().trim().split(/\s+/).filter(w=>w).length} palabras`)
+                    break
                 case 'spellcheck': {
-                    const el = document.querySelector('.tiptap');
-                    if (el) el.spellcheck = true;
-                    showToast('Corrector ortográfico activado');
-                    break;
+                    const el = document.querySelector('.tiptap')
+                    if (el) el.spellcheck = true
+                    showToast('Corrector ortográfico activado')
+                    break
                 }
                 case 'translate':
-                    showToast('Función de traducción próximamente');
-                    break;
+                    showToast('Función de traducción próximamente')
+                    break
                 case 'dict':
-                    showToast('Diccionario disponible en el menú "Lenguas Indígenas CR"');
-                    break;
+                    showToast('Diccionario disponible en el menú "Lenguas Indígenas CR"')
+                    break
                 case 'marginNormal':
-                    document.querySelector('.content').style.padding = '24px 20px 100px 20px';
-                    showToast('Márgenes normales');
-                    break;
+                    document.querySelector('.content').style.padding = '24px 20px 100px 20px'
+                    showToast('Márgenes normales')
+                    break
                 case 'marginNarrow':
-                    document.querySelector('.content').style.padding = '12px 12px 100px 12px';
-                    showToast('Márgenes estrechos');
-                    break;
+                    document.querySelector('.content').style.padding = '12px 12px 100px 12px'
+                    showToast('Márgenes estrechos')
+                    break
                 case 'marginWide':
-                    document.querySelector('.content').style.padding = '36px 30px 100px 30px';
-                    showToast('Márgenes amplios');
-                    break;
+                    document.querySelector('.content').style.padding = '36px 30px 100px 30px'
+                    showToast('Márgenes amplios')
+                    break
                 case 'orientPortrait':
-                    document.body.style.transform = 'none';
-                    showToast('Orientación vertical');
-                    break;
+                    document.body.style.transform = 'none'
+                    showToast('Orientación vertical')
+                    break
                 case 'orientLandscape':
-                    document.body.style.transform = 'rotate(90deg)';
-                    showToast('Orientación horizontal');
-                    break;
+                    document.body.style.transform = 'rotate(90deg)'
+                    showToast('Orientación horizontal')
+                    break
                 case 'sizeA4':
-                    document.querySelector('.content').style.maxWidth = '210mm';
-                    showToast('Tamaño A4');
-                    break;
+                    document.querySelector('.content').style.maxWidth = '210mm'
+                    showToast('Tamaño A4')
+                    break
                 case 'sizeLetter':
-                    document.querySelector('.content').style.maxWidth = '216mm';
-                    showToast('Tamaño Carta');
-                    break;
+                    document.querySelector('.content').style.maxWidth = '216mm'
+                    showToast('Tamaño Carta')
+                    break
                 case 'sizeLegal':
-                    document.querySelector('.content').style.maxWidth = '216mm';
-                    showToast('Tamaño Oficio');
-                    break;
+                    document.querySelector('.content').style.maxWidth = '216mm'
+                    showToast('Tamaño Oficio')
+                    break
                 case 'insert-bribri':
-                    editor.chain().focus().insertContent('<p><strong>Bribri:</strong> Shkëkë</p>').run();
-                    showToast('Palabra Bribri insertada');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Bribri:</strong> Shkëkë</p>').run()
+                    showToast('Palabra Bribri insertada')
+                    break
                 case 'insert-cabecar':
-                    editor.chain().focus().insertContent('<p><strong>Cabécar:</strong> Ká bë́rë</p>').run();
-                    showToast('Palabra Cabécar insertada');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Cabécar:</strong> Ká bë́rë</p>').run()
+                    showToast('Palabra Cabécar insertada')
+                    break
                 case 'insert-maleku':
-                    editor.chain().focus().insertContent('<p><strong>Maleku:</strong> Ma lha maráma</p>').run();
-                    showToast('Palabra Maleku insertada');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Maleku:</strong> Ma lha maráma</p>').run()
+                    showToast('Palabra Maleku insertada')
+                    break
                 case 'insert-boruca':
-                    editor.chain().focus().insertContent('<p><strong>Boruca:</strong> Shíi</p>').run();
-                    showToast('Palabra Boruca insertada');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Boruca:</strong> Shíi</p>').run()
+                    showToast('Palabra Boruca insertada')
+                    break
                 case 'insert-teribe':
-                    editor.chain().focus().insertContent('<p><strong>Térraba/Teribe:</strong> Di</p>').run();
-                    showToast('Palabra Térraba/Teribe insertada');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Térraba/Teribe:</strong> Di</p>').run()
+                    showToast('Palabra Térraba/Teribe insertada')
+                    break
                 case 'insert-guaymi':
-                    editor.chain().focus().insertContent('<p><strong>Ngäbe/Guaymí:</strong> Ju</p>').run();
-                    showToast('Palabra Ngäbe/Guaymí insertada');
-                    break;
-                case 'lang-bribri':
-                    switchLang('bribri');
-                    break;
-                case 'lang-cabecar':
-                    switchLang('cabecar');
-                    break;
-                case 'lang-maleku':
-                    switchLang('maleku');
-                    break;
-                case 'lang-ingles':
-                    switchLang('ingles');
-                    break;
-                case 'lang-espanol':
-                    switchLang('espanol');
-                    break;
-                case 'dict-indigena':
-                    switchLang('espanol');
-                    showToast('Diccionario indígena activo');
-                    break;
-                case 'translate-indigena':
-                    showToast('Traducción indígena próximamente');
-                    break;
-                case 'dashboard':
-                    showToast('Panel principal');
-                    break;
-                case 'open':
-                    showToast('Abrir reciente pendiente');
-                    break;
+                    editor.chain().focus().insertContent('<p><strong>Ngäbe/Guaymí:</strong> Ju</p>').run()
+                    showToast('Palabra Ngäbe/Guaymí insertada')
+                    break
+                case 'lang-bribri': switchLang('bribri'); break
+                case 'lang-cabecar': switchLang('cabecar'); break
+                case 'lang-maleku': switchLang('maleku'); break
+                case 'lang-ingles': switchLang('ingles'); break
+                case 'lang-espanol': switchLang('espanol'); break
+                case 'dict-indigena': switchLang('espanol'); showToast('Diccionario indígena activo'); break
+                case 'translate-indigena': showToast('Traducción indígena próximamente'); break
                 default:
-                    showToast(`Acción no implementada: ${action}`);
+                    showToast(`Acción no implementada: ${action}`)
             }
-            updateStats();
+            updateStats()
         }
 
-        document.getElementById('btnBack').onclick = () => history.back();
-        document.getElementById('btnForward').onclick = () => history.forward();
-        document.getElementById('btnShare').onclick = () => handleAction('share');
-        document.getElementById('btnSave').onclick = () => handleAction('save');
-        document.getElementById('btnCopy').onclick = () => handleAction('copy');
+        document.getElementById('btnBack').onclick = () => history.back()
+        document.getElementById('btnForward').onclick = () => history.forward()
+        document.getElementById('btnShare').onclick = () => handleAction('share')
+        document.getElementById('btnSave').onclick = () => handleAction('save')
+        document.getElementById('btnCopy').onclick = () => handleAction('copy')
 
-        updateStats();
+        const saved = localStorage.getItem('wc-editor')
+        if (saved) editor.commands.setContent(saved)
+        updateStats()
     </script>
 </body>
 </html>
