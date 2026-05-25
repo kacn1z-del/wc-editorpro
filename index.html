@@ -4,102 +4,360 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WC Corporate Editor v20.4</title>
-    <!-- Tu CSS original se mantiene intacto -->
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
-        .header { background: linear-gradient(135deg, #0084ff 0%, #ff6b35 100%); padding: 24px 20px 140px 20px; text-align: center; color: white; }
-        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-        .header p { font-size: 12px; opacity: 0.9; letter-spacing: 1px; }
-        .menu-card { background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 20px; margin: -100px 20px 0 20px; position: relative; z-index: 10; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
-        .menu-row { display: flex; justify-content: space-around; margin-bottom: 16px; }
-        .menu-col { display: flex; flex-direction: column; gap: 12px; align-items: center; }
-        .menu-btn { background: none; border: none; color: #1a1a1a; font-size: 15px; font-weight: 500; padding: 8px 12px; cursor: pointer; border-radius: 8px; }
-        .menu-btn:hover { background: rgba(255, 255, 255, 0.3); }
-        .dropdown { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 8px; display: none; z-index: 100; min-width: 200px; }
-        .dropdown.show { display: block; }
-        .dropdown-item { padding: 10px 16px; cursor: pointer; font-size: 14px; }
-        .dropdown-item:hover { background: #f0f7ff; }
-        .content { background: #ffffff; padding: 24px 20px 100px 20px; min-height: 500px; }
-        .tiptap { border: 1px solid #ddd; border-radius: 12px; padding: 16px; min-height: 300px; }
-        .toast { position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 8px; opacity: 0; transition: opacity 0.3s; z-index: 1000; }
-        .toast.show { opacity: 1; }
-        #wordart-banner { display: none; text-align: center; font-size: 32px; font-weight: 900; background: linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        #colorModal, #wordartModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 9999; align-items: center; justify-content: center; }
-        #colorModal.show, #wordartModal.show { display: flex; }
-        .modal-box { background: white; padding: 24px; border-radius: 16px; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0084ff 0%, #ff6b35 100%);
+            padding: 24px 20px 140px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin: -100px 20px 0 20px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 16px;
+        }
+
+        .menu-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: #1a1a1a;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            padding: 8px;
+            display: none;
+            z-index: 100;
+            min-width: 200px;
+        }
+
+        .dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dropdown-item:hover {
+            background: #f0f7ff;
+        }
+
+        .content {
+            background: #ffffff;
+            padding: 24px 20px 100px 20px;
+            min-height: 500px;
+        }
+
+        .tiptap {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 16px;
+            min-height: 300px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        #wordart-banner {
+            display: none;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #colorModal,
+        #wordartModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.4);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #colorModal.show,
+        #wordartModal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+        }
     </style>
 </head>
+
 <body>
+
     <div class="header">
         <h1>WC Corporate Editor v20.4</h1>
         <p>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</p>
     </div>
-    
+
     <div class="menu-card">
-        <!-- Tus menús originales se mantienen igual -->
+
         <div class="menu-row">
             <button class="menu-btn" data-menu="inicio">Inicio</button>
             <button class="menu-btn" data-menu="archivo">Archivo</button>
             <button class="menu-btn" data-menu="lenguas">Lenguas Indígenas CR</button>
         </div>
+
     </div>
 
-    <!-- Dropdowns (asegúrate de tener todos los tuyos aquí) -->
+    <!-- Dropdown -->
     <div class="dropdown" id="menu-lenguas">
         <div class="dropdown-item" data-action="lang-bribri">Editor en Bribri</div>
         <div class="dropdown-item" data-action="lang-cabecar">Editor en Cabécar</div>
         <div class="dropdown-item" data-action="lang-maleku">Editor en Maleku</div>
         <div class="dropdown-item" data-action="lang-espanol">Editor en Español</div>
     </div>
-    
+
     <div class="content">
+
         <div id="contentTitle">📋 Diccionario 300 palabras</div>
+
         <div id="wordart-banner"></div>
+
         <div id="editor"></div>
+
     </div>
 
     <script type="module">
+
         import { Editor } from 'https://esm.sh/@tiptap/core@2.6.6';
         import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.6.6';
-        // ... (resto de tus importaciones originales) ...
-        
+
         const editor = new Editor({
+
             element: document.querySelector('#editor'),
-            extensions: [StarterKit], // Añade tus otras extensiones aquí
+
+            extensions: [
+                StarterKit
+            ],
+
             content: '<p>Bienvenido.</p>'
         });
 
-        // Lógica de idiomas integrada
+
+        // Idiomas
         const uiLangs = {
-            espanol: { title: '📋 Diccionario Español', header: 'WC Corporate Editor v20.4', sub: 'ESTÉTICA EJECUTIVA' },
-            bribri: { title: '📋 Ña tsuru 300 bribri', header: 'WC Corporate Editor v20.4', sub: 'BRIBRI UI' }
+
+            espanol: {
+                title: '📋 Diccionario Español',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'ESTÉTICA EJECUTIVA'
+            },
+
+            bribri: {
+                title: '📋 Ña tsuru 300 bribri',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'BRIBRI UI'
+            },
+
+            cabecar: {
+                title: '📋 Diccionario Cabécar',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'CABÉCAR UI'
+            },
+
+            maleku: {
+                title: '📋 Diccionario Maleku',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'MALEKU UI'
+            }
         };
 
+
+        // Cambiar idioma REAL
         function switchLang(lang) {
+
             const ui = uiLangs[lang] || uiLangs.espanol;
+
             document.getElementById('contentTitle').textContent = ui.title;
+
             document.querySelector('.header h1').textContent = ui.header;
+
             document.querySelector('.header p').textContent = ui.sub;
+
+            const contents = {
+
+                espanol: '<p>Bienvenido al editor en Español.</p>',
+
+                bribri: '<p>Se\' dör ie\' wöbla Bribri.</p>',
+
+                cabecar: '<p>Bienvenido al editor Cabécar.</p>',
+
+                maleku: '<p>Bienvenido al editor Maleku.</p>'
+            };
+
+            editor.commands.setContent(
+                contents[lang] || contents.espanol
+            );
         }
 
-        // Esta función handleAction es el corazón de tu editor
+
+        // Acciones
         function handleAction(action) {
+
             if (action.startsWith('lang-')) {
+
                 switchLang(action.replace('lang-', ''));
+
             } else {
-                // AQUÍ VA TODO TU SWITCH ORIGINAL (Bold, Italic, Save, etc.)
+
                 switch(action) {
-                    case 'bold': editor.chain().focus().toggleBold().run(); break;
-                    // ... Pega aquí el resto de tus casos originales
+
+                    case 'bold':
+                        editor.chain().focus().toggleBold().run();
+                    break;
+
+                    case 'italic':
+                        editor.chain().focus().toggleItalic().run();
+                    break;
+
+                    case 'undo':
+                        editor.chain().focus().undo().run();
+                    break;
+
+                    case 'redo':
+                        editor.chain().focus().redo().run();
+                    break;
                 }
             }
         }
 
-        // Event Listeners originales
+
+        // Dropdown items
         document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', () => handleAction(item.dataset.action));
+
+            item.addEventListener('click', () => {
+
+                handleAction(item.dataset.action);
+
+                document.querySelectorAll('.dropdown').forEach(drop => {
+                    drop.classList.remove('show');
+                });
+            });
+
         });
+
+
+        // Abrir dropdowns
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+
+            btn.addEventListener('click', (e) => {
+
+                e.stopPropagation();
+
+                const menu = btn.dataset.menu;
+
+                document.querySelectorAll('.dropdown').forEach(drop => {
+                    drop.classList.remove('show');
+                });
+
+                const target = document.getElementById(`menu-${menu}`);
+
+                if(target){
+
+                    target.classList.toggle('show');
+
+                    const rect = btn.getBoundingClientRect();
+
+                    target.style.left =
+                        rect.left + (rect.width / 2) + 'px';
+                }
+            });
+        });
+
+
+        // Cerrar dropdown
+        document.addEventListener('click', () => {
+
+            document.querySelectorAll('.dropdown').forEach(drop => {
+                drop.classList.remove('show');
+            });
+
+        });
+
     </script>
+
 </body>
 </html>
