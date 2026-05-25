@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WC Corporate Editor v20.4 - Tiptap</title>
+    <title>WC Corporate Editor v20.4</title>
     <style>
         * {
             margin: 0;
@@ -52,6 +52,19 @@
             display: flex;
             justify-content: space-around;
             margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .menu-col {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            position: relative;
+        }
+        
+        .menu-item {
+            position: relative;
         }
         
         .menu-btn {
@@ -70,16 +83,54 @@
             background: rgba(255, 255, 255, 0.3);
         }
         
-        .menu-btn.active {
-            background: rgba(0, 132, 255, 0.2);
-            color: #0084ff;
+        .menu-btn:active {
+            transform: scale(0.95);
         }
         
-        .menu-col {
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            padding: 8px;
+            margin-top: 8px;
+            display: none;
+            z-index: 100;
+            min-width: 200px;
+        }
+        
+        .dropdown.show {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .dropdown-item {
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: space-between;
             align-items: center;
+        }
+        
+        .dropdown-item:hover {
+            background: #f0f7ff;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background: #eee;
+            margin: 4px 8px;
         }
         
         .content {
@@ -95,7 +146,6 @@
             margin-bottom: 16px;
         }
         
-        /* Tiptap Editor Styles */
         .tiptap {
             border: 1px solid #ddd;
             border-radius: 12px;
@@ -108,18 +158,9 @@
             border-color: #0084ff;
         }
         
-        .tiptap p {
-            margin: 8px 0;
-        }
-        
-        .tiptap h1, .tiptap h2, .tiptap h3 {
-            margin: 16px 0 8px 0;
-        }
-        
-        .tiptap ul, .tiptap ol {
-            padding-left: 24px;
-            margin: 8px 0;
-        }
+        .tiptap p { margin: 8px 0; }
+        .tiptap h1, .tiptap h2, .tiptap h3 { margin: 16px 0 8px 0; }
+        .tiptap ul, .tiptap ol { padding-left: 24px; margin: 8px 0; }
         
         .footer {
             background: #ffffff;
@@ -167,9 +208,7 @@
             transition: all 0.2s;
         }
         
-        .nav-btn:hover {
-            background: #f0f0f0;
-        }
+        .nav-btn:hover { background: #f0f0f0; }
         
         .toast {
             position: fixed;
@@ -186,8 +225,14 @@
             z-index: 1000;
         }
         
-        .toast.show {
-            opacity: 1;
+        .toast.show { opacity: 1; }
+        
+        .badge {
+            background: #0084ff;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -199,21 +244,103 @@
     
     <div class="menu-card">
         <div class="menu-row">
-            <button class="menu-btn" data-action="bold">Negrita</button>
-            <button class="menu-btn" data-action="italic">Cursiva</button>
-            <button class="menu-btn" data-action="underline">Subrayado</button>
-            <button class="menu-btn" data-action="strike">Tachado</button>
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="inicio">Inicio</button>
+                <div class="dropdown" id="menu-inicio">
+                    <div class="dropdown-item" data-action="new">Nuevo documento</div>
+                    <div class="dropdown-item" data-action="open">Abrir reciente</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="dashboard">Panel principal</div>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="archivo">Archivo</button>
+                <div class="dropdown" id="menu-archivo">
+                    <div class="dropdown-item" data-action="save">Guardar <span class="badge">Ctrl+S</span></div>
+                    <div class="dropdown-item" data-action="saveAs">Guardar como...</div>
+                    <div class="dropdown-item" data-action="export">Exportar PDF</div>
+                    <div class="dropdown-item" data-action="exportDocx">Exportar Word</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="print">Imprimir</div>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="editar">Editar</button>
+                <div class="dropdown" id="menu-editar">
+                    <div class="dropdown-item" data-action="undo">Deshacer <span class="badge">Ctrl+Z</span></div>
+                    <div class="dropdown-item" data-action="redo">Rehacer <span class="badge">Ctrl+Y</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="cut">Cortar</div>
+                    <div class="dropdown-item" data-action="copy">Copiar</div>
+                    <div class="dropdown-item" data-action="paste">Pegar</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="find">Buscar y reemplazar</div>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="insertar">Insertar</button>
+                <div class="dropdown" id="menu-insertar">
+                    <div class="dropdown-item" data-action="image">Imagen</div>
+                    <div class="dropdown-item" data-action="table">Tabla</div>
+                    <div class="dropdown-item" data-action="link">Enlace</div>
+                    <div class="dropdown-item" data-action="emoji">Emoji</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="pageBreak">Salto de página</div>
+                </div>
+            </div>
         </div>
+        
         <div class="menu-col">
-            <button class="menu-btn" data-action="h1">Título H1</button>
-            <button class="menu-btn" data-action="bulletList">Lista</button>
-            <button class="menu-btn" data-action="orderedList">Numerada</button>
-            <button class="menu-btn" data-action="undo">Deshacer</button>
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="herramientas">Herramientas</button>
+                <div class="dropdown" id="menu-herramientas">
+                    <div class="dropdown-item" data-action="spellcheck">Corrector ortográfico</div>
+                    <div class="dropdown-item" data-action="wordcount">Contar palabras</div>
+                    <div class="dropdown-item" data-action="translate">Traducir</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="dict">Diccionario</div>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="formato">Formato</button>
+                <div class="dropdown" id="menu-formato">
+                    <div class="dropdown-item" data-action="bold">Negrita <span class="badge">Ctrl+B</span></div>
+                    <div class="dropdown-item" data-action="italic">Cursiva <span class="badge">Ctrl+I</span></div>
+                    <div class="dropdown-item" data-action="underline">Subrayado <span class="badge">Ctrl+U</span></div>
+                    <div class="dropdown-item" data-action="strike">Tachado</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="h1">Título 1</div>
+                    <div class="dropdown-item" data-action="h2">Título 2</div>
+                    <div class="dropdown-item" data-action="h3">Título 3</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="bulletList">Lista con viñetas</div>
+                    <div class="dropdown-item" data-action="orderedList">Lista numerada</div>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <button class="menu-btn" data-menu="lenguas">Lenguas Indígenas CR</button>
+                <div class="dropdown" id="menu-lenguas">
+                    <div class="dropdown-item" data-action="insert-bribri">Bribri</div>
+                    <div class="dropdown-item" data-action="insert-cabecar">Cabécar</div>
+                    <div class="dropdown-item" data-action="insert-maleku">Maleku</div>
+                    <div class="dropdown-item" data-action="insert-boruca">Boruca</div>
+                    <div class="dropdown-item" data-action="insert-teribe">Térraba/Teribe</div>
+                    <div class="dropdown-item" data-action="insert-guaymi">Ngäbe/Guaymí</div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" data-action="dict-indigena">Diccionario indígena</div>
+                    <div class="dropdown-item" data-action="translate-indigena">Traducir a lengua</div>
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="content">
-        <div class="content-title">📋 Diccionario 300 palabras</div>
+        <div class="content-title">📋 Diccionario 300 palabras - Lenguas Indígenas CR</div>
         <div id="editor"></div>
     </div>
     
@@ -241,25 +368,23 @@
         import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.6.6'
         import Underline from 'https://esm.sh/@tiptap/extension-underline@2.6.6'
         
-        // Inicializar Tiptap
         const editor = new Editor({
             element: document.querySelector('#editor'),
-            extensions: [
-                StarterKit,
-                Underline,
-            ],
+            extensions: [StarterKit, Underline],
             content: `
-                <h2>Hola</h2>
-                <p>Buenos días</p>
-                <p>Buenas tardes</p>
-                <p>Escribe aquí tu contenido...</p>
+                <h2>Lenguas Indígenas de Costa Rica</h2>
+                <p><strong>Bribri:</strong> Hola = Shkëkë</p>
+                <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
+                <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
+                <p><strong>Boruca:</strong> Gracias = Shíi</p>
+                <p><strong>Térraba:</strong> Agua = Di</p>
+                <p><strong>Ngäbe:</strong> Casa = Ju</p>
+                <p><br></p>
+                <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
             `,
-            onUpdate: ({ editor }) => {
-                updateStats();
-            },
+            onUpdate: ({ editor }) => updateStats(),
         });
         
-        // Actualizar estadísticas
         function updateStats() {
             const text = editor.getText();
             const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
@@ -268,7 +393,6 @@
             document.getElementById('charCount').textContent = `✓ ${chars} caracteres`;
         }
         
-        // Toast
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.textContent = msg;
@@ -276,70 +400,105 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
         
-        // Botones del menú
-        document.querySelectorAll('[data-action]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const action = btn.dataset.action;
+        // Sistema de menús desplegables
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const menuId = 'menu-' + btn.dataset.menu;
+                const dropdown = document.getElementById(menuId);
                 
-                switch(action) {
-                    case 'bold':
-                        editor.chain().focus().toggleBold().run();
-                        break;
-                    case 'italic':
-                        editor.chain().focus().toggleItalic().run();
-                        break;
-                    case 'underline':
-                        editor.chain().focus().toggleUnderline().run();
-                        break;
-                    case 'strike':
-                        editor.chain().focus().toggleStrike().run();
-                        break;
-                    case 'h1':
-                        editor.chain().focus().toggleHeading({ level: 1 }).run();
-                        break;
-                    case 'bulletList':
-                        editor.chain().focus().toggleBulletList().run();
-                        break;
-                    case 'orderedList':
-                        editor.chain().focus().toggleOrderedList().run();
-                        break;
-                    case 'undo':
-                        editor.chain().focus().undo().run();
-                        break;
-                }
+                // Cerrar otros menús
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('show');
+                });
                 
-                // Actualizar estado activo
-                updateMenuState();
+                dropdown.classList.toggle('show');
             });
         });
         
-        function updateMenuState() {
-            document.querySelectorAll('[data-action]').forEach(btn => {
-                const action = btn.dataset.action;
-                let isActive = false;
-                
-                switch(action) {
-                    case 'bold': isActive = editor.isActive('bold'); break;
-                    case 'italic': isActive = editor.isActive('italic'); break;
-                    case 'underline': isActive = editor.isActive('underline'); break;
-                    case 'strike': isActive = editor.isActive('strike'); break;
-                    case 'h1': isActive = editor.isActive('heading', { level: 1 }); break;
-                    case 'bulletList': isActive = editor.isActive('bulletList'); break;
-                    case 'orderedList': isActive = editor.isActive('orderedList'); break;
-                }
-                
-                btn.classList.toggle('active', isActive);
-            });
-        }
+        // Cerrar menús al hacer clic fuera
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+        });
         
-        editor.on('selectionUpdate', updateMenuState);
+        // Acciones de menú
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const action = item.dataset.action;
+                handleAction(action);
+                item.closest('.dropdown').classList.remove('show');
+            });
+        });
+        
+        function handleAction(action) {
+            switch(action) {
+                case 'bold': editor.chain().focus().toggleBold().run(); break;
+                case 'italic': editor.chain().focus().toggleItalic().run(); break;
+                case 'underline': editor.chain().focus().toggleUnderline().run(); break;
+                case 'strike': editor.chain().focus().toggleStrike().run(); break;
+                case 'h1': editor.chain().focus().toggleHeading({ level: 1 }).run(); break;
+                case 'h2': editor.chain().focus().toggleHeading({ level: 2 }).run(); break;
+                case 'h3': editor.chain().focus().toggleHeading({ level: 3 }).run(); break;
+                case 'bulletList': editor.chain().focus().toggleBulletList().run(); break;
+                case 'orderedList': editor.chain().focus().toggleOrderedList().run(); break;
+                case 'undo': editor.chain().focus().undo().run(); break;
+                case 'redo': editor.chain().focus().redo().run(); break;
+                case 'cut': document.execCommand('cut'); break;
+                case 'copy': document.execCommand('copy'); break;
+                case 'paste': document.execCommand('paste'); break;
+                case 'save': 
+                    localStorage.setItem('wc-editor', editor.getHTML());
+                    showToast('Documento guardado');
+                    break;
+                case 'new':
+                    editor.commands.setContent('<p></p>');
+                    showToast('Nuevo documento');
+                    break;
+                case 'wordcount':
+                    showToast(`Total: ${editor.getText().split(/\s+/).length} palabras`);
+                    break;
+                // Lenguas indígenas
+                case 'insert-bribri':
+                    editor.chain().focus().insertContent(' [Bribri: Shkëkë = Hola] ').run();
+                    showToast('Insertado: Bribri');
+                    break;
+                case 'insert-cabecar':
+                    editor.chain().focus().insertContent(' [Cabécar: Ká bë́rë = Buenos días] ').run();
+                    showToast('Insertado: Cabécar');
+                    break;
+                case 'insert-maleku':
+                    editor.chain().focus().insertContent(' [Maleku: Ma lha maráma = Buenas tardes] ').run();
+                    showToast('Insertado: Maleku');
+                    break;
+                case 'insert-boruca':
+                    editor.chain().focus().insertContent(' [Boruca: Shíi = Gracias] ').run();
+                    showToast('Insertado: Boruca');
+                    break;
+                case 'insert-teribe':
+                    editor.chain().focus().insertContent(' [Térraba: Di = Agua] ').run();
+                    showToast('Insertado: Térraba');
+                    break;
+                case 'insert-guaymi':
+                    editor.chain().focus().insertContent(' [Ngäbe: Ju = Casa] ').run();
+                    showToast('Insertado: Ngäbe');
+                    break;
+                case 'dict-indigena':
+                    showToast('Abriendo diccionario de lenguas indígenas...');
+                    break;
+                case 'translate-indigena':
+                    showToast('Función de traducción próximamente');
+                    break;
+                default:
+                    showToast(`${action} ejecutado`);
+            }
+        }
         
         // Botones inferiores
         document.getElementById('btnBack').onclick = () => editor.chain().focus().undo().run();
         document.getElementById('btnForward').onclick = () => editor.chain().focus().redo().run();
         document.getElementById('btnSave').onclick = () => {
-            const html = editor.getHTML();
-            localStorage.setItem('wc-editor-content', html);
+            localStorage.setItem('wc-editor', editor.getHTML());
             showToast('Guardado en localStorage');
         };
         document.getElementById('btnCopy').onclick = () => {
@@ -350,12 +509,12 @@
             if (navigator.share) {
                 await navigator.share({ text: editor.getText() });
             } else {
-                showToast('Comparte el texto copiado');
+                showToast('Link copiado');
             }
         };
         
         // Cargar contenido guardado
-        const saved = localStorage.getItem('wc-editor-content');
+        const saved = localStorage.getItem('wc-editor');
         if (saved) editor.commands.setContent(saved);
         
         updateStats();
