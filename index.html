@@ -5,26 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>WC Corporate Editor Pro - TipTap Edition</title>
     
-    <!-- Librerías -->
+    <!-- Librerías desde CDN -->
     <script src="https://unpkg.com/@tiptap/bundle/dist/tiptap-bundle.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root { --blue:#1d5270; --wine:#92324f; --bg:#eef2f7; }
         body { margin:0; font-family:Segoe UI, sans-serif; background:var(--bg); height:100vh; display:flex; flex-direction:column; }
+        
         .header { background:linear-gradient(135deg,var(--blue),var(--wine)); color:white; padding:15px; font-weight:bold; }
-        .ribbon { background:#dbe4ee; padding:10px; display:flex; gap:5px; flex-wrap:wrap; border-bottom:1px solid #ccc; }
+        .ribbon { background:#dbe4ee; padding:10px; display:flex; gap:5px; flex-wrap:wrap; border-bottom:1px solid #ccc; z-index: 10; }
         .workspace { flex:1; padding:20px; overflow:auto; display:flex; justify-content:center; }
         
+        /* Contenedor del editor */
         #editor { 
             background:white; width:100%; max-width:800px; min-height:80vh; 
             padding:40px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.1); 
-            cursor:text; 
+            cursor:text;
         }
         
-        /* Estilos críticos para TipTap */
-        .ProseMirror { outline:none; min-height: 100%; }
-        .ProseMirror:focus { outline:none; }
+        /* Clase esencial para TipTap */
+        .ProseMirror { outline:none; min-height: 80vh; }
         
         button { border:none; padding:8px 12px; border-radius:4px; cursor:pointer; background:white; font-size:12px; transition:0.2s; }
         button:hover { background:#eee; }
@@ -51,22 +52,19 @@
 </div>
 
 <script>
-    window.editor = null;
-
     document.addEventListener('DOMContentLoaded', () => {
-        const { Editor } = Tiptap;
-        const { StarterKit } = TiptapStarterKit;
-        const { Underline } = TiptapUnderline;
-        const { Image } = TiptapImage;
+        const { Editor, StarterKit, Underline, Image } = Tiptap;
 
+        // Inicialización Forzada
         window.editor = new Editor({
             element: document.querySelector('#editor'),
             extensions: [StarterKit, Underline, Image],
-            editable: true, // Asegura que se pueda escribir
+            editable: true, 
             editorProps: {
-                attributes: { class: 'ProseMirror' } // Asegura la clase necesaria
+                attributes: { class: 'ProseMirror' },
+                handleClick(view, pos, event) { view.focus(); } // Fuerza el foco al hacer clic
             },
-            content: localStorage.getItem('wc_content') ? JSON.parse(localStorage.getItem('wc_content')) : '<h2>Editor Pro</h2><p>Bienvenido Keny Chinchilla Navarro</p>',
+            content: localStorage.getItem('wc_content') ? JSON.parse(localStorage.getItem('wc_content')) : '<h2>Editor Pro</h2><p>Escribe aquí...</p>',
             onUpdate: ({ editor }) => {
                 localStorage.setItem('wc_content', JSON.stringify(editor.getJSON()));
             }
@@ -84,11 +82,11 @@
         });
     });
 
-    // Funciones Globales
-    function runCheck(name, fn) { try { fn(); } catch(e) { console.error(name, e); alert("Error en: " + name); } }
+    // --- Funciones ---
+    function runCheck(name, fn) { try { fn(); } catch(e) { console.error(e); alert("Error en: " + name); } }
 
     function addImage() {
-        const url = prompt('Ingresa la URL de la imagen:');
+        const url = prompt('URL de la imagen:');
         if (url) window.editor.chain().focus().setImage({ src: url }).run();
     }
 
@@ -115,7 +113,7 @@
 
     function startVoice() {
         const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!Rec) { alert("Tu navegador no soporta voz."); return; }
+        if (!Rec) { alert("Voz no soportada."); return; }
         const r = new Rec();
         r.lang = 'es-CR';
         r.onresult = (e) => window.editor.chain().focus().insertContent(' ' + e.results[0][0].transcript).run();
