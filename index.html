@@ -148,7 +148,6 @@
             margin-bottom: 16px;
         }
 
-        /* ── WordArt banner ── */
         #wordart-banner {
             display: none;
             text-align: center;
@@ -257,7 +256,6 @@
             border-radius: 4px;
         }
 
-        /* Modal de color */
         #colorModal {
             display:none;
             position:fixed;
@@ -284,7 +282,6 @@
         #btnApplyColor { background:#0084ff; color:#fff; }
         #btnCancelColor { background:#eee; color:#333; }
 
-        /* Modal WordArt */
         #wordartModal {
             display:none;
             position:fixed;
@@ -645,6 +642,57 @@
             document.querySelector('.header h1').textContent = ui.header;
             document.querySelector('.header p').textContent = ui.sub;
             document.documentElement.lang = lang === 'ingles' ? 'en' : 'es';
+
+            const langContent = {
+                espanol: `
+                    <h2>Lenguas Indígenas de Costa Rica</h2>
+                    <p><strong>Bribri:</strong> Hola = Shkëkë</p>
+                    <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
+                    <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
+                    <p><strong>Boruca:</strong> Gracias = Shíi</p>
+                    <p><strong>Térraba:</strong> Agua = Di</p>
+                    <p><strong>Ngäbe:</strong> Casa = Ju</p>
+                    <p><br></p>
+                    <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
+                `,
+                ingles: `
+                    <h2>Indigenous Languages of Costa Rica</h2>
+                    <p><strong>Bribri:</strong> Hello = Shkëkë</p>
+                    <p><strong>Cabécar:</strong> Good morning = Ká bë́rë</p>
+                    <p><strong>Maleku:</strong> Good afternoon = Ma lha maráma</p>
+                    <p><strong>Boruca:</strong> Thank you = Shíi</p>
+                    <p><strong>Térraba:</strong> Water = Di</p>
+                    <p><strong>Ngäbe:</strong> House = Ju</p>
+                    <p><br></p>
+                    <p>Type here or use the "Indigenous Languages CR" menu to insert words...</p>
+                `,
+                bribri: `
+                    <h2>Tsuru Bribri</h2>
+                    <p><strong>Shkëkë:</strong> Hola</p>
+                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Ño' wé a'i, tesá aquí...</p>
+                `,
+                cabecar: `
+                    <h2>Cabécar</h2>
+                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
+                    <p><strong>Shkëkë:</strong> Hola</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Escribe aquí...</p>
+                `,
+                maleku: `
+                    <h2>Maleku</h2>
+                    <p><strong>Ma lha maráma:</strong> Buenas tardes</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Escribe aquí...</p>
+                `,
+            };
+
+            editor.commands.setContent(langContent[lang] || langContent.espanol);
+            updateStats();
             showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
         }
         
@@ -672,7 +720,7 @@
                 item.closest('.dropdown').classList.remove('show');
             });
         });
-
+        
         async function copyText(text) {
             try {
                 await navigator.clipboard.writeText(text);
@@ -697,11 +745,11 @@
                 case 'h3': editor.chain().focus().toggleHeading({ level: 3 }).run(); break;
                 case 'bulletList': editor.chain().focus().toggleBulletList().run(); break;
                 case 'orderedList': editor.chain().focus().toggleOrderedList().run(); break;
-                case 'alignLeft':    editor.chain().focus().setTextAlign('left').run(); showToast('Alineado a la izquierda'); break;
-                case 'alignCenter':  editor.chain().focus().setTextAlign('center').run(); showToast('Centrado'); break;
-                case 'alignRight':   editor.chain().focus().setTextAlign('right').run(); showToast('Alineado a la derecha'); break;
+                case 'alignLeft': editor.chain().focus().setTextAlign('left').run(); showToast('Alineado a la izquierda'); break;
+                case 'alignCenter': editor.chain().focus().setTextAlign('center').run(); showToast('Centrado'); break;
+                case 'alignRight': editor.chain().focus().setTextAlign('right').run(); showToast('Alineado a la derecha'); break;
                 case 'alignJustify': editor.chain().focus().setTextAlign('justify').run(); showToast('Justificado'); break;
-                case 'indent':  editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
+                case 'indent': editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
                 case 'outdent': editor.chain().focus().liftListItem('listItem').run(); showToast('Sangría quitada'); break;
                 case 'fontColor':
                     colorModal.classList.add('show');
