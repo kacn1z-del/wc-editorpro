@@ -1,125 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>WC Corporate Editor Pro - TipTap Edition</title>
-    
-    <!-- Librerías desde CDN -->
-    <script src="https://unpkg.com/@tiptap/bundle/dist/tiptap-bundle.umd.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WC Corporate Editor Pro</title>
 
-    <style>
-        :root { --blue:#1d5270; --wine:#92324f; --bg:#eef2f7; }
-        body { margin:0; font-family:Segoe UI, sans-serif; background:var(--bg); height:100vh; display:flex; flex-direction:column; }
-        
-        .header { background:linear-gradient(135deg,var(--blue),var(--wine)); color:white; padding:15px; font-weight:bold; }
-        .ribbon { background:#dbe4ee; padding:10px; display:flex; gap:5px; flex-wrap:wrap; border-bottom:1px solid #ccc; z-index: 10; }
-        .workspace { flex:1; padding:20px; overflow:auto; display:flex; justify-content:center; }
-        
-        /* Contenedor del editor */
-        #editor { 
-            background:white; width:100%; max-width:800px; min-height:80vh; 
-            padding:40px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.1); 
-            cursor:text;
-        }
-        
-        /* Clase esencial para TipTap */
-        .ProseMirror { outline:none; min-height: 80vh; }
-        
-        button { border:none; padding:8px 12px; border-radius:4px; cursor:pointer; background:white; font-size:12px; transition:0.2s; }
-        button:hover { background:#eee; }
-        button.is-active { background:var(--blue); color:white; font-weight:bold; }
-    </style>
+  <!-- Estilos base de TipTap/ProseMirror -->
+  <link rel="stylesheet" href="https://unpkg.com/@tiptap/core@latest/dist/style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f3f4f6;
+    }
+
+   .header {
+      background: linear-gradient(90deg, #3b3b5c, #8b2c5a);
+      color: white;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+   .toolbar {
+      background: white;
+      padding: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+   .toolbar button {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      touch-action: manipulation; /* Evita delay en móvil */
+    }
+
+   .toolbar button:active {
+      background: #e5e7eb;
+    }
+
+   .toolbar button.active {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+   .editor-wrapper {
+      padding: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+   .editor-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      min-height: 500px;
+    }
+
+    /* CLAVE: Sin esto no escribe en móvil */
+   .ProseMirror {
+      min-height: 500px;
+      padding: 20px;
+      outline: none;
+      font-size: 16px; /* iOS no hace zoom si es 16px+ */
+      line-height: 1.6;
+    }
+
+   .ProseMirror p.is-editor-empty:first-child::before {
+      content: 'Empieza a escribir aquí...';
+      color: #9ca3af;
+      float: left;
+      height: 0;
+      pointer-events: none;
+    }
+
+   .ProseMirror:focus {
+      outline: none;
+    }
+  </style>
 </head>
 <body>
 
-<div class="header">WC Corporate Editor Pro</div>
+  <div class="header">WC Corporate Editor Pro</div>
 
-<div class="ribbon">
-    <button id="btn-bold"><b>B</b></button>
-    <button id="btn-italic"><i>I</i></button>
+  <div class="toolbar">
+    <button id="btn-bold"><strong>B</strong></button>
+    <button id="btn-italic"><em>I</em></button>
     <button id="btn-underline"><u>U</u></button>
-    <button onclick="runCheck('Imagen', addImage)">🖼️ Imagen</button>
-    <button onclick="runCheck('PDF', exportToPDF)">📥 PDF</button>
-    <button onclick="runCheck('Voz', startVoice)">🎧 Voz</button>
-    <button onclick="translateContent('bribri')">🌱 Bribri</button>
-    <button onclick="translateContent('spanish')">🇪🇸 Español</button>
-</div>
+    <button id="btn-strike"><s>/</s></button>
+    <button id="btn-image">📷 Imagen</button>
+    <button id="btn-pdf">📄 PDF</button>
+    <button id="btn-voice">🎧 Voz</button>
+    <button id="btn-bribri">🌱 Bribri</button>
+    <button id="btn-es">🇪🇸 Español</button>
+  </div>
 
-<div class="workspace">
-    <div id="editor"></div>
-</div>
+  <div class="editor-wrapper">
+    <div class="editor-container" id="editor"></div>
+  </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const { Editor, StarterKit, Underline, Image } = Tiptap;
+  <!-- TipTap UMD Bundle v2 -->
+  <script src="https://unpkg.com/@tiptap/bundle@2/dist/tiptap-bundle.umd.js"></script>
 
-        // Inicialización Forzada
-        window.editor = new Editor({
-            element: document.querySelector('#editor'),
-            extensions: [StarterKit, Underline, Image],
-            editable: true, 
-            editorProps: {
-                attributes: { class: 'ProseMirror' },
-                handleClick(view, pos, event) { view.focus(); } // Fuerza el foco al hacer clic
-            },
-            content: localStorage.getItem('wc_content') ? JSON.parse(localStorage.getItem('wc_content')) : '<h2>Editor Pro</h2><p>Escribe aquí...</p>',
-            onUpdate: ({ editor }) => {
-                localStorage.setItem('wc_content', JSON.stringify(editor.getJSON()));
-            }
-        });
+  <script>
+    const { Editor, StarterKit, Underline, Image } = window.tiptapBundle;
 
-        // Eventos
-        document.getElementById('btn-bold').addEventListener('click', () => window.editor.chain().focus().toggleBold().run());
-        document.getElementById('btn-italic').addEventListener('click', () => window.editor.chain().focus().toggleItalic().run());
-        document.getElementById('btn-underline').addEventListener('click', () => window.editor.chain().focus().toggleUnderline().run());
-
-        window.editor.on('transaction', () => {
-            document.getElementById('btn-bold').classList.toggle('is-active', window.editor.isActive('bold'));
-            document.getElementById('btn-italic').classList.toggle('is-active', window.editor.isActive('italic'));
-            document.getElementById('btn-underline').classList.toggle('is-active', window.editor.isActive('underline'));
-        });
+    // 1. Crear el editor
+    const editor = new Editor({
+      element: document.querySelector('#editor'),
+      extensions: [
+        StarterKit,
+        Underline, // StarterKit no lo trae
+        Image.configure({
+          inline: true,
+          allowBase64: true,
+        }),
+      ],
+      content: '',
+      editable: true,
+      autofocus: 'end', // Abre teclado en móvil al cargar
     });
 
-    // --- Funciones ---
-    function runCheck(name, fn) { try { fn(); } catch(e) { console.error(e); alert("Error en: " + name); } }
-
-    function addImage() {
-        const url = prompt('URL de la imagen:');
-        if (url) window.editor.chain().focus().setImage({ src: url }).run();
+    // 2. Función helper para botones - evita perder foco en móvil
+    function bindButton(id, command) {
+      const btn = document.querySelector(id);
+      btn.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // CLAVE: evita que el editor pierda foco en iOS
+        command();
+      });
     }
 
-    function exportToPDF() {
-        html2pdf().from(document.getElementById('editor')).save('Documento_WC.pdf');
-    }
+    // 3. Conectar todos los botones
+    bindButton('#btn-bold', () => {
+      editor.chain().focus().toggleBold().run();
+    });
 
-    function translateContent(mode) {
-        const dict = { "agua": "diö", "tierra": "tá", "sol": "shköl", "casa": "yë" };
-        let json = window.editor.getJSON();
-        const process = (nodes) => nodes.map(n => {
-            if (n.text) {
-                let txt = n.text;
-                Object.keys(dict).forEach(k => {
-                    const reg = new RegExp(`\\b${mode === 'bribri' ? k : dict[k]}\\b`, 'gi');
-                    txt = txt.replace(reg, mode === 'bribri' ? dict[k] : k);
-                });
-                return { ...n, text: txt };
-            }
-            return n.content ? { ...n, content: process(n.content) } : n;
-        });
-        window.editor.commands.setContent({ ...json, content: process(json.content) });
-    }
+    bindButton('#btn-italic', () => {
+      editor.chain().focus().toggleItalic().run();
+    });
 
-    function startVoice() {
-        const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!Rec) { alert("Voz no soportada."); return; }
-        const r = new Rec();
-        r.lang = 'es-CR';
-        r.onresult = (e) => window.editor.chain().focus().insertContent(' ' + e.results[0][0].transcript).run();
-        r.start();
-    }
-</script>
+    bindButton('#btn-underline', () => {
+      editor.chain().focus().toggleUnderline().run();
+    });
 
+    bindButton('#btn-strike', () => {
+      editor.chain().focus().toggleStrike().run();
+    });
+
+    // Botón de imagen - abre selector de archivos
+    bindButton('#btn-image', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = () => {
+        const file = input.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            editor.chain().focus().setImage({ src: e.target.result }).run();
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+    });
+
+    // Botones que aún no hacen nada - placeholder
+    bindButton('#btn-pdf', () => {
+      alert('Función PDF pendiente');
+    });
+
+    bindButton('#btn-voice', () => {
+      alert('Función Voz pendiente');
+    });
+
+    bindButton('#btn-bribri', () => {
+      alert('Cambiar a Bribri pendiente');
+    });
+
+    bindButton('#btn-es', () => {
+      alert('Cambiar a Español pendiente');
+    });
+
+    // 4. Actualizar estado activo de botones
+    editor.on('selectionUpdate', updateButtons);
+    editor.on('transaction', updateButtons);
+
+    function updateButtons() {
+      document.querySelector('#btn-bold').classList.toggle('active', editor.isActive('bold'));
+      document.querySelector('#btn-italic').classList.toggle('active', editor.isActive('italic'));
+      document.querySelector('#btn-underline').classList.toggle('active', editor.isActive('underline'));
+      document.querySelector('#btn-strike').classList.toggle('active', editor.isActive('strike'));
+    }
+  </script>
 </body>
 </html>
