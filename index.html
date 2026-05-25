@@ -1,93 +1,531 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WC STABLE CORE</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WC Corporate Editor Pro Stable</title>
 
 <style>
-body{margin:0;font-family:system-ui;background:#eef2f7}
+:root{
+  --blue:#1d5270;
+  --wine:#92324f;
+  --orange:#d94e18;
+  --bg:#eef2f7;
+}
 
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI,system-ui,sans-serif;
+}
+
+body{
+  background:var(--bg);
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* HEADER */
 .header{
-  background:#1d5270;
+  background:linear-gradient(135deg,var(--blue),var(--wine),var(--orange));
   color:white;
   padding:10px;
+}
+
+.brand{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+/* LANG */
+.lang-bar{
+  display:flex;
+  gap:6px;
+  overflow:auto;
+  margin-bottom:10px;
+}
+
+.lang-btn{
+  border:none;
+  border-radius:6px;
+  padding:6px 10px;
+  background:rgba(255,255,255,.15);
+  color:white;
+  font-size:12px;
+}
+
+.lang-btn.active{
+  background:white;
+  color:#111;
   font-weight:700;
 }
 
-.toolbar{
+/* TABS */
+.tabs{
   display:flex;
   gap:6px;
-  padding:8px;
-  background:white;
+  overflow:auto;
 }
 
-button{
-  padding:8px;
-  border:1px solid #ccc;
-  background:white;
+.tab{
+  padding:7px 12px;
   border-radius:6px;
+  background:rgba(255,255,255,.15);
+  color:white;
+  font-size:13px;
+}
+
+.tab.active{
+  background:white;
+  color:#111;
+  font-weight:700;
+}
+
+/* RIBBON */
+.ribbon{
+  background:#dbe4ee;
+  padding:8px;
+  display:flex;
+  gap:6px;
+  overflow:auto;
+}
+
+.ribbon button,
+.ribbon select{
+  border:none;
+  border-radius:6px;
+  background:white;
+  padding:8px;
+  font-size:12px;
+}
+
+/* WORKSPACE */
+.workspace{
+  flex:1;
+  overflow:auto;
+  padding:14px;
 }
 
 #editor{
-  margin:10px;
-  padding:16px;
-  min-height:60vh;
   background:white;
+  min-height:100%;
+  padding:40px;
   border-radius:10px;
   outline:none;
+  line-height:1.6;
+  box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+/* FLOAT */
+.float-wrap{
+  position:fixed;
+  right:16px;
+  bottom:90px;
+  z-index:999;
+}
+
+.float-btn{
+  background:linear-gradient(135deg,var(--blue),var(--wine));
+  color:white;
+  border:none;
+  border-radius:30px;
+  padding:12px 18px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.float-panel{
+  position:absolute;
+  right:0;
+  bottom:60px;
+  width:290px;
+  background:#111827;
+  color:white;
+  border-radius:14px;
+  padding:12px;
+  display:none;
+  max-height:65vh;
+  overflow:auto;
+}
+
+.float-panel.show{
+  display:block;
+}
+
+.group{
+  margin-bottom:12px;
+}
+
+.group-title{
+  font-size:11px;
+  color:#38bdf8;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.group-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.group-row button,
+.group-row select{
+  border:none;
+  border-radius:6px;
+  padding:8px;
+  background:#1f2937;
+  color:white;
+  font-size:12px;
+}
+
+/* FOOTER */
+.footer{
+  height:32px;
+  background:white;
+  border-top:1px solid #ccc;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10px;
+  font-size:11px;
+}
+
+/* MODAL */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:5000;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  background:white;
+  width:85%;
+  max-width:320px;
+  border-radius:14px;
+  padding:20px;
+}
+
+.modal-box h3{
+  margin-bottom:10px;
+}
+
+.modal-box button{
+  margin-top:10px;
+  border:none;
+  background:var(--blue);
+  color:white;
+  padding:8px 14px;
+  border-radius:6px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">WC STABLE CORE (SIN ERRORES)</div>
+<!-- HEADER -->
+<div class="header">
 
-<div class="toolbar">
-<button onclick="fmt('bold')">B</button>
-<button onclick="fmt('italic')">I</button>
-<button onclick="fmt('underline')">U</button>
-<button onclick="ins('• ')">Lista</button>
+  <div class="brand" id="brandTitle">
+    WC Corporate Editor Pro
+  </div>
+
+  <!-- LANG -->
+  <div class="lang-bar">
+
+    <button class="lang-btn active" onclick="setLang('es',this)">
+      🇨🇷 Español
+    </button>
+
+    <button class="lang-btn" onclick="setLang('en',this)">
+      🇺🇸 English
+    </button>
+
+    <button class="lang-btn" onclick="setLang('br',this)">
+      🌱 Bribri
+    </button>
+
+    <button class="lang-btn" onclick="setLang('ca',this)">
+      🐾 Cabécar
+    </button>
+
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+
+    <div class="tab active">Inicio</div>
+    <div class="tab">Insertar</div>
+    <div class="tab">Diseño</div>
+    <div class="tab">IA</div>
+
+  </div>
+
 </div>
 
-<div id="editor" contenteditable="true">Escribe aquí...</div>
+<!-- RIBBON -->
+<div class="ribbon">
+
+  <button onclick="safeCmd('bold')"><b>B</b></button>
+
+  <button onclick="safeCmd('italic')"><i>I</i></button>
+
+  <button onclick="safeCmd('underline')"><u>U</u></button>
+
+  <button onclick="safeCmd('justifyLeft')">⬅</button>
+
+  <button onclick="safeCmd('justifyCenter')">≡</button>
+
+  <button onclick="safeCmd('justifyRight')">➡</button>
+
+  <button onclick="safeCmd('insertUnorderedList')">• Lista</button>
+
+  <button onclick="insertTable()">Tabla</button>
+
+  <button onclick="insertPageBreak()">Salto</button>
+
+  <button onclick="toggleColumns()">Columnas</button>
+
+  <button onclick="recordMacro()">Macro</button>
+
+  <button onclick="playMacro()">▶</button>
+
+  <select onchange="fontSize(this.value)">
+    <option>16</option>
+    <option>20</option>
+    <option>24</option>
+    <option>30</option>
+  </select>
+
+</div>
+
+<!-- WORKSPACE -->
+<div class="workspace">
+
+<div id="editor" contenteditable="true">
+
+<h2>WC Corporate Editor Pro</h2>
+
+<p>
+Editor corporativo estable con:
+</p>
+
+<ul>
+<li>Ribbon tipo Word</li>
+<li>Panel IA flotante</li>
+<li>Macros</li>
+<li>Idiomas Bribri/Cabécar</li>
+<li>Tablas</li>
+<li>Diseño de página</li>
+<li>Reconocimiento de voz</li>
+</ul>
+
+</div>
+
+</div>
+
+<!-- FLOAT -->
+<div class="float-wrap">
+
+<button class="float-btn" onclick="togglePanel()">
+💼 Herramientas Corporativas
+</button>
+
+<div class="float-panel" id="panel">
+
+  <!-- FORMAT -->
+  <div class="group">
+
+    <div class="group-title">
+      Formato
+    </div>
+
+    <div class="group-row">
+
+      <button onclick="safeCmd('bold')">Negrita</button>
+
+      <button onclick="safeCmd('italic')">Cursiva</button>
+
+      <button onclick="safeCmd('underline')">Subrayar</button>
+
+    </div>
+
+  </div>
+
+  <!-- DESIGN -->
+  <div class="group">
+
+    <div class="group-title">
+      Diseño
+    </div>
+
+    <div class="group-row">
+
+      <button onclick="setMargin('20px')">Estrecho</button>
+
+      <button onclick="setMargin('40px')">Normal</button>
+
+      <button onclick="setMargin('60px')">Ancho</button>
+
+    </div>
+
+  </div>
+
+  <!-- BRIBRI -->
+  <div class="group">
+
+    <div class="group-title">
+      IA Bribri / Cabécar
+    </div>
+
+    <div class="group-row">
+
+      <button onclick="translateBribri()">
+        Traducir Bribri
+      </button>
+
+      <button onclick="translateSpanish()">
+        Español
+      </button>
+
+      <button onclick="learnWords()">
+        Aprender
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- SPECIAL -->
+  <div class="group">
+
+    <div class="group-title">
+      Teclado indígena
+    </div>
+
+    <div class="group-row">
+
+      <button onclick="insertText('a̱')">a̱</button>
+
+      <button onclick="insertText('e̱')">e̱</button>
+
+      <button onclick="insertText('ö')">ö</button>
+
+      <button onclick="insertText('ñ')">ñ</button>
+
+    </div>
+
+  </div>
+
+  <!-- VOICE -->
+  <div class="group">
+
+    <div class="group-title">
+      Voz
+    </div>
+
+    <div class="group-row">
+
+      <button onclick="startVoice()">
+        🎧 Escuchar
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+
+<div id="ecoLabel">
+Español 🇨🇷
+</div>
+
+<div id="counter">
+0 palabras
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h3 id="modalText">
+Mensaje
+</h3>
+
+<button onclick="closeModal()">
+Cerrar
+</button>
+
+</div>
+
+</div>
 
 <script>
-
 const editor = document.getElementById("editor");
 
-/* ===== SAFE FOCUS ===== */
-function focusEditor(){
-  editor.focus();
-}
+let macro = [];
+let recording = false;
 
-/* ===== SAFE FORMAT ===== */
-function fmt(cmd){
+/* ===== SAFE EXEC ===== */
+function safeCmd(cmd){
+
   try{
-    focusEditor();
+
+    editor.focus();
+
     document.execCommand(cmd,false,null);
-  }catch(e){
-    console.log("format error",e);
+
+    if(recording){
+      macro.push({type:"cmd",cmd});
+    }
+
+  }catch(err){
+    console.log(err);
   }
+
 }
 
-/* ===== SAFE INSERT (SIN ROMPER NADA) ===== */
-function ins(text){
+/* ===== INSERT ===== */
+function insertText(text){
+
   try{
-    focusEditor();
 
-    let sel = window.getSelection();
+    editor.focus();
 
-    if(!sel || !sel.rangeCount){
-      editor.innerText += text;
+    const sel = window.getSelection();
+
+    if(!sel.rangeCount){
+      editor.innerHTML += text;
       return;
     }
 
-    let range = sel.getRangeAt(0);
+    const range = sel.getRangeAt(0);
+
     range.deleteContents();
 
-    let node = document.createTextNode(text);
+    const node = document.createTextNode(text);
+
     range.insertNode(node);
 
     range.setStartAfter(node);
@@ -96,11 +534,385 @@ function ins(text){
     sel.removeAllRanges();
     sel.addRange(range);
 
-  }catch(e){
-    console.log("insert error",e);
+  }catch(err){
+    console.log(err);
   }
+
 }
 
+/* ===== TABLE ===== */
+function insertTable(){
+
+  try{
+
+    editor.focus();
+
+    const html = `
+      <table border="1" style="width:100%;border-collapse:collapse;margin:10px 0;">
+        <tr>
+          <td style="padding:8px;">A1</td>
+          <td style="padding:8px;">B1</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;">A2</td>
+          <td style="padding:8px;">B2</td>
+        </tr>
+      </table>
+      <p></p>
+    `;
+
+    document.execCommand("insertHTML",false,html);
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== PAGE BREAK ===== */
+function insertPageBreak(){
+
+  try{
+
+    editor.focus();
+
+    document.execCommand(
+      "insertHTML",
+      false,
+      "<hr style='border-top:2px dashed #999;margin:20px 0'>"
+    );
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== FONT ===== */
+function fontSize(size){
+
+  try{
+
+    editor.focus();
+
+    document.execCommand("fontSize",false,"7");
+
+    const fonts = editor.getElementsByTagName("font");
+
+    for(let i=0;i<fonts.length;i++){
+
+      if(fonts[i].size=="7"){
+        fonts[i].removeAttribute("size");
+        fonts[i].style.fontSize = size+"px";
+      }
+
+    }
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== PANEL ===== */
+function togglePanel(){
+
+  try{
+
+    document
+      .getElementById("panel")
+      .classList
+      .toggle("show");
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== MODAL ===== */
+function showModal(text){
+
+  document.getElementById("modalText").innerText = text;
+
+  document.getElementById("modal")
+    .classList
+    .add("show");
+
+}
+
+function closeModal(){
+
+  document.getElementById("modal")
+    .classList
+    .remove("show");
+
+}
+
+/* ===== COUNTER ===== */
+setInterval(()=>{
+
+  try{
+
+    const text = editor.innerText.trim();
+
+    const words = text
+      ? text.split(/\s+/).length
+      : 0;
+
+    document.getElementById("counter")
+      .innerText = words+" palabras";
+
+  }catch(err){
+    console.log(err);
+  }
+
+},500);
+
+/* ===== LANG ===== */
+function setLang(lang,btn){
+
+  try{
+
+    document.querySelectorAll(".lang-btn")
+      .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    const eco = document.getElementById("ecoLabel");
+
+    if(lang==="es"){
+      eco.innerText="Español 🇨🇷";
+    }
+
+    if(lang==="en"){
+      eco.innerText="English 🇺🇸";
+    }
+
+    if(lang==="br"){
+      eco.innerText="Bribri 🌱";
+    }
+
+    if(lang==="ca"){
+      eco.innerText="Cabécar 🐾";
+    }
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== COLUMNS ===== */
+function toggleColumns(){
+
+  try{
+
+    if(editor.style.columnCount==="2"){
+      editor.style.columnCount="1";
+    }else{
+      editor.style.columnCount="2";
+    }
+
+    editor.style.columnGap="30px";
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== MARGIN ===== */
+function setMargin(val){
+
+  try{
+    editor.style.padding = val;
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== MACRO ===== */
+function recordMacro(){
+
+  recording = !recording;
+
+  if(recording){
+
+    macro = [];
+
+    showModal("Grabando macro...");
+
+  }else{
+
+    showModal(
+      "Macro guardada con "
+      +macro.length+
+      " acciones."
+    );
+
+  }
+
+}
+
+function playMacro(){
+
+  try{
+
+    macro.forEach(m=>{
+
+      if(m.type==="cmd"){
+        safeCmd(m.cmd);
+      }
+
+    });
+
+    showModal("Macro ejecutada.");
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== BRIBRI ===== */
+const bribri = {
+  agua:"diö",
+  tierra:"tá",
+  sol:"shköl",
+  casa:"yë"
+};
+
+function translateBribri(){
+
+  try{
+
+    let text = editor.innerText;
+
+    Object.keys(bribri).forEach(word=>{
+
+      const rg = new RegExp("\\b"+word+"\\b","gi");
+
+      text = text.replace(rg,bribri[word]);
+
+    });
+
+    editor.innerText = text;
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+function translateSpanish(){
+
+  try{
+
+    let reverse = {};
+
+    Object.keys(bribri)
+      .forEach(k=>{
+        reverse[bribri[k]] = k;
+      });
+
+    let text = editor.innerText;
+
+    Object.keys(reverse).forEach(word=>{
+
+      const rg = new RegExp("\\b"+word+"\\b","gi");
+
+      text = text.replace(rg,reverse[word]);
+
+    });
+
+    editor.innerText = text;
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== LEARN ===== */
+function learnWords(){
+
+  try{
+
+    const words = editor.innerText
+      .split(/\s+/);
+
+    localStorage.setItem(
+      "wc_words",
+      JSON.stringify(words)
+    );
+
+    showModal(
+      "IA aprendió "
+      +words.length+
+      " palabras."
+    );
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
+
+/* ===== VOICE ===== */
+let recognition = null;
+
+try{
+
+  const SpeechRecognition =
+    window.SpeechRecognition
+    || window.webkitSpeechRecognition;
+
+  if(SpeechRecognition){
+
+    recognition = new SpeechRecognition();
+
+    recognition.lang = "es-CR";
+
+    recognition.onresult = function(event){
+
+      const text =
+        event.results[0][0].transcript;
+
+      insertText(" "+text);
+
+    };
+
+  }
+
+}catch(err){
+  console.log(err);
+}
+
+function startVoice(){
+
+  try{
+
+    if(recognition){
+
+      recognition.start();
+
+      showModal("Escuchando...");
+
+    }else{
+
+      showModal(
+        "Voz no compatible."
+      );
+
+    }
+
+  }catch(err){
+    console.log(err);
+  }
+
+}
 </script>
 
 </body>
