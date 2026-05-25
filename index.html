@@ -10,21 +10,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
-        :root { --blue:#1d5270; --wine:#92324f; --orange:#d94e18; --bg:#eef2f7; }
+        :root { --blue:#1d5270; --wine:#92324f; --bg:#eef2f7; }
         body { margin:0; font-family:Segoe UI, sans-serif; background:var(--bg); height:100vh; display:flex; flex-direction:column; }
-        
-        .header { background:linear-gradient(135deg,var(--blue),var(--wine)); color:white; padding:15px; }
-        .ribbon { background:#dbe4ee; padding:8px; display:flex; gap:5px; flex-wrap:wrap; }
+        .header { background:linear-gradient(135deg,var(--blue),var(--wine)); color:white; padding:15px; font-weight:bold; }
+        .ribbon { background:#dbe4ee; padding:10px; display:flex; gap:5px; flex-wrap:wrap; border-bottom:1px solid #ccc; }
         .workspace { flex:1; padding:20px; overflow:auto; display:flex; justify-content:center; }
+        #editor { background:white; width:100%; max-width:800px; min-height:80vh; padding:40px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.1); outline:none; }
         
-        #editor { background:white; width:100%; max-width:800px; min-height:90%; padding:40px; border-radius:10px; box-shadow:0 3px 10px rgba(0,0,0,.1); outline:none; }
+        /* TipTap Estilos */
         .ProseMirror { outline:none; min-height: 100%; }
-        
-        /* Botones */
-        button { border:none; padding:8px 12px; border-radius:4px; cursor:pointer; background:white; font-size:12px; }
+        button { border:none; padding:8px 12px; border-radius:4px; cursor:pointer; background:white; font-size:12px; transition:0.2s; }
+        button:hover { background:#eee; }
         button.is-active { background:var(--blue); color:white; font-weight:bold; }
-        
-        .footer { height:30px; background:white; border-top:1px solid #ccc; display:flex; align-items:center; padding:0 15px; font-size:11px; }
     </style>
 </head>
 <body>
@@ -32,12 +29,12 @@
 <div class="header">WC Corporate Editor Pro</div>
 
 <div class="ribbon">
-    <button id="bold"><b>B</b></button>
-    <button id="italic"><i>I</i></button>
-    <button id="underline"><u>U</u></button>
+    <button id="btn-bold"><b>B</b></button>
+    <button id="btn-italic"><i>I</i></button>
+    <button id="btn-underline"><u>U</u></button>
     <button onclick="runCheck('Imagen', addImage)">🖼️ Imagen</button>
     <button onclick="runCheck('PDF', exportToPDF)">📥 PDF</button>
-    <button onclick="runCheck('Voz', startVoice)">🎧 Escuchar</button>
+    <button onclick="runCheck('Voz', startVoice)">🎧 Voz</button>
     <button onclick="translateContent('bribri')">🌱 Bribri</button>
     <button onclick="translateContent('spanish')">🇪🇸 Español</button>
 </div>
@@ -46,47 +43,54 @@
     <div id="editor"></div>
 </div>
 
-<div class="footer" id="status">Listo</div>
-
 <script>
-    const { Editor } = Tiptap;
-    const { StarterKit } = TiptapStarterKit;
-    const { Underline } = TiptapUnderline;
-    const { Image } = TiptapImage;
+    // Variables globales para acceso desde funciones
+    window.editor = null;
 
-    // Inicialización del Editor
-    const editor = new Editor({
-        element: document.querySelector('#editor'),
-        extensions: [StarterKit, Underline, Image],
-        content: localStorage.getItem('wc_content') ? JSON.parse(localStorage.getItem('wc_content')) : '<h2>Bienvenido</h2><p>WC Corporate Editor Pro</p>',
-        onUpdate: ({ editor }) => {
-            localStorage.setItem('wc_content', JSON.stringify(editor.getJSON()));
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        const { Editor } = Tiptap;
+        const { StarterKit } = TiptapStarterKit;
+        const { Underline } = TiptapUnderline;
+        const { Image } = TiptapImage;
+
+        // Inicialización
+        window.editor = new Editor({
+            element: document.querySelector('#editor'),
+            extensions: [StarterKit, Underline, Image],
+            content: localStorage.getItem('wc_content') ? JSON.parse(localStorage.getItem('wc_content')) : '<h2>Editor Pro</h2><p>Bienvenido Keny Chinchilla Navarro</p>',
+            onUpdate: ({ editor }) => {
+                localStorage.setItem('wc_content', JSON.stringify(editor.getJSON()));
+            }
+        });
+
+        // Eventos de botones (Vinculación directa)
+        document.getElementById('btn-bold').addEventListener('click', () => window.editor.chain().focus().toggleBold().run());
+        document.getElementById('btn-italic').addEventListener('click', () => window.editor.chain().focus().toggleItalic().run());
+        document.getElementById('btn-underline').addEventListener('click', () => window.editor.chain().focus().toggleUnderline().run());
+
+        // Feedback de estado activo
+        window.editor.on('transaction', () => {
+            document.getElementById('btn-bold').classList.toggle('is-active', window.editor.isActive('bold'));
+            document.getElementById('btn-italic').classList.toggle('is-active', window.editor.isActive('italic'));
+            document.getElementById('btn-underline').classList.toggle('is-active', window.editor.isActive('underline'));
+        });
     });
 
-    // Controladores de formato
-    document.getElementById('bold').addEventListener('click', () => editor.chain().focus().toggleBold().run());
-    document.getElementById('italic').addEventListener('click', () => editor.chain().focus().toggleItalic().run());
-    document.getElementById('underline').addEventListener('click', () => editor.chain().focus().toggleUnderline().run());
-
-    // Funciones Especiales
-    function runCheck(name, fn) {
-        try { fn(); } catch(e) { console.error(name, e); alert("Error en " + name); }
-    }
+    // --- Funciones de Utilidad ---
+    function runCheck(name, fn) { try { fn(); } catch(e) { console.error(name, e); alert("Error en: " + name); } }
 
     function addImage() {
-        const url = prompt('URL de la imagen:');
-        if (url) editor.chain().focus().setImage({ src: url }).run();
+        const url = prompt('Ingresa la URL de la imagen:');
+        if (url) window.editor.chain().focus().setImage({ src: url }).run();
     }
 
     function exportToPDF() {
         html2pdf().from(document.getElementById('editor')).save('Documento_WC.pdf');
     }
 
-    // Traducción
-    const dict = { "agua": "diö", "tierra": "tá", "sol": "shköl", "casa": "yë" };
     function translateContent(mode) {
-        let json = editor.getJSON();
+        const dict = { "agua": "diö", "tierra": "tá", "sol": "shköl", "casa": "yë" };
+        let json = window.editor.getJSON();
         const process = (nodes) => nodes.map(n => {
             if (n.text) {
                 let txt = n.text;
@@ -98,21 +102,17 @@
             }
             return n.content ? { ...n, content: process(n.content) } : n;
         });
-        editor.commands.setContent({ ...json, content: process(json.content) });
+        window.editor.commands.setContent({ ...json, content: process(json.content) });
     }
 
-    // Voz
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-    if(recognition) recognition.onresult = (e) => editor.chain().focus().insertContent(' ' + e.results[0][0].transcript).run();
-    function startVoice() { recognition ? recognition.start() : alert("No soportado"); }
-
-    // Feedback visual
-    editor.on('transaction', () => {
-        document.getElementById('bold').classList.toggle('is-active', editor.isActive('bold'));
-        document.getElementById('italic').classList.toggle('is-active', editor.isActive('italic'));
-        document.getElementById('underline').classList.toggle('is-active', editor.isActive('underline'));
-    });
+    function startVoice() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) { alert("Tu navegador no soporta reconocimiento de voz."); return; }
+        const r = new SpeechRecognition();
+        r.lang = 'es-CR';
+        r.onresult = (e) => window.editor.chain().focus().insertContent(' ' + e.results[0][0].transcript).run();
+        r.start();
+    }
 </script>
 
 </body>
