@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WC Corporate Editor v20.4</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
@@ -42,56 +41,23 @@
         .toast { position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 8px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 1000; }
         .toast.show { opacity: 1; }
         .badge { background: #0084ff; color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
-        #colorModal, #wordartModal, #shapeModal, #chartModal, #fontSizeModal, #translateModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:9999; align-items:center; justify-content:center; }
-        #colorModal.show, #wordartModal.show, #shapeModal.show, #chartModal.show, #fontSizeModal.show, #translateModal.show { display:flex; }
-        #colorModal .modal-box, #wordartModal .modal-box, #shapeModal .modal-box, #chartModal .modal-box, #fontSizeModal .modal-box, #translateModal .modal-box { background:#fff; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.2); max-width:92vw; max-height:88vh; overflow-y:auto; }
-        #colorModal h3, #wordartModal h3, #shapeModal h3, #chartModal h3, #fontSizeModal h3, #translateModal h3 { margin-bottom:16px; color:#333; }
+        #colorModal, #wordartModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:9999; align-items:center; justify-content:center; }
+        #colorModal.show, #wordartModal.show { display:flex; }
+        #colorModal .modal-box, #wordartModal .modal-box { background:#fff; border-radius:16px; padding:24px; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,.2); }
+        #colorModal h3, #wordartModal h3 { margin-bottom:16px; color:#333; }
         #colorPicker { width:80px; height:40px; border:none; cursor:pointer; }
-        #colorModal .modal-btns, #fontSizeModal .modal-btns, #translateModal .modal-btns { margin-top:16px; display:flex; gap:8px; justify-content:center; }
+        #colorModal .modal-btns { margin-top:16px; display:flex; gap:8px; justify-content:center; }
         #colorModal button, #btnInsertWordArt, #btnCancelWordArt { padding:8px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600; }
         #btnApplyColor { background:#0084ff; color:#fff; }
         #btnCancelColor { background:#eee; color:#333; }
         #wordartText { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:15px; margin-bottom:12px; }
         #wordartPreview { font-size:28px; font-weight:900; background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:3px; margin-bottom:12px; min-height:44px; }
         .wordart-presets { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:12px; }
-        .wordart-preset { border:2px solid transparent; border-radius:10px; padding:10px 8px; cursor:pointer; font-size:12px; font-weight:700; color:#fff; }
-        .wordart-preset.selected { border-color:#0084ff; transform:scale(1.05); }
-        .wordart-preset[data-style="1"]  { background: linear-gradient(90deg,#ff6b35,#0084ff); }
-        .wordart-preset[data-style="2"]  { background: linear-gradient(90deg,#9b59b6,#27ae60); }
-        .wordart-preset[data-style="3"]  { background: linear-gradient(90deg,#00c6ff,#0072ff); }
-        .wordart-preset[data-style="4"]  { background: linear-gradient(90deg,#f7971e,#ffd200); color:#333; }
-        .wordart-preset[data-style="5"]  { background: linear-gradient(90deg,#0f2027,#2c5364); }
-        .wordart-preset[data-style="6"]  { background: linear-gradient(90deg,#ff512f,#f09819); }
-        .wordart-preset[data-style="7"]  { background: linear-gradient(90deg,#ffafbd,#ffc3a0); color:#333; }
-        .wordart-preset[data-style="8"]  { background: linear-gradient(90deg,#232526,#414345); }
-        .wordart-preset[data-style="9"]  { background: linear-gradient(90deg,#11998e,#38ef7d); color:#333; }
-        .wordart-preset[data-style="10"] { background: linear-gradient(90deg,#8e2de2,#4a00e0); }
+        .wordart-preset { border:none; border-radius:10px; padding:10px 8px; cursor:pointer; font-size:12px; font-weight:700; color:#333; background:#f3f3f3; }
         .track-add { background: rgba(39,174,96,.18); text-decoration: none; }
         .track-del { background: rgba(231,76,60,.15); text-decoration: line-through; }
         .track-del[data-track="off"] { background: transparent; text-decoration: line-through; }
         .track-marker { display:inline; }
-        /* Shape grid */
-        .shape-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:8px; }
-        .shape-option { border:2px solid #eee; border-radius:10px; padding:12px 6px; cursor:pointer; font-size:11px; text-align:center; transition:all .2s; }
-        .shape-option:hover { border-color:#0084ff; background:#f0f7ff; }
-        .shape-preview { font-size:28px; display:block; margin-bottom:4px; }
-        /* Chart grid */
-        .chart-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:8px; }
-        .chart-option { border:2px solid #eee; border-radius:10px; padding:12px 8px; cursor:pointer; font-size:12px; text-align:center; transition:all .2s; }
-        .chart-option:hover { border-color:#0084ff; background:#f0f7ff; }
-        .chart-icon { font-size:24px; display:block; margin-bottom:4px; }
-        /* Font size grid */
-        .font-size-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:8px; }
-        .font-size-btn { border:2px solid #eee; border-radius:8px; padding:8px; cursor:pointer; font-weight:600; transition:all .2s; background:#f9f9f9; }
-        .font-size-btn:hover { border-color:#0084ff; background:#f0f7ff; }
-        /* Translate modal */
-        #translateFrom, #translateTo { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px; margin-bottom:10px; }
-        #translateResult { background:#f5f5f5; border-radius:8px; padding:12px; font-size:14px; min-height:60px; text-align:left; margin-top:8px; white-space:pre-wrap; }
-        select#translateLangFrom, select#translateLangTo { width:48%; padding:8px; border:1px solid #ddd; border-radius:8px; font-size:13px; margin-bottom:10px; }
-        .translate-langs { display:flex; gap:8px; justify-content:center; }
-        /* Page break style */
-        .page-break-div { border:none; border-top:3px dashed #0084ff; margin:20px 0; position:relative; text-align:center; }
-        .page-break-div::after { content:'— Salto de página —'; font-size:11px; color:#0084ff; background:#fff; padding:0 8px; position:absolute; top:-9px; left:50%; transform:translateX(-50%); }
     </style>
 </head>
 <body>
@@ -118,7 +84,7 @@
                     <div class="dropdown-item" data-action="save">Guardar <span class="badge">Ctrl+S</span></div>
                     <div class="dropdown-item" data-action="saveAs">Guardar como...</div>
                     <div class="dropdown-item" data-action="export">Exportar PDF</div>
-                    <div class="dropdown-item" data-action="exportDocx">Exportar documento</div>
+                    <div class="dropdown-item" data-action="exportDocx">Exportar Word</div>
                     <div class="dropdown-item" data-action="exportHtml">Exportar HTML</div>
                     <div class="dropdown-item" data-action="exportTxt">Exportar TXT</div>
                     <div class="dropdown-divider"></div>
@@ -146,21 +112,20 @@
             <div class="menu-item">
                 <button class="menu-btn" data-menu="insertar">Insertar</button>
                 <div class="dropdown" id="menu-insertar">
-                    <div class="dropdown-item" data-action="image">Imagen (fototeca/archivo)</div>
-                    <div class="dropdown-item" data-action="audio">Audio</div>
+                    <div class="dropdown-item" data-action="image">Imagen</div>
                     <div class="dropdown-item" data-action="table">Tabla</div>
                     <div class="dropdown-item" data-action="link">Enlace</div>
                     <div class="dropdown-item" data-action="emoji">Emoji</div>
-                    <div class="dropdown-item" data-action="wordart">WC Arte</div>
+                    <div class="dropdown-item" data-action="wordart">WC Arte (WordArt)</div>
                     <div class="dropdown-divider"></div>
                     <div class="dropdown-item" data-action="pageBreak">Salto de página</div>
                     <div class="dropdown-item" data-action="header">Encabezado</div>
                     <div class="dropdown-item" data-action="footer">Pie de página</div>
                     <div class="dropdown-item" data-action="pageNumber">Numeración de páginas</div>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="shape">Formas (20 opciones)</div>
-                    <div class="dropdown-item" data-action="chart">Gráfico (20 opciones)</div>
-                    <div class="dropdown-item" data-action="video">Video (fototeca/archivo)</div>
+                    <div class="dropdown-item" data-action="shape">Forma</div>
+                    <div class="dropdown-item" data-action="chart">Gráfico</div>
+                    <div class="dropdown-item" data-action="video">Video</div>
                 </div>
             </div>
         </div>
@@ -199,12 +164,12 @@
                     <div class="dropdown-item" data-action="alignRight">Alinear derecha</div>
                     <div class="dropdown-item" data-action="alignJustify">Justificar</div>
                     <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="fontSize">Tamaño de fuente (8–72)</div>
+                    <div class="dropdown-item" data-action="fontSize">Tamaño de fuente</div>
                     <div class="dropdown-item" data-action="fontColor">Color de texto</div>
                     <div class="dropdown-item" data-action="lineSpacing">Interlineado</div>
                     <div class="dropdown-item" data-action="indent">Sangría</div>
                     <div class="dropdown-item" data-action="outdent">Quitar sangría</div>
-                    <div class="dropdown-item" data-action="wordart">WC Arte</div>
+                    <div class="dropdown-item" data-action="wordart">WC Arte (WordArt)</div>
                 </div>
             </div>
 
@@ -272,7 +237,6 @@
 
     <div class="toast" id="toast"></div>
 
-    <!-- Color Modal -->
     <div id="colorModal">
         <div class="modal-box">
             <h3>🎨 Color de texto</h3>
@@ -284,7 +248,6 @@
         </div>
     </div>
 
-    <!-- WordArt Modal -->
     <div id="wordartModal">
         <div class="modal-box">
             <h3>✨ WC Arte</h3>
@@ -303,94 +266,14 @@
                 <button class="wordart-preset" data-style="10">10. Glitch</button>
             </div>
             <div class="modal-btns" style="margin-top:12px;">
-                <button id="btnInsertWordArt" style="background:#0084ff;color:#fff;">Insertar</button>
-                <button id="btnCancelWordArt" style="background:#eee;color:#333;">Cancelar</button>
+                <button id="btnInsertWordArt">Insertar</button>
+                <button id="btnCancelWordArt">Cancelar</button>
             </div>
         </div>
     </div>
 
-    <!-- Shape Modal -->
-    <div id="shapeModal">
-        <div class="modal-box" style="width:92vw;">
-            <h3>🔷 Insertar forma</h3>
-            <div class="shape-grid" id="shapeGrid"></div>
-            <div style="margin-top:14px;text-align:center;">
-                <button onclick="document.getElementById('shapeModal').classList.remove('show')" style="padding:8px 20px;border:none;border-radius:8px;background:#eee;cursor:pointer;font-weight:600;">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chart Modal -->
-    <div id="chartModal">
-        <div class="modal-box" style="width:92vw;">
-            <h3>📊 Insertar gráfico</h3>
-            <div class="chart-grid" id="chartGrid"></div>
-            <div style="margin-top:14px;text-align:center;">
-                <button onclick="document.getElementById('chartModal').classList.remove('show')" style="padding:8px 20px;border:none;border-radius:8px;background:#eee;cursor:pointer;font-weight:600;">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Font Size Modal -->
-    <div id="fontSizeModal">
-        <div class="modal-box" style="width:88vw;">
-            <h3>🔡 Tamaño de fuente</h3>
-            <div class="font-size-grid" id="fontSizeGrid"></div>
-            <div class="modal-btns">
-                <button onclick="document.getElementById('fontSizeModal').classList.remove('show')" style="padding:8px 20px;border:none;border-radius:8px;background:#eee;cursor:pointer;font-weight:600;">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Translate Modal -->
-    <div id="translateModal">
-        <div class="modal-box" style="width:92vw;">
-            <h3>🌐 Traducir texto</h3>
-            <div class="translate-langs">
-                <select id="translateLangFrom">
-                    <option value="es">Español</option>
-                    <option value="en">Inglés</option>
-                    <option value="fr">Francés</option>
-                    <option value="pt">Portugués</option>
-                    <option value="de">Alemán</option>
-                    <option value="it">Italiano</option>
-                    <option value="zh">Chino</option>
-                    <option value="ja">Japonés</option>
-                    <option value="ko">Coreano</option>
-                    <option value="ru">Ruso</option>
-                    <option value="ar">Árabe</option>
-                </select>
-                <select id="translateLangTo">
-                    <option value="en">Inglés</option>
-                    <option value="es">Español</option>
-                    <option value="fr">Francés</option>
-                    <option value="pt">Portugués</option>
-                    <option value="de">Alemán</option>
-                    <option value="it">Italiano</option>
-                    <option value="zh">Chino</option>
-                    <option value="ja">Japonés</option>
-                    <option value="ko">Coreano</option>
-                    <option value="ru">Ruso</option>
-                    <option value="ar">Árabe</option>
-                    <option value="bribri">Bribri (CR)</option>
-                    <option value="cabecar">Cabécar (CR)</option>
-                    <option value="maleku">Maleku (CR)</option>
-                </select>
-            </div>
-            <textarea id="translateFrom" rows="4" placeholder="Escribe o pega el texto a traducir..."></textarea>
-            <button id="btnTranslate" style="padding:10px 24px;background:#0084ff;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;width:100%;margin-bottom:8px;">Traducir ▶</button>
-            <div id="translateResult">La traducción aparecerá aquí...</div>
-            <div class="modal-btns">
-                <button id="btnInsertTranslation" style="padding:8px 20px;background:#27ae60;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Insertar al documento</button>
-                <button onclick="document.getElementById('translateModal').classList.remove('show')" style="padding:8px 20px;border:none;border-radius:8px;background:#eee;cursor:pointer;font-weight:600;">Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hidden file inputs -->
     <input type="file" id="imageFileInput" accept="image/*" hidden>
     <input type="file" id="videoFileInput" accept="video/*" hidden>
-    <input type="file" id="audioFileInput" accept="audio/*" hidden>
 
     <script type="module">
         import { Editor } from 'https://esm.sh/@tiptap/core@2.6.6'
@@ -399,17 +282,17 @@
         import TextAlign from 'https://esm.sh/@tiptap/extension-text-align@2.6.6'
         import TextStyle from 'https://esm.sh/@tiptap/extension-text-style@2.6.6'
         import Color from 'https://esm.sh/@tiptap/extension-color@2.6.6'
+        import htmlDocx from 'https://esm.sh/html-docx-js@0.4.1'
 
         const defaultContent = `
             <h2>Lenguas Indígenas de Costa Rica</h2>
-            <p><strong>Bribri:</strong> Hola = Shkëkë | Casa = Ù | Agua = Dö | Fuego = Kë | Sol = Alë</p>
-            <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë | Casa = Jë | Agua = Di | Fuego = Kë | Sol = Sö</p>
-            <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma | Casa = Lhaká | Agua = Lhá | Fuego = Máma</p>
-            <p><strong>Boruca:</strong> Gracias = Shíi | Casa = Dö | Agua = Ñá | Fuego = Kúrr</p>
-            <p><strong>Térraba:</strong> Agua = Di | Casa = Jë | Sol = Sor</p>
-            <p><strong>Ngäbe:</strong> Casa = Ju | Agua = Nï | Sol = Krä | Fuego = Bïbö</p>
-            <hr style="border:none;border-top:1px solid #ddd;margin:12px 0">
-            <p><em>Fuentes: UCR CIEL, CONARE, DILE-MEP, Sánchez Avendaño (UCR), Quesada Pacheco (UCR), datos SINABI.</em></p>
+            <p><strong>Bribri:</strong> Hola = Shkëkë</p>
+            <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
+            <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
+            <p><strong>Boruca:</strong> Gracias = Shíi</p>
+            <p><strong>Térraba:</strong> Agua = Di</p>
+            <p><strong>Ngäbe:</strong> Casa = Ju</p>
+            <p><br></p>
             <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
         `
 
@@ -447,24 +330,22 @@
         let trackChangesOn = false
         let lastHTML = editor.getHTML()
 
-        // ─── WordArt ───────────────────────────────────────────────
-        const wordartStyles = {
-            1: 'linear-gradient(90deg,#ff6b35,#0084ff)',
-            2: 'linear-gradient(90deg,#9b59b6,#27ae60)',
-            3: 'linear-gradient(90deg,#00c6ff,#0072ff)',
-            4: 'linear-gradient(90deg,#f7971e,#ffd200)',
-            5: 'linear-gradient(90deg,#0f2027,#2c5364)',
-            6: 'linear-gradient(90deg,#ff512f,#f09819)',
-            7: 'linear-gradient(90deg,#ffafbd,#ffc3a0)',
-            8: 'linear-gradient(90deg,#232526,#414345)',
-            9: 'linear-gradient(90deg,#11998e,#38ef7d)',
-            10:'linear-gradient(90deg,#8e2de2,#4a00e0)',
-        }
-
-        function insertWordArtBanner(text, style) {
+        function insertWordArtBanner(text, style = 1) {
             const banner = document.getElementById('wordart-banner')
+            const styles = {
+                1: 'linear-gradient(90deg,#ff6b35,#0084ff)',
+                2: 'linear-gradient(90deg,#9b59b6,#27ae60)',
+                3: 'linear-gradient(90deg,#00c6ff,#0072ff)',
+                4: 'linear-gradient(90deg,#f7971e,#ffd200)',
+                5: 'linear-gradient(90deg,#0f2027,#2c5364)',
+                6: 'linear-gradient(90deg,#ff512f,#f09819)',
+                7: 'linear-gradient(90deg,#ffafbd,#ffc3a0)',
+                8: 'linear-gradient(90deg,#232526,#414345)',
+                9: 'linear-gradient(90deg,#11998e,#38ef7d)',
+                10: 'linear-gradient(90deg,#8e2de2,#4a00e0)',
+            }
             banner.textContent = text
-            banner.style.background = wordartStyles[style] || wordartStyles[1]
+            banner.style.background = styles[style] || styles[1]
             banner.style.webkitBackgroundClip = 'text'
             banner.style.backgroundClip = 'text'
             banner.style.webkitTextFillColor = 'transparent'
@@ -478,23 +359,11 @@
 
         wordartText.addEventListener('input', () => {
             wordartPrev.textContent = wordartText.value || 'Vista previa'
-            const g = wordartStyles[currentWordArtStyle]
-            wordartPrev.style.background = g
-            wordartPrev.style.webkitBackgroundClip = 'text'
-            wordartPrev.style.backgroundClip = 'text'
-            wordartPrev.style.webkitTextFillColor = 'transparent'
         })
 
         document.querySelectorAll('.wordart-preset').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.wordart-preset').forEach(b => b.classList.remove('selected'))
-                btn.classList.add('selected')
                 currentWordArtStyle = Number(btn.dataset.style)
-                const g = wordartStyles[currentWordArtStyle]
-                wordartPrev.style.background = g
-                wordartPrev.style.webkitBackgroundClip = 'text'
-                wordartPrev.style.backgroundClip = 'text'
-                wordartPrev.style.webkitTextFillColor = 'transparent'
                 showToast(`WC Arte estilo ${currentWordArtStyle}`)
             })
         })
@@ -505,8 +374,6 @@
             wordartModal.classList.remove('show')
             wordartText.value = ''
             wordartPrev.textContent = 'Vista previa'
-            wordartPrev.style.background = ''
-            wordartPrev.style.webkitTextFillColor = ''
             currentWordArtStyle = 1
             showToast('WC Arte insertado ✨')
         }
@@ -517,7 +384,6 @@
             currentWordArtStyle = 1
         }
 
-        // ─── Color Modal ───────────────────────────────────────────
         const colorModal = document.getElementById('colorModal')
         document.getElementById('btnApplyColor').onclick = () => {
             const color = document.getElementById('colorPicker').value
@@ -525,205 +391,36 @@
             colorModal.classList.remove('show')
             showToast('Color aplicado')
         }
-        document.getElementById('btnCancelColor').onclick = () => colorModal.classList.remove('show')
-
-        // ─── Font Size Modal ───────────────────────────────────────
-        const fontSizes = [8,9,10,11,12,14,16,18,20,22,24,26,28,32,36,40,48,56,64,72]
-        const fontSizeGrid = document.getElementById('fontSizeGrid')
-        fontSizes.forEach(sz => {
-            const btn = document.createElement('button')
-            btn.className = 'font-size-btn'
-            btn.textContent = sz
-            btn.style.fontSize = Math.min(sz, 20) + 'px'
-            btn.onclick = () => {
-                editor.chain().focus().setMark('textStyle', { fontSize: sz + 'px' }).run()
-                document.getElementById('fontSizeModal').classList.remove('show')
-                showToast(`Tamaño: ${sz}px`)
-            }
-            fontSizeGrid.appendChild(btn)
-        })
-
-        // ─── Shapes ───────────────────────────────────────────────
-        const shapes = [
-            { label: 'Cuadrado', icon: '🟦', html: '<div style="display:inline-block;width:80px;height:80px;background:linear-gradient(135deg,#0084ff,#ff6b35);margin:8px;vertical-align:middle"></div>' },
-            { label: 'Círculo', icon: '🔵', html: '<div style="display:inline-block;width:80px;height:80px;background:linear-gradient(135deg,#9b59b6,#27ae60);border-radius:50%;margin:8px;vertical-align:middle"></div>' },
-            { label: 'Triángulo', icon: '🔺', html: '<div style="display:inline-block;width:0;height:0;border-left:50px solid transparent;border-right:50px solid transparent;border-bottom:86px solid #ff6b35;margin:8px;vertical-align:middle"></div>' },
-            { label: 'Rombo', icon: '🔶', html: '<div style="display:inline-block;width:70px;height:70px;background:#f7971e;transform:rotate(45deg);margin:20px;vertical-align:middle"></div>' },
-            { label: 'Estrella', icon: '⭐', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">⭐</div>' },
-            { label: 'Corazón', icon: '❤️', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">❤️</div>' },
-            { label: 'Flecha →', icon: '➡️', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">➡️</div>' },
-            { label: 'Relámpago', icon: '⚡', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">⚡</div>' },
-            { label: 'Rectángulo', icon: '▬', html: '<div style="display:inline-block;width:120px;height:50px;background:linear-gradient(90deg,#11998e,#38ef7d);border-radius:6px;margin:8px;vertical-align:middle"></div>' },
-            { label: 'Pentagono', icon: '⬠', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">⬠</div>' },
-            { label: 'Hexágono', icon: '⬡', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">⬡</div>' },
-            { label: 'Cruz', icon: '✚', html: '<div style="display:inline-block;font-size:64px;color:#e74c3c;margin:8px;vertical-align:middle;line-height:1;">✚</div>' },
-            { label: 'Óvalo', icon: '⬭', html: '<div style="display:inline-block;width:100px;height:55px;background:linear-gradient(90deg,#8e2de2,#4a00e0);border-radius:50%;margin:8px;vertical-align:middle"></div>' },
-            { label: 'Bandera', icon: '🚩', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">🚩</div>' },
-            { label: 'Escudo', icon: '🛡️', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">🛡️</div>' },
-            { label: 'Diamante', icon: '💎', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">💎</div>' },
-            { label: 'Nube', icon: '☁️', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">☁️</div>' },
-            { label: 'Luna', icon: '🌙', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">🌙</div>' },
-            { label: 'Cinta', icon: '🎀', html: '<div style="display:inline-block;font-size:64px;margin:8px;vertical-align:middle;line-height:1;">🎀</div>' },
-            { label: 'Gradiente', icon: '🌈', html: '<div style="display:inline-block;width:120px;height:60px;background:linear-gradient(90deg,#ff0000,#ff7700,#ffff00,#00ff00,#0000ff,#8b00ff);border-radius:10px;margin:8px;vertical-align:middle"></div>' },
-        ]
-
-        const shapeGrid = document.getElementById('shapeGrid')
-        shapes.forEach((shape, i) => {
-            const div = document.createElement('div')
-            div.className = 'shape-option'
-            div.innerHTML = `<span class="shape-preview">${shape.icon}</span>${shape.label}`
-            div.onclick = () => {
-                editor.chain().focus().insertContent(`<p>${shape.html}</p>`).run()
-                document.getElementById('shapeModal').classList.remove('show')
-                showToast(`Forma insertada: ${shape.label}`)
-            }
-            shapeGrid.appendChild(div)
-        })
-
-        // ─── Charts ───────────────────────────────────────────────
-        const chartTypes = [
-            { label: 'Barras verticales', icon: '📊', type: 'bar', extra: {} },
-            { label: 'Barras horizontales', icon: '📉', type: 'bar', extra: { indexAxis: 'y' } },
-            { label: 'Líneas', icon: '📈', type: 'line', extra: {} },
-            { label: 'Área', icon: '🏔️', type: 'line', extra: { fill: true } },
-            { label: 'Pastel', icon: '🥧', type: 'pie', extra: {} },
-            { label: 'Dona', icon: '🍩', type: 'doughnut', extra: {} },
-            { label: 'Radar', icon: '🕸️', type: 'radar', extra: {} },
-            { label: 'Polar', icon: '🎯', type: 'polarArea', extra: {} },
-            { label: 'Burbujas', icon: '🫧', type: 'bubble', extra: {} },
-            { label: 'Dispersión', icon: '✦', type: 'scatter', extra: {} },
-            { label: 'Barras apiladas', icon: '🗂️', type: 'bar', extra: { stacked: true } },
-            { label: 'Líneas múltiples', icon: '📐', type: 'multiline', extra: {} },
-            { label: 'Combinado', icon: '🔀', type: 'mixed', extra: {} },
-            { label: 'Semidona', icon: '☯️', type: 'doughnut', extra: { semi: true } },
-            { label: 'Cascada', icon: '🌊', type: 'bar', extra: { waterfall: true } },
-            { label: 'Pasos', icon: '🪜', type: 'line', extra: { stepped: true } },
-            { label: 'Progreso', icon: '📦', type: 'bar', extra: { progress: true } },
-            { label: 'Velocímetro', icon: '⏱️', type: 'doughnut', extra: { gauge: true } },
-            { label: 'Mapa de calor', icon: '🌡️', type: 'bar', extra: { heatmap: true } },
-            { label: 'Tendencia', icon: '📌', type: 'line', extra: { trend: true } },
-        ]
-
-        const chartColors = ['#0084ff','#ff6b35','#9b59b6','#27ae60','#f39c12','#e74c3c','#1abc9c','#2c3e50']
-
-        function buildChartHTML(ct) {
-            const id = 'chart_' + Date.now() + '_' + Math.random().toString(36).slice(2,6)
-            let labels, datasets, options = {}
-
-            const baseLabels = ['Ene','Feb','Mar','Abr','May','Jun']
-            const baseData   = [12,19,7,15,22,9]
-            const baseData2  = [8,14,11,6,18,14]
-
-            if (ct.type === 'bubble') {
-                labels = []
-                datasets = [{ label:'Serie A', data:[{x:10,y:20,r:12},{x:15,y:10,r:8},{x:5,y:25,r:16}], backgroundColor:'rgba(0,132,255,.6)' }]
-            } else if (ct.type === 'scatter') {
-                labels = []
-                datasets = [{ label:'Puntos', data:[{x:5,y:10},{x:10,y:20},{x:15,y:7},{x:20,y:18}], backgroundColor:'#ff6b35' }]
-            } else if (ct.type === 'radar') {
-                labels = ['A','B','C','D','E','F']
-                datasets = [{ label:'Grupo 1', data:[65,59,90,81,56,72], fill:true, backgroundColor:'rgba(0,132,255,.2)', borderColor:'#0084ff' }]
-            } else if (ct.type === 'polarArea') {
-                labels = ['A','B','C','D','E']
-                datasets = [{ data:[11,16,7,14,9], backgroundColor:chartColors.slice(0,5).map(c=>c+'aa') }]
-            } else if (ct.type === 'multiline') {
-                labels = baseLabels
-                datasets = [
-                    { label:'Línea 1', data:baseData, borderColor:'#0084ff', fill:false },
-                    { label:'Línea 2', data:baseData2, borderColor:'#ff6b35', fill:false },
-                ]
-            } else if (ct.type === 'mixed') {
-                labels = baseLabels
-                datasets = [
-                    { type:'bar', label:'Barras', data:baseData, backgroundColor:'#0084ff88' },
-                    { type:'line', label:'Línea', data:baseData2, borderColor:'#ff6b35', fill:false },
-                ]
-            } else {
-                labels = baseLabels
-                const bg = ct.type === 'pie' || ct.type === 'doughnut' || ct.type === 'polarArea'
-                    ? chartColors.slice(0,6).map(c=>c+'cc')
-                    : '#0084ff88'
-                const ds = { label:'Datos', data:baseData, backgroundColor:bg, borderColor:'#0084ff', fill:!!ct.extra.fill }
-                if (ct.extra.stepped) ds.stepped = 'before'
-                datasets = [ds]
-                if (ct.extra.stacked) options = { scales:{ x:{ stacked:true }, y:{ stacked:true } } }
-                if (ct.extra.semi) options = { circumference:180, rotation:-90 }
-                if (ct.extra.gauge) { options = { circumference:180, rotation:-90 }; datasets[0].data=[60,40]; datasets[0].backgroundColor=['#0084ff','#eee'] }
-            }
-
-            const configStr = JSON.stringify({ type: ct.type==='multiline'||ct.type==='mixed'?'bar':ct.type, data:{ labels, datasets }, options:{ responsive:true, plugins:{ legend:{ position:'top' } }, ...options } })
-            return `<div style="margin:12px 0;max-width:100%;"><canvas id="${id}" style="max-width:100%;max-height:260px;"></canvas></div><script>try{const ctx=document.getElementById('${id}');if(ctx&&window.Chart){new Chart(ctx,${configStr});}else{setTimeout(()=>{const c=document.getElementById('${id}');if(c&&window.Chart)new Chart(c,${configStr});},800);}}catch(e){console.error(e)}<\/script>`
+        document.getElementById('btnCancelColor').onclick = () => {
+            colorModal.classList.remove('show')
         }
 
-        const chartGrid = document.getElementById('chartGrid')
-        chartTypes.forEach(ct => {
-            const div = document.createElement('div')
-            div.className = 'chart-option'
-            div.innerHTML = `<span class="chart-icon">${ct.icon}</span>${ct.label}`
-            div.onclick = () => {
-                const html = buildChartHTML(ct)
-                editor.chain().focus().insertContent(html).run()
-                document.getElementById('chartModal').classList.remove('show')
-                showToast(`Gráfico insertado: ${ct.label}`)
-            }
-            chartGrid.appendChild(div)
-        })
-
-        // ─── Languages ────────────────────────────────────────────
         const uiLangs = {
-            espanol: { title: '📋 Diccionario 300 palabras - Lenguas Indígenas CR', header: 'WC Corporate Editor v20.4', sub: 'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA' },
-            ingles:  { title: '📋 300-word Dictionary - Indigenous Languages CR',   header: 'WC Corporate Editor v20.4', sub: 'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS' },
-            bribri:  { title: '📋 Ña tsuru 300 bribri - Lenguas Indígenas CR',      header: 'WC Corporate Editor v20.4', sub: 'BRIBRI UI - ESTÉTICA INDÍGENA' },
-            cabecar: { title: '📋 Cabécar 300 yë́ - Lenguas Indígenas CR',           header: 'WC Corporate Editor v20.4', sub: 'CABÉCAR UI - ESTÉTICA INDÍGENA' },
-            maleku:  { title: '📋 Maleku 300 lhamaráma - Lenguas Indígenas CR',     header: 'WC Corporate Editor v20.4', sub: 'MALEKU UI - ESTÉTICA INDÍGENA' },
-        }
-
-        // Vocabulario indígena basado en fuentes UCR, CONARE, DILE-MEP
-        const langContent = {
-            espanol: defaultContent,
-            ingles: `
-                <h2>Indigenous Languages of Costa Rica</h2>
-                <p><strong>Bribri:</strong> Hello = Shkëkë | House = Ù | Water = Dö | Fire = Kë | Sun = Alë | Mother = Siö | Father = Bikö | Child = Wë́ | Land = Iriria | Mountain = Bë</p>
-                <p><strong>Cabécar:</strong> Good morning = Ká bë́rë | House = Jë | Water = Di | Fire = Kë | Moon = Sënë | Corn = Kicha | Bird = Tö | River = Tsö</p>
-                <p><strong>Maleku:</strong> Good afternoon = Ma lha maráma | House = Lhaká | Water = Lhá | Fire = Máma | Child = Lhiíja | Mother = Maráma | Father = Porrö</p>
-                <p><strong>Boruca:</strong> Thank you = Shíi | House = Dö | Water = Ñá | Fire = Kúrr | Sun = Jurí | Moon = Meni | Child = Küchi</p>
-                <p><strong>Térraba:</strong> Water = Di | House = Jë | Sun = Sor | Moon = Pà | Child = Brö | Mother = Màma</p>
-                <p><strong>Ngäbe:</strong> House = Ju | Water = Nï | Sun = Krä | Fire = Bïbö | Child = Ngwä | Mother = Mama | Father = Baba</p>
-                <hr style="border:none;border-top:1px solid #ddd;margin:12px 0">
-                <p><em>Sources: UCR CIEL, CONARE, DILE-MEP, Sánchez Avendaño (UCR), Quesada Pacheco (UCR), SINABI data.</em></p>
-                <p>Type here or use the "Indigenous Languages CR" menu to insert words...</p>
-            `,
-            bribri: `
-                <h2>Tsuru Bribri — Vocabulario</h2>
-                <p><strong>Shkëkë</strong> = Hola &nbsp;|&nbsp; <strong>Ù</strong> = Casa &nbsp;|&nbsp; <strong>Dö</strong> = Agua</p>
-                <p><strong>Kë</strong> = Fuego &nbsp;|&nbsp; <strong>Alë</strong> = Sol &nbsp;|&nbsp; <strong>Siö</strong> = Madre</p>
-                <p><strong>Bikö</strong> = Padre &nbsp;|&nbsp; <strong>Wë́</strong> = Niño &nbsp;|&nbsp; <strong>Iriria</strong> = Tierra</p>
-                <p><strong>Bë</strong> = Montaña &nbsp;|&nbsp; <strong>Tsö</strong> = Río &nbsp;|&nbsp; <strong>Tö</strong> = Pájaro</p>
-                <p><strong>Sö</strong> = Luna &nbsp;|&nbsp; <strong>Kéka</strong> = Árbol &nbsp;|&nbsp; <strong>Shë</strong> = Piedra</p>
-                <hr style="border:none;border-top:1px solid #ddd;margin:12px 0">
-                <p><em>Fuente: Consell (UCR), Sánchez Avendaño, CIEL-UCR, Junta Indígena Bribri.</em></p>
-                <p>Ño' wé a'i — Escribe aquí...</p>
-            `,
-            cabecar: `
-                <h2>Cabécar — Vocabulario</h2>
-                <p><strong>Ká bë́rë</strong> = Buenos días &nbsp;|&nbsp; <strong>Jë</strong> = Casa &nbsp;|&nbsp; <strong>Di</strong> = Agua</p>
-                <p><strong>Kë</strong> = Fuego &nbsp;|&nbsp; <strong>Sënë</strong> = Luna &nbsp;|&nbsp; <strong>Kicha</strong> = Maíz</p>
-                <p><strong>Tö</strong> = Pájaro &nbsp;|&nbsp; <strong>Tsö</strong> = Río &nbsp;|&nbsp; <strong>Mama</strong> = Madre</p>
-                <p><strong>Baba</strong> = Padre &nbsp;|&nbsp; <strong>Ngö</strong> = Niño &nbsp;|&nbsp; <strong>Bë</strong> = Montaña</p>
-                <hr style="border:none;border-top:1px solid #ddd;margin:12px 0">
-                <p><em>Fuente: Quesada Pacheco (UCR), DILE-MEP, CONARE.</em></p>
-                <p>Escribe aquí...</p>
-            `,
-            maleku: `
-                <h2>Maleku — Vocabulario</h2>
-                <p><strong>Ma lha maráma</strong> = Buenas tardes &nbsp;|&nbsp; <strong>Lhaká</strong> = Casa</p>
-                <p><strong>Lhá</strong> = Agua &nbsp;|&nbsp; <strong>Máma</strong> = Fuego &nbsp;|&nbsp; <strong>Maráma</strong> = Madre</p>
-                <p><strong>Porrö</strong> = Padre &nbsp;|&nbsp; <strong>Lhiíja</strong> = Hijo/a &nbsp;|&nbsp; <strong>Urrö</strong> = Sol</p>
-                <p><strong>Laká</strong> = Luna &nbsp;|&nbsp; <strong>Tolhá</strong> = Río &nbsp;|&nbsp; <strong>Máka</strong> = Árbol</p>
-                <hr style="border:none;border-top:1px solid #ddd;margin:12px 0">
-                <p><em>Fuente: UCR-CIEL, Felipe Morales Mora, SINABI, DILE-MEP.</em></p>
-                <p>Escribe aquí...</p>
-            `,
+            espanol: {
+                title: '📋 Diccionario 300 palabras - Lenguas Indígenas CR',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA',
+            },
+            ingles: {
+                title: '📋 300-word Dictionary - Indigenous Languages CR',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS',
+            },
+            bribri: {
+                title: '📋 Ña tsuru 300 bribri - Lenguas Indígenas CR',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'BRIBRI UI - ESTÉTICA INDÍGENA',
+            },
+            cabecar: {
+                title: '📋 Cabécar 300 yë́ - Lenguas Indígenas CR',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'CABÉCAR UI - ESTÉTICA INDÍGENA',
+            },
+            maleku: {
+                title: '📋 Maleku 300 lhamaráma - Lenguas Indígenas CR',
+                header: 'WC Corporate Editor v20.4',
+                sub: 'MALEKU UI - ESTÉTICA INDÍGENA',
+            },
         }
 
         function switchLang(lang) {
@@ -732,6 +429,45 @@
             document.querySelector('.header h1').textContent = ui.header
             document.querySelector('.header p').textContent = ui.sub
             document.documentElement.lang = lang === 'ingles' ? 'en' : 'es'
+
+            const langContent = {
+                espanol: defaultContent,
+                ingles: `
+                    <h2>Indigenous Languages of Costa Rica</h2>
+                    <p><strong>Bribri:</strong> Hello = Shkëkë</p>
+                    <p><strong>Cabécar:</strong> Good morning = Ká bë́rë</p>
+                    <p><strong>Maleku:</strong> Good afternoon = Ma lha maráma</p>
+                    <p><strong>Boruca:</strong> Thank you = Shíi</p>
+                    <p><strong>Térraba:</strong> Water = Di</p>
+                    <p><strong>Ngäbe:</strong> House = Ju</p>
+                    <p><br></p>
+                    <p>Type here or use the "Indigenous Languages CR" menu to insert words...</p>
+                `,
+                bribri: `
+                    <h2>Tsuru Bribri</h2>
+                    <p><strong>Shkëkë:</strong> Hola</p>
+                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Ño' wé a'i, tesá aquí...</p>
+                `,
+                cabecar: `
+                    <h2>Cabécar</h2>
+                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
+                    <p><strong>Shkëkë:</strong> Hola</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Escribe aquí...</p>
+                `,
+                maleku: `
+                    <h2>Maleku</h2>
+                    <p><strong>Ma lha maráma:</strong> Buenas tardes</p>
+                    <p><strong>Shíi:</strong> Gracias</p>
+                    <p><br></p>
+                    <p>Escribe aquí...</p>
+                `,
+            }
+
             editor.commands.setContent(langContent[lang] || langContent.espanol)
             updateStats()
             localStorage.setItem('wc-editor', editor.getHTML())
@@ -739,10 +475,8 @@
             showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`)
         }
 
-        // ─── File pickers ─────────────────────────────────────────
         function openImagePicker() { document.getElementById('imageFileInput').click() }
         function openVideoPicker() { document.getElementById('videoFileInput').click() }
-        function openAudioPicker() { document.getElementById('audioFileInput').click() }
 
         function fileToDataURL(file) {
             return new Promise((resolve, reject) => {
@@ -757,8 +491,8 @@
             const file = e.target.files[0]
             if (!file) return
             const dataUrl = await fileToDataURL(file)
-            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto;border-radius:8px;"></p>`).run()
-            showToast('Imagen insertada ✅')
+            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto"></p>`).run()
+            showToast('Imagen insertada desde archivo')
             e.target.value = ''
         })
 
@@ -766,48 +500,25 @@
             const file = e.target.files[0]
             if (!file) return
             const url = URL.createObjectURL(file)
-            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto;border-radius:8px;"><source src="${url}" type="${file.type}"></video></p>`).run()
-            showToast('Video insertado ✅')
+            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto"><source src="${url}" type="${file.type}"></video></p>`).run()
+            showToast('Video insertado desde archivo')
             e.target.value = ''
         })
 
-        document.getElementById('audioFileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0]
-            if (!file) return
-            const url = URL.createObjectURL(file)
-            editor.chain().focus().insertContent(`<p><audio controls style="width:100%;margin:8px 0;"><source src="${url}" type="${file.type}"></audio></p>`).run()
-            showToast('Audio insertado ✅')
-            e.target.value = ''
-        })
-
-        // ─── Export ───────────────────────────────────────────────
-        function exportDocument() {
-            const content = editor.getHTML()
-            const fullHtml = `<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Documento WC Editor</title>
-<style>
-  body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; color: #222; }
-  h1,h2,h3 { color: #0066cc; }
-  p { line-height: 1.6; margin: 8px 0; }
-  img { max-width: 100%; }
-  table { border-collapse: collapse; width: 100%; }
-  td, th { border: 1px solid #ccc; padding: 8px; }
-</style>
-</head>
-<body>${content}</body>
-</html>`
-            const blob = new Blob([fullHtml], { type: 'text/html' })
-            const a = document.createElement('a')
-            a.href = URL.createObjectURL(blob)
-            a.download = 'documento-wc-editor.html'
-            a.click()
-            showToast('Documento exportado ✅')
+        function getDefaultContent() {
+            return defaultContent
         }
 
-        // ─── Track Changes ────────────────────────────────────────
+        function exportWord() {
+            const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>WC Editor</title></head><body>${editor.getHTML()}</body></html>`
+            const blob = htmlDocx.asBlob(html)
+            const a = document.createElement('a')
+            a.href = URL.createObjectURL(blob)
+            a.download = 'documento.docx'
+            a.click()
+            showToast('Documento Word descargado ✅')
+        }
+
         function toggleTrackChanges() {
             trackChangesOn = !trackChangesOn
             const el = document.querySelector('.tiptap')
@@ -816,99 +527,22 @@
                 lastHTML = editor.getHTML()
                 el.style.outline = '2px dashed #ff6b35'
                 el.style.background = '#fffdf7'
-                showToast('Control de cambios ACTIVADO 🟠')
-                editor.on('update', markChanges)
+                showToast('Control de cambios ACTIVADO')
             } else {
                 el.style.outline = ''
                 el.style.background = ''
                 showToast('Control de cambios DESACTIVADO')
-                editor.off('update', markChanges)
             }
         }
 
-        function markChanges() {
-            if (!trackChangesOn) return
-            const newHTML = editor.getHTML()
-            if (newHTML !== lastHTML) {
-                lastHTML = newHTML
-            }
-        }
-
-        // ─── Translate ────────────────────────────────────────────
-        // Diccionario básico bribri/cabécar/maleku (UCR, CIEL, DILE)
-        const indigenousDict = {
-            bribri: {
-                hola:'Shkëkë', casa:'Ù', agua:'Dö', fuego:'Kë', sol:'Alë', luna:'Sö', madre:'Siö', padre:'Bikö',
-                niño:'Wë́', tierra:'Iriria', montaña:'Bë', río:'Tsö', pájaro:'Tö', árbol:'Kéka', piedra:'Shë',
-                comida:'Ula', mano:'Ükë', ojo:'Ùkë', corazón:'Alkë', camino:'Tsirú', noche:'Kë'rë', día:'Wé',
-                gracias:'Shíi', sí:'Bë', no:'Kë tso', bueno:'Cha', malo:'Bë\'kë', grande:'Kia', pequeño:'Shu',
-            },
-            cabecar: {
-                hola:'Ká bë́rë', casa:'Jë', agua:'Di', fuego:'Kë', luna:'Sënë', maíz:'Kicha', madre:'Mama',
-                padre:'Baba', niño:'Ngö', montaña:'Bë', río:'Tsö', pájaro:'Tö', árbol:'Kéko', piedra:'Shö',
-                sol:'Sö', gracias:'Shíi', sí:'Ë', no:'Kë', bueno:'Cha', malo:'Kë bë', grande:'Kiö', pequeño:'Ngë',
-            },
-            maleku: {
-                hola:'Ma lha', casa:'Lhaká', agua:'Lhá', fuego:'Máma', madre:'Maráma', padre:'Porrö',
-                hijo:'Lhiíja', sol:'Urrö', luna:'Laká', río:'Tolhá', árbol:'Máka', montaña:'Lhirri',
-                gracias:'Maráma ülha', sí:'Lha', no:'Urrö', bueno:'Lhirri', malo:'Máka kö', grande:'Lhaka', pequeño:'Turrö',
-            }
-        }
-
-        async function translateText(text, from, to) {
-            // Lenguas indígenas: usar diccionario local
-            if (['bribri','cabecar','maleku'].includes(to)) {
-                const dict = indigenousDict[to] || {}
-                const words = text.toLowerCase().split(/\s+/)
-                const translated = words.map(w => {
-                    const clean = w.replace(/[^a-záéíóúüñ]/gi,'')
-                    return dict[clean] || `[${w}]`
-                })
-                return translated.join(' ') + '\n\n(Fuente: UCR-CIEL, DILE-MEP, Sánchez Avendaño)'
-            }
-
-            // Otros idiomas: MyMemory API (gratuita, sin clave)
-            try {
-                const langPair = `${from}|${to}`
-                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langPair}`
-                const res = await fetch(url)
-                const data = await res.json()
-                if (data.responseStatus === 200) {
-                    return data.responseData.translatedText
-                } else {
-                    return '⚠️ No se pudo traducir. Intenta con un texto más corto.'
-                }
-            } catch (err) {
-                return '⚠️ Error de red al traducir. Verifica tu conexión.'
-            }
-        }
-
-        document.getElementById('btnTranslate').onclick = async () => {
-            const text = document.getElementById('translateFrom').value.trim()
-            const from = document.getElementById('translateLangFrom').value
-            const to   = document.getElementById('translateLangTo').value
-            if (!text) { showToast('Escribe un texto para traducir'); return }
-            document.getElementById('translateResult').textContent = 'Traduciendo...'
-            const result = await translateText(text, from, to)
-            document.getElementById('translateResult').textContent = result
-        }
-
-        document.getElementById('btnInsertTranslation').onclick = () => {
-            const result = document.getElementById('translateResult').textContent
-            if (result && result !== 'La traducción aparecerá aquí...' && result !== 'Traduciendo...') {
-                editor.chain().focus().insertContent(`<p>${result}</p>`).run()
-                document.getElementById('translateModal').classList.remove('show')
-                showToast('Traducción insertada al documento')
-            }
-        }
-
-        // ─── Menu interactions ────────────────────────────────────
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation()
                 const menuId = 'menu-' + btn.dataset.menu
                 const dropdown = document.getElementById(menuId)
-                document.querySelectorAll('.dropdown').forEach(d => { if (d !== dropdown) d.classList.remove('show') })
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('show')
+                })
                 dropdown.classList.toggle('show')
             })
         })
@@ -920,48 +554,60 @@
         document.querySelectorAll('.dropdown-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation()
-                handleAction(item.dataset.action)
+                const action = item.dataset.action
+                handleAction(action)
                 item.closest('.dropdown').classList.remove('show')
             })
         })
 
         async function copyText(text) {
-            try { await navigator.clipboard.writeText(text); return true } catch { return false }
+            try {
+                await navigator.clipboard.writeText(text)
+                return true
+            } catch {
+                return false
+            }
         }
 
-        function getDefaultContent() { return defaultContent }
+        function pasteText() {
+            showToast('Pegar depende del permiso del navegador')
+        }
 
         function handleAction(action) {
             switch(action) {
-                case 'bold':         editor.chain().focus().toggleBold().run(); break;
-                case 'italic':       editor.chain().focus().toggleItalic().run(); break;
-                case 'underline':    editor.chain().focus().toggleUnderline().run(); break;
-                case 'strike':       editor.chain().focus().toggleStrike().run(); break;
-                case 'h1':           editor.chain().focus().toggleHeading({ level: 1 }).run(); break;
-                case 'h2':           editor.chain().focus().toggleHeading({ level: 2 }).run(); break;
-                case 'h3':           editor.chain().focus().toggleHeading({ level: 3 }).run(); break;
-                case 'bulletList':   editor.chain().focus().toggleBulletList().run(); break;
-                case 'orderedList':  editor.chain().focus().toggleOrderedList().run(); break;
-                case 'alignLeft':    editor.chain().focus().setTextAlign('left').run(); showToast('Alineado a la izquierda'); break;
-                case 'alignCenter':  editor.chain().focus().setTextAlign('center').run(); showToast('Centrado'); break;
-                case 'alignRight':   editor.chain().focus().setTextAlign('right').run(); showToast('Alineado a la derecha'); break;
+                case 'bold': editor.chain().focus().toggleBold().run(); break;
+                case 'italic': editor.chain().focus().toggleItalic().run(); break;
+                case 'underline': editor.chain().focus().toggleUnderline().run(); break;
+                case 'strike': editor.chain().focus().toggleStrike().run(); break;
+                case 'h1': editor.chain().focus().toggleHeading({ level: 1 }).run(); break;
+                case 'h2': editor.chain().focus().toggleHeading({ level: 2 }).run(); break;
+                case 'h3': editor.chain().focus().toggleHeading({ level: 3 }).run(); break;
+                case 'bulletList': editor.chain().focus().toggleBulletList().run(); break;
+                case 'orderedList': editor.chain().focus().toggleOrderedList().run(); break;
+                case 'alignLeft': editor.chain().focus().setTextAlign('left').run(); showToast('Alineado a la izquierda'); break;
+                case 'alignCenter': editor.chain().focus().setTextAlign('center').run(); showToast('Centrado'); break;
+                case 'alignRight': editor.chain().focus().setTextAlign('right').run(); showToast('Alineado a la derecha'); break;
                 case 'alignJustify': editor.chain().focus().setTextAlign('justify').run(); showToast('Justificado'); break;
-                case 'indent':       editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
-                case 'outdent':      editor.chain().focus().liftListItem('listItem').run(); showToast('Sangría quitada'); break;
-                case 'fontColor':    colorModal.classList.add('show'); break;
-                case 'fontSize':     document.getElementById('fontSizeModal').classList.add('show'); break;
+                case 'indent': editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
+                case 'outdent': editor.chain().focus().liftListItem('listItem').run(); showToast('Sangría quitada'); break;
+                case 'fontColor': colorModal.classList.add('show'); break;
+                case 'fontSize': {
+                    const size = prompt('Tamaño de fuente (ej: 18px, 1.5em):', '16px')
+                    if (size) { editor.chain().focus().setMark('textStyle', { fontSize: size }).run(); showToast(`Tamaño: ${size}`) }
+                    break;
+                }
                 case 'lineSpacing': {
-                    const choice = prompt('Interlineado:\n1 = simple\n1.15 = predeterminado\n1.5 = doble\n2 = doble amplio\n\nEscribe el valor:', '1.5')
+                    const choice = prompt(`Interlineado:\n1 = simple\n1.15 = predeterminado\n1.5 = doble\n2 = doble amplio\n\nEscribe el valor:`, '1.5')
                     if (choice) { const el = document.querySelector('.tiptap'); if (el) el.style.lineHeight = choice; showToast(`Interlineado: ${choice}`) }
                     break;
                 }
-                case 'wordart':      wordartModal.classList.add('show'); wordartText.focus(); break;
-                case 'undo':         editor.chain().focus().undo().run(); break;
-                case 'redo':         editor.chain().focus().redo().run(); break;
-                case 'cut':          document.execCommand('cut'); break;
-                case 'copy':         copyText(editor.getText()).then(ok => showToast(ok ? 'Copiado ✅' : 'No se pudo copiar')); break;
-                case 'paste':        showToast('Usa Ctrl+V / largo tap para pegar'); break;
-                case 'selectAll':    editor.chain().focus().selectAll().run(); showToast('Todo seleccionado'); break;
+                case 'wordart': wordartModal.classList.add('show'); wordartText.focus(); break;
+                case 'undo': editor.chain().focus().undo().run(); break;
+                case 'redo': editor.chain().focus().redo().run(); break;
+                case 'cut': document.execCommand('cut'); break;
+                case 'copy': copyText(editor.getText()).then(ok => showToast(ok ? 'Copiado ✅' : 'No se pudo copiar')); break;
+                case 'paste': pasteText(); break;
+                case 'selectAll': editor.chain().focus().selectAll().run(); showToast('Todo seleccionado'); break;
                 case 'find': {
                     const term = prompt('Buscar texto:')
                     if (!term) break
@@ -972,8 +618,12 @@
                     showToast(`"${term}" → "${replacement}"`)
                     break;
                 }
-                case 'trackChanges': toggleTrackChanges(); break;
-                case 'autoCorrect':  showToast('Autocorrección activa'); break;
+                case 'trackChanges':
+                    toggleTrackChanges()
+                    break;
+                case 'autoCorrect':
+                    showToast('Autocorrección activa')
+                    break;
                 case 'save':
                     localStorage.setItem('wc-editor', editor.getHTML())
                     showToast('Documento guardado 💾')
@@ -983,47 +633,70 @@
                     if (name) { localStorage.setItem('wc-editor-' + name, editor.getHTML()); showToast(`Guardado como: ${name}`) }
                     break;
                 }
-                case 'export':      window.print(); showToast('Abriendo impresión/PDF...'); break;
-                case 'exportDocx':  exportDocument(); break;
+                case 'export':
+                    window.print()
+                    showToast('Abriendo impresión/PDF...')
+                    break;
+                case 'exportDocx':
+                    exportWord()
+                    break;
                 case 'exportHtml': {
                     const blob = new Blob([editor.getHTML()], { type: 'text/html' })
-                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'documento.html'; a.click()
+                    const a = document.createElement('a')
+                    a.href = URL.createObjectURL(blob)
+                    a.download = 'documento.html'
+                    a.click()
                     showToast('HTML descargado ✅')
                     break;
                 }
                 case 'exportTxt': {
                     const blob = new Blob([editor.getText()], { type: 'text/plain' })
-                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'documento.txt'; a.click()
+                    const a = document.createElement('a')
+                    a.href = URL.createObjectURL(blob)
+                    a.download = 'documento.txt'
+                    a.click()
                     showToast('TXT descargado ✅')
                     break;
                 }
-                case 'print':  window.print(); break;
+                case 'print':
+                    window.print()
+                    break
                 case 'share':
                     if (navigator.share) navigator.share({ title: 'WC Editor', text: editor.getText() })
                     else copyText(editor.getText()).then(() => showToast('Texto copiado al portapapeles para compartir'))
+                    break
+                case 'image': {
+                    const choice = prompt('Escribe "archivo" para seleccionar imagen o pega una URL:', 'archivo')
+                    if (choice && choice.toLowerCase() === 'archivo') openImagePicker()
+                    else if (choice) {
+                        editor.chain().focus().insertContent(`<p><img src="${choice}" style="max-width:100%;height:auto"></p>`).run()
+                        showToast('Imagen insertada por enlace')
+                    }
                     break;
-                case 'image':  openImagePicker(); break;
-                case 'audio':  openAudioPicker(); break;
-                case 'video':  openVideoPicker(); break;
+                }
                 case 'table':
                     editor.chain().focus().insertContent('<table border="1" style="border-collapse:collapse;width:100%"><tr><td style="padding:8px">Celda 1</td><td style="padding:8px">Celda 2</td></tr><tr><td style="padding:8px">Celda 3</td><td style="padding:8px">Celda 4</td></tr></table>').run()
                     showToast('Tabla insertada')
-                    break;
+                    break
                 case 'link': {
                     const url = prompt('URL del enlace:')
-                    if (url) { editor.chain().focus().insertContent(`<a href="${url}">${url}</a>`).run(); showToast('Enlace insertado') }
+                    if (url) {
+                        editor.chain().focus().insertContent(`<a href="${url}">${url}</a>`).run()
+                        showToast('Enlace insertado')
+                    }
                     break;
                 }
                 case 'emoji': {
                     const emojis = ['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥']
-                    const em = emojis[Math.floor(Math.random() * emojis.length)]
-                    editor.chain().focus().insertContent(em).run(); showToast(`Emoji: ${em}`)
+                    const e = emojis[Math.floor(Math.random() * emojis.length)]
+                    editor.chain().focus().insertContent(e).run()
+                    showToast(`Emoji insertado: ${e}`)
                     break;
                 }
                 case 'pageBreak':
-                    editor.chain().focus().insertContent('<div class="page-break-div" style="border:none;border-top:3px dashed #0084ff;margin:20px 0;position:relative;text-align:center;page-break-after:always;"><span style="font-size:11px;color:#0084ff;background:#fff;padding:0 8px;position:absolute;top:-9px;left:50%;transform:translateX(-50%);">— Salto de página —</span></div><p></p>').run()
+                    editor.chain().focus().insertContent('<hr>').run()
                     showToast('Salto de página insertado')
-                    break;
+                    break
                 case 'header': {
                     const h = prompt('Texto del encabezado:')
                     if (h) { editor.chain().focus().insertContentAt(0, `<p style="border-bottom:2px solid #0084ff;padding-bottom:8px;font-weight:bold;text-align:center">${h}</p>`).run(); showToast('Encabezado insertado') }
@@ -1037,24 +710,39 @@
                 case 'pageNumber':
                     editor.chain().focus().insertContent('<p style="text-align:center;color:#666">— Página 1 —</p>').run()
                     showToast('Número de página insertado')
+                    break
+                case 'shape':
+                    editor.chain().focus().insertContent('<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#ff6b35);border-radius:8px;display:inline-block;margin:8px"></div>').run()
+                    showToast('Forma insertada')
+                    break
+                case 'chart':
+                    editor.chain().focus().insertContent('<div style="border:1px solid #ddd;border-radius:8px;padding:16px;text-align:center;color:#666;margin:8px 0">📊 [Gráfico — inserta datos aquí]</div>').run()
+                    showToast('Espacio de gráfico insertado')
+                    break
+                case 'video': {
+                    const choice = prompt('Escribe "archivo" para seleccionar video o pega una URL:', 'archivo')
+                    if (choice && choice.toLowerCase() === 'archivo') openVideoPicker()
+                    else if (choice) {
+                        editor.chain().focus().insertContent(`<p><a href="${choice}" target="_blank">▶ Ver video</a></p>`).run()
+                        showToast('Video insertado por enlace')
+                    }
                     break;
-                case 'shape':  document.getElementById('shapeModal').classList.add('show'); break;
-                case 'chart':  document.getElementById('chartModal').classList.add('show'); break;
+                }
                 case 'new':
                     editor.commands.setContent('<p></p>')
                     localStorage.removeItem('wc-editor')
-                    showToast('Nuevo documento creado')
-                    break;
+                    showToast('Nuevo documento')
+                    break
                 case 'open': {
                     const recent = localStorage.getItem('wc-editor')
                     if (recent) {
                         editor.commands.setContent(recent)
-                        showToast('Documento reciente cargado ✅')
+                        showToast('Abrir reciente: cargado ✅')
                     } else {
                         editor.commands.setContent(getDefaultContent())
-                        showToast('Sin reciente — se cargó el panel principal')
+                        showToast('No hay reciente, se cargó el panel principal')
                     }
-                    break;
+                    break
                 }
                 case 'dashboard':
                     editor.commands.setContent(getDefaultContent())
@@ -1062,61 +750,98 @@
                     document.querySelector('.header h1').textContent = 'WC Corporate Editor v20.4'
                     document.querySelector('.header p').textContent = 'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA'
                     document.documentElement.lang = 'es'
-                    showToast('Panel principal restaurado ✅')
-                    break;
+                    showToast('Panel principal restaurado')
+                    break
                 case 'wordcount':
                     showToast(`Total: ${editor.getText().trim().split(/\s+/).filter(w=>w).length} palabras`)
-                    break;
+                    break
                 case 'spellcheck': {
                     const el = document.querySelector('.tiptap')
                     if (el) el.spellcheck = true
                     showToast('Corrector ortográfico activado')
-                    break;
+                    break
                 }
-                case 'translate':   document.getElementById('translateModal').classList.add('show'); break;
-                case 'dict':        showToast('Diccionario disponible en "Lenguas Indígenas CR"'); break;
-                case 'marginNormal':  document.querySelector('.content').style.padding = '24px 20px 100px 20px'; showToast('Márgenes normales'); break;
-                case 'marginNarrow':  document.querySelector('.content').style.padding = '12px 12px 100px 12px'; showToast('Márgenes estrechos'); break;
-                case 'marginWide':    document.querySelector('.content').style.padding = '36px 30px 100px 30px'; showToast('Márgenes amplios'); break;
-                case 'orientPortrait':  document.body.style.transform = 'none'; showToast('Orientación vertical'); break;
-                case 'orientLandscape': document.body.style.transform = 'rotate(90deg)'; showToast('Orientación horizontal'); break;
-                case 'sizeA4':     document.querySelector('.content').style.maxWidth = '210mm'; showToast('Tamaño A4'); break;
-                case 'sizeLetter': document.querySelector('.content').style.maxWidth = '216mm'; showToast('Tamaño Carta'); break;
-                case 'sizeLegal':  document.querySelector('.content').style.maxWidth = '279mm'; showToast('Tamaño Oficio'); break;
-                case 'insert-bribri':  editor.chain().focus().insertContent('<p><strong>Bribri:</strong> Shkëkë (Hola) | Ù (Casa) | Dö (Agua) | Kë (Fuego) | Alë (Sol) | Siö (Madre)</p>').run(); showToast('Vocabulario Bribri insertado'); break;
-                case 'insert-cabecar': editor.chain().focus().insertContent('<p><strong>Cabécar:</strong> Ká bë́rë (Buenos días) | Jë (Casa) | Di (Agua) | Kë (Fuego) | Sënë (Luna) | Mama (Madre)</p>').run(); showToast('Vocabulario Cabécar insertado'); break;
-                case 'insert-maleku':  editor.chain().focus().insertContent('<p><strong>Maleku:</strong> Ma lha maráma (Buenas tardes) | Lhaká (Casa) | Lhá (Agua) | Máma (Fuego) | Maráma (Madre)</p>').run(); showToast('Vocabulario Maleku insertado'); break;
-                case 'insert-boruca':  editor.chain().focus().insertContent('<p><strong>Boruca:</strong> Shíi (Gracias) | Dö (Casa) | Ñá (Agua) | Kúrr (Fuego) | Jurí (Sol) | Meni (Luna)</p>').run(); showToast('Vocabulario Boruca insertado'); break;
-                case 'insert-teribe':  editor.chain().focus().insertContent('<p><strong>Térraba/Teribe:</strong> Di (Agua) | Jë (Casa) | Sor (Sol) | Pà (Luna) | Brö (Niño) | Màma (Madre)</p>').run(); showToast('Vocabulario Térraba insertado'); break;
-                case 'insert-guaymi':  editor.chain().focus().insertContent('<p><strong>Ngäbe/Guaymí:</strong> Ju (Casa) | Nï (Agua) | Krä (Sol) | Bïbö (Fuego) | Ngwä (Niño) | Mama (Madre)</p>').run(); showToast('Vocabulario Ngäbe insertado'); break;
-                case 'lang-bribri':   switchLang('bribri'); break;
-                case 'lang-cabecar':  switchLang('cabecar'); break;
-                case 'lang-maleku':   switchLang('maleku'); break;
-                case 'lang-ingles':   switchLang('ingles'); break;
-                case 'lang-espanol':  switchLang('espanol'); break;
-                case 'dict-indigena': switchLang('espanol'); showToast('Diccionario indígena activo'); break;
-                case 'translate-indigena': document.getElementById('translateModal').classList.add('show'); break;
-                default:             showToast(`Función: ${action}`)
+                case 'translate':
+                    showToast('Función de traducción próximamente')
+                    break
+                case 'dict':
+                    showToast('Diccionario disponible en el menú "Lenguas Indígenas CR"')
+                    break
+                case 'marginNormal':
+                    document.querySelector('.content').style.padding = '24px 20px 100px 20px'
+                    showToast('Márgenes normales')
+                    break
+                case 'marginNarrow':
+                    document.querySelector('.content').style.padding = '12px 12px 100px 12px'
+                    showToast('Márgenes estrechos')
+                    break
+                case 'marginWide':
+                    document.querySelector('.content').style.padding = '36px 30px 100px 30px'
+                    showToast('Márgenes amplios')
+                    break
+                case 'orientPortrait':
+                    document.body.style.transform = 'none'
+                    showToast('Orientación vertical')
+                    break
+                case 'orientLandscape':
+                    document.body.style.transform = 'rotate(90deg)'
+                    showToast('Orientación horizontal')
+                    break
+                case 'sizeA4':
+                    document.querySelector('.content').style.maxWidth = '210mm'
+                    showToast('Tamaño A4')
+                    break
+                case 'sizeLetter':
+                    document.querySelector('.content').style.maxWidth = '216mm'
+                    showToast('Tamaño Carta')
+                    break
+                case 'sizeLegal':
+                    document.querySelector('.content').style.maxWidth = '216mm'
+                    showToast('Tamaño Oficio')
+                    break
+                case 'insert-bribri':
+                    editor.chain().focus().insertContent('<p><strong>Bribri:</strong> Shkëkë</p>').run()
+                    showToast('Palabra Bribri insertada')
+                    break
+                case 'insert-cabecar':
+                    editor.chain().focus().insertContent('<p><strong>Cabécar:</strong> Ká bë́rë</p>').run()
+                    showToast('Palabra Cabécar insertada')
+                    break
+                case 'insert-maleku':
+                    editor.chain().focus().insertContent('<p><strong>Maleku:</strong> Ma lha maráma</p>').run()
+                    showToast('Palabra Maleku insertada')
+                    break
+                case 'insert-boruca':
+                    editor.chain().focus().insertContent('<p><strong>Boruca:</strong> Shíi</p>').run()
+                    showToast('Palabra Boruca insertada')
+                    break
+                case 'insert-teribe':
+                    editor.chain().focus().insertContent('<p><strong>Térraba/Teribe:</strong> Di</p>').run()
+                    showToast('Palabra Térraba/Teribe insertada')
+                    break
+                case 'insert-guaymi':
+                    editor.chain().focus().insertContent('<p><strong>Ngäbe/Guaymí:</strong> Ju</p>').run()
+                    showToast('Palabra Ngäbe/Guaymí insertada')
+                    break
+                case 'lang-bribri': switchLang('bribri'); break
+                case 'lang-cabecar': switchLang('cabecar'); break
+                case 'lang-maleku': switchLang('maleku'); break
+                case 'lang-ingles': switchLang('ingles'); break
+                case 'lang-espanol': switchLang('espanol'); break
+                case 'dict-indigena': switchLang('espanol'); showToast('Diccionario indígena activo'); break
+                case 'translate-indigena': showToast('Traducción indígena próximamente'); break
+                default:
+                    showToast(`Acción no implementada: ${action}`)
             }
             updateStats()
         }
 
-        // ─── Bottom nav ────────────────────────────────────────────
-        document.getElementById('btnBack').onclick    = () => history.back()
+        document.getElementById('btnBack').onclick = () => history.back()
         document.getElementById('btnForward').onclick = () => history.forward()
-        document.getElementById('btnShare').onclick   = () => handleAction('share')
-        document.getElementById('btnSave').onclick    = () => handleAction('save')
-        document.getElementById('btnCopy').onclick    = () => handleAction('copy')
+        document.getElementById('btnShare').onclick = () => handleAction('share')
+        document.getElementById('btnSave').onclick = () => handleAction('save')
+        document.getElementById('btnCopy').onclick = () => handleAction('copy')
 
-        // ─── Keyboard shortcut Ctrl+S ─────────────────────────────
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault()
-                handleAction('save')
-            }
-        })
-
-        // ─── Init ─────────────────────────────────────────────────
         const saved = localStorage.getItem('wc-editor')
         if (saved) editor.commands.setContent(saved)
         updateStats()
