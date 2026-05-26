@@ -8,11 +8,9 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;}
-
 .header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:24px 20px 140px;text-align:center;color:white;}
 .header h1{font-size:28px;font-weight:700;margin-bottom:8px;}
 .header p{font-size:12px;opacity:.9;letter-spacing:1px;}
-
 .menu-card{background:rgba(255,255,255,.12);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:20px;margin:-100px 20px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.1);}
 .menu-row{display:flex;justify-content:space-around;margin-bottom:16px;flex-wrap:wrap;gap:6px;}
 .menu-col{display:flex;flex-direction:column;gap:12px;align-items:center;}
@@ -20,7 +18,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .menu-btn{background:none;border:none;color:#1a1a1a;font-size:14px;font-weight:500;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .menu-btn:hover{background:rgba(255,255,255,.3);}
 .menu-btn:active{transform:scale(.95);}
-
 .dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:white;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);padding:8px;margin-top:8px;display:none;z-index:200;min-width:210px;max-height:70vh;overflow-y:auto;}
 .dropdown.show{display:block;animation:fadeIn .2s;}
 @keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
@@ -28,12 +25,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dropdown-item:hover{background:#f0f7ff;}
 .dropdown-divider{height:1px;background:#eee;margin:4px 8px;}
 .badge{background:#0084ff;color:white;font-size:10px;padding:2px 6px;border-radius:4px;}
-
 .content{background:#fff;padding:24px 20px 160px;min-height:500px;}
 .content-title{font-size:18px;color:#0066cc;font-weight:600;margin-bottom:16px;}
-
 #wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;margin-bottom:12px;padding:8px;}
-
 .tiptap{border:1px solid #ddd;border-radius:12px;padding:16px;min-height:300px;outline:none;transition:border-color .2s;}
 .tiptap:focus{border-color:#0084ff;}
 .tiptap p{margin:8px 0;}
@@ -41,68 +35,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tiptap ul,.tiptap ol{padding-left:24px;margin:8px 0;}
 .tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
 .tiptap td,.tiptap th{border:1px solid #ddd;padding:8px;}
-
 .footer{background:#fff;padding:16px 20px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;}
 .stats{display:flex;justify-content:space-around;font-size:13px;color:#666;margin-bottom:8px;}
 .author{text-align:center;font-size:12px;color:#999;}
-
 .bottom-nav{background:#fff;position:fixed;bottom:0;left:0;right:0;padding:12px 20px;display:flex;justify-content:space-around;box-shadow:0 -2px 10px rgba(0,0,0,.05);border-radius:20px 20px 0 0;}
 .nav-btn{background:none;border:none;padding:8px;cursor:pointer;border-radius:8px;transition:all .2s;font-size:18px;}
 .nav-btn:hover{background:#f0f0f0;}
-
 .toast{position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#333;color:white;padding:12px 24px;border-radius:8px;font-size:14px;opacity:0;transition:opacity .3s;z-index:9000;white-space:nowrap;}
 .toast.show{opacity:1;}
-
-/* ── MODAL base ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
 .modal-overlay.show{display:flex;}
-.modal-box{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:380px;max-height:85vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.25);}
+.modal-box{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:400px;max-height:88vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.25);}
 .modal-box h3{font-size:18px;font-weight:700;color:#333;margin-bottom:16px;text-align:center;}
 .modal-input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:12px;}
-.modal-btns{display:flex;gap:8px;justify-content:center;margin-top:4px;}
+.modal-btns{display:flex;gap:8px;justify-content:center;margin-top:8px;}
 .btn-primary{background:#0084ff;color:#fff;border:none;border-radius:10px;padding:10px 24px;cursor:pointer;font-weight:600;font-size:14px;}
 .btn-secondary{background:#eee;color:#333;border:none;border-radius:10px;padding:10px 24px;cursor:pointer;font-weight:600;font-size:14px;}
-
-/* plantillas grid */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.template-card{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .2s;}
+.template-card{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;transition:all .2s;background:none;}
 .template-card:hover{border-color:#0084ff;background:#f0f7ff;}
 .template-card .icon{font-size:24px;display:block;margin-bottom:4px;}
-
-/* shapes grid */
 .shapes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
 .shape-btn{border:2px solid #eee;border-radius:8px;padding:8px 4px;cursor:pointer;text-align:center;font-size:20px;transition:all .2s;background:none;}
 .shape-btn:hover{border-color:#0084ff;background:#f0f7ff;}
-
-/* charts grid */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .chart-btn{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;font-weight:600;transition:all .2s;background:none;}
 .chart-btn:hover{border-color:#0084ff;background:#f0f7ff;}
-
-/* canvas del gráfico inline */
 .chart-wrapper{position:relative;width:100%;max-width:500px;margin:12px auto;border:1px solid #eee;border-radius:12px;padding:12px;background:#fafafa;}
 .chart-wrapper canvas{width:100%!important;}
 .chart-wrapper .chart-del{position:absolute;top:6px;right:8px;background:#ff4444;color:#fff;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;}
-
-/* imagen/video insertados */
-.media-block{position:relative;display:inline-block;max-width:100%;margin:8px 0;}
-.media-block img,.media-block video{max-width:100%;border-radius:8px;}
-.media-block .del-btn{position:absolute;top:4px;right:4px;background:rgba(255,0,0,.8);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:22px;text-align:center;}
-
-/* archivo adjunto */
 .attach-block{display:flex;align-items:center;gap:10px;background:#f0f7ff;border:1px solid #0084ff33;border-radius:10px;padding:10px 14px;margin:6px 0;}
-.attach-block .attach-icon{font-size:24px;}
-.attach-block .attach-info{flex:1;font-size:13px;}
-.attach-block .attach-name{font-weight:600;color:#0066cc;}
-.attach-block .attach-size{color:#999;font-size:11px;}
-
-/* columnas */
-.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-
-/* page break */
-.page-break-el{border:none;border-top:2px dashed #aaa;margin:16px 0;position:relative;}
-.page-break-el::after{content:'— Salto de página —';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;padding:0 8px;font-size:11px;color:#aaa;}
+.attach-icon{font-size:24px;}
+.attach-info{flex:1;font-size:13px;}
+.attach-name{font-weight:600;color:#0066cc;}
+.attach-size{color:#999;font-size:11px;}
+/* Botón flotante */
+#fabBtn{position:fixed;bottom:128px;right:14px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:11px 16px;font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.45);cursor:pointer;line-height:1.4;text-align:center;transition:transform .15s;}
+#fabBtn:hover{transform:scale(1.04);}
+/* Panel flotante */
+#fabPanel{display:none;position:fixed;bottom:185px;right:10px;left:10px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.22);z-index:7999;padding:18px 16px;max-height:72vh;overflow-y:auto;}
+#fabPanel.show{display:block;animation:fadeUp .22s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+#fabPanel h4{font-size:12px;color:#888;font-weight:700;margin:14px 0 7px;text-transform:uppercase;letter-spacing:.6px;}
+#fabPanel h4:first-child{margin-top:0;}
+.fab-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;}
+.fab-btn{border:1px solid #ddd;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;background:#fafafa;color:#333;transition:all .15s;font-weight:500;}
+.fab-btn:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
+.color-palette{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-bottom:8px;}
+.color-swatch{width:100%;aspect-ratio:1;border-radius:5px;cursor:pointer;border:2px solid transparent;transition:transform .1s;}
+.color-swatch:hover{transform:scale(1.25);border-color:#333;}
+.font-btn{border:1px solid #ddd;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:14px;background:#fafafa;color:#333;transition:all .15s;text-align:left;width:100%;}
+.font-btn:hover{background:#f0f7ff;border-color:#0084ff;}
+.fmt-quick{background:#f0f7ff;border:1px solid #c8e0ff;border-radius:8px;padding:7px 11px;cursor:pointer;font-size:14px;font-weight:700;color:#0055cc;transition:all .15s;}
+.fmt-quick:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
 </style>
 </head>
 <body>
@@ -114,18 +99,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <div class="menu-card">
   <div class="menu-row">
-
     <div class="menu-item">
       <button class="menu-btn" data-menu="inicio">Inicio</button>
       <div class="dropdown" id="menu-inicio">
         <div class="dropdown-item" data-action="new">Nuevo documento</div>
         <div class="dropdown-item" data-action="open">Abrir reciente</div>
         <div class="dropdown-divider"></div>
-        <div class="dropdown-item" data-action="dashboard">Panel principal</div>
         <div class="dropdown-item" data-action="plantillas">Plantillas</div>
+        <div class="dropdown-item" data-action="dashboard">Panel principal</div>
       </div>
     </div>
-
     <div class="menu-item">
       <button class="menu-btn" data-menu="archivo">Archivo</button>
       <div class="dropdown" id="menu-archivo">
@@ -137,7 +120,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="dropdown-item" data-action="share">Compartir</div>
       </div>
     </div>
-
     <div class="menu-item">
       <button class="menu-btn" data-menu="editar">Editar</button>
       <div class="dropdown" id="menu-editar">
@@ -153,7 +135,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="dropdown-item" data-action="trackChanges">Control de cambios</div>
       </div>
     </div>
-
     <div class="menu-item">
       <button class="menu-btn" data-menu="insertar">Insertar</button>
       <div class="dropdown" id="menu-insertar">
@@ -163,24 +144,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="dropdown-item" data-action="insertTable">Tabla</div>
         <div class="dropdown-item" data-action="insertLink">Enlace</div>
         <div class="dropdown-item" data-action="insertEmoji">Emoji</div>
-        <div class="dropdown-item" data-action="wcarte">✨ WC Arte</div>
+        <div class="dropdown-item" data-action="wcarte">✨ WC Arte (texto libre)</div>
+        <div class="dropdown-item" data-action="wcarte-galeria">🎨 WC Arte — 10 diseños CR</div>
         <div class="dropdown-divider"></div>
         <div class="dropdown-item" data-action="pageBreak">Salto de página</div>
         <div class="dropdown-item" data-action="insertHeader">Encabezado</div>
         <div class="dropdown-item" data-action="insertFooter">Pie de página</div>
-        <div class="dropdown-item" data-action="pageNumber">Num. de página</div>
+        <div class="dropdown-item" data-action="pageNumber">Núm. de página</div>
         <div class="dropdown-divider"></div>
         <div class="dropdown-item" data-action="insertShape">Formas (20)</div>
         <div class="dropdown-item" data-action="insertChart">Gráficos (10)</div>
         <div class="dropdown-item" data-action="insertColumns">Columnas</div>
       </div>
     </div>
-
-  </div><!-- /menu-row -->
+  </div>
 
   <div class="menu-col">
     <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
-
       <div class="menu-item">
         <button class="menu-btn" data-menu="formato">Formato</button>
         <div class="dropdown" id="menu-formato">
@@ -208,7 +188,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <div class="dropdown-item" data-action="outdent">Sangría ←</div>
         </div>
       </div>
-
       <div class="menu-item">
         <button class="menu-btn" data-menu="pagina">Página</button>
         <div class="dropdown" id="menu-pagina">
@@ -224,7 +203,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <div class="dropdown-item" data-action="sizeLegal">Tamaño Oficio</div>
         </div>
       </div>
-
       <div class="menu-item">
         <button class="menu-btn" data-menu="herramientas">Herramientas</button>
         <div class="dropdown" id="menu-herramientas">
@@ -234,7 +212,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <div class="dropdown-item" data-action="dict">Diccionario</div>
         </div>
       </div>
-
       <div class="menu-item">
         <button class="menu-btn" data-menu="lenguas">Lenguas CR</button>
         <div class="dropdown" id="menu-lenguas">
@@ -255,10 +232,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <div class="dropdown-item" data-action="translate-indigena">Traducir a lengua</div>
         </div>
       </div>
-
     </div>
   </div>
-</div><!-- /menu-card -->
+</div>
 
 <div class="content">
   <div class="content-title" id="contentTitle">📋 Editor de documentos</div>
@@ -287,68 +263,107 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <div class="bottom-nav">
-  <button class="nav-btn" id="btnBack" title="Deshacer">↩</button>
-  <button class="nav-btn" id="btnForward" title="Rehacer">↪</button>
-  <button class="nav-btn" id="btnShare" title="Compartir">⬆</button>
-  <button class="nav-btn" id="btnSave" title="Guardar">💾</button>
-  <button class="nav-btn" id="btnCopy" title="Copiar">⧉</button>
+  <button class="nav-btn" id="btnBack">↩</button>
+  <button class="nav-btn" id="btnForward">↪</button>
+  <button class="nav-btn" id="btnShare">⬆</button>
+  <button class="nav-btn" id="btnSave">💾</button>
+  <button class="nav-btn" id="btnCopy">⧉</button>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ░░ MODAL PLANTILLAS ░░ -->
-<div class="modal-overlay" id="modalPlantillas">
-<div class="modal-box">
-  <h3>📄 Plantillas</h3>
-  <div class="grid-2" id="plantillasGrid"></div>
-  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalPlantillas')">Cerrar</button></div>
-</div>
+<!-- BOTÓN FLOTANTE -->
+<button id="fabBtn" onclick="toggleFab()">⚡ Herramientas<br><span style="font-size:10px;opacity:.9">Corporativas y de Formato</span></button>
+
+<!-- PANEL FLOTANTE -->
+<div id="fabPanel">
+  <h4>✏️ Formato rápido</h4>
+  <div class="fab-row">
+    <button class="fab-btn" style="font-weight:900" onmousedown="saveSelection()" onclick="restoreAndExec('bold')"><b>N</b></button>
+    <button class="fab-btn" style="font-style:italic" onmousedown="saveSelection()" onclick="restoreAndExec('italic')"><i>C</i></button>
+    <button class="fab-btn" style="text-decoration:underline" onmousedown="saveSelection()" onclick="restoreAndExec('underline')"><u>S</u></button>
+    <button class="fab-btn" style="text-decoration:line-through" onmousedown="saveSelection()" onclick="restoreAndExec('strikeThrough')"><s>T</s></button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyLeft')">⬅</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyCenter')">≡</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyRight')">➡</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyFull')">☰</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('insertUnorderedList')">• Lista</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('insertOrderedList')">1. Lista</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('indent')">→ Sang.</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreAndExec('outdent')">← Sang.</button>
+  </div>
+  <h4>📝 Títulos</h4>
+  <div class="fab-row">
+    <button class="fab-btn" style="font-size:18px;font-weight:900" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H1')">Título 1</button>
+    <button class="fab-btn" style="font-size:16px;font-weight:700" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H2')">Título 2</button>
+    <button class="fab-btn" style="font-size:14px;font-weight:600" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H3')">Título 3</button>
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','P')">Normal</button>
+  </div>
+  <h4>🔡 Tipo de letra</h4>
+  <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px;max-height:170px;overflow-y:auto;" id="fabFontList"></div>
+  <h4>📏 Tamaño de letra</h4>
+  <div class="fab-row" id="fabSizeList"></div>
+  <h4>🎨 Paleta de colores</h4>
+  <div class="color-palette" id="colorPalette"></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+    <label style="font-size:12px;color:#666;">Personalizado:</label>
+    <input type="color" id="fabColorCustom" value="#0084ff" style="width:40px;height:30px;border:none;border-radius:6px;cursor:pointer;">
+    <button class="fab-btn" onmousedown="saveSelection()" onclick="restoreSelection();cmd('foreColor',document.getElementById('fabColorCustom').value);showToast('Color aplicado 🎨')">Aplicar</button>
+  </div>
+  <h4>✨ WC Arte — Diseños CR</h4>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;" id="fabWcArteGrid"></div>
+  <h4>⚡ Acciones rápidas</h4>
+  <div class="fab-row">
+    <button class="fab-btn" onclick="cmd('undo')">↩ Deshacer</button>
+    <button class="fab-btn" onclick="cmd('redo')">↪ Rehacer</button>
+    <button class="fab-btn" onclick="localStorage.setItem('wc-editor-v22',editor.innerHTML);showToast('Guardado 💾')">💾 Guardar</button>
+    <button class="fab-btn" onclick="navigator.clipboard.writeText(editor.innerText);showToast('Copiado ✅')">⧉ Copiar</button>
+    <button class="fab-btn" onclick="window.print()">🖨️ Imprimir</button>
+  </div>
+  <div style="text-align:center;margin-top:12px;">
+    <button class="btn-secondary" onclick="toggleFab()" style="width:100%">✕ Cerrar panel</button>
+  </div>
 </div>
 
-<!-- ░░ MODAL WC ARTE ░░ -->
+<!-- MODALES -->
+<div class="modal-overlay" id="modalPlantillas">
+<div class="modal-box"><h3>📄 Plantillas</h3><div class="grid-2" id="plantillasGrid"></div><div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div>
+</div>
+
 <div class="modal-overlay" id="modalWcArte">
 <div class="modal-box">
   <h3>✨ WC Arte</h3>
   <input type="text" class="modal-input" id="wcArteText" placeholder="Escribe tu texto...">
   <div id="wcArtePreview" style="font-size:28px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div>
-  <div class="modal-btns">
-    <button class="btn-primary" id="btnInsertWcArte">Insertar</button>
-    <button class="btn-secondary" onclick="closeModal('modalWcArte')">Cancelar</button>
-  </div>
+  <div class="modal-btns"><button class="btn-primary" id="btnInsertWcArte">Insertar</button><button class="btn-secondary" onclick="closeModal('modalWcArte')">Cancelar</button></div>
 </div>
 </div>
 
-<!-- ░░ MODAL COLOR ░░ -->
+<div class="modal-overlay" id="modalWcArteGallery">
+<div class="modal-box">
+  <h3>✨ WC Arte — Galería CR</h3>
+  <p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño, escribe tu texto y se inserta</p>
+  <div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div>
+  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div>
+</div>
+</div>
+
 <div class="modal-overlay" id="modalColor">
 <div class="modal-box">
   <h3>🎨 Color de texto</h3>
   <input type="color" id="colorPicker" value="#0084ff" style="width:100%;height:50px;border:none;cursor:pointer;border-radius:10px;margin-bottom:12px;">
-  <div class="modal-btns">
-    <button class="btn-primary" id="btnApplyColor">Aplicar</button>
-    <button class="btn-secondary" onclick="closeModal('modalColor')">Cancelar</button>
-  </div>
+  <div class="modal-btns"><button class="btn-primary" id="btnApplyColor">Aplicar</button><button class="btn-secondary" onclick="closeModal('modalColor')">Cancelar</button></div>
 </div>
 </div>
 
-<!-- ░░ MODAL FORMAS ░░ -->
 <div class="modal-overlay" id="modalShapes">
-<div class="modal-box">
-  <h3>🔷 Formas (20)</h3>
-  <div class="shapes-grid" id="shapesGrid"></div>
-  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalShapes')">Cerrar</button></div>
-</div>
+<div class="modal-box"><h3>🔷 Formas (20)</h3><div class="shapes-grid" id="shapesGrid"></div><div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalShapes')">Cerrar</button></div></div>
 </div>
 
-<!-- ░░ MODAL GRÁFICOS ░░ -->
 <div class="modal-overlay" id="modalCharts">
-<div class="modal-box">
-  <h3>📊 Gráficos (10)</h3>
-  <div class="charts-grid" id="chartsGrid"></div>
-  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalCharts')">Cerrar</button></div>
-</div>
+<div class="modal-box"><h3>📊 Gráficos (10)</h3><div class="charts-grid" id="chartsGrid"></div><div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalCharts')">Cerrar</button></div></div>
 </div>
 
-<!-- ░░ MODAL COLUMNAS ░░ -->
 <div class="modal-overlay" id="modalColumns">
 <div class="modal-box">
   <h3>▦ Columnas</h3>
@@ -360,33 +375,59 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 </div>
 
-<!-- Input oculto para archivos -->
+<div class="modal-overlay" id="modalFontSize">
+<div class="modal-box">
+  <h3>📏 Tamaño de fuente</h3>
+  <div class="grid-2" style="margin-bottom:12px;">
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:10px">A</span>Muy pequeño</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:13px">A</span>Pequeño</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:16px">A</span>Normal</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:18px">A</span>Mediano</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:22px">A</span>Grande</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:26px">A</span>Muy grande</button>
+    <button class="template-card" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('Tamaño aplicado')"><span class="icon" style="font-size:32px">A</span>Gigante</button>
+  </div>
+  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalFontSize')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="modal-overlay" id="modalLineSpacing">
+<div class="modal-box">
+  <h3>↕ Interlineado</h3>
+  <div class="grid-2" style="margin-bottom:12px;">
+    <button class="template-card" onclick="editor.style.lineHeight='1';closeModal('modalLineSpacing');showToast('Interlineado: 1')"><span class="icon">▬</span>Simple (1)</button>
+    <button class="template-card" onclick="editor.style.lineHeight='1.15';closeModal('modalLineSpacing');showToast('Interlineado: 1.15')"><span class="icon">▬</span>1.15</button>
+    <button class="template-card" onclick="editor.style.lineHeight='1.5';closeModal('modalLineSpacing');showToast('Interlineado: 1.5')"><span class="icon">▭</span>1.5</button>
+    <button class="template-card" onclick="editor.style.lineHeight='2';closeModal('modalLineSpacing');showToast('Interlineado: 2')"><span class="icon">□</span>Doble (2)</button>
+    <button class="template-card" onclick="editor.style.lineHeight='2.5';closeModal('modalLineSpacing');showToast('Interlineado: 2.5')"><span class="icon">□</span>2.5</button>
+    <button class="template-card" onclick="editor.style.lineHeight='3';closeModal('modalLineSpacing');showToast('Interlineado: 3')"><span class="icon">⬜</span>Triple (3)</button>
+  </div>
+  <div class="modal-btns"><button class="btn-secondary" onclick="closeModal('modalLineSpacing')">Cerrar</button></div>
+</div>
+</div>
+
 <input type="file" id="fileInputImage" accept="image/*" style="display:none">
 <input type="file" id="fileInputVideo" accept="video/*" style="display:none">
 <input type="file" id="fileInputAny" style="display:none">
 
 <script>
-// ══════════════════════════════════════
-//  UTILIDADES
-// ══════════════════════════════════════
+// ══ UTILIDADES ══
 const editor = document.getElementById('editor');
 const toast  = document.getElementById('toast');
+let savedRange = null;
+let trackOn = false;
+let chartCount = 0;
 
 function showToast(msg) {
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
-
 function openModal(id)  { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
-// cerrar modal al tocar overlay
 document.querySelectorAll('.modal-overlay').forEach(ov => {
-  ov.addEventListener('click', e => { if(e.target === ov) ov.classList.remove('show'); });
+  ov.addEventListener('click', e => { if(e.target===ov) ov.classList.remove('show'); });
 });
-
-// estadísticas
 function updateStats() {
   const txt = editor.innerText;
   const words = txt.trim().split(/\s+/).filter(w=>w.length>0).length;
@@ -395,7 +436,6 @@ function updateStats() {
 }
 editor.addEventListener('input', updateStats);
 
-// insertar HTML en el editor
 function insertHTML(html) {
   editor.focus();
   const sel = window.getSelection();
@@ -405,525 +445,481 @@ function insertHTML(html) {
     const div = document.createElement('div');
     div.innerHTML = html;
     const frag = document.createDocumentFragment();
-    let node, lastNode;
-    while ((node = div.firstChild)) { lastNode = frag.appendChild(node); }
+    let node, last;
+    while((node=div.firstChild)){last=frag.appendChild(node);}
     range.insertNode(frag);
-    if (lastNode) { range.setStartAfter(lastNode); range.collapse(true); sel.removeAllRanges(); sel.addRange(range); }
-  } else {
-    editor.innerHTML += html;
-  }
+    if(last){range.setStartAfter(last);range.collapse(true);sel.removeAllRanges();sel.addRange(range);}
+  } else { editor.innerHTML += html; }
   updateStats();
 }
 
-// execCommand wrapper
 function cmd(c, v) { document.execCommand(c, false, v||null); editor.focus(); }
 
-// ══════════════════════════════════════
-//  IDIOMA COMPLETO DEL EDITOR
-// ══════════════════════════════════════
+// ══ SELECCIÓN ══
+editor.addEventListener('mouseup', saveSelection);
+editor.addEventListener('keyup',   saveSelection);
+editor.addEventListener('touchend',saveSelection);
+
+function saveSelection() {
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) savedRange = sel.getRangeAt(0).cloneRange();
+}
+function restoreSelection() {
+  if (!savedRange) { editor.focus(); return; }
+  editor.focus();
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(savedRange);
+}
+function restoreAndExec(command, value) {
+  restoreSelection();
+  cmd(command, value);
+}
+
+// ══ IDIOMA ══
 const langs = {
-  espanol: {
-    title:'WC Corporate Editor v22', sub:'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA',
-    contentTitle:'📋 Editor de documentos',
-    menus:['Inicio','Archivo','Editar','Insertar','Formato','Página','Herramientas','Lenguas CR'],
-    placeholder:'Escribe aquí...',
-  },
-  ingles: {
-    title:'WC Corporate Editor v22', sub:'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS',
-    contentTitle:'📋 Document Editor',
-    menus:['Home','File','Edit','Insert','Format','Page','Tools','Indigenous Lang'],
-    placeholder:'Type here...',
-  },
-  bribri: {
-    title:'WC Corporate Editor v22', sub:'BRIBRI UI - ÑAÑA TSURU',
-    contentTitle:'📋 Tso̖ bribri',
-    menus:['Tsö̖','Ña','Ñë','Shu','Forma','Tsi','Kë','Lengua bribri'],
-    placeholder:'Ñe tsuru bribri...',
-  },
-  cabecar: {
-    title:'WC Corporate Editor v22', sub:'CABÉCAR UI - KÁ BË́RË',
-    contentTitle:'📋 Yë́ cabécar',
-    menus:['Yë','Ká','Bë','Rë','Tsö','Sö','Kë','Yë́ cabécar'],
-    placeholder:'Bë́rë yë́ cabécar...',
-  },
-  maleku: {
-    title:'WC Corporate Editor v22', sub:'MALEKU UI - MA LHA MARÁMA',
-    contentTitle:'📋 Lha maráma maleku',
-    menus:['Lha','Ma','Rá','Má','Töl','Phö','Të','Maleku'],
-    placeholder:'Ma lha maráma...',
-  },
+  espanol:{ title:'WC Corporate Editor v22', sub:'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA', contentTitle:'📋 Editor de documentos', menus:['Inicio','Archivo','Editar','Insertar','Formato','Página','Herramientas','Lenguas CR'] },
+  ingles: { title:'WC Corporate Editor v22', sub:'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS', contentTitle:'📋 Document Editor', menus:['Home','File','Edit','Insert','Format','Page','Tools','Indigenous Lang'] },
+  bribri: { title:'WC Corporate Editor v22', sub:'BRIBRI UI - ÑAÑA TSURU', contentTitle:'📋 Tso̖ bribri', menus:['Tsö̖','Ña','Ñë','Shu','Forma','Tsi','Kë','Lengua bribri'] },
+  cabecar:{ title:'WC Corporate Editor v22', sub:'CABÉCAR UI - KÁ BË́RË', contentTitle:'📋 Yë́ cabécar', menus:['Yë','Ká','Bë','Rë','Tsö','Sö','Kë','Yë́ cabécar'] },
+  maleku: { title:'WC Corporate Editor v22', sub:'MALEKU UI - MA LHA MARÁMA', contentTitle:'📋 Lha maráma maleku', menus:['Lha','Ma','Rá','Má','Töl','Phö','Të','Maleku'] },
 };
-
 const menuBtns = document.querySelectorAll('.menu-btn');
-
 function switchLang(lang) {
-  const L = langs[lang] || langs.espanol;
+  const L = langs[lang]||langs.espanol;
   document.getElementById('editorTitle').textContent  = L.title;
   document.getElementById('editorSub').textContent    = L.sub;
   document.getElementById('contentTitle').textContent = L.contentTitle;
-  document.documentElement.lang = lang === 'ingles' ? 'en' : 'es';
-  // cambiar etiquetas de los botones de menú
-  menuBtns.forEach((btn, i) => {
-    if (L.menus[i]) btn.textContent = L.menus[i];
-  });
-  // placeholder
-  if (!editor.innerText.trim()) editor.setAttribute('data-placeholder', L.placeholder);
+  document.documentElement.lang = lang==='ingles'?'en':'es';
+  menuBtns.forEach((btn,i)=>{ if(L.menus[i]) btn.textContent=L.menus[i]; });
   showToast(`Idioma: ${lang.charAt(0).toUpperCase()+lang.slice(1)} ✅`);
 }
 
-// ══════════════════════════════════════
-//  PLANTILLAS (10)
-// ══════════════════════════════════════
+// ══ PLANTILLAS (10) ══
 const plantillas = [
   { icon:'📄', name:'Carta formal', content:'<h2 style="text-align:center">CARTA FORMAL</h2><p style="text-align:right">San José, Costa Rica</p><p><strong>Estimado señor/señora:</strong></p><p>Por medio de la presente me permito comunicarle que...</p><p style="margin-top:40px">Atentamente,</p><p><strong>_____________________</strong></p>' },
   { icon:'📋', name:'Informe', content:'<h1 style="text-align:center">INFORME EJECUTIVO</h1><hr><h2>1. Resumen ejecutivo</h2><p>El presente informe detalla los resultados obtenidos durante el período...</p><h2>2. Objetivos</h2><p>• Objetivo 1<br>• Objetivo 2</p><h2>3. Resultados</h2><p>Los resultados muestran un avance significativo...</p><h2>4. Conclusiones</h2><p>Se concluye que...</p>' },
-  { icon:'📝', name:'Minuta', content:'<h2 style="text-align:center">MINUTA DE REUNIÓN</h2><p><strong>Fecha:</strong> ___________</p><p><strong>Hora:</strong> ___________</p><p><strong>Participantes:</strong><br>1. ___________<br>2. ___________</p><h3>Temas tratados:</h3><p>1. ___________<br>2. ___________</p><h3>Acuerdos:</h3><p>1. ___________</p>' },
-  { icon:'📃', name:'Currículum', content:'<h1 style="text-align:center">NOMBRE COMPLETO</h1><p style="text-align:center">📧 correo@email.com | 📱 8888-8888</p><hr><h3>PERFIL PROFESIONAL</h3><p>Profesional con experiencia en...</p><h3>EXPERIENCIA</h3><p><strong>Empresa XYZ</strong> — Cargo (2020–2024)<br>• Logro 1<br>• Logro 2</p><h3>EDUCACIÓN</h3><p><strong>Universidad</strong> — Carrera (2015–2019)</p>' },
-  { icon:'📑', name:'Contrato', content:'<h2 style="text-align:center">CONTRATO DE SERVICIOS</h2><p>Entre los suscritos, <strong>EL CONTRATANTE</strong> y <strong>EL CONTRATADO</strong>, se celebra el presente contrato:</p><h3>CLÁUSULA PRIMERA: OBJETO</h3><p>El presente contrato tiene por objeto...</p><h3>CLÁUSULA SEGUNDA: DURACIÓN</h3><p>El contrato tendrá una duración de...</p><h3>CLÁUSULA TERCERA: PAGO</h3><p>El contratante pagará la suma de...</p><p style="margin-top:40px">Firma: _______________ &nbsp;&nbsp;&nbsp; Firma: _______________</p>' },
-  { icon:'🗒️', name:'Acta', content:'<h2 style="text-align:center">ACTA Nº ____</h2><p><strong>Reunión:</strong> ___________</p><p><strong>Fecha y lugar:</strong> ___________</p><h3>PRESENTES:</h3><p>1. ___________</p><h3>ORDEN DEL DÍA:</h3><p>1. Apertura de la sesión<br>2. Lectura del acta anterior<br>3. Asuntos varios</p><h3>DESARROLLO:</h3><p>Se dio inicio a la sesión a las ___ horas...</p>' },
-  { icon:'📊', name:'Propuesta', content:'<h1 style="text-align:center;color:#0084ff">PROPUESTA EJECUTIVA</h1><p style="text-align:center;color:#666">Preparada para: [Cliente]</p><hr><h2>Problema</h2><p>El cliente actualmente enfrenta...</p><h2>Solución propuesta</h2><p>Ofrecemos una solución integral que consiste en...</p><h2>Inversión</h2><p>El costo total del proyecto es de...</p><h2>Cronograma</h2><p>Semana 1: _____ | Semana 2: _____</p>' },
-  { icon:'📰', name:'Boletín', content:'<div style="background:#0084ff;color:white;padding:16px;border-radius:8px;text-align:center"><h1>BOLETÍN INFORMATIVO</h1><p>Edición Nº 1 — 2025</p></div><h2>Noticias principales</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p><h2>Eventos próximos</h2><p>• Evento 1: fecha<br>• Evento 2: fecha</p><p style="text-align:center;color:#999;margin-top:20px">— Fin del boletín —</p>' },
-  { icon:'🌿', name:'Lenguas Indígenas', content:'<h2 style="color:#27ae60;text-align:center">🌿 Diccionario Lenguas Indígenas CR</h2><table border="1" style="border-collapse:collapse;width:100%"><tr style="background:#27ae60;color:white"><th style="padding:8px">Español</th><th style="padding:8px">Bribri</th><th style="padding:8px">Cabécar</th><th style="padding:8px">Maleku</th></tr><tr><td style="padding:8px">Hola</td><td style="padding:8px">Shkëkë</td><td style="padding:8px">Ká bë́rë</td><td style="padding:8px">Ma lha</td></tr><tr><td style="padding:8px">Agua</td><td style="padding:8px">Ditsö</td><td style="padding:8px">Di</td><td style="padding:8px">Ito</td></tr><tr><td style="padding:8px">Gracias</td><td style="padding:8px">Ëyö</td><td style="padding:8px">Ká</td><td style="padding:8px">Shíi</td></tr></table>' },
+  { icon:'📝', name:'Minuta', content:'<h2 style="text-align:center">MINUTA DE REUNIÓN</h2><p><strong>Fecha:</strong> ___________</p><p><strong>Hora:</strong> ___________</p><p><strong>Participantes:</strong><br>1. ___________<br>2. ___________</p><h3>Temas tratados:</h3><p>1. ___________</p><h3>Acuerdos:</h3><p>1. ___________</p>' },
+  { icon:'📃', name:'Currículum', content:'<h1 style="text-align:center">NOMBRE COMPLETO</h1><p style="text-align:center">📧 correo@email.com | 📱 8888-8888</p><hr><h3>PERFIL PROFESIONAL</h3><p>Profesional con experiencia en...</p><h3>EXPERIENCIA</h3><p><strong>Empresa XYZ</strong> — Cargo (2020–2024)<br>• Logro 1</p><h3>EDUCACIÓN</h3><p><strong>Universidad</strong> — Carrera (2015–2019)</p>' },
+  { icon:'📑', name:'Contrato', content:'<h2 style="text-align:center">CONTRATO DE SERVICIOS</h2><p>Entre los suscritos, <strong>EL CONTRATANTE</strong> y <strong>EL CONTRATADO</strong>, se celebra el presente contrato:</p><h3>CLÁUSULA PRIMERA: OBJETO</h3><p>El presente contrato tiene por objeto...</p><h3>CLÁUSULA SEGUNDA: DURACIÓN</h3><p>El contrato tendrá una duración de...</p><p style="margin-top:40px">Firma: _______________ &nbsp;&nbsp; Firma: _______________</p>' },
+  { icon:'🗒️', name:'Acta', content:'<h2 style="text-align:center">ACTA Nº ____</h2><p><strong>Fecha y lugar:</strong> ___________</p><h3>PRESENTES:</h3><p>1. ___________</p><h3>ORDEN DEL DÍA:</h3><p>1. Apertura<br>2. Lectura del acta anterior<br>3. Asuntos varios</p><h3>DESARROLLO:</h3><p>Se dio inicio a la sesión a las ___ horas...</p>' },
+  { icon:'📊', name:'Propuesta', content:'<h1 style="text-align:center;color:#0084ff">PROPUESTA EJECUTIVA</h1><p style="text-align:center;color:#666">Preparada para: [Cliente]</p><hr><h2>Problema</h2><p>El cliente actualmente enfrenta...</p><h2>Solución propuesta</h2><p>Ofrecemos una solución integral...</p><h2>Inversión</h2><p>El costo total del proyecto es de...</p>' },
+  { icon:'📰', name:'Boletín', content:'<div style="background:#0084ff;color:white;padding:16px;border-radius:8px;text-align:center"><h1>BOLETÍN INFORMATIVO</h1><p>Edición Nº 1</p></div><h2>Noticias principales</h2><p>Lorem ipsum dolor sit amet...</p><h2>Eventos próximos</h2><p>• Evento 1: fecha<br>• Evento 2: fecha</p>' },
+  { icon:'🌿', name:'Lenguas Indígenas', content:'<h2 style="color:#27ae60;text-align:center">🌿 Diccionario Lenguas Indígenas CR</h2><table border="1" style="border-collapse:collapse;width:100%"><tr style="background:#27ae60;color:white"><th style="padding:8px">Español</th><th style="padding:8px">Bribri</th><th style="padding:8px">Cabécar</th><th style="padding:8px">Maleku</th></tr><tr><td style="padding:8px">Hola</td><td style="padding:8px">Shkëkë</td><td style="padding:8px">Ká bë́rë</td><td style="padding:8px">Ma lha</td></tr><tr><td style="padding:8px">Agua</td><td style="padding:8px">Ditsö</td><td style="padding:8px">Di</td><td style="padding:8px">Ito</td></tr></table>' },
   { icon:'📬', name:'Memorando', content:'<h2 style="text-align:center">MEMORANDO INTERNO</h2><hr><p><strong>PARA:</strong> ___________</p><p><strong>DE:</strong> ___________</p><p><strong>FECHA:</strong> ___________</p><p><strong>ASUNTO:</strong> ___________</p><hr><p>Por este medio me permito informarle que...</p><p style="margin-top:30px">Firma: _______________</p>' },
 ];
-
 const plantillasGrid = document.getElementById('plantillasGrid');
-plantillas.forEach((p, i) => {
+plantillas.forEach(p => {
   const card = document.createElement('button');
   card.className = 'template-card';
   card.innerHTML = `<span class="icon">${p.icon}</span>${p.name}`;
-  card.onclick = () => {
-    editor.innerHTML = p.content;
-    updateStats();
-    closeModal('modalPlantillas');
-    showToast(`Plantilla: ${p.name} ✅`);
-  };
+  card.onclick = () => { editor.innerHTML=p.content; updateStats(); closeModal('modalPlantillas'); showToast(`Plantilla: ${p.name} ✅`); };
   plantillasGrid.appendChild(card);
 });
 
-// ══════════════════════════════════════
-//  FORMAS (20)
-// ══════════════════════════════════════
-const shapes = [
-  { icon:'⬛', html:'<div style="width:120px;height:80px;background:linear-gradient(135deg,#0084ff,#0050cc);border-radius:4px;display:inline-block;margin:8px"></div>' },
-  { icon:'🔵', html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#9b59b6);border-radius:50%;display:inline-block;margin:8px"></div>' },
-  { icon:'🔺', html:'<div style="width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:100px solid #ff6b35;display:inline-block;margin:8px"></div>' },
-  { icon:'💎', html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#00d2ff,#0084ff);transform:rotate(45deg);display:inline-block;margin:24px"></div>' },
-  { icon:'⭐', html:'<div style="font-size:60px;display:inline-block;margin:8px;color:#f39c12">⭐</div>' },
-  { icon:'❤️', html:'<div style="font-size:60px;display:inline-block;margin:8px">❤️</div>' },
-  { icon:'🔷', html:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#0084ff,#27ae60);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);display:inline-block;margin:8px"></div>' },
-  { icon:'🔹', html:'<div style="width:120px;height:40px;background:linear-gradient(90deg,#0084ff,#ff6b35);border-radius:20px;display:inline-block;margin:8px"></div>' },
-  { icon:'🟩', html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:16px;display:inline-block;margin:8px"></div>' },
-  { icon:'🌟', html:'<div style="font-size:60px;display:inline-block;margin:8px">🌟</div>' },
-  { icon:'🔲', html:'<div style="width:100px;height:100px;border:6px solid #0084ff;border-radius:4px;display:inline-block;margin:8px"></div>' },
-  { icon:'⬡', html:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#9b59b6,#ff6b35);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:inline-block;margin:8px"></div>' },
-  { icon:'➡️', html:'<div style="font-size:60px;display:inline-block;margin:8px">➡️</div>' },
-  { icon:'🔔', html:'<div style="font-size:60px;display:inline-block;margin:8px">🔔</div>' },
-  { icon:'🌈', html:'<div style="height:40px;background:linear-gradient(90deg,#ff0000,#ff8c00,#ffff00,#00c800,#0000ff,#8b00ff);border-radius:20px;margin:8px;display:block"></div>' },
-  { icon:'🟥', html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#e74c3c,#c0392b);display:inline-block;margin:8px"></div>' },
-  { icon:'🏠', html:'<div style="font-size:60px;display:inline-block;margin:8px">🏠</div>' },
-  { icon:'☁️', html:'<div style="font-size:60px;display:inline-block;margin:8px">☁️</div>' },
-  { icon:'📌', html:'<div style="font-size:60px;display:inline-block;margin:8px">📌</div>' },
-  { icon:'🎯', html:'<div style="font-size:60px;display:inline-block;margin:8px">🎯</div>' },
+// ══ WC ARTE 10 DISEÑOS CR ══
+const wcArteDesigns = [
+  { emoji:'🦋', name:'Mariposa',       render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#ff9ff3,#feca57,#ff6b6b,#48dbfb);border-radius:20px;margin:10px 0;box-shadow:0 4px 16px rgba(255,107,107,.3)"><div style="font-size:32px">🦋 🦋</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:2px 2px 6px rgba(0,0,0,.4);letter-spacing:4px;padding:4px 0">${t}</div><div style="font-size:32px">🦋 🦋</div></div>` },
+  { emoji:'🐆', name:'Jaguar',         render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#f9ca24,#f0932b);border-radius:20px;margin:10px 0;border:4px solid #2d3436"><div style="font-size:32px">🐆</div><div style="font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:5px;text-shadow:2px 2px 0 #fff">${t}</div></div>` },
+  { emoji:'🐢', name:'Tortuga Marina', render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(180deg,#006994,#00b4d8,#90e0ef);border-radius:50px;margin:10px 0"><div style="font-size:28px">🌊🐢🌊</div><div style="font-size:26px;font-weight:900;color:white;text-shadow:1px 1px 4px rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>` },
+  { emoji:'🦜', name:'Lapa Roja',      render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#e74c3c,#f39c12,#27ae60,#2980b9);border-radius:20px;margin:10px 0"><div style="font-size:36px">🦜</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:2px 2px 0 rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>` },
+  { emoji:'🐸', name:'Rana Venenosa',  render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#00b894,#00cec9,#fdcb6e);border-radius:20px;margin:10px 0"><div style="font-size:36px">🐸</div><div style="font-size:28px;font-weight:900;background:linear-gradient(90deg,#e17055,#6c5ce7,#00b894);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px">${t}</div></div>` },
+  { emoji:'🌿', name:'Bosque Nuboso',  render: t=>`<div style="text-align:center;padding:16px;background:linear-gradient(180deg,#74b9ff 0%,#a29bfe 30%,#55efc4 65%,#00b894 100%);border-radius:20px;margin:10px 0"><div style="font-size:22px">🌫️🌿🌫️</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,.6);letter-spacing:4px;padding:6px 0">${t}</div><div style="font-size:22px">🌲🌳🌲</div></div>` },
+  { emoji:'🌋', name:'Volcán Arenal',  render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(180deg,#2d3436,#636e72,#b2bec3);border-radius:20px;margin:10px 0"><div style="font-size:32px">🌋🔥</div><div style="font-size:28px;font-weight:900;color:#fdcb6e;text-shadow:0 0 16px #e17055,2px 2px 0 #2d3436;letter-spacing:4px">${t}</div></div>` },
+  { emoji:'🌺', name:'Orquídea',       render: t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#fd79a8,#e84393,#a29bfe,#6c5ce7);border-radius:20px;margin:10px 0"><div style="font-size:32px">🌸🌺🌸</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:1px 1px 6px rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>` },
+  { emoji:'🇨🇷', name:'Bandera CR',   render: t=>`<div style="text-align:center;margin:10px 0;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.25)"><div style="background:#003da5;padding:10px 0"></div><div style="background:#ffffff;padding:5px 0"></div><div style="background:#ce1126;padding:18px 0"><div style="font-size:28px;font-weight:900;color:white;text-shadow:1px 1px 0 #003da5,3px 3px 8px rgba(0,0,0,.6);letter-spacing:5px">${t}</div><div style="font-size:13px;color:rgba(255,255,255,.9);margin-top:4px">🇨🇷 Costa Rica</div></div><div style="background:#ffffff;padding:5px 0"></div><div style="background:#003da5;padding:10px 0"></div></div>` },
+  { emoji:'🌊', name:'Costa Rica Mar', render: t=>`<div style="text-align:center;padding:16px;background:linear-gradient(180deg,#f39c12 0%,#0984e3 40%,#00cec9 70%,#55efc4 100%);border-radius:20px;margin:10px 0"><div style="font-size:28px">☀️🌴🌊</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,60,120,.7);letter-spacing:4px;padding:6px 0">${t}</div><div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:600">Costa Rica 🇨🇷</div></div>` },
 ];
 
-const shapesGrid = document.getElementById('shapesGrid');
-shapes.forEach(s => {
-  const btn = document.createElement('button');
-  btn.className = 'shape-btn';
-  btn.textContent = s.icon;
-  btn.title = 'Insertar forma';
-  btn.onclick = () => {
-    insertHTML('<p>' + s.html + '</p>');
-    closeModal('modalShapes');
-    showToast('Forma insertada ✅');
-  };
-  shapesGrid.appendChild(btn);
-});
-
-// ══════════════════════════════════════
-//  GRÁFICOS (10) — Chart.js
-// ══════════════════════════════════════
-let chartCount = 0;
-const chartTypes = [
-  { name:'Barras', icon:'📊', type:'bar',   data:[65,59,80,81,56,72], labels:['Ene','Feb','Mar','Abr','May','Jun'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12','#e74c3c'] },
-  { name:'Líneas', icon:'📈', type:'line',  data:[30,50,40,70,60,90], labels:['Sem1','Sem2','Sem3','Sem4','Sem5','Sem6'], colors:['#0084ff'] },
-  { name:'Pastel', icon:'🥧', type:'pie',   data:[35,25,20,15,5],     labels:['A','B','C','D','E'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12'] },
-  { name:'Dona',   icon:'🍩', type:'doughnut', data:[40,30,20,10],    labels:['Q1','Q2','Q3','Q4'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6'] },
-  { name:'Radar',  icon:'🕸️', type:'radar', data:[80,65,70,90,55,75], labels:['A','B','C','D','E','F'], colors:['#0084ff'] },
-  { name:'Área',   icon:'📉', type:'line',  data:[20,40,35,60,55,80], labels:['L','M','X','J','V','S'], colors:['#27ae60'], fill:true },
-  { name:'Barra H',icon:'📋', type:'bar',   data:[45,67,89,34,56],    labels:['Rojo','Azul','Verde','Naranja','Morado'], colors:['#e74c3c','#0084ff','#27ae60','#ff6b35','#9b59b6'], horiz:true },
-  { name:'Polar',  icon:'🌐', type:'polarArea', data:[55,40,70,30,60],labels:['N','S','E','O','C'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12'] },
-  { name:'Burbujas',icon:'🫧', type:'bubble', bubble:true },
-  { name:'Dispersión',icon:'✦', type:'scatter', scatter:true },
-];
-
-const chartsGrid = document.getElementById('chartsGrid');
-chartTypes.forEach(ct => {
-  const btn = document.createElement('button');
-  btn.className = 'chart-btn';
-  btn.innerHTML = `${ct.icon}<br>${ct.name}`;
-  btn.onclick = () => {
-    insertChartInEditor(ct);
-    closeModal('modalCharts');
-  };
-  chartsGrid.appendChild(btn);
-});
-
-function insertChartInEditor(ct) {
-  chartCount++;
-  const id = 'chart-' + chartCount;
-  const wrapper = document.createElement('div');
-  wrapper.className = 'chart-wrapper';
-  wrapper.innerHTML = `<button class="chart-del" onclick="this.parentElement.remove()">✕</button><canvas id="${id}"></canvas>`;
-  document.getElementById('mediaZone').appendChild(wrapper);
-
-  const canvas = document.getElementById(id);
-  const opts = {
-    responsive: true,
-    plugins: { legend:{ position:'bottom' } }
-  };
-
-  let cfg;
-  if (ct.bubble) {
-    cfg = { type:'bubble', data:{ datasets:[{ label:'Datos', data:[{x:10,y:20,r:15},{x:15,y:10,r:10},{x:20,y:30,r:20},{x:5,y:15,r:8}], backgroundColor:['#0084ff88','#ff6b3588','#27ae6088','#9b59b688'] }] }, options:opts };
-  } else if (ct.scatter) {
-    cfg = { type:'scatter', data:{ datasets:[{ label:'Puntos', data:[{x:5,y:10},{x:15,y:25},{x:20,y:15},{x:25,y:30},{x:10,y:5}], backgroundColor:'#0084ff' }] }, options:opts };
-  } else {
-    const dataset = {
-      label: ct.name,
-      data: ct.data,
-      backgroundColor: ct.type==='line' ? ct.colors[0]+'33' : ct.colors,
-      borderColor: ct.type==='line' ? ct.colors[0] : ct.colors,
-      borderWidth: 2,
-      fill: ct.fill || false,
-      tension: 0.4,
-    };
-    cfg = {
-      type: ct.type,
-      data: { labels: ct.labels, datasets: [dataset] },
-      options: { ...opts, indexAxis: ct.horiz ? 'y' : 'x' }
-    };
-  }
-  new Chart(canvas, cfg);
-  showToast(`Gráfico "${ct.name}" insertado ✅`);
-}
-
-// ══════════════════════════════════════
-//  WC ARTE
-// ══════════════════════════════════════
+// WC Arte modal simple
 document.getElementById('wcArteText').addEventListener('input', function() {
   document.getElementById('wcArtePreview').textContent = this.value || 'Vista previa';
 });
 document.getElementById('btnInsertWcArte').onclick = () => {
   const txt = document.getElementById('wcArteText').value.trim();
-  if (!txt) { showToast('Escribe un texto'); return; }
+  if(!txt){showToast('Escribe un texto');return;}
   const banner = document.getElementById('wordart-banner');
-  banner.textContent = txt;
-  banner.style.display = 'block';
-  closeModal('modalWcArte');
-  document.getElementById('wcArteText').value = '';
+  banner.textContent = txt; banner.style.display='block';
+  closeModal('modalWcArte'); document.getElementById('wcArteText').value='';
   showToast('WC Arte insertado ✨');
 };
 
-// ══════════════════════════════════════
-//  COLOR DE TEXTO
-// ══════════════════════════════════════
-document.getElementById('btnApplyColor').onclick = () => {
-  const color = document.getElementById('colorPicker').value;
-  cmd('foreColor', color);
-  closeModal('modalColor');
-  showToast('Color aplicado 🎨');
-};
-
-// ══════════════════════════════════════
-//  COLUMNAS
-// ══════════════════════════════════════
-function insertColumns(n) {
-  const cls = n===2 ? 'cols-2' : 'cols-3';
-  const cells = Array(n).fill('<div style="border:1px dashed #ccc;padding:10px;border-radius:8px;min-height:80px">Columna ' + (n===2?'':'') + '</div>');
-  // label each
-  let inner = '';
-  for(let i=1;i<=n;i++) inner += `<div style="border:1px dashed #ccc;padding:10px;border-radius:8px;min-height:80px">Columna ${i}</div>`;
-  insertHTML(`<div class="${cls}" style="display:grid;grid-template-columns:${Array(n).fill('1fr').join(' ')};gap:12px;margin:8px 0">${inner}</div><p></p>`);
-  closeModal('modalColumns');
-  showToast(`${n} columnas insertadas ✅`);
+// Construir galería WC Arte (modal y FAB)
+function buildWcArteGrids() {
+  const gallery = document.getElementById('wcArteGalleryGrid');
+  const fab     = document.getElementById('fabWcArteGrid');
+  if(gallery.children.length>0) return;
+  wcArteDesigns.forEach(d => {
+    [gallery, fab].forEach(grid => {
+      const btn = document.createElement('button');
+      btn.className = grid===fab ? 'fab-btn' : 'template-card';
+      btn.style.cssText = 'font-size:12px;text-align:left;padding:8px 10px;';
+      btn.innerHTML = `${d.emoji} ${d.name}`;
+      btn.onclick = () => {
+        const txt = prompt(`Texto para "${d.name}":`, 'Mi texto');
+        if(txt && txt.trim()){
+          insertHTML(d.render(txt.trim()));
+          if(grid===gallery) closeModal('modalWcArteGallery');
+          showToast(`${d.emoji} ${d.name} insertado ✨`);
+        }
+      };
+      grid.appendChild(btn);
+    });
+  });
 }
 
-// ══════════════════════════════════════
-//  IMAGEN / VIDEO / ARCHIVO — desde galería o archivo
-// ══════════════════════════════════════
-document.getElementById('fileInputImage').addEventListener('change', function() {
-  const file = this.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    insertHTML(`<p><img src="${e.target.result}" style="max-width:100%;border-radius:8px;margin:4px 0" alt="${file.name}"></p>`);
-    showToast('Imagen cargada ✅');
-  };
-  reader.readAsDataURL(file);
-  this.value = '';
+// ══ FORMAS (20) ══
+const shapes = [
+  {icon:'⬛',html:'<div style="width:120px;height:80px;background:linear-gradient(135deg,#0084ff,#0050cc);border-radius:4px;display:inline-block;margin:8px"></div>'},
+  {icon:'🔵',html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#9b59b6);border-radius:50%;display:inline-block;margin:8px"></div>'},
+  {icon:'🔺',html:'<div style="width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:100px solid #ff6b35;display:inline-block;margin:8px"></div>'},
+  {icon:'💎',html:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#00d2ff,#0084ff);transform:rotate(45deg);display:inline-block;margin:24px"></div>'},
+  {icon:'⭐',html:'<div style="font-size:60px;display:inline-block;margin:8px;color:#f39c12">⭐</div>'},
+  {icon:'❤️',html:'<div style="font-size:60px;display:inline-block;margin:8px">❤️</div>'},
+  {icon:'🔷',html:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#0084ff,#27ae60);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);display:inline-block;margin:8px"></div>'},
+  {icon:'🔹',html:'<div style="width:120px;height:40px;background:linear-gradient(90deg,#0084ff,#ff6b35);border-radius:20px;display:inline-block;margin:8px"></div>'},
+  {icon:'🟩',html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:16px;display:inline-block;margin:8px"></div>'},
+  {icon:'🌟',html:'<div style="font-size:60px;display:inline-block;margin:8px">🌟</div>'},
+  {icon:'🔲',html:'<div style="width:100px;height:100px;border:6px solid #0084ff;border-radius:4px;display:inline-block;margin:8px"></div>'},
+  {icon:'⬡',html:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#9b59b6,#ff6b35);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:inline-block;margin:8px"></div>'},
+  {icon:'➡️',html:'<div style="font-size:60px;display:inline-block;margin:8px">➡️</div>'},
+  {icon:'🔔',html:'<div style="font-size:60px;display:inline-block;margin:8px">🔔</div>'},
+  {icon:'🌈',html:'<div style="height:40px;background:linear-gradient(90deg,#ff0000,#ff8c00,#ffff00,#00c800,#0000ff,#8b00ff);border-radius:20px;margin:8px;display:block"></div>'},
+  {icon:'🟥',html:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#e74c3c,#c0392b);display:inline-block;margin:8px"></div>'},
+  {icon:'🏠',html:'<div style="font-size:60px;display:inline-block;margin:8px">🏠</div>'},
+  {icon:'☁️',html:'<div style="font-size:60px;display:inline-block;margin:8px">☁️</div>'},
+  {icon:'📌',html:'<div style="font-size:60px;display:inline-block;margin:8px">📌</div>'},
+  {icon:'🎯',html:'<div style="font-size:60px;display:inline-block;margin:8px">🎯</div>'},
+];
+const shapesGrid = document.getElementById('shapesGrid');
+shapes.forEach(s => {
+  const btn = document.createElement('button');
+  btn.className='shape-btn'; btn.textContent=s.icon;
+  btn.onclick=()=>{ insertHTML('<p>'+s.html+'</p>'); closeModal('modalShapes'); showToast('Forma insertada ✅'); };
+  shapesGrid.appendChild(btn);
 });
 
-document.getElementById('fileInputVideo').addEventListener('change', function() {
-  const file = this.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    insertHTML(`<p><video controls style="max-width:100%;border-radius:8px;margin:4px 0"><source src="${e.target.result}" type="${file.type}">Tu navegador no soporta video.</video></p>`);
-    showToast('Video cargado ✅');
-  };
-  reader.readAsDataURL(file);
-  this.value = '';
+// ══ GRÁFICOS (10) ══
+const chartTypes = [
+  {name:'Barras',    icon:'📊', type:'bar',       data:[65,59,80,81,56,72], labels:['Ene','Feb','Mar','Abr','May','Jun'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12','#e74c3c']},
+  {name:'Líneas',    icon:'📈', type:'line',       data:[30,50,40,70,60,90], labels:['Sem1','Sem2','Sem3','Sem4','Sem5','Sem6'], colors:['#0084ff']},
+  {name:'Pastel',    icon:'🥧', type:'pie',        data:[35,25,20,15,5],     labels:['A','B','C','D','E'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12']},
+  {name:'Dona',      icon:'🍩', type:'doughnut',   data:[40,30,20,10],       labels:['Q1','Q2','Q3','Q4'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6']},
+  {name:'Radar',     icon:'🕸️', type:'radar',      data:[80,65,70,90,55,75], labels:['A','B','C','D','E','F'], colors:['#0084ff']},
+  {name:'Área',      icon:'📉', type:'line',       data:[20,40,35,60,55,80], labels:['L','M','X','J','V','S'], colors:['#27ae60'], fill:true},
+  {name:'Barra H',   icon:'📋', type:'bar',        data:[45,67,89,34,56],    labels:['Rojo','Azul','Verde','Naranja','Morado'], colors:['#e74c3c','#0084ff','#27ae60','#ff6b35','#9b59b6'], horiz:true},
+  {name:'Polar',     icon:'🌐', type:'polarArea',  data:[55,40,70,30,60],    labels:['N','S','E','O','C'], colors:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12']},
+  {name:'Burbujas',  icon:'🫧', type:'bubble', bubble:true},
+  {name:'Dispersión',icon:'✦',  type:'scatter', scatter:true},
+];
+const chartsGrid = document.getElementById('chartsGrid');
+chartTypes.forEach(ct => {
+  const btn = document.createElement('button');
+  btn.className='chart-btn';
+  btn.innerHTML=`${ct.icon}<br>${ct.name}`;
+  btn.onclick=()=>{ insertChartInEditor(ct); closeModal('modalCharts'); };
+  chartsGrid.appendChild(btn);
+});
+function insertChartInEditor(ct) {
+  chartCount++;
+  const id='chart-'+chartCount;
+  const wrapper=document.createElement('div');
+  wrapper.className='chart-wrapper';
+  wrapper.innerHTML=`<button class="chart-del" onclick="this.parentElement.remove()">✕</button><canvas id="${id}"></canvas>`;
+  document.getElementById('mediaZone').appendChild(wrapper);
+  const canvas=document.getElementById(id);
+  const opts={responsive:true,plugins:{legend:{position:'bottom'}}};
+  let cfg;
+  if(ct.bubble){cfg={type:'bubble',data:{datasets:[{label:'Datos',data:[{x:10,y:20,r:15},{x:15,y:10,r:10},{x:20,y:30,r:20},{x:5,y:15,r:8}],backgroundColor:['#0084ff88','#ff6b3588','#27ae6088','#9b59b688']}]},options:opts};}
+  else if(ct.scatter){cfg={type:'scatter',data:{datasets:[{label:'Puntos',data:[{x:5,y:10},{x:15,y:25},{x:20,y:15},{x:25,y:30},{x:10,y:5}],backgroundColor:'#0084ff'}]},options:opts};}
+  else{const ds={label:ct.name,data:ct.data,backgroundColor:ct.type==='line'?ct.colors[0]+'33':ct.colors,borderColor:ct.type==='line'?ct.colors[0]:ct.colors,borderWidth:2,fill:ct.fill||false,tension:.4};cfg={type:ct.type,data:{labels:ct.labels,datasets:[ds]},options:{...opts,indexAxis:ct.horiz?'y':'x'}};}
+  new Chart(canvas,cfg);
+  showToast(`Gráfico "${ct.name}" insertado ✅`);
+}
+
+// ══ COLOR ══
+document.getElementById('btnApplyColor').onclick=()=>{
+  const color=document.getElementById('colorPicker').value;
+  restoreSelection(); cmd('foreColor',color);
+  closeModal('modalColor'); showToast('Color aplicado 🎨');
+};
+
+// ══ COLUMNAS ══
+function insertColumns(n){
+  let inner='';
+  for(let i=1;i<=n;i++) inner+=`<div style="border:1px dashed #ccc;padding:10px;border-radius:8px;min-height:80px">Columna ${i}</div>`;
+  insertHTML(`<div style="display:grid;grid-template-columns:${Array(n).fill('1fr').join(' ')};gap:12px;margin:8px 0">${inner}</div><p></p>`);
+  closeModal('modalColumns'); showToast(`${n} columnas insertadas ✅`);
+}
+
+// ══ ARCHIVOS ══
+document.getElementById('fileInputImage').addEventListener('change',function(){
+  const file=this.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{insertHTML(`<p><img src="${e.target.result}" style="max-width:100%;border-radius:8px;margin:4px 0" alt="${file.name}"></p>`);showToast('Imagen cargada ✅');};
+  reader.readAsDataURL(file); this.value='';
+});
+document.getElementById('fileInputVideo').addEventListener('change',function(){
+  const file=this.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{insertHTML(`<p><video controls style="max-width:100%;border-radius:8px;margin:4px 0"><source src="${e.target.result}" type="${file.type}"></video></p>`);showToast('Video cargado ✅');};
+  reader.readAsDataURL(file); this.value='';
+});
+document.getElementById('fileInputAny').addEventListener('change',function(){
+  const file=this.files[0]; if(!file)return;
+  const size=file.size<1024*1024?(file.size/1024).toFixed(1)+' KB':(file.size/(1024*1024)).toFixed(1)+' MB';
+  const reader=new FileReader();
+  reader.onload=e=>{insertHTML(`<div class="attach-block"><span class="attach-icon">📎</span><div class="attach-info"><div class="attach-name">${file.name}</div><div class="attach-size">${size}</div></div><a href="${e.target.result}" download="${file.name}" style="background:#0084ff;color:white;border-radius:8px;padding:6px 12px;text-decoration:none;font-size:12px;font-weight:600">Descargar</a></div>`);showToast(`Archivo: ${file.name} ✅`);};
+  reader.readAsDataURL(file); this.value='';
 });
 
-document.getElementById('fileInputAny').addEventListener('change', function() {
-  const file = this.files[0];
-  if (!file) return;
-  const size = file.size < 1024*1024 ? (file.size/1024).toFixed(1)+' KB' : (file.size/(1024*1024)).toFixed(1)+' MB';
-  const reader = new FileReader();
-  reader.onload = e => {
-    const html = `<div class="attach-block"><span class="attach-icon">📎</span><div class="attach-info"><div class="attach-name">${file.name}</div><div class="attach-size">${size}</div></div><a href="${e.target.result}" download="${file.name}" style="background:#0084ff;color:white;border-radius:8px;padding:6px 12px;text-decoration:none;font-size:12px;font-weight:600">Descargar</a></div>`;
-    insertHTML(html);
-    showToast(`Archivo adjunto: ${file.name} ✅`);
-  };
-  reader.readAsDataURL(file);
-  this.value = '';
+// ══ PANEL FLOTANTE FAB ══
+const paletteColors=['#000000','#434343','#666666','#999999','#b7b7b7','#cccccc','#d9d9d9','#ffffff','#ff0000','#ff4444','#ff9900','#ffff00','#00ff00','#00ffff','#4a86e8','#0000ff','#9900ff','#ff00ff','#e06666','#f6b26b','#ffd966','#93c47d','#76a5af','#6fa8dc','#8e7cc3','#c27ba0','#cc0000','#e69138','#f1c232','#6aa84f','#45818e','#3d85c8','#674ea7','#a64d79','#ce1126','#003da5','#27ae60','#f39c12','#0084ff','#ff6b35'];
+const fontFamilies=[
+  {name:'Arial',        family:'Arial,sans-serif'},
+  {name:'Times New Roman',family:"'Times New Roman',serif"},
+  {name:'Georgia',      family:'Georgia,serif'},
+  {name:'Verdana',      family:'Verdana,sans-serif'},
+  {name:'Courier New',  family:"'Courier New',monospace"},
+  {name:'Trebuchet MS', family:"'Trebuchet MS',sans-serif"},
+  {name:'Impact',       family:'Impact,sans-serif'},
+  {name:'Palatino',     family:'Palatino,serif'},
+  {name:'Garamond',     family:'Garamond,serif'},
+  {name:'Comic Sans MS',family:"'Comic Sans MS',cursive"},
+  {name:'Tahoma',       family:'Tahoma,sans-serif'},
+  {name:'Lucida Console',family:"'Lucida Console',monospace"},
+];
+const fontSizes=[
+  {label:'8pt', val:'1'},{label:'10pt',val:'2'},{label:'12pt',val:'3'},
+  {label:'14pt',val:'4'},{label:'18pt',val:'5'},{label:'24pt',val:'6'},{label:'36pt',val:'7'},
+];
+
+let fabBuilt=false;
+function buildFabPanel(){
+  if(fabBuilt)return;
+  fabBuilt=true;
+  // paleta
+  const palette=document.getElementById('colorPalette');
+  paletteColors.forEach(color=>{
+    const sw=document.createElement('button');
+    sw.className='color-swatch';
+    sw.style.background=color;
+    sw.style.border=color==='#ffffff'?'2px solid #ddd':'2px solid transparent';
+    sw.onmousedown=()=>saveSelection();
+    sw.onclick=()=>{restoreSelection();cmd('foreColor',color);showToast('Color aplicado 🎨');};
+    palette.appendChild(sw);
+  });
+  // fuentes
+  const fontList=document.getElementById('fabFontList');
+  fontFamilies.forEach(f=>{
+    const btn=document.createElement('button');
+    btn.className='font-btn';
+    btn.style.fontFamily=f.family;
+    btn.textContent=`${f.name} — El texto de muestra`;
+    btn.onmousedown=()=>saveSelection();
+    btn.onclick=()=>{restoreSelection();cmd('fontName',f.name);showToast(`Fuente: ${f.name} ✅`);};
+    fontList.appendChild(btn);
+  });
+  // tamaños
+  const sizeList=document.getElementById('fabSizeList');
+  fontSizes.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.className='fab-btn';
+    btn.textContent=s.label;
+    btn.onmousedown=()=>saveSelection();
+    btn.onclick=()=>{restoreSelection();cmd('fontSize',s.val);showToast(`Tamaño: ${s.label} ✅`);};
+    sizeList.appendChild(btn);
+  });
+  // WC Arte
+  buildWcArteGrids();
+}
+
+function toggleFab(){
+  const panel=document.getElementById('fabPanel');
+  if(!panel.classList.contains('show')){
+    buildFabPanel();
+    panel.classList.add('show');
+  } else {
+    panel.classList.remove('show');
+  }
+}
+document.addEventListener('click',e=>{
+  const panel=document.getElementById('fabPanel');
+  const fab=document.getElementById('fabBtn');
+  if(panel&&!panel.contains(e.target)&&e.target!==fab) panel.classList.remove('show');
 });
 
-// ══════════════════════════════════════
-//  MENÚS DESPLEGABLES
-// ══════════════════════════════════════
-document.querySelectorAll('.menu-btn').forEach(btn => {
-  btn.addEventListener('click', e => {
+// ══ MENÚS ══
+document.querySelectorAll('.menu-btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
     e.stopPropagation();
-    const menuId = 'menu-' + btn.dataset.menu;
-    const dd = document.getElementById(menuId);
-    document.querySelectorAll('.dropdown').forEach(d => { if(d!==dd) d.classList.remove('show'); });
+    const menuId='menu-'+btn.dataset.menu;
+    const dd=document.getElementById(menuId);
+    document.querySelectorAll('.dropdown').forEach(d=>{if(d!==dd)d.classList.remove('show');});
     dd.classList.toggle('show');
   });
 });
-document.addEventListener('click', () => {
-  document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
-});
-document.querySelectorAll('.dropdown-item').forEach(item => {
-  item.addEventListener('click', e => {
+document.addEventListener('click',()=>{ document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show')); });
+document.querySelectorAll('.dropdown-item').forEach(item=>{
+  item.addEventListener('mousedown',()=>saveSelection());
+  item.addEventListener('click',e=>{
     e.stopPropagation();
-    handleAction(item.dataset.action);
     item.closest('.dropdown').classList.remove('show');
+    handleAction(item.dataset.action);
   });
 });
 
-// ══════════════════════════════════════
-//  ACCIONES
-// ══════════════════════════════════════
-let trackOn = false;
-
-function handleAction(action) {
-  switch(action) {
-
-    // Formato básico
-    case 'bold':        cmd('bold'); break;
-    case 'italic':      cmd('italic'); break;
-    case 'underline':   cmd('underline'); break;
-    case 'strike':      cmd('strikeThrough'); break;
-    case 'h1':          cmd('formatBlock','<h1>'); break;
-    case 'h2':          cmd('formatBlock','<h2>'); break;
-    case 'h3':          cmd('formatBlock','<h3>'); break;
-    case 'bulletList':  cmd('insertUnorderedList'); break;
-    case 'orderedList': cmd('insertOrderedList'); break;
-    case 'alignLeft':   cmd('justifyLeft'); showToast('Alineado izquierda'); break;
-    case 'alignCenter': cmd('justifyCenter'); showToast('Centrado'); break;
-    case 'alignRight':  cmd('justifyRight'); showToast('Alineado derecha'); break;
-    case 'alignJustify':cmd('justifyFull'); showToast('Justificado'); break;
-    case 'indent':      cmd('indent'); break;
-    case 'outdent':     cmd('outdent'); break;
-    case 'fontColor':   openModal('modalColor'); break;
-    case 'fontSize': {
-      const s = prompt('Tamaño (ej: 18px, 1.5em, large):','16px');
-      if(s) { cmd('fontSize','4'); /* workaround */ showToast('Usa Ctrl+A y cambia fuente en el navegador para tamaños exactos'); }
-      break;
-    }
-    case 'lineSpacing': {
-      const v = prompt('Interlineado (1, 1.5, 2):','1.5');
-      if(v) { editor.style.lineHeight = v; showToast(`Interlineado: ${v}`); }
-      break;
-    }
-    case 'wcarte': openModal('modalWcArte'); break;
-
-    // Editar
+// ══ ACCIONES ══
+function handleAction(action){
+  switch(action){
+    case 'bold':         restoreSelection(); cmd('bold');          showToast('Negrita ✅');          break;
+    case 'italic':       restoreSelection(); cmd('italic');        showToast('Cursiva ✅');          break;
+    case 'underline':    restoreSelection(); cmd('underline');     showToast('Subrayado ✅');        break;
+    case 'strike':       restoreSelection(); cmd('strikeThrough'); showToast('Tachado ✅');          break;
+    case 'h1':           restoreSelection(); cmd('formatBlock','H1'); showToast('Título 1 ✅');      break;
+    case 'h2':           restoreSelection(); cmd('formatBlock','H2'); showToast('Título 2 ✅');      break;
+    case 'h3':           restoreSelection(); cmd('formatBlock','H3'); showToast('Título 3 ✅');      break;
+    case 'bulletList':   restoreSelection(); cmd('insertUnorderedList'); showToast('Lista ✅');      break;
+    case 'orderedList':  restoreSelection(); cmd('insertOrderedList');   showToast('Lista num. ✅'); break;
+    case 'alignLeft':    restoreSelection(); cmd('justifyLeft');   showToast('Izquierda ✅');        break;
+    case 'alignCenter':  restoreSelection(); cmd('justifyCenter'); showToast('Centrado ✅');         break;
+    case 'alignRight':   restoreSelection(); cmd('justifyRight');  showToast('Derecha ✅');          break;
+    case 'alignJustify': restoreSelection(); cmd('justifyFull');   showToast('Justificado ✅');      break;
+    case 'indent':       restoreSelection(); cmd('indent');        showToast('Sangría → ✅');        break;
+    case 'outdent':      restoreSelection(); cmd('outdent');       showToast('Sangría ← ✅');        break;
+    case 'fontColor':    openModal('modalColor'); break;
+    case 'fontSize':     openModal('modalFontSize'); break;
+    case 'lineSpacing':  openModal('modalLineSpacing'); break;
+    case 'wcarte':         openModal('modalWcArte'); break;
+    case 'wcarte-galeria': buildWcArteGrids(); openModal('modalWcArteGallery'); break;
     case 'undo':       cmd('undo'); break;
     case 'redo':       cmd('redo'); break;
     case 'cut':        cmd('cut'); break;
     case 'copy':       cmd('copy'); break;
     case 'paste':      cmd('paste'); break;
     case 'selectAll':  cmd('selectAll'); break;
-    case 'find': {
-      const term = prompt('Buscar:');
-      if(!term) break;
-      const rep = prompt(`Reemplazar "${term}" por:`);
-      if(rep===null) break;
-      editor.innerHTML = editor.innerHTML.split(term).join(rep);
-      showToast(`"${term}" → "${rep}" ✅`);
+    case 'find':{
+      const term=prompt('Buscar:'); if(!term)break;
+      const rep=prompt(`Reemplazar "${term}" por:`); if(rep===null)break;
+      editor.innerHTML=editor.innerHTML.split(term).join(rep);
+      showToast(`"${term}" → "${rep}" ✅`); break;
+    }
+    case 'trackChanges': trackOn=!trackOn; showToast(`Control de cambios: ${trackOn?'ACTIVADO 🟢':'DESACTIVADO 🔴'}`); break;
+    case 'save':       localStorage.setItem('wc-editor-v22',editor.innerHTML); showToast('Guardado ✅'); break;
+    case 'saveAs':{
+      const n=prompt('Nombre:','documento');
+      if(n){localStorage.setItem('wc-'+n,editor.innerHTML);showToast(`Guardado como: ${n}`);}
       break;
     }
-    case 'trackChanges':
-      trackOn = !trackOn;
-      showToast(`Control de cambios: ${trackOn?'ACTIVADO 🟢':'DESACTIVADO 🔴'}`);
-      break;
-
-    // Archivo
-    case 'save':
-      localStorage.setItem('wc-editor-v22', editor.innerHTML);
-      showToast('Guardado ✅');
-      break;
-    case 'saveAs': {
-      const n = prompt('Nombre:','documento');
-      if(n) { localStorage.setItem('wc-'+n, editor.innerHTML); showToast(`Guardado como: ${n}`); }
-      break;
+    case 'exportHtml':{
+      const blob=new Blob([editor.innerHTML],{type:'text/html'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='documento.html';a.click();
+      showToast('HTML descargado ✅'); break;
     }
-    case 'exportHtml': {
-      const blob = new Blob([editor.innerHTML],{type:'text/html'});
-      const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='documento.html'; a.click();
-      showToast('HTML descargado ✅');
-      break;
+    case 'exportTxt':{
+      const blob=new Blob([editor.innerText],{type:'text/plain'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='documento.txt';a.click();
+      showToast('TXT descargado ✅'); break;
     }
-    case 'exportTxt': {
-      const blob = new Blob([editor.innerText],{type:'text/plain'});
-      const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='documento.txt'; a.click();
-      showToast('TXT descargado ✅');
-      break;
-    }
-    case 'export': window.print(); break;
+    case 'export':  window.print(); break;
     case 'share':
       if(navigator.share) navigator.share({title:'WC Editor',text:editor.innerText});
-      else { navigator.clipboard.writeText(editor.innerText); showToast('Copiado para compartir'); }
+      else{navigator.clipboard.writeText(editor.innerText);showToast('Copiado para compartir');}
       break;
-
-    // Insertar
-    case 'insertImage': document.getElementById('fileInputImage').click(); break;
-    case 'insertVideo': document.getElementById('fileInputVideo').click(); break;
-    case 'insertFile':  document.getElementById('fileInputAny').click(); break;
+    case 'insertImage':   document.getElementById('fileInputImage').click(); break;
+    case 'insertVideo':   document.getElementById('fileInputVideo').click(); break;
+    case 'insertFile':    document.getElementById('fileInputAny').click();   break;
     case 'insertTable':
-      insertHTML('<table style="border-collapse:collapse;width:100%;margin:8px 0"><tr><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 1</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 2</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 3</th></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr></table><p></p>');
-      showToast('Tabla insertada ✅');
-      break;
-    case 'insertLink': {
-      const u = prompt('URL:','https://');
-      const t = prompt('Texto del enlace:','Ver enlace');
-      if(u) { insertHTML(`<a href="${u}" target="_blank">${t||u}</a>`); showToast('Enlace insertado'); }
+      insertHTML('<table style="border-collapse:collapse;width:100%;margin:8px 0"><tr><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 1</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 2</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 3</th></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr></table><p></p>');
+      showToast('Tabla insertada ✅'); break;
+    case 'insertLink':{
+      const u=prompt('URL:','https://'); const t=prompt('Texto:','Ver enlace');
+      if(u){insertHTML(`<a href="${u}" target="_blank">${t||u}</a>`);showToast('Enlace insertado');}
       break;
     }
-    case 'insertEmoji': {
-      const list = ['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥','🏆','💎','🌍','🤝','📚'];
-      const e = list[Math.floor(Math.random()*list.length)];
-      insertHTML(e); showToast(`Emoji: ${e}`);
-      break;
+    case 'insertEmoji':{
+      const list=['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥','🏆','💎','🌍','🤝','📚'];
+      const e=list[Math.floor(Math.random()*list.length)];
+      insertHTML(e); showToast(`Emoji: ${e}`); break;
     }
     case 'pageBreak':
-      insertHTML('<hr class="page-break-el" style="border:none;border-top:2px dashed #aaa;margin:16px 0"><p></p>');
-      showToast('Salto de página ✅');
-      break;
-    case 'insertHeader': {
-      const h = prompt('Texto del encabezado:');
-      if(h) { insertHTML(`<div style="border-bottom:3px solid #0084ff;padding:8px 0;text-align:center;font-weight:bold;font-size:18px;color:#0084ff;margin-bottom:16px">${h}</div>`); showToast('Encabezado insertado'); }
+      insertHTML('<hr style="border:none;border-top:2px dashed #aaa;margin:16px 0"><p></p>');
+      showToast('Salto de página ✅'); break;
+    case 'insertHeader':{
+      const h=prompt('Texto del encabezado:');
+      if(h){insertHTML(`<div style="border-bottom:3px solid #0084ff;padding:8px 0;text-align:center;font-weight:bold;font-size:18px;color:#0084ff;margin-bottom:16px">${h}</div>`);showToast('Encabezado insertado');}
       break;
     }
-    case 'insertFooter': {
-      const f = prompt('Texto del pie de página:');
-      if(f) { insertHTML(`<div style="border-top:3px solid #0084ff;padding:8px 0;text-align:center;color:#666;font-size:13px;margin-top:16px">${f}</div>`); showToast('Pie de página insertado'); }
+    case 'insertFooter':{
+      const f=prompt('Texto del pie de página:');
+      if(f){insertHTML(`<div style="border-top:3px solid #0084ff;padding:8px 0;text-align:center;color:#666;font-size:13px;margin-top:16px">${f}</div>`);showToast('Pie de página insertado');}
       break;
     }
     case 'pageNumber':
       insertHTML('<p style="text-align:center;color:#999;font-size:13px">— Página 1 —</p>');
-      showToast('Número de página insertado');
-      break;
+      showToast('Número de página insertado'); break;
     case 'insertShape':   openModal('modalShapes'); break;
     case 'insertChart':   openModal('modalCharts'); break;
     case 'insertColumns': openModal('modalColumns'); break;
-
-    // Herramientas
-    case 'spellcheck':
-      editor.spellcheck = true;
-      showToast('Corrector ortográfico activado');
-      break;
-    case 'wordcount':
-      showToast(`${editor.innerText.trim().split(/\s+/).filter(w=>w).length} palabras | ${editor.innerText.length} caracteres`);
-      break;
-    case 'autoCorrect':  showToast('Autocorrección del dispositivo activa'); break;
-    case 'dict':         showToast('Usa el menú "Lenguas CR" → Diccionario indígena'); break;
-
-    // Diseño de página
-    case 'marginNormal':    document.querySelector('.content').style.padding='24px 20px 160px'; showToast('Márgenes normales'); break;
-    case 'marginNarrow':    document.querySelector('.content').style.padding='8px 6px 160px'; showToast('Márgenes estrechos'); break;
-    case 'marginWide':      document.querySelector('.content').style.padding='40px 60px 160px'; showToast('Márgenes amplios'); break;
-    case 'orientPortrait':  editor.style.minWidth=''; showToast('Orientación vertical'); break;
-    case 'orientLandscape': editor.style.minWidth='700px'; showToast('Orientación horizontal'); break;
-    case 'sizeA4':          editor.style.maxWidth='794px'; showToast('Tamaño A4'); break;
-    case 'sizeLetter':      editor.style.maxWidth='816px'; showToast('Tamaño Carta'); break;
-    case 'sizeLegal':       editor.style.maxWidth='816px'; editor.style.minHeight='1056px'; showToast('Tamaño Oficio'); break;
-
-    // Inicio
+    case 'spellcheck':  editor.spellcheck=true; showToast('Corrector activado'); break;
+    case 'wordcount':   showToast(`${editor.innerText.trim().split(/\s+/).filter(w=>w).length} palabras | ${editor.innerText.length} caracteres`); break;
+    case 'autoCorrect': showToast('Autocorrección del dispositivo activa'); break;
+    case 'dict':        showToast('Usa el menú "Lenguas CR" → Diccionario'); break;
+    case 'marginNormal':   document.querySelector('.content').style.padding='24px 20px 160px'; showToast('Márgenes normales'); break;
+    case 'marginNarrow':   document.querySelector('.content').style.padding='8px 6px 160px';   showToast('Márgenes estrechos'); break;
+    case 'marginWide':     document.querySelector('.content').style.padding='40px 60px 160px'; showToast('Márgenes amplios'); break;
+    case 'orientPortrait': editor.style.minWidth=''; showToast('Vertical'); break;
+    case 'orientLandscape':editor.style.minWidth='700px'; showToast('Horizontal'); break;
+    case 'sizeA4':         editor.style.maxWidth='794px'; showToast('A4'); break;
+    case 'sizeLetter':     editor.style.maxWidth='816px'; showToast('Carta'); break;
+    case 'sizeLegal':      editor.style.maxWidth='816px'; editor.style.minHeight='1056px'; showToast('Oficio'); break;
     case 'new':
-      if(confirm('¿Nuevo documento? Se perderá el contenido actual.')) {
+      if(confirm('¿Nuevo documento?')){
         editor.innerHTML='<p></p>';
         document.getElementById('wordart-banner').style.display='none';
         document.getElementById('mediaZone').innerHTML='';
         updateStats(); showToast('Nuevo documento ✅');
-      }
-      break;
-    case 'open': {
-      const saved = localStorage.getItem('wc-editor-v22');
-      if(saved) { editor.innerHTML=saved; updateStats(); showToast('Documento cargado ✅'); }
+      } break;
+    case 'open':{
+      const sv=localStorage.getItem('wc-editor-v22');
+      if(sv){editor.innerHTML=sv;updateStats();showToast('Documento cargado ✅');}
       else showToast('No hay documento guardado');
       break;
     }
-    case 'plantillas': openModal('modalPlantillas'); break;
-    case 'dashboard':  showToast('Panel principal — próximamente'); break;
-
-    // Lenguas — insertar
-    case 'insert-bribri':  insertHTML(' <em>[Bribri: Shkëkë = Hola]</em> '); showToast('Insertado: Bribri'); break;
-    case 'insert-cabecar': insertHTML(' <em>[Cabécar: Ká bë́rë = Buenos días]</em> '); showToast('Insertado: Cabécar'); break;
+    case 'plantillas':  openModal('modalPlantillas'); break;
+    case 'dashboard':   showToast('Panel principal — próximamente'); break;
+    case 'insert-bribri':  insertHTML(' <em>[Bribri: Shkëkë = Hola]</em> ');         showToast('Insertado: Bribri'); break;
+    case 'insert-cabecar': insertHTML(' <em>[Cabécar: Ká bë́rë = Buenos días]</em> ');showToast('Insertado: Cabécar'); break;
     case 'insert-maleku':  insertHTML(' <em>[Maleku: Ma lha maráma = Buenas tardes]</em> '); showToast('Insertado: Maleku'); break;
-    case 'insert-boruca':  insertHTML(' <em>[Boruca: Shíi = Gracias]</em> '); showToast('Insertado: Boruca'); break;
-    case 'insert-teribe':  insertHTML(' <em>[Térraba: Di = Agua]</em> '); showToast('Insertado: Térraba'); break;
-    case 'insert-guaymi':  insertHTML(' <em>[Ngäbe: Ju = Casa]</em> '); showToast('Insertado: Ngäbe'); break;
-
-    // Lenguas — cambio de idioma completo
+    case 'insert-boruca':  insertHTML(' <em>[Boruca: Shíi = Gracias]</em> ');         showToast('Insertado: Boruca'); break;
+    case 'insert-teribe':  insertHTML(' <em>[Térraba: Di = Agua]</em> ');             showToast('Insertado: Térraba'); break;
+    case 'insert-guaymi':  insertHTML(' <em>[Ngäbe: Ju = Casa]</em> ');               showToast('Insertado: Ngäbe'); break;
     case 'lang-bribri':  switchLang('bribri');  break;
     case 'lang-cabecar': switchLang('cabecar'); break;
     case 'lang-maleku':  switchLang('maleku');  break;
     case 'lang-ingles':  switchLang('ingles');  break;
     case 'lang-espanol': switchLang('espanol'); break;
-
     case 'dict-indigena':      showToast('Diccionario indígena — próximamente'); break;
     case 'translate-indigena': showToast('Traducción — próximamente'); break;
-
     default: showToast(`${action} ejecutado`);
   }
 }
 
-// ══════════════════════════════════════
-//  BOTONES INFERIORES
-// ══════════════════════════════════════
-document.getElementById('btnBack').onclick    = () => cmd('undo');
-document.getElementById('btnForward').onclick = () => cmd('redo');
-document.getElementById('btnSave').onclick    = () => { localStorage.setItem('wc-editor-v22', editor.innerHTML); showToast('Guardado 💾'); };
-document.getElementById('btnCopy').onclick    = () => { navigator.clipboard.writeText(editor.innerText); showToast('Texto copiado ⧉'); };
-document.getElementById('btnShare').onclick   = async () => {
+// ══ BOTONES INFERIORES ══
+document.getElementById('btnBack').onclick    = ()=>cmd('undo');
+document.getElementById('btnForward').onclick = ()=>cmd('redo');
+document.getElementById('btnSave').onclick    = ()=>{localStorage.setItem('wc-editor-v22',editor.innerHTML);showToast('Guardado 💾');};
+document.getElementById('btnCopy').onclick    = ()=>{navigator.clipboard.writeText(editor.innerText);showToast('Texto copiado ⧉');};
+document.getElementById('btnShare').onclick   = async()=>{
   if(navigator.share) await navigator.share({title:'WC Editor',text:editor.innerText});
-  else { navigator.clipboard.writeText(editor.innerText); showToast('Copiado para compartir'); }
+  else{navigator.clipboard.writeText(editor.innerText);showToast('Copiado para compartir');}
 };
 
-// ══════════════════════════════════════
-//  CARGAR CONTENIDO GUARDADO
-// ══════════════════════════════════════
-const saved = localStorage.getItem('wc-editor-v22');
-if(saved) { editor.innerHTML = saved; }
+// ══ ARRANQUE ══
+const saved=localStorage.getItem('wc-editor-v22');
+if(saved) editor.innerHTML=saved;
 updateStats();
-
-// Auto-guardado cada 30 seg
-setInterval(() => localStorage.setItem('wc-editor-v22', editor.innerHTML), 30000);
+setInterval(()=>localStorage.setItem('wc-editor-v22',editor.innerHTML),30000);
 </script>
 </body>
 </html>
