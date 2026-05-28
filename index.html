@@ -147,10 +147,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
 
 /* ── PANEL COMUNITARIO ── */
-.community-panel{background:#f9f9f9;border-left:2px solid #e0e0e0;padding:12px;width:250px;position:fixed;right:0;top:60px;bottom:30px;overflow-y:auto;z-index:50;}
-.community-panel h3{margin-top:0;font-size:13px;color:#006600;margin-bottom:10px;}
+#communityDrawer{position:fixed;bottom:128px;left:12px;z-index:8001;}
+#communityToggleBtn{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(39,174,96,.4);cursor:pointer;line-height:1.4;text-align:center;display:block;}
+.community-panel{position:fixed;bottom:183px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:8000;padding:16px;max-height:60vh;overflow-y:auto;display:none;}
+.community-panel.open{display:block;animation:fadeUp .2s ease;}
+.community-panel h3{margin-top:0;font-size:13px;color:#27ae60;margin-bottom:10px;font-weight:700;}
 .community-panel ul{list-style:none;padding:0;}
-.community-panel li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fff;}
+.community-panel li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;}
 
 /* ── POPUP ── */
 .popup.hidden{display:none;}
@@ -407,11 +410,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  </div>
 </div>
 
-<!-- Panel comunitario lateral -->
-<aside class="community-panel">
-  <h3>🌿 Validación comunitaria</h3>
+<!-- Panel comunitario desplegable -->
+<div id="communityDrawer">
+  <button id="communityToggleBtn" onclick="toggleCommunityPanel()">🌿 Validación<br><span style="font-size:10px;opacity:.85">comunitaria</span></button>
+</div>
+<div class="community-panel" id="communityPanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+    <h3 style="margin:0">🌿 Validación comunitaria</h3>
+    <button onclick="toggleCommunityPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#999">✕</button>
+  </div>
   <ul id="communityList"></ul>
-</aside>
+</div>
 
 <!-- Popup búsqueda en lenguas -->
 <div id="popup" class="popup hidden">
@@ -744,6 +753,12 @@ function actualizarStatusbar(palabras = 0, lenguas = 0) {
   if (sb) sb.textContent =
     `Listo | Palabras: ${palabras} | Lenguas encontradas: ${lenguas} | Pendientes: ${contarEstado("pendiente")} | Validadas: ${contarEstado("validado")} | Corregidas: ${contarEstado("corregido")}`;
 }
+
+/* ── Toggle panel comunitario ── */
+function toggleCommunityPanel() {
+  const panel = document.getElementById('communityPanel');
+  panel.classList.toggle('open');
+}
 /* ============================================================
    wc_main.js  —  Lógica principal original sin cambios
    WC Corporate Editor v23  (+ acciones buscar-seleccion / escuchar-idioma)
@@ -1003,9 +1018,19 @@ document.querySelectorAll('.menu-btn').forEach(btn=>{
  btn.addEventListener('click',e=>{e.stopPropagation();const id='menu-'+btn.dataset.menu;const dd=document.getElementById(id);document.querySelectorAll('.dropdown').forEach(d=>{if(d!==dd)d.classList.remove('show');});dd.classList.toggle('show');});
 });
 document.addEventListener('click',()=>{document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'));});
-document.querySelectorAll('.di,.dib').forEach(item=>{
- item.addEventListener('mousedown',()=>saveSelection());
- item.addEventListener('click',e=>{e.stopPropagation();item.closest('.dropdown').classList.remove('show');if(item.dataset.action)handleAction(item.dataset.action);});
+// Delegated click on dropdowns — works even when child span/div is clicked
+document.querySelectorAll('.dropdown').forEach(dd=>{
+ dd.addEventListener('mousedown',e=>{
+   const item=e.target.closest('[data-action]');
+   if(item) saveSelection();
+ });
+ dd.addEventListener('click',e=>{
+   e.stopPropagation();
+   const item=e.target.closest('[data-action]');
+   if(!item) return;
+   dd.classList.remove('show');
+   handleAction(item.dataset.action);
+ });
 });
 
 // HANDLEACTION — original completo + 2 acciones nuevas del panel comunitario
