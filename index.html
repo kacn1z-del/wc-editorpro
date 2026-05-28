@@ -528,10 +528,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <input type="file" id="fileInputVideo" accept="video/*" style="display:none">
 <input type="file" id="fileInputAny" style="display:none">
 
-<script src="wc_community.js"></script>
-<script src="wc_main.js"></script>
-</body>
-</html>
+<script>
 /* ============================================================
    wc_community.js — Panel comunitario · Lenguas Indígenas CR
    WC Corporate Editor v23
@@ -734,6 +731,9 @@ function filterDict() {
     </div>`;
   });
 }
+
+</script>
+<script>
 /* ============================================================
    wc_main.js — Lógica principal WC Corporate Editor v23
    ============================================================ */
@@ -1359,3 +1359,7 @@ if (saved) editor.innerHTML = saved;
 updateStats();
 renderCommunityPanel();
 setInterval(() => localStorage.setItem('wc-v23', editor.innerHTML), 30000);
+
+</script>
+</body>
+</html>
