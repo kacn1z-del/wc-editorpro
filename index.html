@@ -8,21 +8,15 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;}
-
-/* ── HEADER ── */
 .header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:28px 20px 130px;text-align:center;color:white;}
 .header h1{font-size:28px;font-weight:700;margin-bottom:6px;letter-spacing:.5px;}
 .header p{font-size:11px;opacity:.9;letter-spacing:1.5px;text-transform:uppercase;}
-
-/* ── MENU CARD ── */
 .menu-card{background:rgba(255,255,255,.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:20px 16px;margin:-90px 12px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.12);}
 .menu-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
 .menu-item{position:relative;}
-.menu-btn{background:none;border:none;color:#1a1a1a;font-size:15px;font-weight:500;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.2px;}
+.menu-btn{background:none;border:none;color:#1a1a1a;font-size:15px;font-weight:500;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .menu-btn:hover,.menu-btn.active{background:rgba(255,255,255,.85);box-shadow:0 2px 10px rgba(0,0,0,.1);}
-
-/* ── DROPDOWNS ── */
-.dropdown{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.15);padding:8px;display:none;z-index:500;min-width:250px;max-height:75vh;overflow-y:auto;}
+.dropdown{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.15);padding:8px;display:none;z-index:500;min-width:250px;max-height:75vh;overflow-y:auto;}
 .dropdown.show{display:block;animation:fadeIn .18s;}
 @keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 .dsec{padding:6px 12px 2px;font-size:10px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-top:4px;}
@@ -36,8 +30,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dib .desc{font-size:11px;color:#999;margin-top:2px;line-height:1.3;}
 .dd{height:1px;background:#eee;margin:4px 8px;}
 .badge{background:#0084ff;color:white;font-size:10px;padding:2px 7px;border-radius:5px;}
-
-/* ── CONTENT ── */
 .content{background:#fff;padding:24px 16px 160px;min-height:500px;}
 .ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
 #wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
@@ -48,8 +40,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
 .tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
 .tiptap td,.tiptap th{border:1px solid #ddd;padding:8px;}
-
-/* ── DICCIONARIO integrado ── */
 #dictBox{margin-bottom:16px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;}
 #dictHeader{display:flex;align-items:center;gap:8px;padding:12px 16px;cursor:pointer;background:#f8f9fa;border-bottom:1px solid #eee;}
 #dictHeader h3{font-size:14px;font-weight:600;color:#0066cc;margin:0;flex:1;}
@@ -58,29 +48,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #dictBody.open{display:block;}
 #dictSearch{width:100%;padding:9px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;outline:none;margin-bottom:10px;}
 #dictSearch:focus{border-color:#0084ff;}
-#dictResults{max-height:200px;overflow-y:auto;}
-.dict-entry{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+#dictResults{max-height:220px;overflow-y:auto;}
+.dict-entry{padding:8px 0;border-bottom:1px solid #f0f0f0;}
 .dict-entry:last-child{border-bottom:none;}
-.dict-word{font-weight:600;color:#0066cc;font-size:14px;}
-.dict-langs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.dict-word{font-weight:600;color:#0066cc;font-size:14px;margin-bottom:4px;}
+.dict-langs{display:flex;flex-wrap:wrap;gap:5px;}
 .dict-lang-tag{background:#f0f7ff;border-radius:6px;padding:2px 8px;font-size:11px;color:#333;}
 .dict-lang-tag b{color:#0084ff;}
-
-/* ── FOOTER ── */
 .footer{background:#fff;padding:10px 16px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;z-index:100;}
 .stats{display:flex;justify-content:space-around;font-size:12px;color:#888;margin-bottom:3px;}
 .author{text-align:center;font-size:11px;color:#bbb;}
-
-/* ── BOTTOM NAV ── */
 .bottom-nav{background:#fff;position:fixed;bottom:0;left:0;right:0;padding:10px 20px;display:flex;justify-content:space-around;box-shadow:0 -2px 10px rgba(0,0,0,.05);border-radius:20px 20px 0 0;z-index:100;}
 .nav-btn{background:none;border:none;padding:8px;cursor:pointer;border-radius:8px;font-size:18px;}
 .nav-btn:hover{background:#f0f0f0;}
-
-/* ── TOAST ── */
 .toast{position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;}
 .toast.show{opacity:1;}
-
-/* ── MODALES ── */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9990;align-items:center;justify-content:center;padding:12px;}
 .mo.show{display:flex;}
 .mb{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
@@ -104,8 +86,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cwrap canvas{width:100%!important;}
 .cdel{position:absolute;top:6px;right:8px;background:#ff4444;color:#fff;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;}
 .ablock{display:flex;align-items:center;gap:10px;background:#f0f7ff;border:1px solid rgba(0,132,255,.2);border-radius:10px;padding:10px 14px;margin:6px 0;}
-
-/* ── FAB ── */
 #fabBtn{position:fixed;bottom:128px;right:12px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.4);cursor:pointer;line-height:1.4;text-align:center;}
 #fabPanel{display:none;position:fixed;bottom:183px;right:8px;left:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto;}
 #fabPanel.show{display:block;animation:fadeUp .2s ease;}
@@ -131,8 +111,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .wcprev:hover{border-color:#0084ff;transform:scale(1.02);}
 .bgsw{width:100%;aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;}
 .bgsw:hover{border-color:#333;transform:scale(1.1);}
-
-/* ── IA PANEL ── */
 #aiPanel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;align-items:flex-end;justify-content:center;}
 #aiPanel.show{display:flex;}
 #aiBox{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;}
@@ -145,59 +123,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #aiInp{flex:1;padding:10px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:14px;outline:none;}
 #aiInp:focus{border-color:#0084ff;}
 #aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
-
-/* ── PANEL COMUNITARIO ── */
-#communityDrawer{position:fixed;bottom:128px;left:12px;z-index:8001;}
-#communityToggleBtn{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(39,174,96,.4);cursor:pointer;line-height:1.4;text-align:center;display:block;}
-.community-panel{position:fixed;bottom:183px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:8000;padding:16px;max-height:60vh;overflow-y:auto;display:none;}
-.community-panel.open{display:block;animation:fadeUp .2s ease;}
-.community-panel h3{margin-top:0;font-size:13px;color:#27ae60;margin-bottom:10px;font-weight:700;}
-.community-panel ul{list-style:none;padding:0;}
-.community-panel li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;}
-
-/* ── POPUP ── */
+#communityBtn{position:fixed;bottom:128px;left:12px;z-index:8000;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(39,174,96,.4);cursor:pointer;line-height:1.4;text-align:center;}
+#communityPanel{display:none;position:fixed;bottom:183px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:60vh;overflow-y:auto;}
+#communityPanel.show{display:block;animation:fadeUp .2s ease;}
+#communityPanel h4{font-size:13px;color:#27ae60;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+#communityList{list-style:none;padding:0;}
+#communityList li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;}
 .popup.hidden{display:none;}
 .popup{position:fixed;top:20%;left:50%;transform:translateX(-50%);width:90%;max-width:380px;background:#fff;border:1px solid #ddd;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9998;}
 .popup-content{padding:20px;}
 .popup-content h3{font-size:15px;color:#0066cc;margin-bottom:8px;}
-.close{float:right;cursor:pointer;font-size:20px;color:#aaa;}
+.close-btn{float:right;cursor:pointer;font-size:20px;color:#aaa;background:none;border:none;}
 #popupResults{list-style:none;padding:0;}
 #popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
-
-/* ── STATUSBAR ── */
-.statusbar{position:fixed;bottom:0;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
+.statusbar{position:fixed;bottom:60px;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1 id="editorTitle">WC Corporate Editor v23</h1>
-  <p id="editorSub">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</p>
+  <p id="editorSub">ULTIMATE PRO UI V26 - ESTÉTICA EJECUTIVA</p>
 </div>
 
 <div class="menu-card">
  <div class="menu-tabs">
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="inicio">Inicio</button>
    <div class="dropdown" id="menu-inicio">
     <div class="dsec">Documento</div>
     <div class="di" data-action="new"><span class="ico">📄</span><div>Nuevo documento</div></div>
     <div class="di" data-action="open"><span class="ico">📂</span><div>Abrir reciente</div></div>
-    <div class="di" data-action="plantillas"><span class="ico">📋</span><div><div>Plantillas (10)</div><div class="desc">Plantillas profesionales listas</div></div></div>
+    <div class="di" data-action="plantillas"><span class="ico">📋</span><div>Plantillas (10)</div></div>
     <div class="dd"></div>
     <div class="dsec">Portapapeles</div>
     <div class="dib" data-action="portapapeles"><div class="tit">Portapapeles</div><div class="desc">Historial de copiar, cortar y pegar.</div></div>
     <div class="dd"></div>
     <div class="dsec">Estilos</div>
-    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div><div>Normal</div></div></div>
-    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div><div>Título principal</div></div></div>
-    <div class="di" data-action="estiloSubtitulo"><span class="ico">🔡</span><div><div>Subtítulo</div></div></div>
-    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div><div>Cita destacada</div></div></div>
-    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div><div>Énfasis intenso</div></div></div>
+    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div>Normal</div></div>
+    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div>Título principal</div></div>
+    <div class="di" data-action="estiloSubtitulo"><span class="ico">🔡</span><div>Subtítulo</div></div>
+    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div>Cita destacada</div></div>
+    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div>Énfasis intenso</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="archivo">Archivo</button>
    <div class="dropdown" id="menu-archivo">
@@ -213,7 +182,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="share"><span class="ico">📤</span><div>Compartir</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="editar">Editar</button>
    <div class="dropdown" id="menu-editar">
@@ -228,14 +196,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="selectAll"><span class="ico">⬛</span><div>Seleccionar todo</div></div>
     <div class="dd"></div>
     <div class="dsec">Edición avanzada</div>
-    <div class="dib" data-action="find"><div class="tit">Buscar y reemplazar</div><div class="desc">Cambia automáticamente una palabra en todo el documento.</div></div>
+    <div class="dib" data-action="find"><div class="tit">Buscar y reemplazar</div><div class="desc">Cambia una palabra en todo el documento.</div></div>
     <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div>Control de cambios</div></div>
     <div class="di" data-action="addComment"><span class="ico">💬</span><div>Agregar comentario</div></div>
     <div class="di" data-action="comparar"><span class="ico">⚖️</span><div>Comparar versiones</div></div>
     <div class="di" data-action="proteger"><span class="ico">🔒</span><div>Proteger documento</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="insertar">Insertar</button>
    <div class="dropdown" id="menu-insertar">
@@ -243,16 +210,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="dib" data-action="insertImage"><div class="tit">Imagen / Foto</div><div class="desc">Desde tu galería o archivo del dispositivo.</div></div>
     <div class="di" data-action="insertShape"><span class="ico">🔷</span><div>Formas (20)</div></div>
     <div class="di" data-action="insertChart"><span class="ico">📊</span><div>Gráficos (10)</div></div>
-    <div class="dib" data-action="tableToChart"><div class="tit">Convertir tabla → gráfico</div><div class="desc">Transforma datos tabulares en un gráfico visual.</div></div>
+    <div class="dib" data-action="tableToChart"><div class="tit">Convertir tabla → gráfico</div></div>
     <div class="dd"></div>
     <div class="dsec">Multimedia</div>
-    <div class="dib" data-action="insertVideo"><div class="tit">Video</div><div class="desc">Carga video desde tu dispositivo.</div></div>
+    <div class="dib" data-action="insertVideo"><div class="tit">Video</div></div>
     <div class="di" data-action="insertFile"><span class="ico">📎</span><div>Archivo adjunto</div></div>
     <div class="dd"></div>
     <div class="dsec">Vínculos</div>
-    <div class="dib" data-action="insertLink"><div class="tit">Enlace</div><div class="desc">Crea enlaces a partes del documento o URLs externas.</div></div>
+    <div class="dib" data-action="insertLink"><div class="tit">Enlace</div></div>
     <div class="dd"></div>
-    <div class="dsec">Encabezado y pie de página</div>
+    <div class="dsec">Encabezado y pie</div>
     <div class="di" data-action="insertHeader"><span class="ico">⬆️</span><div>Encabezado</div></div>
     <div class="di" data-action="insertFooter"><span class="ico">⬇️</span><div>Pie de página</div></div>
     <div class="di" data-action="pageNumber"><span class="ico">🔢</span><div>Numeración de páginas</div></div>
@@ -264,12 +231,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="pageBreak"><span class="ico">📄</span><div>Salto de página</div></div>
     <div class="dd"></div>
     <div class="dsec">Símbolos y ecuaciones</div>
-    <div class="dib" data-action="insertEquation"><div class="tit">Ecuación</div><div class="desc">Editor de ecuaciones matemáticas con colección famosa.</div></div>
-    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div>Símbolo / Carácter especial</div></div>
+    <div class="dib" data-action="insertEquation"><div class="tit">Ecuación</div><div class="desc">Editor de ecuaciones matemáticas.</div></div>
+    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div>Símbolo especial</div></div>
     <div class="di" data-action="insertFootnote"><span class="ico">¹</span><div>Nota al pie</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="formato">Formato</button>
    <div class="dropdown" id="menu-formato">
@@ -299,16 +265,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="h3"><span class="ico">H3</span><div>Título 3</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="wcarte">WC Arte</button>
    <div class="dropdown" id="menu-wcarte">
-    <div class="dib" data-action="wcarte"><div class="tit">WC Arte (texto libre)</div><div class="desc">Letras con estilos especiales.</div></div>
+    <div class="dib" data-action="wcarte"><div class="tit">WC Arte libre</div><div class="desc">Letras con estilos especiales.</div></div>
     <div class="dib" data-action="wcarte-galeria"><div class="tit">Galería CR</div><div class="desc">Animales, bosques y bandera de Costa Rica.</div></div>
     <div class="dib" data-action="wcarte-letras"><div class="tit">Estilos de letras</div><div class="desc">12 estilos: Fuego, Océano, Bosque, Galaxia y más.</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="herramientas">Herramientas</button>
    <div class="dropdown" id="menu-herramientas">
@@ -362,13 +326,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="dsec">Correos</div>
     <div class="dib" data-action="createEnvelope"><div class="tit">Crear sobre</div></div>
     <div class="dib" data-action="createLabel"><div class="tit">Crear etiqueta</div></div>
-    <div class="dib" data-action="startMerge"><div class="tit">Iniciar combinación de correspondencia</div></div>
+    <div class="dib" data-action="startMerge"><div class="tit">Iniciar combinación</div></div>
     <div class="dib" data-action="insertFields"><div class="tit">Insertar campos</div></div>
     <div class="dib" data-action="previewMerge"><div class="tit">Vista previa de resultados</div></div>
     <div class="dib" data-action="finishMerge"><div class="tit">Finalizar y combinar</div></div>
    </div>
   </div>
-
   <div class="menu-item">
    <button class="menu-btn" data-menu="lenguas">Lenguas CR</button>
    <div class="dropdown" id="menu-lenguas">
@@ -381,8 +344,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="insert-guaymi"><span class="ico">🌿</span><div>Ngäbe/Guaymí</div></div>
     <div class="dd"></div>
     <div class="dsec">Búsqueda comunitaria</div>
-    <div class="di" data-action="buscar-seleccion"><span class="ico">🔍</span><div><div>Buscar palabra seleccionada</div><div class="desc">Selecciona texto y búscalo en las lenguas CR</div></div></div>
-    <div class="di" data-action="escuchar-idioma"><span class="ico">🎤</span><div><div>Registrar palabra por voz</div><div class="desc">Detecta y añade palabra al panel comunitario</div></div></div>
+    <div class="di" data-action="buscar-seleccion"><span class="ico">🔍</span><div>Buscar palabra seleccionada</div></div>
+    <div class="di" data-action="escuchar-idioma"><span class="ico">🎤</span><div>Registrar palabra por voz</div></div>
     <div class="dd"></div>
     <div class="dsec">Idioma del editor</div>
     <div class="di" data-action="lang-bribri"><span class="ico">🌿</span><div>Editor en Bribri</div></div>
@@ -395,46 +358,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="translate-indigena"><span class="ico">🔄</span><div>Traducir a lengua</div></div>
    </div>
   </div>
-
   <div class="menu-item">
-   <button class="menu-btn" data-menu="ia" style="background:linear-gradient(135deg,rgba(0,132,255,.15),rgba(155,89,182,.15));font-weight:600;">IA</button>
+   <button class="menu-btn" data-menu="ia" style="background:linear-gradient(135deg,rgba(0,132,255,.12),rgba(155,89,182,.12));font-weight:600;">IA</button>
    <div class="dropdown" id="menu-ia">
-    <div class="dib" data-action="openAI"><div class="tit">Abrir asistente IA</div><div class="desc">Chat con IA para redactar, mejorar, resumir y analizar tu documento.</div></div>
+    <div class="dib" data-action="openAI"><div class="tit">Abrir asistente IA</div><div class="desc">Chat para redactar, mejorar, resumir y analizar.</div></div>
     <div class="di" data-action="aiMejorar"><span class="ico">✨</span><div>Mejorar texto seleccionado</div></div>
     <div class="di" data-action="aiResumen"><span class="ico">📝</span><div>Resumir documento</div></div>
     <div class="di" data-action="aiContinuar"><span class="ico">➡️</span><div>Continuar escribiendo</div></div>
     <div class="di" data-action="aiTraducir"><span class="ico">🌐</span><div>Traducir al inglés</div></div>
    </div>
   </div>
-
  </div>
 </div>
-
-<!-- Panel comunitario desplegable -->
-<div id="communityDrawer">
-  <button id="communityToggleBtn" onclick="toggleCommunityPanel()">🌿 Validación<br><span style="font-size:10px;opacity:.85">comunitaria</span></button>
-</div>
-<div class="community-panel" id="communityPanel">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-    <h3 style="margin:0">🌿 Validación comunitaria</h3>
-    <button onclick="toggleCommunityPanel()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#999">✕</button>
-  </div>
-  <ul id="communityList"></ul>
-</div>
-
 <!-- Popup búsqueda en lenguas -->
 <div id="popup" class="popup hidden">
   <div class="popup-content">
-    <span class="close" onclick="cerrarPopup()">&times;</span>
+    <button class="close-btn" onclick="cerrarPopup()">&times;</button>
     <h3>Resultados en lenguas CR</h3>
     <ul id="popupResults"></ul>
   </div>
 </div>
-
 <div class="content">
  <div class="ctitle" id="contentTitle">Editor de documentos — WC Corporate</div>
-
- <!-- Diccionario 300 palabras integrado -->
  <div id="dictBox">
   <div id="dictHeader" onclick="toggleDict()">
    <h3>📖 Diccionario — 300 palabras</h3>
@@ -445,7 +390,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
    <div id="dictResults"></div>
   </div>
  </div>
-
  <div id="wordart-banner"></div>
  <div id="ruler">◀ 0cm &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 6 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 12 &nbsp;&nbsp;&nbsp; 14 ▶</div>
  <div id="mediaZone"></div>
@@ -457,11 +401,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <p><strong>Boruca:</strong> Gracias = Shíi</p>
   <p><strong>Térraba:</strong> Agua = Di</p>
   <p><strong>Ngäbe:</strong> Casa = Ju</p>
-  <p><br></p>
   <p>Escribe aquí o usa el menú para insertar contenido...</p>
  </div>
 </div>
-
 <div class="footer">
  <div class="stats">
   <span id="wordCount">✓ 0 palabras</span>
@@ -470,11 +412,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  </div>
  <div class="author">Por Keny Chinchilla Navarro</div>
 </div>
-
 <footer class="statusbar" id="statusbar">
   Listo | Palabras: 0 | Lenguas encontradas: 0 | Pendientes: 0 | Validadas: 0 | Corregidas: 0
 </footer>
-
 <div class="bottom-nav">
  <button class="nav-btn" id="btnBack">↩</button>
  <button class="nav-btn" id="btnForward">↪</button>
@@ -482,10 +422,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  <button class="nav-btn" id="btnSave">💾</button>
  <button class="nav-btn" id="btnCopy">⧉</button>
 </div>
-
 <div class="toast" id="toast"></div>
+<!-- Botón Herramientas FAB derecha -->
 <button id="fabBtn" onclick="toggleFab()">⚡ Herramientas<br><span style="font-size:10px;opacity:.85">Corporativas y de Formato</span></button>
 
+<!-- Botón Validación comunitaria FAB izquierda -->
+<button id="communityBtn" onclick="toggleCommunity()">🌿 Validación<br><span style="font-size:10px;opacity:.85">comunitaria</span></button>
+
+<!-- Panel Herramientas -->
 <div id="fabPanel">
  <h4>✏️ Formato rápido</h4>
  <div class="fabrow">
@@ -536,12 +480,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  </div>
 </div>
 
+<!-- Panel Validación Comunitaria -->
+<div id="communityPanel">
+ <h4>🌿 Validación comunitaria <button onclick="toggleCommunity()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#999;font-weight:normal">✕</button></h4>
+ <ul id="communityList"><li style="color:#aaa;font-size:12px;text-align:center;padding:8px">Sin palabras pendientes</li></ul>
+</div>
+
 <!-- ASISTENTE IA -->
 <div id="aiPanel">
  <div id="aiBox">
   <h3>🤖 Asistente Inteligente <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:#999">✕</button></h3>
   <div id="aiMsgs">
-   <div class="aib">¡Hola! Soy tu asistente de escritura. Puedo ayudarte a redactar, mejorar, resumir o traducir tu documento. ¿En qué te ayudo hoy?</div>
+   <div class="aib">¡Hola! Soy tu asistente de escritura. ¿En qué te ayudo hoy?</div>
   </div>
   <div id="aiRow">
    <input type="text" id="aiInp" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendAI()">
@@ -554,74 +504,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="mo" id="modalPlantillas"><div class="mb"><h3>Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
 <div class="mo" id="modalWcArte"><div class="mb"><h3>WC Arte</h3><input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto..."><div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div><div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div></div></div>
 <div class="mo" id="modalWcArteGallery"><div class="mb"><h3>WC Arte — Galería CR</h3><p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño y escribe tu texto</p><div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div></div></div>
-<div class="mo" id="modalWcArteLetras"><div class="mb"><h3>WC Arte — Estilos de letras</h3><input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto para ver el estilo..."><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div></div></div>
+<div class="mo" id="modalWcArteLetras"><div class="mb"><h3>WC Arte — Estilos de letras</h3><input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto..."><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div></div></div>
 <div class="mo" id="modalColor"><div class="mb"><h3>Color de texto</h3><input type="color" id="colorPicker" value="#0084ff" style="width:100%;height:50px;border:none;cursor:pointer;border-radius:10px;margin-bottom:12px;"><div class="cpal" id="colorPickerPalette" style="margin-bottom:12px;"></div><div class="mbtns"><button class="btn1" id="btnApplyColor">Aplicar color</button><button class="btn2" onclick="closeModal('modalColor')">Cancelar</button></div></div></div>
 <div class="mo" id="modalShapes"><div class="mb"><h3>Formas (20)</h3><div class="sgrid" id="shapesGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalShapes')">Cerrar</button></div></div></div>
 <div class="mo" id="modalCharts"><div class="mb"><h3>Gráficos (10)</h3><div class="cgrid" id="chartsGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalCharts')">Cerrar</button></div></div></div>
 <div class="mo" id="modalColumns"><div class="mb"><h3>Columnas de texto</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onclick="insertColumns(2)"><span class="ico">▥</span>2 columnas</button><button class="tcard" onclick="insertColumns(3)"><span class="ico">▦</span>3 columnas</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalColumns')">Cerrar</button></div></div></div>
-<div class="mo" id="modalFontSize"><div class="mb"><h3>Tamaño de fuente</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:10px">A</span>8pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:12px">A</span>10pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:15px">A</span>12pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:18px">A</span>14pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:22px">A</span>18pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:26px">A</span>24pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:32px">A</span>36pt</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalFontSize')">Cerrar</button></div></div></div>
+<div class="mo" id="modalFontSize"><div class="mb"><h3>Tamaño de fuente</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:10px">A</span>8pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:12px">A</span>10pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:15px">A</span>12pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:18px">A</span>14pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:22px">A</span>18pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:26px">A</span>24pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('✅')"><span class="ico" style="font-size:32px">A</span>36pt</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalFontSize')">Cerrar</button></div></div></div>
 <div class="mo" id="modalFontFamily"><div class="mb"><h3>Tipo de letra</h3><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;" id="fontFamilyGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalFontFamily')">Cerrar</button></div></div></div>
 <div class="mo" id="modalLineSpacing"><div class="mb"><h3>Interlineado</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onclick="editor.style.lineHeight='1';closeModal('modalLineSpacing');showToast('✅')">Simple (1)</button><button class="tcard" onclick="editor.style.lineHeight='1.15';closeModal('modalLineSpacing');showToast('✅')">1.15</button><button class="tcard" onclick="editor.style.lineHeight='1.5';closeModal('modalLineSpacing');showToast('✅')">1.5</button><button class="tcard" onclick="editor.style.lineHeight='2';closeModal('modalLineSpacing');showToast('✅')">Doble (2)</button><button class="tcard" onclick="editor.style.lineHeight='2.5';closeModal('modalLineSpacing');showToast('✅')">2.5</button><button class="tcard" onclick="editor.style.lineHeight='3';closeModal('modalLineSpacing');showToast('✅')">Triple (3)</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalLineSpacing')">Cerrar</button></div></div></div>
-<div class="mo" id="modalEquation"><div class="mb"><h3>Editor de ecuaciones</h3><p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Selecciona una ecuación famosa o escribe la tuya</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div><textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea><div class="mbtns"><button class="btn1" onclick="insertCustomEquation()">Insertar ecuación</button><button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button></div></div></div>
+<div class="mo" id="modalEquation"><div class="mb"><h3>Editor de ecuaciones</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div><textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea><div class="mbtns"><button class="btn1" onclick="insertCustomEquation()">Insertar</button><button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button></div></div></div>
 <div class="mo" id="modalSymbol"><div class="mb"><h3>Símbolos especiales</h3><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div></div></div>
-<div class="mo" id="modalPortapapeles"><div class="mb"><h3>Portapapeles</h3><p style="font-size:12px;color:#888;margin-bottom:12px;">Historial de elementos copiados. Toca uno para pegarlo.</p><div id="clipboardList"></div><div class="mbtns"><button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Portapapeles limpiado')">Limpiar todo</button><button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button></div></div></div>
+<div class="mo" id="modalPortapapeles"><div class="mb"><h3>Portapapeles</h3><p style="font-size:12px;color:#888;margin-bottom:12px;">Toca un elemento para pegarlo.</p><div id="clipboardList"></div><div class="mbtns"><button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Limpiado')">Limpiar</button><button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button></div></div></div>
 <div class="mo" id="modalBackground"><div class="mb"><h3>Fondo de página</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px;" id="bgColorGrid"></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><label style="font-size:12px;color:#666;">Personalizado:</label><input type="color" id="bgColorCustom" value="#ffffff" style="width:40px;height:28px;border:none;border-radius:6px;cursor:pointer;"><button class="fabbtn" onclick="document.querySelector('.content').style.background=document.getElementById('bgColorCustom').value;editor.style.background=document.getElementById('bgColorCustom').value;closeModal('modalBackground');showToast('Fondo aplicado 🎨')">Aplicar</button></div><div class="mbtns"><button class="btn2" onclick="document.querySelector('.content').style.background='#fff';editor.style.background='#fff';closeModal('modalBackground')">Quitar fondo</button></div></div></div>
 
 <input type="file" id="fileInputImage" accept="image/*" style="display:none">
 <input type="file" id="fileInputVideo" accept="video/*" style="display:none">
 <input type="file" id="fileInputAny" style="display:none">
 
-<script>
-/* ── DICCIONARIO 300 palabras ── */
-function toggleDict(){
-  const b=document.getElementById('dictBody');
-  const i=document.getElementById('dictToggleIcon');
-  b.classList.toggle('open');
-  i.style.transform=b.classList.contains('open')?'rotate(180deg)':'';
-  if(b.classList.contains('open')&&!document.getElementById('dictResults').children.length)filterDict();
-}
-const dictData=[
-  {es:'Hola',bribri:'Shkëkë',cabecar:'Ká bë́rë',maleku:'Ma lha',boruca:'Shka',ngabe:'Ngüe'},
-  {es:'Adiós',bribri:'Ëk',cabecar:'Yë́',maleku:'Yü',boruca:'Bë',ngabe:'Döi'},
-  {es:'Gracias',bribri:'Ëyö',cabecar:'Ká',maleku:'Shíi',boruca:'Shíi',ngabe:'Jä'},
-  {es:'Agua',bribri:'Aba',cabecar:'Yök',maleku:'Toku',boruca:'Unk',ngabe:'Dru'},
-  {es:'Fuego',bribri:'Chä',cabecar:'Sëk',maleku:'Kira',boruca:'Tö',ngabe:'Kira'},
-  {es:'Tierra',bribri:'Itö',cabecar:'Duö',maleku:'Naku',boruca:'Dru',ngabe:'Noke'},
-  {es:'Casa',bribri:'Yö',cabecar:'Wák',maleku:'Jiri',boruca:'Kro',ngabe:'Bri'},
-  {es:'Sol',bribri:'Iriria',cabecar:'Diá',maleku:'Tâu',boruca:'Brún',ngabe:'Krâ'},
-  {es:'Luna',bribri:'Sula',cabecar:'Sö',maleku:'Ulë',boruca:'Dör',ngabe:'Krün'},
-  {es:'Árbol',bribri:'Wö',cabecar:'Wë',maleku:'Nöri',boruca:'Drö',ngabe:'Bare'},
-  {es:'Montaña',bribri:'Tsirú',cabecar:'Tsirú',maleku:'Nöla',boruca:'Krö',ngabe:'Ngo'},
-  {es:'Río',bribri:'Diá',cabecar:'Diá',maleku:'Tana',boruca:'Tö',ngabe:'Dru'},
-  {es:'Niño',bribri:'Kë',cabecar:'Rë',maleku:'Ichi',boruca:'Chö',ngabe:'Ngwä'},
-  {es:'Mujer',bribri:'Yë',cabecar:'Yë',maleku:'Nula',boruca:'Ën',ngabe:'Micha'},
-  {es:'Hombre',bribri:'Bë',cabecar:'Bë',maleku:'Nori',boruca:'Brö',ngabe:'Migä'},
-  {es:'Buenas días',bribri:'Ká bë́rë',cabecar:'Ká bë́rë',maleku:'Ma lha maráma',boruca:'—',ngabe:'—'},
-  {es:'Comida',bribri:'Ukö',cabecar:'Ukö',maleku:'Naka',boruca:'Kë',ngabe:'Ngüa'},
-  {es:'Camino',bribri:'Ditsö',cabecar:'Datë',maleku:'Nara',boruca:'Drö',ngabe:'Dre'},
-  {es:'Corazón',bribri:'Síniri',cabecar:'Síniri',maleku:'Nöchi',boruca:'Chö',ngabe:'Ngü'},
-  {es:'Cielo',bribri:'Sibö',cabecar:'Sibö',maleku:'Tâurë',boruca:'Bü',ngabe:'Krâ'},
-];
-function filterDict(){
-  const q=document.getElementById('dictSearch').value.toLowerCase();
-  const res=document.getElementById('dictResults');
-  res.innerHTML='';
-  const filtered=dictData.filter(e=>e.es.toLowerCase().includes(q)||Object.values(e).some(v=>v.toLowerCase().includes(q)));
-  if(!filtered.length){res.innerHTML='<p style="color:#aaa;font-size:13px;text-align:center;padding:10px">Sin resultados</p>';return;}
-  filtered.forEach(e=>{
-    res.innerHTML+=`<div class="dict-entry">
-      <div class="dict-word">${e.es}</div>
-      <div class="dict-langs">
-        <span class="dict-lang-tag"><b>Bribri:</b> ${e.bribri}</span>
-        <span class="dict-lang-tag"><b>Cabécar:</b> ${e.cabecar}</span>
-        <span class="dict-lang-tag"><b>Maleku:</b> ${e.maleku}</span>
-        <span class="dict-lang-tag"><b>Boruca:</b> ${e.boruca}</span>
-        <span class="dict-lang-tag"><b>Ngäbe:</b> ${e.ngabe}</span>
-      </div>
-    </div>`;
-  });
-}
-</script>
+</body>
+</html>
+with open('/mnt/user-data/outputs/WC_Editor_v23_parte1.html','w') as f:
+    f.write(html)
+print("OK:", len(html), "bytes", html.count('data-action'), "actions")
+PYEOF
 <script src="wc_community.js"></script>
 <script src="wc_main.js"></script>
 </body>
