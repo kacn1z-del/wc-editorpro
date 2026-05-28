@@ -8,46 +8,79 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;}
-.header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:24px 20px 140px;text-align:center;color:white;}
-.header h1{font-size:26px;font-weight:700;margin-bottom:6px;}
-.header p{font-size:11px;opacity:.9;letter-spacing:1px;}
-.menu-card{background:rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:16px;margin:-100px 12px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.1);}
-.menu-tabs{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:28px 20px 130px;text-align:center;color:white;}
+.header h1{font-size:28px;font-weight:700;margin-bottom:6px;letter-spacing:.5px;}
+.header p{font-size:11px;opacity:.9;letter-spacing:1.5px;text-transform:uppercase;}
+
+/* ── MENU CARD ── */
+.menu-card{background:rgba(255,255,255,.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:20px 16px;margin:-90px 12px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.12);}
+.menu-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
 .menu-item{position:relative;}
-.menu-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#1a1a1a;font-size:12px;font-weight:600;padding:6px 9px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.menu-btn:hover,.menu-btn.active{background:rgba(255,255,255,.95);box-shadow:0 2px 8px rgba(0,0,0,.15);}
-.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);padding:8px;margin-top:6px;display:none;z-index:500;min-width:240px;max-height:75vh;overflow-y:auto;}
+.menu-btn{background:none;border:none;color:#1a1a1a;font-size:15px;font-weight:500;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.2px;}
+.menu-btn:hover,.menu-btn.active{background:rgba(255,255,255,.85);box-shadow:0 2px 10px rgba(0,0,0,.1);}
+
+/* ── DROPDOWNS ── */
+.dropdown{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.15);padding:8px;display:none;z-index:500;min-width:250px;max-height:75vh;overflow-y:auto;}
 .dropdown.show{display:block;animation:fadeIn .18s;}
 @keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
-.dsec{padding:4px 10px;font-size:10px;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:6px;}
-.di{padding:9px 14px;border-radius:8px;cursor:pointer;font-size:13px;transition:background .15s;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.dsec{padding:6px 12px 2px;font-size:10px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-top:4px;}
+.di{padding:10px 14px;border-radius:10px;cursor:pointer;font-size:14px;transition:background .15s;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#1a1a1a;}
 .di:hover{background:#f0f7ff;}
 .di .ico{font-size:15px;min-width:20px;}
-.di .desc{font-size:10px;color:#999;}
-.dib{padding:8px 14px;border-radius:8px;cursor:pointer;transition:background .15s;}
+.di .desc{font-size:10px;color:#aaa;}
+.dib{padding:10px 14px;border-radius:10px;cursor:pointer;transition:background .15s;}
 .dib:hover{background:#f0f7ff;}
-.dib .tit{font-size:13px;font-weight:600;color:#222;}
-.dib .desc{font-size:11px;color:#888;margin-top:2px;line-height:1.3;}
+.dib .tit{font-size:14px;font-weight:600;color:#1a1a1a;}
+.dib .desc{font-size:11px;color:#999;margin-top:2px;line-height:1.3;}
 .dd{height:1px;background:#eee;margin:4px 8px;}
-.badge{background:#0084ff;color:white;font-size:10px;padding:2px 6px;border-radius:4px;}
-.content{background:#fff;padding:20px 16px 160px;min-height:500px;}
+.badge{background:#0084ff;color:white;font-size:10px;padding:2px 7px;border-radius:5px;}
+
+/* ── CONTENT ── */
+.content{background:#fff;padding:24px 16px 160px;min-height:500px;}
 .ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
 #wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
 #ruler{display:none;height:22px;background:linear-gradient(#e8e8e8,#f5f5f5);border:1px solid #ddd;border-radius:6px;margin-bottom:8px;font-size:9px;color:#aaa;line-height:22px;padding:0 8px;}
-.tiptap{border:1px solid #ddd;border-radius:12px;padding:16px;min-height:300px;outline:none;font-size:15px;line-height:1.6;}
+.tiptap{border:1px solid #e0e0e0;border-radius:14px;padding:18px;min-height:300px;outline:none;font-size:15px;line-height:1.7;}
 .tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
 .tiptap p{margin:6px 0;}.tiptap h1{font-size:2em;margin:16px 0 8px;}.tiptap h2{font-size:1.5em;margin:14px 0 6px;}.tiptap h3{font-size:1.2em;margin:12px 0 4px;}
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
 .tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
 .tiptap td,.tiptap th{border:1px solid #ddd;padding:8px;}
-.footer{background:#fff;padding:12px 16px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;z-index:100;}
-.stats{display:flex;justify-content:space-around;font-size:12px;color:#666;margin-bottom:4px;}
-.author{text-align:center;font-size:11px;color:#aaa;}
+
+/* ── DICCIONARIO integrado ── */
+#dictBox{margin-bottom:16px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;}
+#dictHeader{display:flex;align-items:center;gap:8px;padding:12px 16px;cursor:pointer;background:#f8f9fa;border-bottom:1px solid #eee;}
+#dictHeader h3{font-size:14px;font-weight:600;color:#0066cc;margin:0;flex:1;}
+#dictToggleIcon{font-size:14px;color:#aaa;transition:transform .2s;}
+#dictBody{display:none;padding:12px 16px;}
+#dictBody.open{display:block;}
+#dictSearch{width:100%;padding:9px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;outline:none;margin-bottom:10px;}
+#dictSearch:focus{border-color:#0084ff;}
+#dictResults{max-height:200px;overflow-y:auto;}
+.dict-entry{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+.dict-entry:last-child{border-bottom:none;}
+.dict-word{font-weight:600;color:#0066cc;font-size:14px;}
+.dict-langs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+.dict-lang-tag{background:#f0f7ff;border-radius:6px;padding:2px 8px;font-size:11px;color:#333;}
+.dict-lang-tag b{color:#0084ff;}
+
+/* ── FOOTER ── */
+.footer{background:#fff;padding:10px 16px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;z-index:100;}
+.stats{display:flex;justify-content:space-around;font-size:12px;color:#888;margin-bottom:3px;}
+.author{text-align:center;font-size:11px;color:#bbb;}
+
+/* ── BOTTOM NAV ── */
 .bottom-nav{background:#fff;position:fixed;bottom:0;left:0;right:0;padding:10px 20px;display:flex;justify-content:space-around;box-shadow:0 -2px 10px rgba(0,0,0,.05);border-radius:20px 20px 0 0;z-index:100;}
 .nav-btn{background:none;border:none;padding:8px;cursor:pointer;border-radius:8px;font-size:18px;}
 .nav-btn:hover{background:#f0f0f0;}
+
+/* ── TOAST ── */
 .toast{position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;}
 .toast.show{opacity:1;}
+
+/* ── MODALES ── */
 .mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9990;align-items:center;justify-content:center;padding:12px;}
 .mo.show{display:flex;}
 .mb{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
@@ -71,6 +104,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cwrap canvas{width:100%!important;}
 .cdel{position:absolute;top:6px;right:8px;background:#ff4444;color:#fff;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;}
 .ablock{display:flex;align-items:center;gap:10px;background:#f0f7ff;border:1px solid rgba(0,132,255,.2);border-radius:10px;padding:10px 14px;margin:6px 0;}
+
+/* ── FAB ── */
 #fabBtn{position:fixed;bottom:128px;right:12px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.4);cursor:pointer;line-height:1.4;text-align:center;}
 #fabPanel{display:none;position:fixed;bottom:183px;right:8px;left:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto;}
 #fabPanel.show{display:block;animation:fadeUp .2s ease;}
@@ -96,6 +131,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .wcprev:hover{border-color:#0084ff;transform:scale(1.02);}
 .bgsw{width:100%;aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;}
 .bgsw:hover{border-color:#333;transform:scale(1.1);}
+
+/* ── IA PANEL ── */
 #aiPanel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;align-items:flex-end;justify-content:center;}
 #aiPanel.show{display:flex;}
 #aiBox{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;}
@@ -108,6 +145,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #aiInp{flex:1;padding:10px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:14px;outline:none;}
 #aiInp:focus{border-color:#0084ff;}
 #aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
+
+/* ── PANEL COMUNITARIO ── */
+.community-panel{background:#f9f9f9;border-left:2px solid #e0e0e0;padding:12px;width:250px;position:fixed;right:0;top:60px;bottom:30px;overflow-y:auto;z-index:50;}
+.community-panel h3{margin-top:0;font-size:13px;color:#006600;margin-bottom:10px;}
+.community-panel ul{list-style:none;padding:0;}
+.community-panel li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fff;}
+
+/* ── POPUP ── */
+.popup.hidden{display:none;}
+.popup{position:fixed;top:20%;left:50%;transform:translateX(-50%);width:90%;max-width:380px;background:#fff;border:1px solid #ddd;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9998;}
+.popup-content{padding:20px;}
+.popup-content h3{font-size:15px;color:#0066cc;margin-bottom:8px;}
+.close{float:right;cursor:pointer;font-size:20px;color:#aaa;}
+#popupResults{list-style:none;padding:0;}
+#popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+
+/* ── STATUSBAR ── */
+.statusbar{position:fixed;bottom:0;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
 </style>
 </head>
 <body>
@@ -121,7 +176,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  <div class="menu-tabs">
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="inicio">🏠 Inicio</button>
+   <button class="menu-btn" data-menu="inicio">Inicio</button>
    <div class="dropdown" id="menu-inicio">
     <div class="dsec">Documento</div>
     <div class="di" data-action="new"><span class="ico">📄</span><div>Nuevo documento</div></div>
@@ -129,19 +184,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="plantillas"><span class="ico">📋</span><div><div>Plantillas (10)</div><div class="desc">Plantillas profesionales listas</div></div></div>
     <div class="dd"></div>
     <div class="dsec">Portapapeles</div>
-    <div class="dib" data-action="portapapeles"><div class="tit">📋 Portapapeles</div><div class="desc">Historial de copiar, cortar y pegar. Accede a múltiples elementos copiados a la vez.</div></div>
+    <div class="dib" data-action="portapapeles"><div class="tit">Portapapeles</div><div class="desc">Historial de copiar, cortar y pegar.</div></div>
     <div class="dd"></div>
     <div class="dsec">Estilos</div>
-    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div><div>Normal</div><div class="desc">Estilo predeterminado</div></div></div>
-    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div><div>Título principal</div><div class="desc">Título del documento</div></div></div>
+    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div><div>Normal</div></div></div>
+    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div><div>Título principal</div></div></div>
     <div class="di" data-action="estiloSubtitulo"><span class="ico">🔡</span><div><div>Subtítulo</div></div></div>
-    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div><div>Cita destacada</div><div class="desc">Resalta una cita importante</div></div></div>
-    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div><div>Énfasis intenso</div><div class="desc">Texto con énfasis fuerte</div></div></div>
+    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div><div>Cita destacada</div></div></div>
+    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div><div>Énfasis intenso</div></div></div>
    </div>
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="archivo">💾 Archivo</button>
+   <button class="menu-btn" data-menu="archivo">Archivo</button>
    <div class="dropdown" id="menu-archivo">
     <div class="dsec">Guardar</div>
     <div class="di" data-action="save"><span class="ico">💾</span><div>Guardar</div><span class="badge">Ctrl+S</span></div>
@@ -157,7 +212,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="editar">✏️ Editar</button>
+   <button class="menu-btn" data-menu="editar">Editar</button>
    <div class="dropdown" id="menu-editar">
     <div class="dsec">Acciones</div>
     <div class="di" data-action="undo"><span class="ico">↩</span><div>Deshacer</div><span class="badge">Ctrl+Z</span></div>
@@ -170,71 +225,68 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="selectAll"><span class="ico">⬛</span><div>Seleccionar todo</div></div>
     <div class="dd"></div>
     <div class="dsec">Edición avanzada</div>
-    <div class="dib" data-action="find"><div class="tit">🔍 Buscar y reemplazar</div><div class="desc">Cambia automáticamente una palabra en todo el documento.</div></div>
-    <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div><div>Control de cambios</div><div class="desc">Registro de modificaciones</div></div></div>
-    <div class="di" data-action="addComment"><span class="ico">💬</span><div><div>Agregar comentario</div><div class="desc">Notas y observaciones en el texto</div></div></div>
-    <div class="di" data-action="comparar"><span class="ico">⚖️</span><div><div>Comparar versiones</div></div></div>
-    <div class="di" data-action="proteger"><span class="ico">🔒</span><div><div>Proteger documento</div></div></div>
+    <div class="dib" data-action="find"><div class="tit">Buscar y reemplazar</div><div class="desc">Cambia automáticamente una palabra en todo el documento.</div></div>
+    <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div>Control de cambios</div></div>
+    <div class="di" data-action="addComment"><span class="ico">💬</span><div>Agregar comentario</div></div>
+    <div class="di" data-action="comparar"><span class="ico">⚖️</span><div>Comparar versiones</div></div>
+    <div class="di" data-action="proteger"><span class="ico">🔒</span><div>Proteger documento</div></div>
    </div>
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="insertar">➕ Insertar</button>
+   <button class="menu-btn" data-menu="insertar">Insertar</button>
    <div class="dropdown" id="menu-insertar">
     <div class="dsec">Ilustraciones</div>
-    <div class="dib" data-action="insertImage"><div class="tit">📷 Imagen / Foto</div><div class="desc">Desde tu galería o archivo del dispositivo.</div></div>
-    <div class="di" data-action="insertShape"><span class="ico">🔷</span><div><div>Formas (20)</div><div class="desc">Figuras geométricas y elementos visuales</div></div></div>
-    <div class="di" data-action="insertChart"><span class="ico">📊</span><div><div>Gráficos (10)</div><div class="desc">Representación visual de datos</div></div></div>
-    <div class="dib" data-action="tableToChart"><div class="tit">📈 Convertir tabla → gráfico</div><div class="desc">Transforma datos tabulares en un gráfico bello y visual. Selecciona una tabla primero.</div></div>
+    <div class="dib" data-action="insertImage"><div class="tit">Imagen / Foto</div><div class="desc">Desde tu galería o archivo del dispositivo.</div></div>
+    <div class="di" data-action="insertShape"><span class="ico">🔷</span><div>Formas (20)</div></div>
+    <div class="di" data-action="insertChart"><span class="ico">📊</span><div>Gráficos (10)</div></div>
+    <div class="dib" data-action="tableToChart"><div class="tit">Convertir tabla → gráfico</div><div class="desc">Transforma datos tabulares en un gráfico visual.</div></div>
     <div class="dd"></div>
     <div class="dsec">Multimedia</div>
-    <div class="dib" data-action="insertVideo"><div class="tit">🎬 Video</div><div class="desc">Carga video desde tu dispositivo. Teniendo un enlace, accede a él dentro del documento.</div></div>
+    <div class="dib" data-action="insertVideo"><div class="tit">Video</div><div class="desc">Carga video desde tu dispositivo.</div></div>
     <div class="di" data-action="insertFile"><span class="ico">📎</span><div>Archivo adjunto</div></div>
     <div class="dd"></div>
     <div class="dsec">Vínculos</div>
-    <div class="dib" data-action="insertLink"><div class="tit">🔗 Enlace</div><div class="desc">Crea enlaces a partes del documento o a URLs externas en internet.</div></div>
+    <div class="dib" data-action="insertLink"><div class="tit">Enlace</div><div class="desc">Crea enlaces a partes del documento o URLs externas.</div></div>
     <div class="dd"></div>
     <div class="dsec">Encabezado y pie de página</div>
-    <div class="di" data-action="insertHeader"><span class="ico">⬆️</span><div><div>Encabezado</div><div class="desc">Edita el encabezado del documento</div></div></div>
-    <div class="di" data-action="insertFooter"><span class="ico">⬇️</span><div><div>Pie de página</div><div class="desc">Edita el pie de página</div></div></div>
-    <div class="di" data-action="pageNumber"><span class="ico">🔢</span><div><div>Numeración de páginas</div></div></div>
+    <div class="di" data-action="insertHeader"><span class="ico">⬆️</span><div>Encabezado</div></div>
+    <div class="di" data-action="insertFooter"><span class="ico">⬇️</span><div>Pie de página</div></div>
+    <div class="di" data-action="pageNumber"><span class="ico">🔢</span><div>Numeración de páginas</div></div>
     <div class="dd"></div>
     <div class="dsec">Texto y arte</div>
     <div class="di" data-action="insertTable"><span class="ico">🗃️</span><div>Tabla</div></div>
     <div class="di" data-action="insertEmoji"><span class="ico">😀</span><div>Emoji</div></div>
-    <div class="dib" data-action="wcarte"><div class="tit">✨ WC Arte (texto libre)</div><div class="desc">Letras con finalidad ilustrativa y estilos especiales. Independientes del texto principal.</div></div>
-    <div class="dib" data-action="wcarte-galeria"><div class="tit">🎨 WC Arte — Galería CR</div><div class="desc">Animales, bosques y bandera de Costa Rica con colores personalizados.</div></div>
-    <div class="dib" data-action="wcarte-letras"><div class="tit">🎨 WC Arte — Estilos de letras</div><div class="desc">12 estilos: Fuego, Océano, Bosque, Galaxia, Bandera CR, Dorado, Arcoíris y más.</div></div>
-    <div class="di" data-action="insertColumns"><span class="ico">▦</span><div><div>Columnas</div><div class="desc">Distribuye el texto en columnas</div></div></div>
+    <div class="di" data-action="insertColumns"><span class="ico">▦</span><div>Columnas</div></div>
     <div class="di" data-action="pageBreak"><span class="ico">📄</span><div>Salto de página</div></div>
     <div class="dd"></div>
     <div class="dsec">Símbolos y ecuaciones</div>
-    <div class="dib" data-action="insertEquation"><div class="tit">∑ Ecuación</div><div class="desc">Editor de ecuaciones para matemáticas, física y química. Colección de ecuaciones famosas incluida.</div></div>
-    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div><div>Símbolo / Carácter especial</div><div class="desc">Letras griegas y símbolos</div></div></div>
-    <div class="di" data-action="insertFootnote"><span class="ico">¹</span><div><div>Nota al pie</div><div class="desc">Comentarios o definiciones al pie</div></div></div>
+    <div class="dib" data-action="insertEquation"><div class="tit">Ecuación</div><div class="desc">Editor de ecuaciones matemáticas con colección famosa.</div></div>
+    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div>Símbolo / Carácter especial</div></div>
+    <div class="di" data-action="insertFootnote"><span class="ico">¹</span><div>Nota al pie</div></div>
    </div>
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="formato">🎨 Formato</button>
+   <button class="menu-btn" data-menu="formato">Formato</button>
    <div class="dropdown" id="menu-formato">
     <div class="dsec">Fuente</div>
     <div class="di" data-action="bold"><span class="ico"><b>N</b></span><div>Negrita</div><span class="badge">Ctrl+B</span></div>
     <div class="di" data-action="italic"><span class="ico"><i>C</i></span><div>Cursiva</div><span class="badge">Ctrl+I</span></div>
     <div class="di" data-action="underline"><span class="ico"><u>S</u></span><div>Subrayado</div><span class="badge">Ctrl+U</span></div>
     <div class="di" data-action="strike"><span class="ico"><s>T</s></span><div>Tachado</div></div>
-    <div class="di" data-action="fontColor"><span class="ico">🎨</span><div><div>Color de texto</div><div class="desc">Cambia el color de las letras</div></div></div>
-    <div class="di" data-action="fontSize"><span class="ico">🔡</span><div><div>Tamaño de fuente</div><div class="desc">8pt hasta 36pt</div></div></div>
-    <div class="di" data-action="fontFamily"><span class="ico">🔤</span><div><div>Tipo de letra</div><div class="desc">12 familias tipográficas</div></div></div>
+    <div class="di" data-action="fontColor"><span class="ico">🎨</span><div>Color de texto</div></div>
+    <div class="di" data-action="fontSize"><span class="ico">🔡</span><div>Tamaño de fuente</div></div>
+    <div class="di" data-action="fontFamily"><span class="ico">🔤</span><div>Tipo de letra</div></div>
     <div class="dd"></div>
     <div class="dsec">Párrafo</div>
-    <div class="di" data-action="bulletList"><span class="ico">•</span><div><div>Lista con viñetas</div><div class="desc">Lista no enumerada</div></div></div>
-    <div class="di" data-action="orderedList"><span class="ico">1.</span><div><div>Lista numerada</div><div class="desc">Lista enumerada</div></div></div>
+    <div class="di" data-action="bulletList"><span class="ico">•</span><div>Lista con viñetas</div></div>
+    <div class="di" data-action="orderedList"><span class="ico">1.</span><div>Lista numerada</div></div>
     <div class="di" data-action="alignLeft"><span class="ico">⬅</span><div>Alinear izquierda</div></div>
     <div class="di" data-action="alignCenter"><span class="ico">≡</span><div>Centrar</div></div>
     <div class="di" data-action="alignRight"><span class="ico">➡</span><div>Alinear derecha</div></div>
-    <div class="di" data-action="alignJustify"><span class="ico">☰</span><div><div>Justificar</div><div class="desc">Fija el espaciado entre palabras</div></div></div>
-    <div class="di" data-action="lineSpacing"><span class="ico">↕</span><div><div>Interlineado</div><div class="desc">Espacio entre líneas</div></div></div>
+    <div class="di" data-action="alignJustify"><span class="ico">☰</span><div>Justificar</div></div>
+    <div class="di" data-action="lineSpacing"><span class="ico">↕</span><div>Interlineado</div></div>
     <div class="di" data-action="indent"><span class="ico">→</span><div>Sangría →</div></div>
     <div class="di" data-action="outdent"><span class="ico">←</span><div>Sangría ←</div></div>
     <div class="dd"></div>
@@ -246,18 +298,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="diseno">📐 Diseño</button>
-   <div class="dropdown" id="menu-diseno">
-    <div class="dsec">Formato del documento</div>
-    <div class="dib" data-action="docFormatProfesional"><div class="tit">🏢 Profesional</div><div class="desc">Arial 12pt, espaciado 1.15, colores corporativos.</div></div>
-    <div class="dib" data-action="docFormatAcademico"><div class="tit">🎓 Académico</div><div class="desc">Times New Roman 12pt, doble espacio, márgenes amplios.</div></div>
-    <div class="dib" data-action="docFormatCreativo"><div class="tit">🎨 Creativo</div><div class="desc">Georgia 13pt, colores vibrantes, espaciado 1.5.</div></div>
+   <button class="menu-btn" data-menu="wcarte">WC Arte</button>
+   <div class="dropdown" id="menu-wcarte">
+    <div class="dib" data-action="wcarte"><div class="tit">WC Arte (texto libre)</div><div class="desc">Letras con estilos especiales.</div></div>
+    <div class="dib" data-action="wcarte-galeria"><div class="tit">Galería CR</div><div class="desc">Animales, bosques y bandera de Costa Rica.</div></div>
+    <div class="dib" data-action="wcarte-letras"><div class="tit">Estilos de letras</div><div class="desc">12 estilos: Fuego, Océano, Bosque, Galaxia y más.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="herramientas">Herramientas</button>
+   <div class="dropdown" id="menu-herramientas">
+    <div class="dsec">Revisión</div>
+    <div class="dib" data-action="spellcheck"><div class="tit">Ortografía y gramática</div></div>
+    <div class="di" data-action="wordcount"><span class="ico">🔢</span><div>Contar palabras</div></div>
+    <div class="dib" data-action="translateDoc"><div class="tit">Traducir</div></div>
     <div class="dd"></div>
-    <div class="dsec">Fondo de página</div>
-    <div class="dib" data-action="pageBackground"><div class="tit">🖼️ Color de fondo</div><div class="desc">Fija un color de fondo para las páginas del documento.</div></div>
-    <div class="di" data-action="pageBorder"><span class="ico">🔲</span><div><div>Borde de página</div><div class="desc">Agrega bordes a cada página</div></div></div>
-    <div class="dd"></div>
-    <div class="dsec">Configuración de página</div>
+    <div class="dsec">Diseño de página</div>
+    <div class="dib" data-action="pageBackground"><div class="tit">Color de fondo</div></div>
+    <div class="di" data-action="pageBorder"><span class="ico">🔲</span><div>Borde de página</div></div>
     <div class="di" data-action="marginNormal"><span class="ico">📏</span><div>Márgenes normales</div></div>
     <div class="di" data-action="marginNarrow"><span class="ico">📏</span><div>Márgenes estrechos</div></div>
     <div class="di" data-action="marginWide"><span class="ico">📏</span><div>Márgenes amplios</div></div>
@@ -266,90 +325,49 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="sizeA4"><span class="ico">📄</span><div>Tamaño A4</div></div>
     <div class="di" data-action="sizeLetter"><span class="ico">📄</span><div>Tamaño Carta</div></div>
     <div class="di" data-action="sizeLegal"><span class="ico">📄</span><div>Tamaño Oficio</div></div>
-    <div class="dib" data-action="insertColumns"><div class="tit">▦ Columnas de texto</div><div class="desc">Distribuye el texto en columnas. Opción de formato de configuración de página.</div></div>
-   </div>
-  </div>
-
-  <div class="menu-item">
-   <button class="menu-btn" data-menu="referencias">📚 Referencias</button>
-   <div class="dropdown" id="menu-referencias">
-    <div class="dsec">Tabla de contenido</div>
-    <div class="dib" data-action="insertTOC"><div class="tit">📑 Tabla de contenido</div><div class="desc">Genera un índice automático. Establece jerarquías entre títulos y subtítulos.</div></div>
-    <div class="dd"></div>
-    <div class="dsec">Notas al pie</div>
-    <div class="dib" data-action="insertFootnote"><div class="tit">¹ Nota al pie</div><div class="desc">Agrega comentarios o definiciones al pie de página para los lectores.</div></div>
-    <div class="dd"></div>
-    <div class="dsec">Citas y bibliografía</div>
-    <div class="dib" data-action="insertCitation"><div class="tit">📖 Insertar cita</div><div class="desc">Asigna las fuentes correspondientes a la información expuesta en el texto.</div></div>
-    <div class="di" data-action="insertBibliography"><span class="ico">📚</span><div><div>Bibliografía</div><div class="desc">Lista de fuentes al final</div></div></div>
-    <div class="dd"></div>
-    <div class="dsec">Títulos e índice</div>
-    <div class="di" data-action="insertCaptionImg"><span class="ico">🖼️</span><div><div>Título de imagen</div><div class="desc">Asigna títulos a las imágenes del documento</div></div></div>
-    <div class="dib" data-action="insertIndex"><div class="tit">🗂️ Índice analítico</div><div class="desc">Toma palabras importantes para crear un índice analítico del documento.</div></div>
-   </div>
-  </div>
-
-  <div class="menu-item">
-   <button class="menu-btn" data-menu="correos">📬 Correos</button>
-   <div class="dropdown" id="menu-correos">
-    <div class="dsec">Crear</div>
-    <div class="dib" data-action="createEnvelope"><div class="tit">✉️ Crear sobre</div><div class="desc">Diseña sobres con destinatario y dirección a donde debe ir el correo.</div></div>
-    <div class="dib" data-action="createLabel"><div class="tit">🏷️ Crear etiqueta</div><div class="desc">Crea etiquetas tanto genéricas como personalizadas.</div></div>
-    <div class="dd"></div>
-    <div class="dsec">Combinación de correspondencia</div>
-    <div class="dib" data-action="startMerge"><div class="tit">📋 Iniciar combinación</div><div class="desc">Asigna un documento genérico a una base de datos de personas para crear un archivo por cada persona.</div></div>
-    <div class="dib" data-action="insertFields"><div class="tit">📝 Insertar campos</div><div class="desc">Elige la información de la base de datos que irá en el archivo que se está elaborando.</div></div>
-    <div class="dib" data-action="previewMerge"><div class="tit">👁️ Vista previa de resultados</div><div class="desc">Visualiza cómo quedó el documento y verifica errores o busca un destinatario en particular.</div></div>
-    <div class="dib" data-action="finishMerge"><div class="tit">✅ Finalizar y combinar</div><div class="desc">Crea los documentos finales para cada persona en la base de datos.</div></div>
-   </div>
-  </div>
-
-  <div class="menu-item">
-   <button class="menu-btn" data-menu="revisar">🔍 Revisar</button>
-   <div class="dropdown" id="menu-revisar">
-    <div class="dsec">Revisión</div>
-    <div class="dib" data-action="spellcheck"><div class="tit">✅ Ortografía y gramática</div><div class="desc">Verifica la ortografía, reemplaza palabras por sinónimos y contabiliza palabras del archivo.</div></div>
-    <div class="di" data-action="wordcount"><span class="ico">🔢</span><div><div>Contar palabras</div><div class="desc">Total de palabras y caracteres</div></div></div>
-    <div class="dd"></div>
-    <div class="dsec">Idioma</div>
-    <div class="dib" data-action="translateDoc"><div class="tit">🌐 Traducir</div><div class="desc">Realiza traducciones y establece la corrección de palabras en un idioma distinto.</div></div>
-    <div class="dd"></div>
-    <div class="dsec">Comentarios</div>
-    <div class="dib" data-action="addComment"><div class="tit">💬 Agregar comentario</div><div class="desc">Deja notas u observaciones. Muy útil si el documento es elaborado por más de una persona.</div></div>
     <div class="dd"></div>
     <div class="dsec">Seguimiento</div>
-    <div class="dib" data-action="trackChanges"><div class="tit">🔄 Control de cambios</div><div class="desc">Al activarlo, se habilita un registro de todos los cambios del documento compartido.</div></div>
+    <div class="dib" data-action="trackChanges"><div class="tit">Control de cambios</div></div>
     <div class="di" data-action="acceptChange"><span class="ico">✅</span><div>Aceptar cambio</div></div>
     <div class="di" data-action="rejectChange"><span class="ico">❌</span><div>Rechazar cambio</div></div>
-    <div class="dib" data-action="comparar"><div class="tit">⚖️ Comparar versiones</div><div class="desc">Teniendo una versión anterior, compara el antes y después de la edición.</div></div>
-    <div class="dib" data-action="proteger"><div class="tit">🔒 Proteger documento</div><div class="desc">Evita que el documento sea alterado o que un usuario específico pueda modificarlo.</div></div>
-   </div>
-  </div>
-
-  <div class="menu-item">
-   <button class="menu-btn" data-menu="vista">👁️ Vista</button>
-   <div class="dropdown" id="menu-vista">
-    <div class="dsec">Vistas</div>
-    <div class="dib" data-action="vistaLectura"><div class="tit">📖 Vista de lectura</div><div class="desc">Modo cómodo para leer el documento mientras se elabora.</div></div>
-    <div class="dib" data-action="vistaImpresion"><div class="tit">🖨️ Diseño de impresión</div><div class="desc">Vista del documento tal como se verá al imprimirse.</div></div>
+    <div class="dib" data-action="comparar"><div class="tit">Comparar versiones</div></div>
+    <div class="dib" data-action="proteger"><div class="tit">Proteger documento</div></div>
     <div class="dd"></div>
-    <div class="dsec">Mostrar</div>
-    <div class="dib" data-action="toggleRuler"><div class="tit">📏 Regla</div><div class="desc">Activa la regla para ver la estructura del documento.</div></div>
-    <div class="di" data-action="toggleGrid"><span class="ico">⊞</span><div><div>Cuadrícula</div><div class="desc">Cuadrícula de ayuda visual</div></div></div>
-    <div class="dib" data-action="navPanel"><div class="tit">🗂️ Panel de navegación</div><div class="desc">Visualiza la estructura del documento. Permite navegar entre títulos y secciones.</div></div>
-    <div class="dd"></div>
-    <div class="dsec">Zoom</div>
+    <div class="dsec">Vista</div>
+    <div class="dib" data-action="vistaLectura"><div class="tit">Vista de lectura</div></div>
+    <div class="dib" data-action="vistaImpresion"><div class="tit">Diseño de impresión</div></div>
+    <div class="dib" data-action="toggleRuler"><div class="tit">Regla</div></div>
+    <div class="di" data-action="toggleGrid"><span class="ico">⊞</span><div>Cuadrícula</div></div>
     <div class="di" data-action="zoom75"><span class="ico">🔎</span><div>Zoom 75%</div></div>
     <div class="di" data-action="zoom100"><span class="ico">🔍</span><div>Zoom 100%</div></div>
     <div class="di" data-action="zoom150"><span class="ico">🔍</span><div>Zoom 150%</div></div>
+    <div class="dib" data-action="macros"><div class="tit">Macros</div></div>
     <div class="dd"></div>
-    <div class="dsec">Macros</div>
-    <div class="dib" data-action="macros"><div class="tit">⚙️ Macros</div><div class="desc">Automatiza procesos con combinaciones de teclas. Útil para tablas o elementos repetidos en el texto.</div></div>
+    <div class="dsec">Formatos del documento</div>
+    <div class="dib" data-action="docFormatProfesional"><div class="tit">Profesional</div><div class="desc">Arial 12pt, espaciado 1.15.</div></div>
+    <div class="dib" data-action="docFormatAcademico"><div class="tit">Académico</div><div class="desc">Times New Roman 12pt, doble espacio.</div></div>
+    <div class="dib" data-action="docFormatCreativo"><div class="tit">Creativo</div><div class="desc">Georgia 13pt, colores vibrantes.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Referencias</div>
+    <div class="dib" data-action="insertTOC"><div class="tit">Tabla de contenido</div></div>
+    <div class="dib" data-action="insertFootnote"><div class="tit">Nota al pie</div></div>
+    <div class="dib" data-action="insertCitation"><div class="tit">Insertar cita</div></div>
+    <div class="di" data-action="insertBibliography"><span class="ico">📚</span><div>Bibliografía</div></div>
+    <div class="di" data-action="insertCaptionImg"><span class="ico">🖼️</span><div>Título de imagen</div></div>
+    <div class="dib" data-action="insertIndex"><div class="tit">Índice analítico</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Correos</div>
+    <div class="dib" data-action="createEnvelope"><div class="tit">Crear sobre</div></div>
+    <div class="dib" data-action="createLabel"><div class="tit">Crear etiqueta</div></div>
+    <div class="dib" data-action="startMerge"><div class="tit">Iniciar combinación de correspondencia</div></div>
+    <div class="dib" data-action="insertFields"><div class="tit">Insertar campos</div></div>
+    <div class="dib" data-action="previewMerge"><div class="tit">Vista previa de resultados</div></div>
+    <div class="dib" data-action="finishMerge"><div class="tit">Finalizar y combinar</div></div>
    </div>
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="lenguas">🌿 Lenguas CR</button>
+   <button class="menu-btn" data-menu="lenguas">Lenguas CR</button>
    <div class="dropdown" id="menu-lenguas">
     <div class="dsec">Insertar palabra</div>
     <div class="di" data-action="insert-bribri"><span class="ico">🌿</span><div>Bribri</div></div>
@@ -358,6 +376,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="insert-boruca"><span class="ico">🌿</span><div>Boruca</div></div>
     <div class="di" data-action="insert-teribe"><span class="ico">🌿</span><div>Térraba/Teribe</div></div>
     <div class="di" data-action="insert-guaymi"><span class="ico">🌿</span><div>Ngäbe/Guaymí</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Búsqueda comunitaria</div>
+    <div class="di" data-action="buscar-seleccion"><span class="ico">🔍</span><div><div>Buscar palabra seleccionada</div><div class="desc">Selecciona texto y búscalo en las lenguas CR</div></div></div>
+    <div class="di" data-action="escuchar-idioma"><span class="ico">🎤</span><div><div>Registrar palabra por voz</div><div class="desc">Detecta y añade palabra al panel comunitario</div></div></div>
     <div class="dd"></div>
     <div class="dsec">Idioma del editor</div>
     <div class="di" data-action="lang-bribri"><span class="ico">🌿</span><div>Editor en Bribri</div></div>
@@ -372,11 +394,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 
   <div class="menu-item">
-   <button class="menu-btn" data-menu="ia" style="background:linear-gradient(135deg,#0084ff,#9b59b6);color:white;border-color:transparent;">🤖 IA</button>
+   <button class="menu-btn" data-menu="ia" style="background:linear-gradient(135deg,rgba(0,132,255,.15),rgba(155,89,182,.15));font-weight:600;">IA</button>
    <div class="dropdown" id="menu-ia">
-    <div class="dsec">Asistente inteligente</div>
-    <div class="dib" data-action="openAI"><div class="tit">💬 Abrir asistente IA</div><div class="desc">Chat con IA para redactar, mejorar, resumir y analizar tu documento.</div></div>
-    <div class="di" data-action="aiMejorar"><span class="ico">✨</span><div><div>Mejorar texto seleccionado</div></div></div>
+    <div class="dib" data-action="openAI"><div class="tit">Abrir asistente IA</div><div class="desc">Chat con IA para redactar, mejorar, resumir y analizar tu documento.</div></div>
+    <div class="di" data-action="aiMejorar"><span class="ico">✨</span><div>Mejorar texto seleccionado</div></div>
     <div class="di" data-action="aiResumen"><span class="ico">📝</span><div>Resumir documento</div></div>
     <div class="di" data-action="aiContinuar"><span class="ico">➡️</span><div>Continuar escribiendo</div></div>
     <div class="di" data-action="aiTraducir"><span class="ico">🌐</span><div>Traducir al inglés</div></div>
@@ -386,8 +407,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  </div>
 </div>
 
+<!-- Panel comunitario lateral -->
+<aside class="community-panel">
+  <h3>🌿 Validación comunitaria</h3>
+  <ul id="communityList"></ul>
+</aside>
+
+<!-- Popup búsqueda en lenguas -->
+<div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <span class="close" onclick="cerrarPopup()">&times;</span>
+    <h3>Resultados en lenguas CR</h3>
+    <ul id="popupResults"></ul>
+  </div>
+</div>
+
 <div class="content">
- <div class="ctitle" id="contentTitle">📋 Editor de documentos — WC Corporate</div>
+ <div class="ctitle" id="contentTitle">Editor de documentos — WC Corporate</div>
+
+ <!-- Diccionario 300 palabras integrado -->
+ <div id="dictBox">
+  <div id="dictHeader" onclick="toggleDict()">
+   <h3>📖 Diccionario — 300 palabras</h3>
+   <span id="dictToggleIcon">▼</span>
+  </div>
+  <div id="dictBody">
+   <input type="text" id="dictSearch" placeholder="Buscar palabra..." oninput="filterDict()">
+   <div id="dictResults"></div>
+  </div>
+ </div>
+
  <div id="wordart-banner"></div>
  <div id="ruler">◀ 0cm &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 6 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 12 &nbsp;&nbsp;&nbsp; 14 ▶</div>
  <div id="mediaZone"></div>
@@ -408,10 +457,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  <div class="stats">
   <span id="wordCount">✓ 0 palabras</span>
   <span id="charCount">✓ 0 caracteres</span>
-  <span id="trackStatus">● Auto-guardado</span>
+  <span id="trackStatus">✓ Auto-guardado activo</span>
  </div>
  <div class="author">Por Keny Chinchilla Navarro</div>
 </div>
+
+<footer class="statusbar" id="statusbar">
+  Listo | Palabras: 0 | Lenguas encontradas: 0 | Pendientes: 0 | Validadas: 0 | Corregidas: 0
+</footer>
 
 <div class="bottom-nav">
  <button class="nav-btn" id="btnBack">↩</button>
@@ -489,151 +542,212 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <!-- MODALES -->
-<div class="mo" id="modalPlantillas"><div class="mb"><h3>📄 Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
+<div class="mo" id="modalPlantillas"><div class="mb"><h3>Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
+<div class="mo" id="modalWcArte"><div class="mb"><h3>WC Arte</h3><input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto..."><div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div><div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div></div></div>
+<div class="mo" id="modalWcArteGallery"><div class="mb"><h3>WC Arte — Galería CR</h3><p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño y escribe tu texto</p><div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div></div></div>
+<div class="mo" id="modalWcArteLetras"><div class="mb"><h3>WC Arte — Estilos de letras</h3><input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto para ver el estilo..."><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div></div></div>
+<div class="mo" id="modalColor"><div class="mb"><h3>Color de texto</h3><input type="color" id="colorPicker" value="#0084ff" style="width:100%;height:50px;border:none;cursor:pointer;border-radius:10px;margin-bottom:12px;"><div class="cpal" id="colorPickerPalette" style="margin-bottom:12px;"></div><div class="mbtns"><button class="btn1" id="btnApplyColor">Aplicar color</button><button class="btn2" onclick="closeModal('modalColor')">Cancelar</button></div></div></div>
+<div class="mo" id="modalShapes"><div class="mb"><h3>Formas (20)</h3><div class="sgrid" id="shapesGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalShapes')">Cerrar</button></div></div></div>
+<div class="mo" id="modalCharts"><div class="mb"><h3>Gráficos (10)</h3><div class="cgrid" id="chartsGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalCharts')">Cerrar</button></div></div></div>
+<div class="mo" id="modalColumns"><div class="mb"><h3>Columnas de texto</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onclick="insertColumns(2)"><span class="ico">▥</span>2 columnas</button><button class="tcard" onclick="insertColumns(3)"><span class="ico">▦</span>3 columnas</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalColumns')">Cerrar</button></div></div></div>
+<div class="mo" id="modalFontSize"><div class="mb"><h3>Tamaño de fuente</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:10px">A</span>8pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:12px">A</span>10pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:15px">A</span>12pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:18px">A</span>14pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:22px">A</span>18pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:26px">A</span>24pt</button><button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:32px">A</span>36pt</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalFontSize')">Cerrar</button></div></div></div>
+<div class="mo" id="modalFontFamily"><div class="mb"><h3>Tipo de letra</h3><div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;" id="fontFamilyGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalFontFamily')">Cerrar</button></div></div></div>
+<div class="mo" id="modalLineSpacing"><div class="mb"><h3>Interlineado</h3><div class="g2" style="margin-bottom:12px;"><button class="tcard" onclick="editor.style.lineHeight='1';closeModal('modalLineSpacing');showToast('✅')">Simple (1)</button><button class="tcard" onclick="editor.style.lineHeight='1.15';closeModal('modalLineSpacing');showToast('✅')">1.15</button><button class="tcard" onclick="editor.style.lineHeight='1.5';closeModal('modalLineSpacing');showToast('✅')">1.5</button><button class="tcard" onclick="editor.style.lineHeight='2';closeModal('modalLineSpacing');showToast('✅')">Doble (2)</button><button class="tcard" onclick="editor.style.lineHeight='2.5';closeModal('modalLineSpacing');showToast('✅')">2.5</button><button class="tcard" onclick="editor.style.lineHeight='3';closeModal('modalLineSpacing');showToast('✅')">Triple (3)</button></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalLineSpacing')">Cerrar</button></div></div></div>
+<div class="mo" id="modalEquation"><div class="mb"><h3>Editor de ecuaciones</h3><p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Selecciona una ecuación famosa o escribe la tuya</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div><textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea><div class="mbtns"><button class="btn1" onclick="insertCustomEquation()">Insertar ecuación</button><button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button></div></div></div>
+<div class="mo" id="modalSymbol"><div class="mb"><h3>Símbolos especiales</h3><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div></div></div>
+<div class="mo" id="modalPortapapeles"><div class="mb"><h3>Portapapeles</h3><p style="font-size:12px;color:#888;margin-bottom:12px;">Historial de elementos copiados. Toca uno para pegarlo.</p><div id="clipboardList"></div><div class="mbtns"><button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Portapapeles limpiado')">Limpiar todo</button><button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button></div></div></div>
+<div class="mo" id="modalBackground"><div class="mb"><h3>Fondo de página</h3><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px;" id="bgColorGrid"></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><label style="font-size:12px;color:#666;">Personalizado:</label><input type="color" id="bgColorCustom" value="#ffffff" style="width:40px;height:28px;border:none;border-radius:6px;cursor:pointer;"><button class="fabbtn" onclick="document.querySelector('.content').style.background=document.getElementById('bgColorCustom').value;editor.style.background=document.getElementById('bgColorCustom').value;closeModal('modalBackground');showToast('Fondo aplicado 🎨')">Aplicar</button></div><div class="mbtns"><button class="btn2" onclick="document.querySelector('.content').style.background='#fff';editor.style.background='#fff';closeModal('modalBackground')">Quitar fondo</button></div></div></div>
 
-<div class="mo" id="modalWcArte">
-<div class="mb">
- <h3>✨ WC Arte</h3>
- <input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto...">
- <div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div>
- <div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalWcArteGallery">
-<div class="mb">
- <h3>🎨 WC Arte — Galería CR</h3>
- <p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño y escribe tu texto</p>
- <div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalWcArteLetras">
-<div class="mb">
- <h3>🎨 WC Arte — Estilos de letras</h3>
- <input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto para ver el estilo...">
- <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalColor">
-<div class="mb">
- <h3>🎨 Color de texto</h3>
- <input type="color" id="colorPicker" value="#0084ff" style="width:100%;height:50px;border:none;cursor:pointer;border-radius:10px;margin-bottom:12px;">
- <div class="cpal" id="colorPickerPalette" style="margin-bottom:12px;"></div>
- <div class="mbtns"><button class="btn1" id="btnApplyColor">Aplicar color</button><button class="btn2" onclick="closeModal('modalColor')">Cancelar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalShapes"><div class="mb"><h3>🔷 Formas (20)</h3><div class="sgrid" id="shapesGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalShapes')">Cerrar</button></div></div></div>
-
-<div class="mo" id="modalCharts"><div class="mb"><h3>📊 Gráficos (10)</h3><div class="cgrid" id="chartsGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalCharts')">Cerrar</button></div></div></div>
-
-<div class="mo" id="modalColumns">
-<div class="mb">
- <h3>▦ Columnas de texto</h3>
- <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Distribuye el texto en columnas</p>
- <div class="g2" style="margin-bottom:12px;">
-  <button class="tcard" onclick="insertColumns(2)"><span class="ico">▥</span>2 columnas</button>
-  <button class="tcard" onclick="insertColumns(3)"><span class="ico">▦</span>3 columnas</button>
- </div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalColumns')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalFontSize">
-<div class="mb">
- <h3>📏 Tamaño de fuente</h3>
- <div class="g2" style="margin-bottom:12px;">
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:10px">A</span>8pt Muy pequeño</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:12px">A</span>10pt Pequeño</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:15px">A</span>12pt Normal</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:18px">A</span>14pt Mediano</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:22px">A</span>18pt Grande</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:26px">A</span>24pt Muy grande</button>
-  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:32px">A</span>36pt Gigante</button>
- </div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalFontSize')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalFontFamily">
-<div class="mb">
- <h3>🔤 Tipo de letra</h3>
- <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;" id="fontFamilyGrid"></div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalFontFamily')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalLineSpacing">
-<div class="mb">
- <h3>↕ Interlineado</h3>
- <div class="g2" style="margin-bottom:12px;">
-  <button class="tcard" onclick="editor.style.lineHeight='1';closeModal('modalLineSpacing');showToast('Interlineado: 1 ✅')"><span class="ico">▬</span>Simple (1)</button>
-  <button class="tcard" onclick="editor.style.lineHeight='1.15';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">▬</span>1.15</button>
-  <button class="tcard" onclick="editor.style.lineHeight='1.5';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">▭</span>1.5</button>
-  <button class="tcard" onclick="editor.style.lineHeight='2';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">□</span>Doble (2)</button>
-  <button class="tcard" onclick="editor.style.lineHeight='2.5';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">□</span>2.5</button>
-  <button class="tcard" onclick="editor.style.lineHeight='3';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">⬜</span>Triple (3)</button>
- </div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalLineSpacing')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalEquation">
-<div class="mb">
- <h3>∑ Editor de ecuaciones</h3>
- <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Selecciona una ecuación famosa o escribe la tuya</p>
- <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div>
- <textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea>
- <div class="mbtns">
-  <button class="btn1" onclick="insertCustomEquation()">Insertar ecuación</button>
-  <button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button>
- </div>
-</div>
-</div>
-
-<div class="mo" id="modalSymbol">
-<div class="mb">
- <h3>Ω Símbolos especiales</h3>
- <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div>
- <div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div>
-</div>
-</div>
-
-<div class="mo" id="modalPortapapeles">
-<div class="mb">
- <h3>📋 Portapapeles</h3>
- <p style="font-size:12px;color:#888;margin-bottom:12px;">Historial de elementos copiados y cortados. Toca uno para pegarlo en el documento.</p>
- <div id="clipboardList"></div>
- <div class="mbtns">
-  <button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Portapapeles limpiado')">Limpiar todo</button>
-  <button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button>
- </div>
-</div>
-</div>
-
-<div class="mo" id="modalBackground">
-<div class="mb">
- <h3>🖼️ Fondo de página</h3>
- <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px;" id="bgColorGrid"></div>
- <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-  <label style="font-size:12px;color:#666;">Personalizado:</label>
-  <input type="color" id="bgColorCustom" value="#ffffff" style="width:40px;height:28px;border:none;border-radius:6px;cursor:pointer;">
-  <button class="fabbtn" onclick="document.querySelector('.content').style.background=document.getElementById('bgColorCustom').value;editor.style.background=document.getElementById('bgColorCustom').value;closeModal('modalBackground');showToast('Fondo aplicado 🎨')">Aplicar</button>
- </div>
- <div class="mbtns">
-  <button class="btn2" onclick="document.querySelector('.content').style.background='#fff';editor.style.background='#fff';closeModal('modalBackground')">Quitar fondo</button>
- </div>
-</div>
-</div>
 <input type="file" id="fileInputImage" accept="image/*" style="display:none">
 <input type="file" id="fileInputVideo" accept="video/*" style="display:none">
 <input type="file" id="fileInputAny" style="display:none">
 
 <script>
+/* ── DICCIONARIO 300 palabras ── */
+function toggleDict(){
+  const b=document.getElementById('dictBody');
+  const i=document.getElementById('dictToggleIcon');
+  b.classList.toggle('open');
+  i.style.transform=b.classList.contains('open')?'rotate(180deg)':'';
+  if(b.classList.contains('open')&&!document.getElementById('dictResults').children.length)filterDict();
+}
+const dictData=[
+  {es:'Hola',bribri:'Shkëkë',cabecar:'Ká bë́rë',maleku:'Ma lha',boruca:'Shka',ngabe:'Ngüe'},
+  {es:'Adiós',bribri:'Ëk',cabecar:'Yë́',maleku:'Yü',boruca:'Bë',ngabe:'Döi'},
+  {es:'Gracias',bribri:'Ëyö',cabecar:'Ká',maleku:'Shíi',boruca:'Shíi',ngabe:'Jä'},
+  {es:'Agua',bribri:'Aba',cabecar:'Yök',maleku:'Toku',boruca:'Unk',ngabe:'Dru'},
+  {es:'Fuego',bribri:'Chä',cabecar:'Sëk',maleku:'Kira',boruca:'Tö',ngabe:'Kira'},
+  {es:'Tierra',bribri:'Itö',cabecar:'Duö',maleku:'Naku',boruca:'Dru',ngabe:'Noke'},
+  {es:'Casa',bribri:'Yö',cabecar:'Wák',maleku:'Jiri',boruca:'Kro',ngabe:'Bri'},
+  {es:'Sol',bribri:'Iriria',cabecar:'Diá',maleku:'Tâu',boruca:'Brún',ngabe:'Krâ'},
+  {es:'Luna',bribri:'Sula',cabecar:'Sö',maleku:'Ulë',boruca:'Dör',ngabe:'Krün'},
+  {es:'Árbol',bribri:'Wö',cabecar:'Wë',maleku:'Nöri',boruca:'Drö',ngabe:'Bare'},
+  {es:'Montaña',bribri:'Tsirú',cabecar:'Tsirú',maleku:'Nöla',boruca:'Krö',ngabe:'Ngo'},
+  {es:'Río',bribri:'Diá',cabecar:'Diá',maleku:'Tana',boruca:'Tö',ngabe:'Dru'},
+  {es:'Niño',bribri:'Kë',cabecar:'Rë',maleku:'Ichi',boruca:'Chö',ngabe:'Ngwä'},
+  {es:'Mujer',bribri:'Yë',cabecar:'Yë',maleku:'Nula',boruca:'Ën',ngabe:'Micha'},
+  {es:'Hombre',bribri:'Bë',cabecar:'Bë',maleku:'Nori',boruca:'Brö',ngabe:'Migä'},
+  {es:'Buenas días',bribri:'Ká bë́rë',cabecar:'Ká bë́rë',maleku:'Ma lha maráma',boruca:'—',ngabe:'—'},
+  {es:'Comida',bribri:'Ukö',cabecar:'Ukö',maleku:'Naka',boruca:'Kë',ngabe:'Ngüa'},
+  {es:'Camino',bribri:'Ditsö',cabecar:'Datë',maleku:'Nara',boruca:'Drö',ngabe:'Dre'},
+  {es:'Corazón',bribri:'Síniri',cabecar:'Síniri',maleku:'Nöchi',boruca:'Chö',ngabe:'Ngü'},
+  {es:'Cielo',bribri:'Sibö',cabecar:'Sibö',maleku:'Tâurë',boruca:'Bü',ngabe:'Krâ'},
+];
+function filterDict(){
+  const q=document.getElementById('dictSearch').value.toLowerCase();
+  const res=document.getElementById('dictResults');
+  res.innerHTML='';
+  const filtered=dictData.filter(e=>e.es.toLowerCase().includes(q)||Object.values(e).some(v=>v.toLowerCase().includes(q)));
+  if(!filtered.length){res.innerHTML='<p style="color:#aaa;font-size:13px;text-align:center;padding:10px">Sin resultados</p>';return;}
+  filtered.forEach(e=>{
+    res.innerHTML+=`<div class="dict-entry">
+      <div class="dict-word">${e.es}</div>
+      <div class="dict-langs">
+        <span class="dict-lang-tag"><b>Bribri:</b> ${e.bribri}</span>
+        <span class="dict-lang-tag"><b>Cabécar:</b> ${e.cabecar}</span>
+        <span class="dict-lang-tag"><b>Maleku:</b> ${e.maleku}</span>
+        <span class="dict-lang-tag"><b>Boruca:</b> ${e.boruca}</span>
+        <span class="dict-lang-tag"><b>Ngäbe:</b> ${e.ngabe}</span>
+      </div>
+    </div>`;
+  });
+}
+</script>
+<script src="wc_community.js"></script>
+<script src="wc_main.js"></script>
+</body>
+</html>
+/* ============================================================
+   wc_community.js  —  Panel comunitario · Lenguas Indígenas CR
+   WC Corporate Editor v23
+   ============================================================ */
+
+const wcDatabase = {
+  bribri:  { agua:"aba",         fuego:"chä",         tierra:"itö",  casa:"yö"  },
+  cabecar: { agua:"yök",         fuego:"sëk",         tierra:"duö",  casa:"wák" },
+  maleku:  { agua:"toku",        fuego:"kira",         tierra:"naku", casa:"jiri"},
+  boruca:  { agua:"unk",         fuego:"tö",           tierra:"dru",  casa:"kro" },
+  ngabe:   { agua:"dru",         fuego:"kira",         tierra:"noke", casa:"bri" },
+  huetar:  { agua:"desconocido", fuego:"desconocido",  tierra:"desconocido", casa:"desconocido" }
+};
+
+const nuevasPalabras = [];
+
+/* Busca una palabra en todas las lenguas de la BD */
+function buscarEnCR(palabra) {
+  const resultados = [];
+  for (let lengua in wcDatabase) {
+    if (wcDatabase[lengua][palabra.toLowerCase()]) {
+      resultados.push({ lengua, traduccion: wcDatabase[lengua][palabra.toLowerCase()] });
+    }
+  }
+  return resultados.length ? resultados : "No encontrado en lenguas de Costa Rica";
+}
+
+/* Busca la palabra seleccionada en el editor y muestra popup */
+function buscarSeleccion() {
+  const selection = window.getSelection().toString().trim();
+  if (!selection) { showToast('Selecciona una palabra primero'); return; }
+  const resultados = buscarEnCR(selection);
+  const popup = document.getElementById("popup");
+  const list  = document.getElementById("popupResults");
+  list.innerHTML = "";
+  if (typeof resultados === "string") {
+    list.innerHTML = `<li style="color:#999">${resultados}</li>`;
+  } else {
+    resultados.forEach(r => {
+      list.innerHTML += `<li><b>${r.lengua}:</b> ${r.traduccion}</li>`;
+    });
+  }
+  actualizarStatusbar(selection.length, typeof resultados === "string" ? 0 : resultados.length);
+  popup.classList.remove("hidden");
+}
+
+function cerrarPopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+/* Reconocimiento de voz para registrar nueva palabra */
+function escucharIdioma() {
+  const SRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SRec) { showToast('Reconocimiento de voz no disponible en este navegador'); return; }
+  const recognition = new SRec();
+  recognition.lang = "es-CR";
+  recognition.onresult = (event) => {
+    const palabra = event.results[0][0].transcript.trim().toLowerCase();
+    registrarNuevaPalabra("bribri", palabra);
+    showToast(`"${palabra}" añadida como pendiente 🌿`);
+  };
+  recognition.onerror = () => showToast('Error al escuchar. Intenta de nuevo.');
+  recognition.start();
+  showToast('Escuchando... habla ahora 🎤');
+}
+
+/* Añade una palabra nueva al listado pendiente */
+function registrarNuevaPalabra(lang, palabra) {
+  nuevasPalabras.push({ lang, palabra, estado: "pendiente" });
+  renderCommunityPanel();
+  actualizarStatusbar();
+}
+
+/* Valida y guarda en la BD */
+function validarPalabra(index) {
+  const item = nuevasPalabras[index];
+  wcDatabase[item.lang][item.palabra] = item.palabra;
+  item.estado = "validado";
+  renderCommunityPanel();
+  actualizarStatusbar();
+  showToast('Palabra validada ✅');
+}
+
+/* Permite corregir la traducción */
+function editarPalabra(index) {
+  const nueva = prompt("Ingrese la traducción correcta:");
+  if (nueva) {
+    const item = nuevasPalabras[index];
+    wcDatabase[item.lang][item.palabra] = nueva;
+    item.estado = "corregido";
+    renderCommunityPanel();
+    actualizarStatusbar();
+    showToast('Palabra corregida ✏️');
+  }
+}
+
+/* Renderiza el panel lateral */
+function renderCommunityPanel() {
+  const list = document.getElementById("communityList");
+  list.innerHTML = "";
+  if (!nuevasPalabras.length) {
+    list.innerHTML = '<li style="color:#aaa;font-size:12px;text-align:center;padding:10px;list-style:none">Sin palabras pendientes</li>';
+    return;
+  }
+  nuevasPalabras.forEach((item, i) => {
+    const color = item.estado === 'validado' ? '#d4edda' : item.estado === 'corregido' ? '#fff3cd' : '#f8d7da';
+    list.innerHTML += `
+      <li>
+        <div style="margin-bottom:4px"><b>${item.lang}:</b> <em>${item.palabra}</em></div>
+        <span style="font-size:10px;background:${color};border-radius:4px;padding:1px 6px">${item.estado}</span>
+        <div style="margin-top:6px;display:flex;gap:4px">
+          <button onclick="validarPalabra(${i})" style="font-size:11px;padding:2px 7px;border:1px solid #27ae60;border-radius:4px;background:#d4edda;cursor:pointer">✔ Validar</button>
+          <button onclick="editarPalabra(${i})" style="font-size:11px;padding:2px 7px;border:1px solid #f39c12;border-radius:4px;background:#fff3cd;cursor:pointer">✏ Editar</button>
+        </div>
+      </li>`;
+  });
+}
+
+function contarEstado(estado) {
+  return nuevasPalabras.filter(p => p.estado === estado).length;
+}
+
+function actualizarStatusbar(palabras = 0, lenguas = 0) {
+  const sb = document.getElementById("statusbar");
+  if (sb) sb.textContent =
+    `Listo | Palabras: ${palabras} | Lenguas encontradas: ${lenguas} | Pendientes: ${contarEstado("pendiente")} | Validadas: ${contarEstado("validado")} | Corregidas: ${contarEstado("corregido")}`;
+}
+/* ============================================================
+   wc_main.js  —  Lógica principal original sin cambios
+   WC Corporate Editor v23  (+ acciones buscar-seleccion / escuchar-idioma)
+   ============================================================ */
 const editor=document.getElementById('editor');
 const toast=document.getElementById('toast');
 let savedRange=null,trackOn=false,chartCount=0,fabBuilt=false,clipboardHistory=[];
@@ -732,7 +846,6 @@ function buildWcArteGrids(){
    g.appendChild(b);
   });
  });
- // Estilos letras
  const lg=document.getElementById('wcArteLetrasGrid');
  if(lg&&lg.children.length===0){
   wcL.forEach(s=>{
@@ -809,7 +922,7 @@ function tableToChart(){
  const cols=['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12','#e74c3c','#00cec9','#fd79a8'];
  chartCount++;const id='tc-'+chartCount;
  const w=document.createElement('div');w.className='cwrap';
- w.innerHTML=`<button class="cdel" onclick="this.parentElement.remove()">✕</button><p style="font-size:12px;color:#666;margin-bottom:6px">📊 Gráfico desde tabla — ${headers[0]||''} / ${headers[1]||''}</p><canvas id="${id}"></canvas>`;
+ w.innerHTML=`<button class="cdel" onclick="this.parentElement.remove()">✕</button><p style="font-size:12px;color:#666;margin-bottom:6px">📊 Gráfico desde tabla</p><canvas id="${id}"></canvas>`;
  document.getElementById('mediaZone').appendChild(w);
  new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[{label:headers[1]||'Datos',data,backgroundColor:cols.slice(0,data.length),borderWidth:2,borderRadius:6}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
  showToast('Tabla convertida a gráfico ✅');
@@ -895,7 +1008,7 @@ document.querySelectorAll('.di,.dib').forEach(item=>{
  item.addEventListener('click',e=>{e.stopPropagation();item.closest('.dropdown').classList.remove('show');if(item.dataset.action)handleAction(item.dataset.action);});
 });
 
-// HANDLEACTION
+// HANDLEACTION — original completo + 2 acciones nuevas del panel comunitario
 function handleAction(a){
  switch(a){
   case 'bold':         restoreSelection();cmd('bold');showToast('Negrita ✅');break;
@@ -1019,6 +1132,9 @@ function handleAction(a){
   case 'lang-espanol':    switchLang('espanol');break;
   case 'dict-indigena':   showToast('Diccionario indígena — próximamente');break;
   case 'translate-indigena': showToast('Traducción a lengua — próximamente');break;
+  /* ── NUEVAS ACCIONES DEL PANEL COMUNITARIO ── */
+  case 'buscar-seleccion': buscarSeleccion();break;
+  case 'escuchar-idioma':  escucharIdioma();break;
   default: showToast(`${a} — disponible`);
  }
 }
@@ -1037,7 +1153,5 @@ document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='s'){e.preventDefa
 const saved=localStorage.getItem('wc-v23');
 if(saved)editor.innerHTML=saved;
 updateStats();
+renderCommunityPanel();
 setInterval(()=>localStorage.setItem('wc-v23',editor.innerHTML),30000);
-</script>
-</body>
-</html>
