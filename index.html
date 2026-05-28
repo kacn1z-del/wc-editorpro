@@ -4,261 +4,1041 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WC Corporate Editor v23</title>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:#f5f5f5;
-}
-
-/* HEADER */
-.header{
-  background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);
-  padding:28px 20px 130px;
-  text-align:center;
-  color:white;
-}
-.header h1{
-  font-size:28px;
-  font-weight:700;
-  margin-bottom:6px;
-  letter-spacing:.5px;
-}
-.header p{
-  font-size:11px;
-  opacity:.9;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-}
-
-/* MENU */
-.menu-card{
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.3);
-  border-radius:22px;
-  padding:20px 16px;
-  margin:-90px 12px 0;
-  position:relative;
-  z-index:10;
-  box-shadow:0 8px 32px rgba(0,0,0,.12);
-}
-.menu-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  justify-content:center;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;}
+.header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:24px 20px 140px;text-align:center;color:white;}
+.header h1{font-size:26px;font-weight:700;margin-bottom:6px;}
+.header p{font-size:11px;opacity:.9;letter-spacing:1px;}
+.menu-card{background:rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:16px;margin:-100px 12px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.1);}
+.menu-tabs{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
 .menu-item{position:relative;}
-
-.menu-btn{
-  background:none;
-  border:none;
-  color:#1a1a1a;
-  font-size:15px;
-  font-weight:500;
-  padding:8px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  transition:.2s;
-  white-space:nowrap;
-}
-.menu-btn:hover,
-.menu-btn.active{
-  background:rgba(255,255,255,.85);
-  box-shadow:0 2px 10px rgba(0,0,0,.1);
-}
-
-/* DROPDOWN */
-.dropdown{
-  position:absolute;
-  top:calc(100% + 8px);
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(16px);
-  border-radius:16px;
-  box-shadow:0 10px 40px rgba(0,0,0,.15);
-  padding:8px;
-  display:none;
-  z-index:500;
-  min-width:250px;
-  max-height:75vh;
-  overflow-y:auto;
-}
+.menu-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#1a1a1a;font-size:12px;font-weight:600;padding:6px 9px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.menu-btn:hover,.menu-btn.active{background:rgba(255,255,255,.95);box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);padding:8px;margin-top:6px;display:none;z-index:500;min-width:240px;max-height:75vh;overflow-y:auto;}
 .dropdown.show{display:block;animation:fadeIn .18s;}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateX(-50%) translateY(-8px);}
-  to{opacity:1;transform:translateX(-50%) translateY(0);}
-}
-
-/* ITEMS */
-.dsec{
-  padding:6px 12px 2px;
-  font-size:10px;
-  color:#aaa;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  margin-top:4px;
-}
-.di{
-  padding:10px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
-  transition:.15s;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  color:#1a1a1a;
-}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.dsec{padding:4px 10px;font-size:10px;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-top:6px;}
+.di{padding:9px 14px;border-radius:8px;cursor:pointer;font-size:13px;transition:background .15s;display:flex;justify-content:space-between;align-items:center;gap:8px;}
 .di:hover{background:#f0f7ff;}
 .di .ico{font-size:15px;min-width:20px;}
-.di .desc{font-size:10px;color:#aaa;}
-
-.dib{
-  padding:10px 14px;
-  border-radius:10px;
-  cursor:pointer;
-  transition:.15s;
-}
+.di .desc{font-size:10px;color:#999;}
+.dib{padding:8px 14px;border-radius:8px;cursor:pointer;transition:background .15s;}
 .dib:hover{background:#f0f7ff;}
-.dib .tit{font-size:14px;font-weight:600;}
-.dib .desc{font-size:11px;color:#999;margin-top:2px;}
-
+.dib .tit{font-size:13px;font-weight:600;color:#222;}
+.dib .desc{font-size:11px;color:#888;margin-top:2px;line-height:1.3;}
 .dd{height:1px;background:#eee;margin:4px 8px;}
-.badge{background:#0084ff;color:#fff;font-size:10px;padding:2px 7px;border-radius:5px;}
-
-/* CONTENT */
-.content{
-  background:#fff;
-  padding:24px 16px 160px;
-  min-height:500px;
-}
-.ctitle{
-  font-size:16px;
-  color:#0066cc;
-  font-weight:600;
-  margin-bottom:14px;
-}
-
-.tiptap{
-  border:1px solid #e0e0e0;
-  border-radius:14px;
-  padding:18px;
-  min-height:300px;
-  outline:none;
-  font-size:15px;
-  line-height:1.7;
-}
-.tiptap:focus{
-  border-color:#0084ff;
-  box-shadow:0 0 0 3px rgba(0,132,255,.1);
-}
-
-/* FOOTER */
-.footer{
-  background:#fff;
-  padding:10px 16px;
-  border-top:1px solid #eee;
-  position:fixed;
-  bottom:60px;
-  left:0;
-  right:0;
-  z-index:100;
-}
-.stats{
-  display:flex;
-  justify-content:space-around;
-  font-size:12px;
-  color:#888;
-}
-.author{text-align:center;font-size:11px;color:#bbb;}
-
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 20px;
-  background:#fff;
-  box-shadow:0 -2px 10px rgba(0,0,0,.05);
-  border-radius:20px 20px 0 0;
-}
-
-.nav-btn{
-  background:none;
-  border:none;
-  font-size:18px;
-  cursor:pointer;
-  padding:8px;
-}
+.badge{background:#0084ff;color:white;font-size:10px;padding:2px 6px;border-radius:4px;}
+.content{background:#fff;padding:20px 16px 160px;min-height:500px;}
+.ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
+#wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
+#ruler{display:none;height:22px;background:linear-gradient(#e8e8e8,#f5f5f5);border:1px solid #ddd;border-radius:6px;margin-bottom:8px;font-size:9px;color:#aaa;line-height:22px;padding:0 8px;}
+.tiptap{border:1px solid #ddd;border-radius:12px;padding:16px;min-height:300px;outline:none;font-size:15px;line-height:1.6;}
+.tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
+.tiptap p{margin:6px 0;}.tiptap h1{font-size:2em;margin:16px 0 8px;}.tiptap h2{font-size:1.5em;margin:14px 0 6px;}.tiptap h3{font-size:1.2em;margin:12px 0 4px;}
+.tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
+.tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
+.tiptap td,.tiptap th{border:1px solid #ddd;padding:8px;}
+.footer{background:#fff;padding:12px 16px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;z-index:100;}
+.stats{display:flex;justify-content:space-around;font-size:12px;color:#666;margin-bottom:4px;}
+.author{text-align:center;font-size:11px;color:#aaa;}
+.bottom-nav{background:#fff;position:fixed;bottom:0;left:0;right:0;padding:10px 20px;display:flex;justify-content:space-around;box-shadow:0 -2px 10px rgba(0,0,0,.05);border-radius:20px 20px 0 0;z-index:100;}
+.nav-btn{background:none;border:none;padding:8px;cursor:pointer;border-radius:8px;font-size:18px;}
 .nav-btn:hover{background:#f0f0f0;}
-
-.toast{
-  position:fixed;
-  bottom:140px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#1a1a1a;
-  color:#fff;
-  padding:10px 20px;
-  border-radius:20px;
-  font-size:13px;
-  opacity:0;
-  transition:.3s;
-  z-index:9999;
-}
+.toast{position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;}
 .toast.show{opacity:1;}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9990;align-items:center;justify-content:center;padding:12px;}
+.mo.show{display:flex;}
+.mb{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.mb h3{font-size:17px;font-weight:700;color:#222;margin-bottom:14px;text-align:center;}
+.minput{width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;outline:none;}
+.minput:focus{border-color:#0084ff;}
+.mbtns{display:flex;gap:8px;justify-content:center;margin-top:10px;}
+.btn1{background:#0084ff;color:#fff;border:none;border-radius:10px;padding:10px 22px;cursor:pointer;font-weight:600;font-size:14px;}
+.btn2{background:#f0f0f0;color:#333;border:none;border-radius:10px;padding:10px 22px;cursor:pointer;font-weight:600;font-size:14px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.tcard{border:2px solid #eee;border-radius:10px;padding:10px 8px;cursor:pointer;text-align:center;font-size:12px;font-weight:500;background:none;transition:all .2s;}
+.tcard:hover{border-color:#0084ff;background:#f0f7ff;}
+.tcard .ico{font-size:22px;display:block;margin-bottom:4px;}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.sbtn{border:2px solid #eee;border-radius:8px;padding:8px 2px;cursor:pointer;text-align:center;font-size:22px;background:none;}
+.sbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.cbtn{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;font-weight:600;background:none;}
+.cbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.cwrap{position:relative;max-width:500px;margin:12px auto;border:1px solid #eee;border-radius:12px;padding:12px;background:#fafafa;}
+.cwrap canvas{width:100%!important;}
+.cdel{position:absolute;top:6px;right:8px;background:#ff4444;color:#fff;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;}
+.ablock{display:flex;align-items:center;gap:10px;background:#f0f7ff;border:1px solid rgba(0,132,255,.2);border-radius:10px;padding:10px 14px;margin:6px 0;}
+#fabBtn{position:fixed;bottom:128px;right:12px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.4);cursor:pointer;line-height:1.4;text-align:center;}
+#fabPanel{display:none;position:fixed;bottom:183px;right:8px;left:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto;}
+#fabPanel.show{display:block;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+#fabPanel h4{font-size:11px;color:#888;font-weight:700;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.6px;}
+#fabPanel h4:first-child{margin-top:0;}
+.fabrow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;}
+.fabbtn{border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;background:#fafafa;color:#333;font-weight:500;transition:all .15s;}
+.fabbtn:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
+.cpal{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-bottom:8px;}
+.csw{width:100%;aspect-ratio:1;border-radius:4px;cursor:pointer;border:2px solid transparent;}
+.csw:hover{transform:scale(1.25);border-color:#333;}
+.fbtn{border:1.5px solid #e0e0e0;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:14px;background:#fafafa;color:#333;text-align:left;width:100%;transition:all .15s;}
+.fbtn:hover{background:#f0f7ff;border-color:#0084ff;}
+.cp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #eee;border-radius:8px;cursor:pointer;margin-bottom:6px;font-size:13px;}
+.cp-item:hover{background:#f0f7ff;}
+.cp-item .cpt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cp-item .cpy{font-size:10px;background:#eee;border-radius:4px;padding:2px 6px;color:#666;}
+.cp-empty{text-align:center;color:#bbb;padding:20px;font-size:13px;}
+.eqbtn{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:13px;background:none;font-family:'Courier New',monospace;}
+.eqbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.wcprev{border:2px solid #eee;border-radius:12px;padding:10px;cursor:pointer;text-align:center;font-size:20px;font-weight:900;min-height:56px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.wcprev:hover{border-color:#0084ff;transform:scale(1.02);}
+.bgsw{width:100%;aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;}
+.bgsw:hover{border-color:#333;transform:scale(1.1);}
+#aiPanel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;align-items:flex-end;justify-content:center;}
+#aiPanel.show{display:flex;}
+#aiBox{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;}
+#aiBox h3{font-size:16px;font-weight:700;color:#0084ff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+#aiMsgs{flex:1;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:10px;min-height:120px;}
+.aiu{background:#0084ff;color:#fff;border-radius:16px 16px 4px 16px;padding:10px 14px;align-self:flex-end;max-width:80%;font-size:14px;}
+.aib{background:#f0f7ff;color:#333;border-radius:16px 16px 16px 4px;padding:10px 14px;align-self:flex-start;max-width:90%;font-size:14px;line-height:1.5;}
+.aitp{color:#999;font-size:13px;font-style:italic;padding:6px 14px;}
+#aiRow{display:flex;gap:8px;}
+#aiInp{flex:1;padding:10px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:14px;outline:none;}
+#aiInp:focus{border-color:#0084ff;}
+#aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
 </style>
 </head>
-
 <body>
 
 <div class="header">
-  <h1>WC Corporate Editor v23</h1>
-  <p>ULTIMATE PRO UI V26 - ESTÉTICA EJECUTIVA</p>
+  <h1 id="editorTitle">WC Corporate Editor v23</h1>
+  <p id="editorSub">ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</p>
+</div>
+
+<div class="menu-card">
+ <div class="menu-tabs">
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="inicio">🏠 Inicio</button>
+   <div class="dropdown" id="menu-inicio">
+    <div class="dsec">Documento</div>
+    <div class="di" data-action="new"><span class="ico">📄</span><div>Nuevo documento</div></div>
+    <div class="di" data-action="open"><span class="ico">📂</span><div>Abrir reciente</div></div>
+    <div class="di" data-action="plantillas"><span class="ico">📋</span><div><div>Plantillas (10)</div><div class="desc">Plantillas profesionales listas</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Portapapeles</div>
+    <div class="dib" data-action="portapapeles"><div class="tit">📋 Portapapeles</div><div class="desc">Historial de copiar, cortar y pegar. Accede a múltiples elementos copiados a la vez.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Estilos</div>
+    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div><div>Normal</div><div class="desc">Estilo predeterminado</div></div></div>
+    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div><div>Título principal</div><div class="desc">Título del documento</div></div></div>
+    <div class="di" data-action="estiloSubtitulo"><span class="ico">🔡</span><div><div>Subtítulo</div></div></div>
+    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div><div>Cita destacada</div><div class="desc">Resalta una cita importante</div></div></div>
+    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div><div>Énfasis intenso</div><div class="desc">Texto con énfasis fuerte</div></div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="archivo">💾 Archivo</button>
+   <div class="dropdown" id="menu-archivo">
+    <div class="dsec">Guardar</div>
+    <div class="di" data-action="save"><span class="ico">💾</span><div>Guardar</div><span class="badge">Ctrl+S</span></div>
+    <div class="di" data-action="saveAs"><span class="ico">📁</span><div>Guardar como...</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Exportar</div>
+    <div class="di" data-action="exportHtml"><span class="ico">🌐</span><div>Exportar HTML</div></div>
+    <div class="di" data-action="exportTxt"><span class="ico">📃</span><div>Exportar TXT</div></div>
+    <div class="di" data-action="export"><span class="ico">🖨️</span><div>Imprimir / PDF</div></div>
+    <div class="dd"></div>
+    <div class="di" data-action="share"><span class="ico">📤</span><div>Compartir</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="editar">✏️ Editar</button>
+   <div class="dropdown" id="menu-editar">
+    <div class="dsec">Acciones</div>
+    <div class="di" data-action="undo"><span class="ico">↩</span><div>Deshacer</div><span class="badge">Ctrl+Z</span></div>
+    <div class="di" data-action="redo"><span class="ico">↪</span><div>Rehacer</div><span class="badge">Ctrl+Y</span></div>
+    <div class="dd"></div>
+    <div class="dsec">Portapapeles</div>
+    <div class="di" data-action="cut"><span class="ico">✂️</span><div>Cortar</div><span class="badge">Ctrl+X</span></div>
+    <div class="di" data-action="copy"><span class="ico">📋</span><div>Copiar</div><span class="badge">Ctrl+C</span></div>
+    <div class="di" data-action="paste"><span class="ico">📌</span><div>Pegar</div><span class="badge">Ctrl+V</span></div>
+    <div class="di" data-action="selectAll"><span class="ico">⬛</span><div>Seleccionar todo</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Edición avanzada</div>
+    <div class="dib" data-action="find"><div class="tit">🔍 Buscar y reemplazar</div><div class="desc">Cambia automáticamente una palabra en todo el documento.</div></div>
+    <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div><div>Control de cambios</div><div class="desc">Registro de modificaciones</div></div></div>
+    <div class="di" data-action="addComment"><span class="ico">💬</span><div><div>Agregar comentario</div><div class="desc">Notas y observaciones en el texto</div></div></div>
+    <div class="di" data-action="comparar"><span class="ico">⚖️</span><div><div>Comparar versiones</div></div></div>
+    <div class="di" data-action="proteger"><span class="ico">🔒</span><div><div>Proteger documento</div></div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="insertar">➕ Insertar</button>
+   <div class="dropdown" id="menu-insertar">
+    <div class="dsec">Ilustraciones</div>
+    <div class="dib" data-action="insertImage"><div class="tit">📷 Imagen / Foto</div><div class="desc">Desde tu galería o archivo del dispositivo.</div></div>
+    <div class="di" data-action="insertShape"><span class="ico">🔷</span><div><div>Formas (20)</div><div class="desc">Figuras geométricas y elementos visuales</div></div></div>
+    <div class="di" data-action="insertChart"><span class="ico">📊</span><div><div>Gráficos (10)</div><div class="desc">Representación visual de datos</div></div></div>
+    <div class="dib" data-action="tableToChart"><div class="tit">📈 Convertir tabla → gráfico</div><div class="desc">Transforma datos tabulares en un gráfico bello y visual. Selecciona una tabla primero.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Multimedia</div>
+    <div class="dib" data-action="insertVideo"><div class="tit">🎬 Video</div><div class="desc">Carga video desde tu dispositivo. Teniendo un enlace, accede a él dentro del documento.</div></div>
+    <div class="di" data-action="insertFile"><span class="ico">📎</span><div>Archivo adjunto</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Vínculos</div>
+    <div class="dib" data-action="insertLink"><div class="tit">🔗 Enlace</div><div class="desc">Crea enlaces a partes del documento o a URLs externas en internet.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Encabezado y pie de página</div>
+    <div class="di" data-action="insertHeader"><span class="ico">⬆️</span><div><div>Encabezado</div><div class="desc">Edita el encabezado del documento</div></div></div>
+    <div class="di" data-action="insertFooter"><span class="ico">⬇️</span><div><div>Pie de página</div><div class="desc">Edita el pie de página</div></div></div>
+    <div class="di" data-action="pageNumber"><span class="ico">🔢</span><div><div>Numeración de páginas</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Texto y arte</div>
+    <div class="di" data-action="insertTable"><span class="ico">🗃️</span><div>Tabla</div></div>
+    <div class="di" data-action="insertEmoji"><span class="ico">😀</span><div>Emoji</div></div>
+    <div class="dib" data-action="wcarte"><div class="tit">✨ WC Arte (texto libre)</div><div class="desc">Letras con finalidad ilustrativa y estilos especiales. Independientes del texto principal.</div></div>
+    <div class="dib" data-action="wcarte-galeria"><div class="tit">🎨 WC Arte — Galería CR</div><div class="desc">Animales, bosques y bandera de Costa Rica con colores personalizados.</div></div>
+    <div class="dib" data-action="wcarte-letras"><div class="tit">🎨 WC Arte — Estilos de letras</div><div class="desc">12 estilos: Fuego, Océano, Bosque, Galaxia, Bandera CR, Dorado, Arcoíris y más.</div></div>
+    <div class="di" data-action="insertColumns"><span class="ico">▦</span><div><div>Columnas</div><div class="desc">Distribuye el texto en columnas</div></div></div>
+    <div class="di" data-action="pageBreak"><span class="ico">📄</span><div>Salto de página</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Símbolos y ecuaciones</div>
+    <div class="dib" data-action="insertEquation"><div class="tit">∑ Ecuación</div><div class="desc">Editor de ecuaciones para matemáticas, física y química. Colección de ecuaciones famosas incluida.</div></div>
+    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div><div>Símbolo / Carácter especial</div><div class="desc">Letras griegas y símbolos</div></div></div>
+    <div class="di" data-action="insertFootnote"><span class="ico">¹</span><div><div>Nota al pie</div><div class="desc">Comentarios o definiciones al pie</div></div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="formato">🎨 Formato</button>
+   <div class="dropdown" id="menu-formato">
+    <div class="dsec">Fuente</div>
+    <div class="di" data-action="bold"><span class="ico"><b>N</b></span><div>Negrita</div><span class="badge">Ctrl+B</span></div>
+    <div class="di" data-action="italic"><span class="ico"><i>C</i></span><div>Cursiva</div><span class="badge">Ctrl+I</span></div>
+    <div class="di" data-action="underline"><span class="ico"><u>S</u></span><div>Subrayado</div><span class="badge">Ctrl+U</span></div>
+    <div class="di" data-action="strike"><span class="ico"><s>T</s></span><div>Tachado</div></div>
+    <div class="di" data-action="fontColor"><span class="ico">🎨</span><div><div>Color de texto</div><div class="desc">Cambia el color de las letras</div></div></div>
+    <div class="di" data-action="fontSize"><span class="ico">🔡</span><div><div>Tamaño de fuente</div><div class="desc">8pt hasta 36pt</div></div></div>
+    <div class="di" data-action="fontFamily"><span class="ico">🔤</span><div><div>Tipo de letra</div><div class="desc">12 familias tipográficas</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Párrafo</div>
+    <div class="di" data-action="bulletList"><span class="ico">•</span><div><div>Lista con viñetas</div><div class="desc">Lista no enumerada</div></div></div>
+    <div class="di" data-action="orderedList"><span class="ico">1.</span><div><div>Lista numerada</div><div class="desc">Lista enumerada</div></div></div>
+    <div class="di" data-action="alignLeft"><span class="ico">⬅</span><div>Alinear izquierda</div></div>
+    <div class="di" data-action="alignCenter"><span class="ico">≡</span><div>Centrar</div></div>
+    <div class="di" data-action="alignRight"><span class="ico">➡</span><div>Alinear derecha</div></div>
+    <div class="di" data-action="alignJustify"><span class="ico">☰</span><div><div>Justificar</div><div class="desc">Fija el espaciado entre palabras</div></div></div>
+    <div class="di" data-action="lineSpacing"><span class="ico">↕</span><div><div>Interlineado</div><div class="desc">Espacio entre líneas</div></div></div>
+    <div class="di" data-action="indent"><span class="ico">→</span><div>Sangría →</div></div>
+    <div class="di" data-action="outdent"><span class="ico">←</span><div>Sangría ←</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Títulos</div>
+    <div class="di" data-action="h1"><span class="ico">H1</span><div>Título 1</div></div>
+    <div class="di" data-action="h2"><span class="ico">H2</span><div>Título 2</div></div>
+    <div class="di" data-action="h3"><span class="ico">H3</span><div>Título 3</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="diseno">📐 Diseño</button>
+   <div class="dropdown" id="menu-diseno">
+    <div class="dsec">Formato del documento</div>
+    <div class="dib" data-action="docFormatProfesional"><div class="tit">🏢 Profesional</div><div class="desc">Arial 12pt, espaciado 1.15, colores corporativos.</div></div>
+    <div class="dib" data-action="docFormatAcademico"><div class="tit">🎓 Académico</div><div class="desc">Times New Roman 12pt, doble espacio, márgenes amplios.</div></div>
+    <div class="dib" data-action="docFormatCreativo"><div class="tit">🎨 Creativo</div><div class="desc">Georgia 13pt, colores vibrantes, espaciado 1.5.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Fondo de página</div>
+    <div class="dib" data-action="pageBackground"><div class="tit">🖼️ Color de fondo</div><div class="desc">Fija un color de fondo para las páginas del documento.</div></div>
+    <div class="di" data-action="pageBorder"><span class="ico">🔲</span><div><div>Borde de página</div><div class="desc">Agrega bordes a cada página</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Configuración de página</div>
+    <div class="di" data-action="marginNormal"><span class="ico">📏</span><div>Márgenes normales</div></div>
+    <div class="di" data-action="marginNarrow"><span class="ico">📏</span><div>Márgenes estrechos</div></div>
+    <div class="di" data-action="marginWide"><span class="ico">📏</span><div>Márgenes amplios</div></div>
+    <div class="di" data-action="orientPortrait"><span class="ico">📄</span><div>Orientación vertical</div></div>
+    <div class="di" data-action="orientLandscape"><span class="ico">📋</span><div>Orientación horizontal</div></div>
+    <div class="di" data-action="sizeA4"><span class="ico">📄</span><div>Tamaño A4</div></div>
+    <div class="di" data-action="sizeLetter"><span class="ico">📄</span><div>Tamaño Carta</div></div>
+    <div class="di" data-action="sizeLegal"><span class="ico">📄</span><div>Tamaño Oficio</div></div>
+    <div class="dib" data-action="insertColumns"><div class="tit">▦ Columnas de texto</div><div class="desc">Distribuye el texto en columnas. Opción de formato de configuración de página.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="referencias">📚 Referencias</button>
+   <div class="dropdown" id="menu-referencias">
+    <div class="dsec">Tabla de contenido</div>
+    <div class="dib" data-action="insertTOC"><div class="tit">📑 Tabla de contenido</div><div class="desc">Genera un índice automático. Establece jerarquías entre títulos y subtítulos.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Notas al pie</div>
+    <div class="dib" data-action="insertFootnote"><div class="tit">¹ Nota al pie</div><div class="desc">Agrega comentarios o definiciones al pie de página para los lectores.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Citas y bibliografía</div>
+    <div class="dib" data-action="insertCitation"><div class="tit">📖 Insertar cita</div><div class="desc">Asigna las fuentes correspondientes a la información expuesta en el texto.</div></div>
+    <div class="di" data-action="insertBibliography"><span class="ico">📚</span><div><div>Bibliografía</div><div class="desc">Lista de fuentes al final</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Títulos e índice</div>
+    <div class="di" data-action="insertCaptionImg"><span class="ico">🖼️</span><div><div>Título de imagen</div><div class="desc">Asigna títulos a las imágenes del documento</div></div></div>
+    <div class="dib" data-action="insertIndex"><div class="tit">🗂️ Índice analítico</div><div class="desc">Toma palabras importantes para crear un índice analítico del documento.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="correos">📬 Correos</button>
+   <div class="dropdown" id="menu-correos">
+    <div class="dsec">Crear</div>
+    <div class="dib" data-action="createEnvelope"><div class="tit">✉️ Crear sobre</div><div class="desc">Diseña sobres con destinatario y dirección a donde debe ir el correo.</div></div>
+    <div class="dib" data-action="createLabel"><div class="tit">🏷️ Crear etiqueta</div><div class="desc">Crea etiquetas tanto genéricas como personalizadas.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Combinación de correspondencia</div>
+    <div class="dib" data-action="startMerge"><div class="tit">📋 Iniciar combinación</div><div class="desc">Asigna un documento genérico a una base de datos de personas para crear un archivo por cada persona.</div></div>
+    <div class="dib" data-action="insertFields"><div class="tit">📝 Insertar campos</div><div class="desc">Elige la información de la base de datos que irá en el archivo que se está elaborando.</div></div>
+    <div class="dib" data-action="previewMerge"><div class="tit">👁️ Vista previa de resultados</div><div class="desc">Visualiza cómo quedó el documento y verifica errores o busca un destinatario en particular.</div></div>
+    <div class="dib" data-action="finishMerge"><div class="tit">✅ Finalizar y combinar</div><div class="desc">Crea los documentos finales para cada persona en la base de datos.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="revisar">🔍 Revisar</button>
+   <div class="dropdown" id="menu-revisar">
+    <div class="dsec">Revisión</div>
+    <div class="dib" data-action="spellcheck"><div class="tit">✅ Ortografía y gramática</div><div class="desc">Verifica la ortografía, reemplaza palabras por sinónimos y contabiliza palabras del archivo.</div></div>
+    <div class="di" data-action="wordcount"><span class="ico">🔢</span><div><div>Contar palabras</div><div class="desc">Total de palabras y caracteres</div></div></div>
+    <div class="dd"></div>
+    <div class="dsec">Idioma</div>
+    <div class="dib" data-action="translateDoc"><div class="tit">🌐 Traducir</div><div class="desc">Realiza traducciones y establece la corrección de palabras en un idioma distinto.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Comentarios</div>
+    <div class="dib" data-action="addComment"><div class="tit">💬 Agregar comentario</div><div class="desc">Deja notas u observaciones. Muy útil si el documento es elaborado por más de una persona.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Seguimiento</div>
+    <div class="dib" data-action="trackChanges"><div class="tit">🔄 Control de cambios</div><div class="desc">Al activarlo, se habilita un registro de todos los cambios del documento compartido.</div></div>
+    <div class="di" data-action="acceptChange"><span class="ico">✅</span><div>Aceptar cambio</div></div>
+    <div class="di" data-action="rejectChange"><span class="ico">❌</span><div>Rechazar cambio</div></div>
+    <div class="dib" data-action="comparar"><div class="tit">⚖️ Comparar versiones</div><div class="desc">Teniendo una versión anterior, compara el antes y después de la edición.</div></div>
+    <div class="dib" data-action="proteger"><div class="tit">🔒 Proteger documento</div><div class="desc">Evita que el documento sea alterado o que un usuario específico pueda modificarlo.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="vista">👁️ Vista</button>
+   <div class="dropdown" id="menu-vista">
+    <div class="dsec">Vistas</div>
+    <div class="dib" data-action="vistaLectura"><div class="tit">📖 Vista de lectura</div><div class="desc">Modo cómodo para leer el documento mientras se elabora.</div></div>
+    <div class="dib" data-action="vistaImpresion"><div class="tit">🖨️ Diseño de impresión</div><div class="desc">Vista del documento tal como se verá al imprimirse.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Mostrar</div>
+    <div class="dib" data-action="toggleRuler"><div class="tit">📏 Regla</div><div class="desc">Activa la regla para ver la estructura del documento.</div></div>
+    <div class="di" data-action="toggleGrid"><span class="ico">⊞</span><div><div>Cuadrícula</div><div class="desc">Cuadrícula de ayuda visual</div></div></div>
+    <div class="dib" data-action="navPanel"><div class="tit">🗂️ Panel de navegación</div><div class="desc">Visualiza la estructura del documento. Permite navegar entre títulos y secciones.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Zoom</div>
+    <div class="di" data-action="zoom75"><span class="ico">🔎</span><div>Zoom 75%</div></div>
+    <div class="di" data-action="zoom100"><span class="ico">🔍</span><div>Zoom 100%</div></div>
+    <div class="di" data-action="zoom150"><span class="ico">🔍</span><div>Zoom 150%</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Macros</div>
+    <div class="dib" data-action="macros"><div class="tit">⚙️ Macros</div><div class="desc">Automatiza procesos con combinaciones de teclas. Útil para tablas o elementos repetidos en el texto.</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="lenguas">🌿 Lenguas CR</button>
+   <div class="dropdown" id="menu-lenguas">
+    <div class="dsec">Insertar palabra</div>
+    <div class="di" data-action="insert-bribri"><span class="ico">🌿</span><div>Bribri</div></div>
+    <div class="di" data-action="insert-cabecar"><span class="ico">🌿</span><div>Cabécar</div></div>
+    <div class="di" data-action="insert-maleku"><span class="ico">🌿</span><div>Maleku</div></div>
+    <div class="di" data-action="insert-boruca"><span class="ico">🌿</span><div>Boruca</div></div>
+    <div class="di" data-action="insert-teribe"><span class="ico">🌿</span><div>Térraba/Teribe</div></div>
+    <div class="di" data-action="insert-guaymi"><span class="ico">🌿</span><div>Ngäbe/Guaymí</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Idioma del editor</div>
+    <div class="di" data-action="lang-bribri"><span class="ico">🌿</span><div>Editor en Bribri</div></div>
+    <div class="di" data-action="lang-cabecar"><span class="ico">🌿</span><div>Editor en Cabécar</div></div>
+    <div class="di" data-action="lang-maleku"><span class="ico">🌿</span><div>Editor en Maleku</div></div>
+    <div class="di" data-action="lang-ingles"><span class="ico">🌐</span><div>Editor en English</div></div>
+    <div class="di" data-action="lang-espanol"><span class="ico">🇨🇷</span><div>Editor en Español</div></div>
+    <div class="dd"></div>
+    <div class="di" data-action="dict-indigena"><span class="ico">📖</span><div>Diccionario indígena</div></div>
+    <div class="di" data-action="translate-indigena"><span class="ico">🔄</span><div>Traducir a lengua</div></div>
+   </div>
+  </div>
+
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="ia" style="background:linear-gradient(135deg,#0084ff,#9b59b6);color:white;border-color:transparent;">🤖 IA</button>
+   <div class="dropdown" id="menu-ia">
+    <div class="dsec">Asistente inteligente</div>
+    <div class="dib" data-action="openAI"><div class="tit">💬 Abrir asistente IA</div><div class="desc">Chat con IA para redactar, mejorar, resumir y analizar tu documento.</div></div>
+    <div class="di" data-action="aiMejorar"><span class="ico">✨</span><div><div>Mejorar texto seleccionado</div></div></div>
+    <div class="di" data-action="aiResumen"><span class="ico">📝</span><div>Resumir documento</div></div>
+    <div class="di" data-action="aiContinuar"><span class="ico">➡️</span><div>Continuar escribiendo</div></div>
+    <div class="di" data-action="aiTraducir"><span class="ico">🌐</span><div>Traducir al inglés</div></div>
+   </div>
+  </div>
+
+ </div>
 </div>
 
 <div class="content">
-  <div class="ctitle">Editor de documentos — WC Corporate</div>
-
-  <div id="editor" class="tiptap" contenteditable="true">
-    <h2>Lenguas Indígenas de Costa Rica</h2>
-    <p><strong>Bribri:</strong> Hola = Shkëkë</p>
-    <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
-    <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
-  </div>
+ <div class="ctitle" id="contentTitle">📋 Editor de documentos — WC Corporate</div>
+ <div id="wordart-banner"></div>
+ <div id="ruler">◀ 0cm &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 6 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 12 &nbsp;&nbsp;&nbsp; 14 ▶</div>
+ <div id="mediaZone"></div>
+ <div id="editor" class="tiptap" contenteditable="true" spellcheck="true">
+  <h2>Lenguas Indígenas de Costa Rica</h2>
+  <p><strong>Bribri:</strong> Hola = Shkëkë</p>
+  <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
+  <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
+  <p><strong>Boruca:</strong> Gracias = Shíi</p>
+  <p><strong>Térraba:</strong> Agua = Di</p>
+  <p><strong>Ngäbe:</strong> Casa = Ju</p>
+  <p><br></p>
+  <p>Escribe aquí o usa el menú para insertar contenido...</p>
+ </div>
 </div>
 
 <div class="footer">
-  <div class="stats">
-    <span>✓ 0 palabras</span>
-    <span>✓ 0 caracteres</span>
-    <span>✓ Auto-guardado activo</span>
-  </div>
-  <div class="author">Por Keny Chinchilla Navarro</div>
+ <div class="stats">
+  <span id="wordCount">✓ 0 palabras</span>
+  <span id="charCount">✓ 0 caracteres</span>
+  <span id="trackStatus">● Auto-guardado</span>
+ </div>
+ <div class="author">Por Keny Chinchilla Navarro</div>
 </div>
 
 <div class="bottom-nav">
-  <button class="nav-btn">↩</button>
-  <button class="nav-btn">↪</button>
-  <button class="nav-btn">⬆</button>
-  <button class="nav-btn">💾</button>
-  <button class="nav-btn">⧉</button>
+ <button class="nav-btn" id="btnBack">↩</button>
+ <button class="nav-btn" id="btnForward">↪</button>
+ <button class="nav-btn" id="btnShare">⬆</button>
+ <button class="nav-btn" id="btnSave">💾</button>
+ <button class="nav-btn" id="btnCopy">⧉</button>
 </div>
 
 <div class="toast" id="toast"></div>
+<button id="fabBtn" onclick="toggleFab()">⚡ Herramientas<br><span style="font-size:10px;opacity:.85">Corporativas y de Formato</span></button>
 
+<div id="fabPanel">
+ <h4>✏️ Formato rápido</h4>
+ <div class="fabrow">
+  <button class="fabbtn" style="font-weight:900" onmousedown="saveSelection()" onclick="restoreAndExec('bold')"><b>N</b></button>
+  <button class="fabbtn" style="font-style:italic" onmousedown="saveSelection()" onclick="restoreAndExec('italic')"><i>C</i></button>
+  <button class="fabbtn" style="text-decoration:underline" onmousedown="saveSelection()" onclick="restoreAndExec('underline')"><u>S</u></button>
+  <button class="fabbtn" style="text-decoration:line-through" onmousedown="saveSelection()" onclick="restoreAndExec('strikeThrough')"><s>T</s></button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyLeft')">⬅</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyCenter')">≡</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyRight')">➡</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('justifyFull')">☰</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('insertUnorderedList')">• Lista</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('insertOrderedList')">1. Lista</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('indent')">→ Sang.</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreAndExec('outdent')">← Sang.</button>
+ </div>
+ <h4>📝 Títulos</h4>
+ <div class="fabrow">
+  <button class="fabbtn" style="font-size:17px;font-weight:900" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H1')">Título 1</button>
+  <button class="fabbtn" style="font-size:15px;font-weight:700" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H2')">Título 2</button>
+  <button class="fabbtn" style="font-size:14px;font-weight:600" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','H3')">Título 3</button>
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreSelection();cmd('formatBlock','P')">Normal</button>
+ </div>
+ <h4>🔤 Tipo de letra</h4>
+ <div style="display:flex;flex-direction:column;gap:4px;max-height:160px;overflow-y:auto;margin-bottom:6px;" id="fabFontList"></div>
+ <h4>📏 Tamaño</h4>
+ <div class="fabrow" id="fabSizeList"></div>
+ <h4>🎨 Paleta de colores</h4>
+ <div class="cpal" id="colorPalette"></div>
+ <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+  <label style="font-size:12px;color:#666;">Personalizado:</label>
+  <input type="color" id="fabColorCustom" value="#0084ff" style="width:40px;height:28px;border:none;border-radius:6px;cursor:pointer;">
+  <button class="fabbtn" onmousedown="saveSelection()" onclick="restoreSelection();cmd('foreColor',document.getElementById('fabColorCustom').value);showToast('Color aplicado 🎨')">Aplicar</button>
+ </div>
+ <h4>✨ WC Arte — Diseños CR</h4>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;" id="fabWcArteGrid"></div>
+ <h4>⚡ Acciones rápidas</h4>
+ <div class="fabrow">
+  <button class="fabbtn" onclick="cmd('undo')">↩ Deshacer</button>
+  <button class="fabbtn" onclick="cmd('redo')">↪ Rehacer</button>
+  <button class="fabbtn" onclick="localStorage.setItem('wc-v23',editor.innerHTML);showToast('Guardado 💾')">💾 Guardar</button>
+  <button class="fabbtn" onclick="navigator.clipboard.writeText(editor.innerText);showToast('Copiado ✅')">⧉ Copiar</button>
+  <button class="fabbtn" onclick="window.print()">🖨️ Imprimir</button>
+  <button class="fabbtn" onclick="toggleAI()">🤖 Asistente IA</button>
+ </div>
+ <div style="text-align:center;margin-top:12px;">
+  <button class="btn2" onclick="toggleFab()" style="width:100%">✕ Cerrar panel</button>
+ </div>
+</div>
+
+<!-- ASISTENTE IA -->
+<div id="aiPanel">
+ <div id="aiBox">
+  <h3>🤖 Asistente Inteligente <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:#999">✕</button></h3>
+  <div id="aiMsgs">
+   <div class="aib">¡Hola! Soy tu asistente de escritura. Puedo ayudarte a redactar, mejorar, resumir o traducir tu documento. ¿En qué te ayudo hoy?</div>
+  </div>
+  <div id="aiRow">
+   <input type="text" id="aiInp" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendAI()">
+   <button id="aiSend" onclick="sendAI()">➤</button>
+  </div>
+ </div>
+</div>
+
+<!-- MODALES -->
+<div class="mo" id="modalPlantillas"><div class="mb"><h3>📄 Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
+
+<div class="mo" id="modalWcArte">
+<div class="mb">
+ <h3>✨ WC Arte</h3>
+ <input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto...">
+ <div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div>
+ <div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalWcArteGallery">
+<div class="mb">
+ <h3>🎨 WC Arte — Galería CR</h3>
+ <p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño y escribe tu texto</p>
+ <div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalWcArteLetras">
+<div class="mb">
+ <h3>🎨 WC Arte — Estilos de letras</h3>
+ <input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto para ver el estilo...">
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalColor">
+<div class="mb">
+ <h3>🎨 Color de texto</h3>
+ <input type="color" id="colorPicker" value="#0084ff" style="width:100%;height:50px;border:none;cursor:pointer;border-radius:10px;margin-bottom:12px;">
+ <div class="cpal" id="colorPickerPalette" style="margin-bottom:12px;"></div>
+ <div class="mbtns"><button class="btn1" id="btnApplyColor">Aplicar color</button><button class="btn2" onclick="closeModal('modalColor')">Cancelar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalShapes"><div class="mb"><h3>🔷 Formas (20)</h3><div class="sgrid" id="shapesGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalShapes')">Cerrar</button></div></div></div>
+
+<div class="mo" id="modalCharts"><div class="mb"><h3>📊 Gráficos (10)</h3><div class="cgrid" id="chartsGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalCharts')">Cerrar</button></div></div></div>
+
+<div class="mo" id="modalColumns">
+<div class="mb">
+ <h3>▦ Columnas de texto</h3>
+ <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Distribuye el texto en columnas</p>
+ <div class="g2" style="margin-bottom:12px;">
+  <button class="tcard" onclick="insertColumns(2)"><span class="ico">▥</span>2 columnas</button>
+  <button class="tcard" onclick="insertColumns(3)"><span class="ico">▦</span>3 columnas</button>
+ </div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalColumns')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalFontSize">
+<div class="mb">
+ <h3>📏 Tamaño de fuente</h3>
+ <div class="g2" style="margin-bottom:12px;">
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','1');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:10px">A</span>8pt Muy pequeño</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','2');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:12px">A</span>10pt Pequeño</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','3');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:15px">A</span>12pt Normal</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','4');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:18px">A</span>14pt Mediano</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','5');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:22px">A</span>18pt Grande</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','6');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:26px">A</span>24pt Muy grande</button>
+  <button class="tcard" onmousedown="saveSelection()" onclick="restoreSelection();cmd('fontSize','7');closeModal('modalFontSize');showToast('Aplicado ✅')"><span class="ico" style="font-size:32px">A</span>36pt Gigante</button>
+ </div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalFontSize')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalFontFamily">
+<div class="mb">
+ <h3>🔤 Tipo de letra</h3>
+ <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;" id="fontFamilyGrid"></div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalFontFamily')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalLineSpacing">
+<div class="mb">
+ <h3>↕ Interlineado</h3>
+ <div class="g2" style="margin-bottom:12px;">
+  <button class="tcard" onclick="editor.style.lineHeight='1';closeModal('modalLineSpacing');showToast('Interlineado: 1 ✅')"><span class="ico">▬</span>Simple (1)</button>
+  <button class="tcard" onclick="editor.style.lineHeight='1.15';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">▬</span>1.15</button>
+  <button class="tcard" onclick="editor.style.lineHeight='1.5';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">▭</span>1.5</button>
+  <button class="tcard" onclick="editor.style.lineHeight='2';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">□</span>Doble (2)</button>
+  <button class="tcard" onclick="editor.style.lineHeight='2.5';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">□</span>2.5</button>
+  <button class="tcard" onclick="editor.style.lineHeight='3';closeModal('modalLineSpacing');showToast('✅')"><span class="ico">⬜</span>Triple (3)</button>
+ </div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalLineSpacing')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalEquation">
+<div class="mb">
+ <h3>∑ Editor de ecuaciones</h3>
+ <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">Selecciona una ecuación famosa o escribe la tuya</p>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div>
+ <textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea>
+ <div class="mbtns">
+  <button class="btn1" onclick="insertCustomEquation()">Insertar ecuación</button>
+  <button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button>
+ </div>
+</div>
+</div>
+
+<div class="mo" id="modalSymbol">
+<div class="mb">
+ <h3>Ω Símbolos especiales</h3>
+ <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div>
+ <div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div>
+</div>
+</div>
+
+<div class="mo" id="modalPortapapeles">
+<div class="mb">
+ <h3>📋 Portapapeles</h3>
+ <p style="font-size:12px;color:#888;margin-bottom:12px;">Historial de elementos copiados y cortados. Toca uno para pegarlo en el documento.</p>
+ <div id="clipboardList"></div>
+ <div class="mbtns">
+  <button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Portapapeles limpiado')">Limpiar todo</button>
+  <button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button>
+ </div>
+</div>
+</div>
+
+<div class="mo" id="modalBackground">
+<div class="mb">
+ <h3>🖼️ Fondo de página</h3>
+ <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px;" id="bgColorGrid"></div>
+ <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+  <label style="font-size:12px;color:#666;">Personalizado:</label>
+  <input type="color" id="bgColorCustom" value="#ffffff" style="width:40px;height:28px;border:none;border-radius:6px;cursor:pointer;">
+  <button class="fabbtn" onclick="document.querySelector('.content').style.background=document.getElementById('bgColorCustom').value;editor.style.background=document.getElementById('bgColorCustom').value;closeModal('modalBackground');showToast('Fondo aplicado 🎨')">Aplicar</button>
+ </div>
+ <div class="mbtns">
+  <button class="btn2" onclick="document.querySelector('.content').style.background='#fff';editor.style.background='#fff';closeModal('modalBackground')">Quitar fondo</button>
+ </div>
+</div>
+</div>
+<input type="file" id="fileInputImage" accept="image/*" style="display:none">
+<input type="file" id="fileInputVideo" accept="video/*" style="display:none">
+<input type="file" id="fileInputAny" style="display:none">
+
+<script>
+const editor=document.getElementById('editor');
+const toast=document.getElementById('toast');
+let savedRange=null,trackOn=false,chartCount=0,fabBuilt=false,clipboardHistory=[];
+
+function showToast(m){toast.textContent=m;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2500);}
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+function updateStats(){const t=editor.innerText;const w=t.trim().split(/\s+/).filter(x=>x.length>0).length;document.getElementById('wordCount').textContent=`✓ ${w} palabras`;document.getElementById('charCount').textContent=`✓ ${t.length} caracteres`;}
+editor.addEventListener('input',updateStats);
+function insertHTML(html){editor.focus();const sel=window.getSelection();if(sel&&sel.rangeCount){const r=sel.getRangeAt(0);r.deleteContents();const d=document.createElement('div');d.innerHTML=html;const f=document.createDocumentFragment();let n,last;while((n=d.firstChild)){last=f.appendChild(n);}r.insertNode(f);if(last){r.setStartAfter(last);r.collapse(true);sel.removeAllRanges();sel.addRange(r);}}else{editor.innerHTML+=html;}updateStats();}
+function cmd(c,v){document.execCommand(c,false,v||null);editor.focus();}
+editor.addEventListener('mouseup',saveSelection);editor.addEventListener('keyup',saveSelection);editor.addEventListener('touchend',saveSelection);
+function saveSelection(){const s=window.getSelection();if(s&&s.rangeCount>0)savedRange=s.getRangeAt(0).cloneRange();}
+function restoreSelection(){if(!savedRange){editor.focus();return;}editor.focus();const s=window.getSelection();s.removeAllRanges();s.addRange(savedRange);}
+function restoreAndExec(c,v){restoreSelection();cmd(c,v);}
+
+// IDIOMA
+const langs={
+ espanol:{title:'WC Corporate Editor v23',sub:'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA',ct:'📋 Editor de documentos',menus:['🏠 Inicio','💾 Archivo','✏️ Editar','➕ Insertar','🎨 Formato','📐 Diseño','📚 Referencias','📬 Correos','🔍 Revisar','👁️ Vista','🌿 Lenguas CR','🤖 IA']},
+ ingles:{title:'WC Corporate Editor v23',sub:'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS',ct:'📋 Document Editor',menus:['🏠 Home','💾 File','✏️ Edit','➕ Insert','🎨 Format','📐 Design','📚 References','📬 Mail','🔍 Review','👁️ View','🌿 Languages CR','🤖 AI']},
+ bribri:{title:'WC Corporate Editor v23',sub:'BRIBRI UI - ÑAÑA TSURU',ct:'📋 Tso̖ bribri',menus:['🏠 Tsö̖','💾 Ña','✏️ Ñë','➕ Shu','🎨 Forma','📐 Tsi','📚 Kë','📬 Ña','🔍 Tsuru','👁️ Vista','🌿 Bribri','🤖 IA']},
+ cabecar:{title:'WC Corporate Editor v23',sub:'CABÉCAR UI - KÁ BË́RË',ct:'📋 Yë́ cabécar',menus:['🏠 Yë','💾 Ká','✏️ Bë','➕ Rë','🎨 Tsö','📐 Sö','📚 Kë','📬 Rë','🔍 Yë','👁️ Vista','🌿 Cabécar','🤖 IA']},
+ maleku:{title:'WC Corporate Editor v23',sub:'MALEKU UI - MA LHA MARÁMA',ct:'📋 Lha maráma',menus:['🏠 Lha','💾 Ma','✏️ Rá','➕ Má','🎨 Töl','📐 Phö','📚 Të','📬 Lha','🔍 Ma','👁️ Vista','🌿 Maleku','🤖 IA']}
+};
+const menuBtns=document.querySelectorAll('.menu-btn');
+function switchLang(lang){const L=langs[lang]||langs.espanol;document.getElementById('editorTitle').textContent=L.title;document.getElementById('editorSub').textContent=L.sub;document.getElementById('contentTitle').textContent=L.ct;document.documentElement.lang=lang==='ingles'?'en':'es';menuBtns.forEach((b,i)=>{if(L.menus[i])b.textContent=L.menus[i];});showToast(`Idioma: ${lang.charAt(0).toUpperCase()+lang.slice(1)} ✅`);}
+
+// PLANTILLAS
+const plantillas=[
+ {icon:'📄',name:'Carta formal',c:'<h2 style="text-align:center">CARTA FORMAL</h2><p style="text-align:right">San José, Costa Rica</p><p><strong>Estimado señor/señora:</strong></p><p>Por medio de la presente me permito comunicarle que...</p><p style="margin-top:40px">Atentamente,</p><p><strong>_____________________</strong></p>'},
+ {icon:'📋',name:'Informe ejecutivo',c:'<h1 style="text-align:center">INFORME EJECUTIVO</h1><hr><h2>1. Resumen ejecutivo</h2><p>El presente informe detalla los resultados...</p><h2>2. Objetivos</h2><p>• Objetivo 1<br>• Objetivo 2</p><h2>3. Resultados</h2><p>Los resultados muestran un avance significativo...</p><h2>4. Conclusiones</h2><p>Se concluye que...</p>'},
+ {icon:'📝',name:'Minuta',c:'<h2 style="text-align:center">MINUTA DE REUNIÓN</h2><p><strong>Fecha:</strong> ___________</p><p><strong>Hora:</strong> ___________</p><p><strong>Participantes:</strong><br>1. ___________<br>2. ___________</p><h3>Temas tratados:</h3><p>1. ___________</p><h3>Acuerdos:</h3><p>1. ___________</p>'},
+ {icon:'📃',name:'Currículum',c:'<h1 style="text-align:center">NOMBRE COMPLETO</h1><p style="text-align:center">📧 correo@email.com | 📱 8888-8888</p><hr><h3>PERFIL PROFESIONAL</h3><p>Profesional con experiencia en...</p><h3>EXPERIENCIA</h3><p><strong>Empresa XYZ</strong> — Cargo (2020–2024)<br>• Logro 1</p><h3>EDUCACIÓN</h3><p><strong>Universidad</strong> — Carrera (2015–2019)</p>'},
+ {icon:'📑',name:'Contrato',c:'<h2 style="text-align:center">CONTRATO DE SERVICIOS</h2><p>Entre los suscritos, <strong>EL CONTRATANTE</strong> y <strong>EL CONTRATADO</strong>:</p><h3>CLÁUSULA PRIMERA: OBJETO</h3><p>El presente contrato tiene por objeto...</p><h3>CLÁUSULA SEGUNDA: DURACIÓN</h3><p>El contrato tendrá una duración de...</p><p style="margin-top:40px">Firma: _______________ &nbsp;&nbsp; Firma: _______________</p>'},
+ {icon:'🗒️',name:'Acta',c:'<h2 style="text-align:center">ACTA Nº ____</h2><p><strong>Fecha y lugar:</strong> ___________</p><h3>PRESENTES:</h3><p>1. ___________</p><h3>ORDEN DEL DÍA:</h3><p>1. Apertura<br>2. Lectura del acta anterior<br>3. Asuntos varios</p><h3>DESARROLLO:</h3><p>Se dio inicio a la sesión a las ___ horas...</p>'},
+ {icon:'📊',name:'Propuesta',c:'<h1 style="text-align:center;color:#0084ff">PROPUESTA EJECUTIVA</h1><p style="text-align:center;color:#666">Preparada para: [Cliente]</p><hr><h2>Problema</h2><p>El cliente actualmente enfrenta...</p><h2>Solución propuesta</h2><p>Ofrecemos una solución integral...</p><h2>Inversión</h2><p>El costo total es...</p>'},
+ {icon:'📰',name:'Boletín',c:'<div style="background:#0084ff;color:white;padding:16px;border-radius:8px;text-align:center"><h1>BOLETÍN INFORMATIVO</h1><p>Edición Nº 1</p></div><h2>Noticias principales</h2><p>Lorem ipsum dolor sit amet...</p><h2>Eventos próximos</h2><p>• Evento 1: fecha<br>• Evento 2: fecha</p>'},
+ {icon:'🌿',name:'Lenguas Indígenas',c:'<h2 style="color:#27ae60;text-align:center">🌿 Diccionario Lenguas Indígenas CR</h2><table border="1" style="border-collapse:collapse;width:100%"><tr style="background:#27ae60;color:white"><th style="padding:8px">Español</th><th style="padding:8px">Bribri</th><th style="padding:8px">Cabécar</th><th style="padding:8px">Maleku</th></tr><tr><td style="padding:8px">Hola</td><td style="padding:8px">Shkëkë</td><td style="padding:8px">Ká bë́rë</td><td style="padding:8px">Ma lha</td></tr><tr><td style="padding:8px">Agua</td><td style="padding:8px">Ditsö</td><td style="padding:8px">Di</td><td style="padding:8px">Ito</td></tr><tr><td style="padding:8px">Gracias</td><td style="padding:8px">Ëyö</td><td style="padding:8px">Ká</td><td style="padding:8px">Shíi</td></tr></table>'},
+ {icon:'📬',name:'Memorando',c:'<h2 style="text-align:center">MEMORANDO INTERNO</h2><hr><p><strong>PARA:</strong> ___________</p><p><strong>DE:</strong> ___________</p><p><strong>FECHA:</strong> ___________</p><p><strong>ASUNTO:</strong> ___________</p><hr><p>Por este medio me permito informarle que...</p><p style="margin-top:30px">Firma: _______________</p>'}
+];
+const pg=document.getElementById('plantillasGrid');
+plantillas.forEach(p=>{const b=document.createElement('button');b.className='tcard';b.innerHTML=`<span class="ico">${p.icon}</span>${p.name}`;b.onclick=()=>{editor.innerHTML=p.c;updateStats();closeModal('modalPlantillas');showToast(`Plantilla: ${p.name} ✅`);};pg.appendChild(b);});
+
+// WC ARTE DISEÑOS CR (10)
+const wcD=[
+ {e:'🦋',n:'Mariposa',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#ff9ff3,#feca57,#ff6b6b,#48dbfb);border-radius:20px;margin:10px 0"><div style="font-size:26px">🦋 🦋</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:2px 2px 6px rgba(0,0,0,.4);letter-spacing:4px">${t}</div><div style="font-size:26px">🦋 🦋</div></div>`},
+ {e:'🐆',n:'Jaguar',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#f9ca24,#f0932b);border-radius:20px;margin:10px 0;border:4px solid #2d3436"><div style="font-size:32px">🐆</div><div style="font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:5px;text-shadow:2px 2px 0 #fff">${t}</div></div>`},
+ {e:'🐢',n:'Tortuga Marina',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(180deg,#006994,#00b4d8,#90e0ef);border-radius:50px;margin:10px 0"><div style="font-size:24px">🌊🐢🌊</div><div style="font-size:26px;font-weight:900;color:white;text-shadow:1px 1px 4px rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>`},
+ {e:'🦜',n:'Lapa Roja',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#e74c3c,#f39c12,#27ae60,#2980b9);border-radius:20px;margin:10px 0"><div style="font-size:36px">🦜</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:2px 2px 0 rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>`},
+ {e:'🐸',n:'Rana Venenosa',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#00b894,#00cec9,#fdcb6e);border-radius:20px;margin:10px 0"><div style="font-size:36px">🐸</div><div style="font-size:28px;font-weight:900;background:linear-gradient(90deg,#e17055,#6c5ce7,#00b894);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px">${t}</div></div>`},
+ {e:'🌿',n:'Bosque Nuboso',r:t=>`<div style="text-align:center;padding:16px;background:linear-gradient(180deg,#74b9ff 0%,#a29bfe 30%,#55efc4 65%,#00b894 100%);border-radius:20px;margin:10px 0"><div style="font-size:20px">🌫️🌿🌫️</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,0,0,.6);letter-spacing:4px;padding:6px 0">${t}</div><div style="font-size:20px">🌲🌳🌲</div></div>`},
+ {e:'🌋',n:'Volcán Arenal',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(180deg,#2d3436,#636e72,#b2bec3);border-radius:20px;margin:10px 0"><div style="font-size:32px">🌋🔥</div><div style="font-size:28px;font-weight:900;color:#fdcb6e;text-shadow:0 0 16px #e17055,2px 2px 0 #2d3436;letter-spacing:4px">${t}</div></div>`},
+ {e:'🌺',n:'Orquídea',r:t=>`<div style="text-align:center;padding:14px;background:linear-gradient(135deg,#fd79a8,#e84393,#a29bfe,#6c5ce7);border-radius:20px;margin:10px 0"><div style="font-size:32px">🌸🌺🌸</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:1px 1px 6px rgba(0,0,0,.5);letter-spacing:4px">${t}</div></div>`},
+ {e:'🇨🇷',n:'Bandera CR',r:t=>`<div style="text-align:center;margin:10px 0;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.25)"><div style="background:#003da5;padding:10px 0"></div><div style="background:#fff;padding:5px 0"></div><div style="background:#ce1126;padding:18px 0"><div style="font-size:28px;font-weight:900;color:white;text-shadow:1px 1px 0 #003da5,3px 3px 8px rgba(0,0,0,.6);letter-spacing:5px">${t}</div><div style="font-size:13px;color:rgba(255,255,255,.9)">🇨🇷 Costa Rica</div></div><div style="background:#fff;padding:5px 0"></div><div style="background:#003da5;padding:10px 0"></div></div>`},
+ {e:'🌊',n:'Costa Rica Mar',r:t=>`<div style="text-align:center;padding:16px;background:linear-gradient(180deg,#f39c12 0%,#0984e3 40%,#00cec9 70%,#55efc4 100%);border-radius:20px;margin:10px 0"><div style="font-size:26px">☀️🌴🌊</div><div style="font-size:28px;font-weight:900;color:white;text-shadow:0 2px 10px rgba(0,60,120,.7);letter-spacing:4px;padding:6px 0">${t}</div><div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:600">Costa Rica 🇨🇷</div></div>`}
+];
+
+// WC ARTE ESTILOS DE LETRAS (12)
+const wcL=[
+ {n:'🔥 Fuego',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#ff0000,#ff6b35,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌊 Océano',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#003da5,#0084ff,#00cec9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌿 Bosque',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#27ae60,#2ecc71,#a8e063);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌌 Galaxia',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#9b59b6,#6c5ce7,#fd79a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🇨🇷 Bandera CR',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#003da5 33%,#ce1126 33%,#ce1126 66%,#003da5 66%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'⭐ Dorado',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#f39c12,#ffd700,#f0932b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌈 Arcoíris',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#ff0000,#ff9900,#ffff00,#00cc00,#0084ff,#9b59b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'❄️ Hielo',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#a8edea,#c2e9fb,#dfe9f3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌅 Atardecer',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#f093fb,#f5576c,#fda085);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'💚 Neón',s:'font-size:28px;font-weight:900;color:#00ff41;-webkit-text-fill-color:#00ff41;text-shadow:0 0 10px #00ff41,0 0 20px #00ff41;letter-spacing:3px;'},
+ {n:'🔩 Cromado',s:'font-size:28px;font-weight:900;background:linear-gradient(180deg,#fff 0%,#aaa 40%,#fff 60%,#666 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'},
+ {n:'🌴 Tropical CR',s:'font-size:28px;font-weight:900;background:linear-gradient(90deg,#27ae60,#f39c12,#ce1126,#003da5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:3px;'}
+];
+
+// WC Arte modal simple
+document.getElementById('wcArteText').addEventListener('input',function(){document.getElementById('wcArtePreview').textContent=this.value||'Vista previa';});
+document.getElementById('btnInsertWcArte').onclick=()=>{
+ const txt=document.getElementById('wcArteText').value.trim();
+ if(!txt){showToast('Escribe un texto');return;}
+ const b=document.getElementById('wordart-banner');
+ b.textContent=txt;b.style.cssText='display:block;text-align:center;font-size:36px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;';
+ closeModal('modalWcArte');document.getElementById('wcArteText').value='';showToast('WC Arte insertado ✨');
+};
+
+function buildWcArteGrids(){
+ const gal=document.getElementById('wcArteGalleryGrid');
+ const fab=document.getElementById('fabWcArteGrid');
+ if(gal.children.length>0)return;
+ wcD.forEach(d=>{
+  [gal,fab].forEach(g=>{
+   const b=document.createElement('button');
+   b.className=g===fab?'fabbtn':'tcard';
+   b.style.cssText='font-size:12px;text-align:left;padding:8px 10px;';
+   b.innerHTML=`${d.e} ${d.n}`;
+   b.onclick=()=>{const t=prompt(`Texto para "${d.n}":`, 'Mi texto');if(t&&t.trim()){insertHTML(d.r(t.trim()));if(g===gal)closeModal('modalWcArteGallery');showToast(`${d.e} insertado ✨`);}};
+   g.appendChild(b);
+  });
+ });
+ // Estilos letras
+ const lg=document.getElementById('wcArteLetrasGrid');
+ if(lg&&lg.children.length===0){
+  wcL.forEach(s=>{
+   const div=document.createElement('div');div.className='wcprev';div.style.cssText=s.s;div.textContent=s.n;
+   div.onclick=()=>{const txt=document.getElementById('wcArteLetrasText').value.trim()||'Mi texto';insertHTML(`<div style="text-align:center;padding:10px;margin:8px 0"><span style="${s.s}">${txt}</span></div>`);closeModal('modalWcArteLetras');showToast(`Estilo insertado ✨`);};
+   lg.appendChild(div);
+  });
+  document.getElementById('wcArteLetrasText').addEventListener('input',function(){lg.querySelectorAll('.wcprev').forEach((el,i)=>{el.textContent=this.value||wcL[i].n;});});
+ }
+}
+
+// FORMAS (20)
+const shapes=[
+ {i:'⬛',h:'<div style="width:120px;height:80px;background:linear-gradient(135deg,#0084ff,#0050cc);border-radius:4px;display:inline-block;margin:8px"></div>'},
+ {i:'🔵',h:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#9b59b6);border-radius:50%;display:inline-block;margin:8px"></div>'},
+ {i:'🔺',h:'<div style="width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:100px solid #ff6b35;display:inline-block;margin:8px"></div>'},
+ {i:'💎',h:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#00d2ff,#0084ff);transform:rotate(45deg);display:inline-block;margin:24px"></div>'},
+ {i:'⭐',h:'<div style="font-size:60px;display:inline-block;margin:8px;color:#f39c12">⭐</div>'},
+ {i:'❤️',h:'<div style="font-size:60px;display:inline-block;margin:8px">❤️</div>'},
+ {i:'🔷',h:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#0084ff,#27ae60);clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);display:inline-block;margin:8px"></div>'},
+ {i:'🔹',h:'<div style="width:120px;height:40px;background:linear-gradient(90deg,#0084ff,#ff6b35);border-radius:20px;display:inline-block;margin:8px"></div>'},
+ {i:'🟩',h:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#27ae60,#2ecc71);border-radius:16px;display:inline-block;margin:8px"></div>'},
+ {i:'🌟',h:'<div style="font-size:60px;display:inline-block;margin:8px">🌟</div>'},
+ {i:'🔲',h:'<div style="width:100px;height:100px;border:6px solid #0084ff;border-radius:4px;display:inline-block;margin:8px"></div>'},
+ {i:'⬡',h:'<div style="width:80px;height:80px;background:linear-gradient(135deg,#9b59b6,#ff6b35);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);display:inline-block;margin:8px"></div>'},
+ {i:'➡️',h:'<div style="font-size:60px;display:inline-block;margin:8px">➡️</div>'},
+ {i:'🔔',h:'<div style="font-size:60px;display:inline-block;margin:8px">🔔</div>'},
+ {i:'🌈',h:'<div style="height:40px;background:linear-gradient(90deg,#ff0000,#ff8c00,#ffff00,#00c800,#0000ff,#8b00ff);border-radius:20px;margin:8px;display:block"></div>'},
+ {i:'🟥',h:'<div style="width:100px;height:100px;background:linear-gradient(135deg,#e74c3c,#c0392b);display:inline-block;margin:8px"></div>'},
+ {i:'🏠',h:'<div style="font-size:60px;display:inline-block;margin:8px">🏠</div>'},
+ {i:'☁️',h:'<div style="font-size:60px;display:inline-block;margin:8px">☁️</div>'},
+ {i:'📌',h:'<div style="font-size:60px;display:inline-block;margin:8px">📌</div>'},
+ {i:'🎯',h:'<div style="font-size:60px;display:inline-block;margin:8px">🎯</div>'}
+];
+const sg=document.getElementById('shapesGrid');
+shapes.forEach(s=>{const b=document.createElement('button');b.className='sbtn';b.textContent=s.i;b.onclick=()=>{insertHTML('<p>'+s.h+'</p>');closeModal('modalShapes');showToast('Forma insertada ✅');};sg.appendChild(b);});
+
+// GRÁFICOS (10)
+const chartTypes=[
+ {n:'Barras',i:'📊',t:'bar',d:[65,59,80,81,56,72],l:['Ene','Feb','Mar','Abr','May','Jun'],c:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12','#e74c3c']},
+ {n:'Líneas',i:'📈',t:'line',d:[30,50,40,70,60,90],l:['Sem1','Sem2','Sem3','Sem4','Sem5','Sem6'],c:['#0084ff']},
+ {n:'Pastel',i:'🥧',t:'pie',d:[35,25,20,15,5],l:['A','B','C','D','E'],c:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12']},
+ {n:'Dona',i:'🍩',t:'doughnut',d:[40,30,20,10],l:['Q1','Q2','Q3','Q4'],c:['#0084ff','#ff6b35','#27ae60','#9b59b6']},
+ {n:'Radar',i:'🕸️',t:'radar',d:[80,65,70,90,55,75],l:['A','B','C','D','E','F'],c:['#0084ff']},
+ {n:'Área',i:'📉',t:'line',d:[20,40,35,60,55,80],l:['L','M','X','J','V','S'],c:['#27ae60'],fill:true},
+ {n:'Barra H',i:'📋',t:'bar',d:[45,67,89,34,56],l:['Rojo','Azul','Verde','Naranja','Morado'],c:['#e74c3c','#0084ff','#27ae60','#ff6b35','#9b59b6'],hz:true},
+ {n:'Polar',i:'🌐',t:'polarArea',d:[55,40,70,30,60],l:['N','S','E','O','C'],c:['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12']},
+ {n:'Burbujas',i:'🫧',t:'bubble',bub:true},
+ {n:'Dispersión',i:'✦',t:'scatter',sct:true}
+];
+const cg=document.getElementById('chartsGrid');
+chartTypes.forEach(ct=>{const b=document.createElement('button');b.className='cbtn';b.innerHTML=`${ct.i}<br>${ct.n}`;b.onclick=()=>{insertChart(ct);closeModal('modalCharts');};cg.appendChild(b);});
+function insertChart(ct){
+ chartCount++;const id='ch-'+chartCount;
+ const w=document.createElement('div');w.className='cwrap';
+ w.innerHTML=`<button class="cdel" onclick="this.parentElement.remove()">✕</button><canvas id="${id}"></canvas>`;
+ document.getElementById('mediaZone').appendChild(w);
+ const opts={responsive:true,plugins:{legend:{position:'bottom'}}};let cfg;
+ if(ct.bub){cfg={type:'bubble',data:{datasets:[{label:'Datos',data:[{x:10,y:20,r:15},{x:15,y:10,r:10},{x:20,y:30,r:20},{x:5,y:15,r:8}],backgroundColor:['#0084ff88','#ff6b3588','#27ae6088','#9b59b688']}]},options:opts};}
+ else if(ct.sct){cfg={type:'scatter',data:{datasets:[{label:'Puntos',data:[{x:5,y:10},{x:15,y:25},{x:20,y:15},{x:25,y:30},{x:10,y:5}],backgroundColor:'#0084ff'}]},options:opts};}
+ else{const ds={label:ct.n,data:ct.d,backgroundColor:ct.t==='line'?ct.c[0]+'33':ct.c,borderColor:ct.t==='line'?ct.c[0]:ct.c,borderWidth:2,fill:ct.fill||false,tension:.4};cfg={type:ct.t,data:{labels:ct.l,datasets:[ds]},options:{...opts,indexAxis:ct.hz?'y':'x'}};}
+ new Chart(document.getElementById(id),cfg);showToast(`Gráfico "${ct.n}" insertado ✅`);
+}
+
+// TABLA → GRÁFICO
+function tableToChart(){
+ const tables=editor.querySelectorAll('table');
+ if(!tables.length){showToast('Inserta una tabla primero');return;}
+ const rows=Array.from(tables[tables.length-1].querySelectorAll('tr'));
+ if(rows.length<2){showToast('La tabla necesita al menos 2 filas');return;}
+ const headers=Array.from(rows[0].querySelectorAll('th,td')).map(c=>c.innerText.trim());
+ const labels=[],data=[];
+ for(let i=1;i<rows.length;i++){const cells=Array.from(rows[i].querySelectorAll('td,th'));if(cells.length>0){labels.push(cells[0].innerText.trim());const v=parseFloat(cells[1]?cells[1].innerText:0);data.push(isNaN(v)?0:v);}}
+ const cols=['#0084ff','#ff6b35','#27ae60','#9b59b6','#f39c12','#e74c3c','#00cec9','#fd79a8'];
+ chartCount++;const id='tc-'+chartCount;
+ const w=document.createElement('div');w.className='cwrap';
+ w.innerHTML=`<button class="cdel" onclick="this.parentElement.remove()">✕</button><p style="font-size:12px;color:#666;margin-bottom:6px">📊 Gráfico desde tabla — ${headers[0]||''} / ${headers[1]||''}</p><canvas id="${id}"></canvas>`;
+ document.getElementById('mediaZone').appendChild(w);
+ new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[{label:headers[1]||'Datos',data,backgroundColor:cols.slice(0,data.length),borderWidth:2,borderRadius:6}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
+ showToast('Tabla convertida a gráfico ✅');
+}
+
+// ECUACIONES
+const equations=[
+ {q:'E = mc²',d:'Relatividad especial'},{q:'a² + b² = c²',d:'Pitágoras'},{q:'A = πr²',d:'Área círculo'},{q:'ρ = m/V',d:'Densidad'},{q:'v = d/t',d:'Velocidad media'},{q:'F = m·a',d:'Segunda ley Newton'},{q:'V = I·R',d:'Ley de Ohm'},{q:'Fg = G·m₁m₂/r²',d:'Gravitación'},{q:'x = (-b ± √(b²-4ac)) / 2a',d:'Fórmula cuadrática'},{q:'eⁱᵖ + 1 = 0',d:'Identidad de Euler'},{q:'Ek = ½mv²',d:'Energía cinética'},{q:'n = m/M',d:'Cantidad de sustancia'}
+];
+const eqg=document.getElementById('equationGrid');
+equations.forEach(e=>{const b=document.createElement('button');b.className='eqbtn';b.innerHTML=`<strong>${e.q}</strong><br><span style="font-size:10px;color:#888">${e.d}</span>`;b.onclick=()=>{insertHTML(`<p style="font-family:'Courier New',monospace;font-size:16px;background:#f8f9fa;border-left:4px solid #0084ff;padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0"><strong>${e.q}</strong> <span style="font-size:12px;color:#666">— ${e.d}</span></p>`);closeModal('modalEquation');showToast(`Ecuación: ${e.q} ✅`);};eqg.appendChild(b);});
+function insertCustomEquation(){const eq=document.getElementById('customEquation').value.trim();if(!eq){showToast('Escribe una ecuación');return;}insertHTML(`<p style="font-family:'Courier New',monospace;font-size:16px;background:#f8f9fa;border-left:4px solid #0084ff;padding:10px 14px;border-radius:0 8px 8px 0;margin:8px 0"><strong>${eq}</strong></p>`);closeModal('modalEquation');document.getElementById('customEquation').value='';showToast('Ecuación insertada ✅');}
+
+// SÍMBOLOS
+const syms=['α','β','γ','δ','ε','ζ','η','θ','λ','μ','π','ρ','σ','τ','φ','ψ','ω','Δ','Σ','Ω','∞','√','∫','∂','≈','≠','≤','≥','±','×','÷','°','©','®','™','€','£','¥','¿','¡','ñ','Ñ','á','é','í','ó','ú'];
+const smg=document.getElementById('symbolGrid');
+syms.forEach(s=>{const b=document.createElement('button');b.className='fabbtn';b.style.fontSize='18px';b.textContent=s;b.onclick=()=>{insertHTML(s);closeModal('modalSymbol');showToast(`Símbolo: ${s}`);};smg.appendChild(b);});
+
+// COLOR
+document.getElementById('btnApplyColor').onclick=()=>{const c=document.getElementById('colorPicker').value;restoreSelection();cmd('foreColor',c);closeModal('modalColor');showToast('Color aplicado 🎨');};
+const palColors=['#000','#434343','#666','#999','#ccc','#fff','#ff0000','#ff6b35','#ff9900','#ffff00','#00ff00','#00ffff','#0084ff','#0000ff','#9900ff','#ff00ff','#e06666','#f6b26b','#ffd966','#93c47d','#76a5af','#6fa8dc','#8e7cc3','#c27ba0','#cc0000','#e69138','#f1c232','#6aa84f','#45818e','#3d85c8','#674ea7','#a64d79','#ce1126','#003da5','#27ae60','#f39c12','#0084ff','#ff6b35','#9b59b6','#2ecc71'];
+[document.getElementById('colorPickerPalette'),document.getElementById('colorPalette')].forEach(pal=>{if(!pal)return;palColors.forEach(color=>{const sw=document.createElement('button');sw.className='csw';sw.style.background=color;sw.style.border=color==='#fff'?'2px solid #ddd':'2px solid transparent';sw.onmousedown=()=>saveSelection();sw.onclick=()=>{restoreSelection();cmd('foreColor',color);showToast('Color aplicado 🎨');if(pal.id==='colorPickerPalette')closeModal('modalColor');};pal.appendChild(sw);});});
+
+// PORTAPAPELES
+function addToClipboard(text,type){if(!text||!text.trim())return;clipboardHistory.unshift({text:text.trim().substring(0,200),type});if(clipboardHistory.length>20)clipboardHistory.pop();}
+function renderClipboard(){const list=document.getElementById('clipboardList');list.innerHTML='';if(!clipboardHistory.length){list.innerHTML='<div class="cp-empty">Portapapeles vacío.<br>Copia o corta texto del documento.</div>';return;}clipboardHistory.forEach(item=>{const d=document.createElement('div');d.className='cp-item';d.innerHTML=`<span class="cpy">${item.type}</span><span class="cpt">${item.text}</span>`;d.onclick=()=>{restoreSelection();cmd('insertText',item.text);closeModal('modalPortapapeles');showToast('Pegado ✅');};list.appendChild(d);});}
+
+// FONDO
+const bgColors=['#ffffff','#fff9f0','#f0f7ff','#f0fff4','#fff0f5','#f5f0ff','#fffde7','#e8f5e9','#e3f2fd','#fce4ec','#ede7f6','#e0f7fa'];
+const bgg=document.getElementById('bgColorGrid');
+bgColors.forEach(c=>{const sw=document.createElement('button');sw.className='bgsw';sw.style.background=c;sw.style.border=c==='#ffffff'?'2px solid #ddd':'2px solid transparent';sw.onclick=()=>{document.querySelector('.content').style.background=c;editor.style.background=c;closeModal('modalBackground');showToast('Fondo aplicado 🎨');};bgg.appendChild(sw);});
+
+// COLUMNAS
+function insertColumns(n){let inner='';for(let i=1;i<=n;i++)inner+=`<div style="border:1px dashed #ccc;padding:10px;border-radius:8px;min-height:80px">Columna ${i}</div>`;insertHTML(`<div style="display:grid;grid-template-columns:${Array(n).fill('1fr').join(' ')};gap:12px;margin:8px 0">${inner}</div><p></p>`);closeModal('modalColumns');showToast(`${n} columnas insertadas ✅`);}
+
+// ARCHIVOS
+document.getElementById('fileInputImage').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{insertHTML(`<p><img src="${e.target.result}" style="max-width:100%;border-radius:8px;margin:4px 0" alt="${f.name}"></p>`);showToast('Imagen cargada ✅');};r.readAsDataURL(f);this.value='';});
+document.getElementById('fileInputVideo').addEventListener('change',function(){const f=this.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{insertHTML(`<p><video controls style="max-width:100%;border-radius:8px"><source src="${e.target.result}" type="${f.type}"></video></p>`);showToast('Video cargado ✅');};r.readAsDataURL(f);this.value='';});
+document.getElementById('fileInputAny').addEventListener('change',function(){const f=this.files[0];if(!f)return;const size=f.size<1048576?(f.size/1024).toFixed(1)+' KB':(f.size/1048576).toFixed(1)+' MB';const r=new FileReader();r.onload=e=>{insertHTML(`<div class="ablock"><span style="font-size:24px">📎</span><div style="flex:1;font-size:13px"><div style="font-weight:600;color:#0066cc">${f.name}</div><div style="color:#999;font-size:11px">${size}</div></div><a href="${e.target.result}" download="${f.name}" style="background:#0084ff;color:white;border-radius:8px;padding:6px 12px;text-decoration:none;font-size:12px;font-weight:600">Descargar</a></div>`);showToast(`Archivo: ${f.name} ✅`);};r.readAsDataURL(f);this.value='';});
+
+// ASISTENTE IA
+function toggleAI(){document.getElementById('aiPanel').classList.toggle('show');}
+async function sendAI(){
+ const inp=document.getElementById('aiInp');const msg=inp.value.trim();if(!msg)return;inp.value='';
+ const msgs=document.getElementById('aiMsgs');
+ const ud=document.createElement('div');ud.className='aiu';ud.textContent=msg;msgs.appendChild(ud);
+ const td=document.createElement('div');td.className='aitp';td.textContent='✍️ Escribiendo...';msgs.appendChild(td);
+ msgs.scrollTop=msgs.scrollHeight;
+ const ctx=editor.innerText.substring(0,800);
+ try{
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:`Eres un asistente de escritura del editor WC Corporate Editor. El documento actual contiene:\n"${ctx}"\n\nAyuda al usuario con redacción, corrección, resúmenes y traducciones. Responde en español de forma concisa.`,messages:[{role:'user',content:msg}]})});
+  const data=await res.json();td.remove();
+  const reply=data.content&&data.content[0]?data.content[0].text:'No pude procesar tu solicitud.';
+  const bd=document.createElement('div');bd.className='aib';bd.textContent=reply;msgs.appendChild(bd);
+  if(reply.length>20){const ib=document.createElement('button');ib.className='fabbtn';ib.style.marginTop='6px';ib.textContent='📋 Insertar en documento';ib.onclick=()=>{insertHTML('<p>'+reply+'</p>');showToast('Insertado ✅');};msgs.appendChild(ib);}
+ }catch(e){td.remove();const ed=document.createElement('div');ed.className='aib';ed.textContent='⚠️ Conéctate a internet para usar el Asistente IA.';msgs.appendChild(ed);}
+ msgs.scrollTop=msgs.scrollHeight;
+}
+
+// FAB
+function buildFabPanel(){
+ if(fabBuilt)return;fabBuilt=true;
+ const fonts=[{n:'Arial',f:'Arial,sans-serif'},{n:'Times New Roman',f:"'Times New Roman',serif"},{n:'Georgia',f:'Georgia,serif'},{n:'Verdana',f:'Verdana,sans-serif'},{n:'Courier New',f:"'Courier New',monospace"},{n:'Trebuchet MS',f:"'Trebuchet MS',sans-serif"},{n:'Impact',f:'Impact,sans-serif'},{n:'Palatino',f:'Palatino,serif'},{n:'Garamond',f:'Garamond,serif'},{n:'Comic Sans MS',f:"'Comic Sans MS',cursive"},{n:'Tahoma',f:'Tahoma,sans-serif'},{n:'Lucida Console',f:"'Lucida Console',monospace"}];
+ const sizes=[{l:'8pt',v:'1'},{l:'10pt',v:'2'},{l:'12pt',v:'3'},{l:'14pt',v:'4'},{l:'18pt',v:'5'},{l:'24pt',v:'6'},{l:'36pt',v:'7'}];
+ const fl=document.getElementById('fabFontList');
+ fonts.forEach(f=>{const b=document.createElement('button');b.className='fbtn';b.style.fontFamily=f.f;b.textContent=`${f.n} — El texto de muestra`;b.onmousedown=()=>saveSelection();b.onclick=()=>{restoreSelection();cmd('fontName',f.n);showToast(`Fuente: ${f.n} ✅`);};fl.appendChild(b);});
+ const sl=document.getElementById('fabSizeList');
+ sizes.forEach(s=>{const b=document.createElement('button');b.className='fabbtn';b.textContent=s.l;b.onmousedown=()=>saveSelection();b.onclick=()=>{restoreSelection();cmd('fontSize',s.v);showToast(`Tamaño: ${s.l} ✅`);};sl.appendChild(b);});
+ buildWcArteGrids();
+ const ffg=document.getElementById('fontFamilyGrid');
+ if(ffg&&!ffg.children.length){fonts.forEach(f=>{const b=document.createElement('button');b.className='fbtn';b.style.fontFamily=f.f;b.textContent=`${f.n} — El texto de muestra`;b.onmousedown=()=>saveSelection();b.onclick=()=>{restoreSelection();cmd('fontName',f.n);closeModal('modalFontFamily');showToast(`Fuente: ${f.n} ✅`);};ffg.appendChild(b);});}
+}
+function toggleFab(){const p=document.getElementById('fabPanel');if(!p.classList.contains('show')){buildFabPanel();p.classList.add('show');}else p.classList.remove('show');}
+document.addEventListener('click',e=>{const p=document.getElementById('fabPanel');const f=document.getElementById('fabBtn');if(p&&!p.contains(e.target)&&!f.contains(e.target))p.classList.remove('show');});
+
+// MENÚS
+document.querySelectorAll('.menu-btn').forEach(btn=>{
+ btn.addEventListener('click',e=>{e.stopPropagation();const id='menu-'+btn.dataset.menu;const dd=document.getElementById(id);document.querySelectorAll('.dropdown').forEach(d=>{if(d!==dd)d.classList.remove('show');});dd.classList.toggle('show');});
+});
+document.addEventListener('click',()=>{document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'));});
+document.querySelectorAll('.di,.dib').forEach(item=>{
+ item.addEventListener('mousedown',()=>saveSelection());
+ item.addEventListener('click',e=>{e.stopPropagation();item.closest('.dropdown').classList.remove('show');if(item.dataset.action)handleAction(item.dataset.action);});
+});
+
+// HANDLEACTION
+function handleAction(a){
+ switch(a){
+  case 'bold':         restoreSelection();cmd('bold');showToast('Negrita ✅');break;
+  case 'italic':       restoreSelection();cmd('italic');showToast('Cursiva ✅');break;
+  case 'underline':    restoreSelection();cmd('underline');showToast('Subrayado ✅');break;
+  case 'strike':       restoreSelection();cmd('strikeThrough');showToast('Tachado ✅');break;
+  case 'h1':           restoreSelection();cmd('formatBlock','H1');showToast('Título 1 ✅');break;
+  case 'h2':           restoreSelection();cmd('formatBlock','H2');showToast('Título 2 ✅');break;
+  case 'h3':           restoreSelection();cmd('formatBlock','H3');showToast('Título 3 ✅');break;
+  case 'bulletList':   restoreSelection();cmd('insertUnorderedList');showToast('Lista ✅');break;
+  case 'orderedList':  restoreSelection();cmd('insertOrderedList');showToast('Lista num. ✅');break;
+  case 'alignLeft':    restoreSelection();cmd('justifyLeft');showToast('Izquierda ✅');break;
+  case 'alignCenter':  restoreSelection();cmd('justifyCenter');showToast('Centrado ✅');break;
+  case 'alignRight':   restoreSelection();cmd('justifyRight');showToast('Derecha ✅');break;
+  case 'alignJustify': restoreSelection();cmd('justifyFull');showToast('Justificado ✅');break;
+  case 'indent':       restoreSelection();cmd('indent');showToast('Sangría → ✅');break;
+  case 'outdent':      restoreSelection();cmd('outdent');showToast('Sangría ← ✅');break;
+  case 'fontColor':    openModal('modalColor');break;
+  case 'fontSize':     openModal('modalFontSize');break;
+  case 'fontFamily':   buildFabPanel();openModal('modalFontFamily');break;
+  case 'lineSpacing':  openModal('modalLineSpacing');break;
+  case 'wcarte':       openModal('modalWcArte');break;
+  case 'wcarte-galeria': buildWcArteGrids();openModal('modalWcArteGallery');break;
+  case 'wcarte-letras':  buildWcArteGrids();openModal('modalWcArteLetras');break;
+  case 'undo':         cmd('undo');break;
+  case 'redo':         cmd('redo');break;
+  case 'cut':          addToClipboard(window.getSelection().toString(),'Cortado');cmd('cut');break;
+  case 'copy':         addToClipboard(window.getSelection().toString(),'Copiado');cmd('copy');break;
+  case 'paste':        cmd('paste');break;
+  case 'selectAll':    cmd('selectAll');break;
+  case 'find':{const t=prompt('Buscar:');if(!t)break;const r=prompt(`Reemplazar "${t}" por:`);if(r===null)break;editor.innerHTML=editor.innerHTML.split(t).join(r);showToast(`"${t}" → "${r}" ✅`);break;}
+  case 'trackChanges': trackOn=!trackOn;document.getElementById('trackStatus').textContent=trackOn?'🔄 Control de cambios ON':'● Auto-guardado';showToast(`Control de cambios: ${trackOn?'ACTIVADO 🟢':'DESACTIVADO 🔴'}`);break;
+  case 'addComment':{const c=prompt('Comentario:');if(c){insertHTML(`<span style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:1px 6px;font-size:12px;cursor:help" title="${c}">💬 ${c}</span>`);showToast('Comentario agregado');}break;}
+  case 'comparar':     showToast('Guarda con "Guardar como" para tener versiones comparables');break;
+  case 'proteger':{const p=prompt('Contraseña para proteger:');if(p){editor.contentEditable='false';showToast('Documento protegido 🔒 — toca aquí para desbloquear');editor.addEventListener('click',function unlock(){const p2=prompt('Contraseña:');if(p2===p){editor.contentEditable='true';showToast('Documento desprotegido 🔓');editor.removeEventListener('click',unlock);}},{once:true});}}break;
+  case 'save':         localStorage.setItem('wc-v23',editor.innerHTML);showToast('Guardado ✅');break;
+  case 'saveAs':{const n=prompt('Nombre:','documento');if(n){localStorage.setItem('wc-'+n,editor.innerHTML);showToast(`Guardado como: ${n}`);}break;}
+  case 'exportHtml':{const b=new Blob([editor.innerHTML],{type:'text/html'});const aa=document.createElement('a');aa.href=URL.createObjectURL(b);aa.download='documento.html';aa.click();showToast('HTML descargado ✅');break;}
+  case 'exportTxt':{const b=new Blob([editor.innerText],{type:'text/plain'});const aa=document.createElement('a');aa.href=URL.createObjectURL(b);aa.download='documento.txt';aa.click();showToast('TXT descargado ✅');break;}
+  case 'export':       window.print();break;
+  case 'share':        if(navigator.share)navigator.share({title:'WC Editor',text:editor.innerText});else{navigator.clipboard.writeText(editor.innerText);showToast('Copiado para compartir');}break;
+  case 'insertImage':  document.getElementById('fileInputImage').click();break;
+  case 'insertVideo':  document.getElementById('fileInputVideo').click();break;
+  case 'insertFile':   document.getElementById('fileInputAny').click();break;
+  case 'insertTable':  insertHTML('<table style="border-collapse:collapse;width:100%;margin:8px 0"><tr><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 1</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 2</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 3</th></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr></table><p></p>');showToast('Tabla insertada ✅');break;
+  case 'tableToChart': tableToChart();break;
+  case 'insertLink':{const u=prompt('URL:','https://');const t=prompt('Texto:','Ver enlace');if(u){insertHTML(`<a href="${u}" target="_blank" style="color:#0084ff">${t||u}</a>`);showToast('Enlace insertado');}break;}
+  case 'insertEmoji':{const list=['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥','🏆','💎','🌍','🤝','📚','🇨🇷','🌊','🌋','🐆','🦜'];insertHTML(list[Math.floor(Math.random()*list.length)]);break;}
+  case 'insertEquation':  openModal('modalEquation');break;
+  case 'insertSymbol':    openModal('modalSymbol');break;
+  case 'insertShape':     openModal('modalShapes');break;
+  case 'insertChart':     openModal('modalCharts');break;
+  case 'insertColumns':   openModal('modalColumns');break;
+  case 'pageBreak':       insertHTML('<hr style="border:none;border-top:2px dashed #aaa;margin:16px 0"><p></p>');showToast('Salto de página ✅');break;
+  case 'insertHeader':{const h=prompt('Texto del encabezado:');if(h)insertHTML(`<div style="border-bottom:3px solid #0084ff;padding:8px 0;text-align:center;font-weight:bold;font-size:18px;color:#0084ff;margin-bottom:16px">${h}</div>`);break;}
+  case 'insertFooter':{const f=prompt('Texto del pie de página:');if(f)insertHTML(`<div style="border-top:3px solid #0084ff;padding:8px 0;text-align:center;color:#666;font-size:13px;margin-top:16px">${f}</div>`);break;}
+  case 'pageNumber':      insertHTML('<p style="text-align:center;color:#999;font-size:13px">— Página 1 —</p>');break;
+  case 'insertFootnote':{const fn=prompt('Nota al pie:');if(fn)insertHTML(`<hr style="border:none;border-top:1px solid #ddd;margin:20px 0 4px"><p style="font-size:11px;color:#666">¹ ${fn}</p>`);break;}
+  case 'insertTOC':       insertHTML('<div style="border:1px solid #ddd;border-radius:10px;padding:16px;margin:12px 0"><h3 style="color:#0084ff;margin-bottom:10px">📑 Tabla de contenido</h3><p style="font-size:13px;color:#666">1. Introducción .............. 1<br>2. Desarrollo ................. 2<br>3. Conclusiones ............. 5<br>4. Bibliografía .............. 6</p></div>');showToast('Tabla de contenido ✅');break;
+  case 'insertCitation':{const c=prompt('Autor y año (ej: García, 2023):');if(c)insertHTML(` <sup style="color:#0084ff;font-size:11px">[${c}]</sup>`);break;}
+  case 'insertBibliography': insertHTML('<hr><h3>Bibliografía</h3><p style="font-size:13px">Autor, A. (2023). <em>Título del libro</em>. Editorial.<br>Autor, B. (2022). Título del artículo. <em>Revista</em>, <em>10</em>(2), 45–60.</p>');showToast('Bibliografía ✅');break;
+  case 'insertCaptionImg':{const c=prompt('Título de la imagen:');if(c)insertHTML(`<p style="text-align:center;font-size:12px;color:#666;font-style:italic">Figura 1. ${c}</p>`);break;}
+  case 'insertIndex':     insertHTML('<div style="border:1px solid #ddd;border-radius:10px;padding:16px;margin:12px 0"><h3 style="color:#0084ff;margin-bottom:10px">🗂️ Índice analítico</h3><p style="font-size:13px;color:#666">Término A .... 3, 7, 12<br>Término B .... 5, 9<br>Término C .... 2, 14</p></div>');showToast('Índice analítico ✅');break;
+  case 'portapapeles':    renderClipboard();openModal('modalPortapapeles');break;
+  case 'pageBackground':  openModal('modalBackground');break;
+  case 'pageBorder':      editor.style.border='4px solid #0084ff';editor.style.borderRadius='8px';showToast('Borde de página aplicado');break;
+  case 'marginNormal':    document.querySelector('.content').style.padding='20px 16px 160px';showToast('Márgenes normales');break;
+  case 'marginNarrow':    document.querySelector('.content').style.padding='8px 6px 160px';showToast('Márgenes estrechos');break;
+  case 'marginWide':      document.querySelector('.content').style.padding='40px 60px 160px';showToast('Márgenes amplios');break;
+  case 'orientPortrait':  editor.style.minWidth='';showToast('Orientación vertical');break;
+  case 'orientLandscape': editor.style.minWidth='700px';showToast('Orientación horizontal');break;
+  case 'sizeA4':          editor.style.maxWidth='794px';showToast('A4');break;
+  case 'sizeLetter':      editor.style.maxWidth='816px';showToast('Carta');break;
+  case 'sizeLegal':       editor.style.maxWidth='816px';editor.style.minHeight='1056px';showToast('Oficio');break;
+  case 'docFormatProfesional': editor.style.cssText+='font-family:Arial,sans-serif;font-size:14px;line-height:1.15;';showToast('Formato Profesional ✅');break;
+  case 'docFormatAcademico':   editor.style.cssText+="font-family:'Times New Roman',serif;font-size:14px;line-height:2;";document.querySelector('.content').style.padding='40px 60px 160px';showToast('Formato Académico ✅');break;
+  case 'docFormatCreativo':    editor.style.cssText+='font-family:Georgia,serif;font-size:15px;line-height:1.5;';showToast('Formato Creativo ✅');break;
+  case 'estiloNormal':    restoreSelection();cmd('removeFormat');showToast('Estilo Normal');break;
+  case 'estiloTitulo':    restoreSelection();cmd('formatBlock','H1');showToast('Estilo Título');break;
+  case 'estiloSubtitulo': restoreSelection();cmd('formatBlock','H2');showToast('Estilo Subtítulo');break;
+  case 'estiloCita':      {const sel=window.getSelection().toString()||'Cita destacada...';insertHTML(`<blockquote style="border-left:4px solid #0084ff;margin:8px 0;padding:10px 16px;background:#f0f7ff;border-radius:0 8px 8px 0;font-style:italic;color:#444">${sel}</blockquote>`);showToast('Estilo Cita');break;}
+  case 'estiloIntensivo': restoreSelection();cmd('bold');cmd('italic');cmd('foreColor','#e74c3c');showToast('Énfasis intenso');break;
+  case 'spellcheck':      editor.spellcheck=true;showToast('Corrector ortográfico activado ✅');break;
+  case 'wordcount':       showToast(`${editor.innerText.trim().split(/\s+/).filter(w=>w).length} palabras | ${editor.innerText.length} caracteres`);break;
+  case 'translateDoc':    toggleAI();setTimeout(()=>{document.getElementById('aiInp').value='Traduce al inglés el contenido del documento';},300);break;
+  case 'acceptChange':    showToast('Cambio aceptado ✅');break;
+  case 'rejectChange':    showToast('Cambio rechazado ❌');break;
+  case 'vistaLectura':    editor.style.background='#fafafa';showToast('Vista de lectura');break;
+  case 'vistaImpresion':  editor.style.background='#fff';editor.style.maxWidth='794px';showToast('Diseño de impresión');break;
+  case 'toggleRuler':     {const r=document.getElementById('ruler');r.style.display=r.style.display==='none'?'block':'none';showToast(`Regla ${r.style.display==='none'?'oculta':'visible'}`);break;}
+  case 'toggleGrid':      {const gi=editor.style.backgroundImage;editor.style.backgroundImage=gi?'':'linear-gradient(rgba(0,132,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,132,255,.05) 1px,transparent 1px)';editor.style.backgroundSize='20px 20px';showToast('Cuadrícula alternada');break;}
+  case 'navPanel':        showToast('Panel de navegación: usa títulos H1/H2/H3 como estructura del documento');break;
+  case 'zoom75':          editor.style.transform='scale(.75)';editor.style.transformOrigin='top left';showToast('Zoom: 75%');break;
+  case 'zoom100':         editor.style.transform='scale(1)';editor.style.transformOrigin='top left';showToast('Zoom: 100%');break;
+  case 'zoom150':         editor.style.transform='scale(1.5)';editor.style.transformOrigin='top left';showToast('Zoom: 150%');break;
+  case 'macros':          showToast('Atajos: Ctrl+B Negrita | Ctrl+I Cursiva | Ctrl+U Subrayado | Ctrl+Z Deshacer | Ctrl+S Guardar');break;
+  case 'new':             if(confirm('¿Nuevo documento? Se perderá el contenido actual.')){editor.innerHTML='<p></p>';document.getElementById('wordart-banner').style.display='none';document.getElementById('mediaZone').innerHTML='';updateStats();showToast('Nuevo documento ✅');}break;
+  case 'open':{const sv=localStorage.getItem('wc-v23');if(sv){editor.innerHTML=sv;updateStats();showToast('Documento cargado ✅');}else showToast('No hay documento guardado');break;}
+  case 'plantillas':      openModal('modalPlantillas');break;
+  case 'openAI':          toggleAI();break;
+  case 'aiMejorar':       {const s=window.getSelection().toString();if(!s){showToast('Selecciona texto primero');break;}toggleAI();setTimeout(()=>{document.getElementById('aiInp').value=`Mejora este texto: "${s}"`;},300);break;}
+  case 'aiResumen':       toggleAI();setTimeout(()=>{document.getElementById('aiInp').value='Resume el documento en 3 puntos clave';},300);break;
+  case 'aiContinuar':     toggleAI();setTimeout(()=>{document.getElementById('aiInp').value='Continúa escribiendo el documento de forma natural';},300);break;
+  case 'aiTraducir':      toggleAI();setTimeout(()=>{document.getElementById('aiInp').value='Traduce al inglés el contenido del documento';},300);break;
+  case 'createEnvelope':  insertHTML('<div style="border:2px solid #333;border-radius:8px;padding:24px;max-width:400px;margin:10px auto"><p style="font-size:12px;color:#666">Remitente: _______________</p><div style="text-align:center;margin-top:40px"><p><strong>Destinatario:</strong></p><p>_______________<br>_______________</p></div></div>');showToast('Sobre creado ✅');break;
+  case 'createLabel':     insertHTML('<div style="border:1px dashed #0084ff;border-radius:6px;padding:12px 16px;display:inline-block;margin:6px;min-width:120px;text-align:center;font-size:12px">🏷️ Etiqueta<br>_______________</div>');showToast('Etiqueta creada ✅');break;
+  case 'startMerge':      showToast('Prepara tu plantilla con campos y usa "Insertar campos"');break;
+  case 'insertFields':    insertHTML(' <span style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:1px 8px;font-size:13px">«Nombre»</span> ');showToast('Campo insertado ✅');break;
+  case 'previewMerge':    showToast('Vista previa: el documento se ve correctamente formateado');break;
+  case 'finishMerge':     showToast('Combinación finalizada — exporta con Archivo → Exportar');break;
+  case 'insert-bribri':   insertHTML(' <em>[Bribri: Shkëkë = Hola]</em> ');showToast('Insertado: Bribri');break;
+  case 'insert-cabecar':  insertHTML(' <em>[Cabécar: Ká bë́rë = Buenos días]</em> ');showToast('Insertado: Cabécar');break;
+  case 'insert-maleku':   insertHTML(' <em>[Maleku: Ma lha maráma = Buenas tardes]</em> ');showToast('Insertado: Maleku');break;
+  case 'insert-boruca':   insertHTML(' <em>[Boruca: Shíi = Gracias]</em> ');showToast('Insertado: Boruca');break;
+  case 'insert-teribe':   insertHTML(' <em>[Térraba: Di = Agua]</em> ');showToast('Insertado: Térraba');break;
+  case 'insert-guaymi':   insertHTML(' <em>[Ngäbe: Ju = Casa]</em> ');showToast('Insertado: Ngäbe');break;
+  case 'lang-bribri':     switchLang('bribri');break;
+  case 'lang-cabecar':    switchLang('cabecar');break;
+  case 'lang-maleku':     switchLang('maleku');break;
+  case 'lang-ingles':     switchLang('ingles');break;
+  case 'lang-espanol':    switchLang('espanol');break;
+  case 'dict-indigena':   showToast('Diccionario indígena — próximamente');break;
+  case 'translate-indigena': showToast('Traducción a lengua — próximamente');break;
+  default: showToast(`${a} — disponible`);
+ }
+}
+
+// BOTONES INFERIORES
+document.getElementById('btnBack').onclick=()=>cmd('undo');
+document.getElementById('btnForward').onclick=()=>cmd('redo');
+document.getElementById('btnSave').onclick=()=>{localStorage.setItem('wc-v23',editor.innerHTML);showToast('Guardado 💾');};
+document.getElementById('btnCopy').onclick=()=>{addToClipboard(editor.innerText,'Copiado');navigator.clipboard.writeText(editor.innerText);showToast('Texto copiado ⧉');};
+document.getElementById('btnShare').onclick=async()=>{if(navigator.share)await navigator.share({title:'WC Editor',text:editor.innerText});else{navigator.clipboard.writeText(editor.innerText);showToast('Copiado para compartir');}};
+
+// Ctrl+S
+document.addEventListener('keydown',e=>{if(e.ctrlKey&&e.key==='s'){e.preventDefault();localStorage.setItem('wc-v23',editor.innerHTML);showToast('Guardado 💾');}});
+
+// ARRANQUE
+const saved=localStorage.getItem('wc-v23');
+if(saved)editor.innerHTML=saved;
+updateStats();
+setInterval(()=>localStorage.setItem('wc-v23',editor.innerHTML),30000);
+</script>
 </body>
 </html>
 /* ============================================================
