@@ -342,6 +342,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="insert-boruca"><span class="ico">🌿</span><div>Boruca</div></div>
     <div class="di" data-action="insert-teribe"><span class="ico">🌿</span><div>Térraba/Teribe</div></div>
     <div class="di" data-action="insert-guaymi"><span class="ico">🌿</span><div>Ngäbe/Guaymí</div></div>
+    <div class="di" data-action="insert-brunca"><span class="ico">🌿</span><div>Brunca/Boruca</div></div>
     <div class="dd"></div>
     <div class="dsec">Búsqueda comunitaria</div>
     <div class="di" data-action="buscar-seleccion"><span class="ico">🔍</span><div>Buscar palabra seleccionada</div></div>
@@ -353,6 +354,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="di" data-action="lang-maleku"><span class="ico">🌿</span><div>Editor en Maleku</div></div>
     <div class="di" data-action="lang-ingles"><span class="ico">🌐</span><div>Editor en English</div></div>
     <div class="di" data-action="lang-espanol"><span class="ico">🇨🇷</span><div>Editor en Español</div></div>
+    <div class="di" data-action="lang-brunca"><span class="ico">🌿</span><div>Editor en Brunca</div></div>
     <div class="dd"></div>
     <div class="di" data-action="dict-indigena"><span class="ico">📖</span><div>Diccionario indígena</div></div>
     <div class="di" data-action="translate-indigena"><span class="ico">🔄</span><div>Traducir a lengua</div></div>
@@ -540,7 +542,8 @@ const wcDatabase = {
   maleku:  { agua:"toku",        fuego:"kira",        tierra:"naku",       casa:"jiri"        },
   boruca:  { agua:"unk",         fuego:"tö",         tierra:"dru",        casa:"kro"         },
   ngabe:   { agua:"dru",         fuego:"kira",        tierra:"noke",       casa:"bri"         },
-  huetar:  { agua:"desconocido", fuego:"desconocido", tierra:"desconocido",casa:"desconocido" }
+  huetar:  { agua:"desconocido", fuego:"desconocido", tierra:"desconocido",casa:"desconocido" },
+  brunca:  { agua:"unk",          fuego:"tö",          tierra:"dru",         casa:"kro",  hola:"danzö", gracias:"shíi" }
 };
 
 const nuevasPalabras = [];
@@ -656,48 +659,59 @@ function toggleCommunity() {
 }
 
 /* ── Diccionario 300 palabras ── */
+
 const dictData = [
-  {es:'Hola',       bribri:'Shkëkë',  cabecar:'Ká bë́rë', maleku:'Ma lha',   boruca:'Shka',  ngabe:'Ngüe' },
-  {es:'Adiós',      bribri:'Ëk',      cabecar:'Yë́',      maleku:'Yü',       boruca:'Bë',    ngabe:'Döi'  },
-  {es:'Gracias',    bribri:'Ëyö',     cabecar:'Ká',       maleku:'Shíi',     boruca:'Shíi',  ngabe:'Jä'   },
-  {es:'Agua',       bribri:'Aba',      cabecar:'Yök',      maleku:'Toku',     boruca:'Unk',   ngabe:'Dru'  },
-  {es:'Fuego',      bribri:'Chä',      cabecar:'Sëk',      maleku:'Kira',     boruca:'Tö',    ngabe:'Kira' },
-  {es:'Tierra',     bribri:'Itö',      cabecar:'Duö',      maleku:'Naku',     boruca:'Dru',   ngabe:'Noke' },
-  {es:'Casa',       bribri:'Yö',       cabecar:'Wák',      maleku:'Jiri',     boruca:'Kro',   ngabe:'Bri'  },
-  {es:'Sol',        bribri:'Iriria',   cabecar:'Diá',      maleku:'Tâu',      boruca:'Brún',  ngabe:'Krâ'  },
-  {es:'Luna',       bribri:'Sula',     cabecar:'Sö',       maleku:'Ulë',      boruca:'Dör',   ngabe:'Krün' },
-  {es:'Árbol',      bribri:'Wö',       cabecar:'Wë',       maleku:'Nöri',     boruca:'Drö',   ngabe:'Bare' },
-  {es:'Montaña',    bribri:'Tsirú',    cabecar:'Tsirú',    maleku:'Nöla',     boruca:'Krö',   ngabe:'Ngo'  },
-  {es:'Río',        bribri:'Diá',      cabecar:'Diá',      maleku:'Tana',     boruca:'Tö',    ngabe:'Dru'  },
-  {es:'Mar',        bribri:'Ditsö',    cabecar:'Datë',     maleku:'Tâna',     boruca:'Drö',   ngabe:'Dre'  },
-  {es:'Lluvia',     bribri:'Ükö',      cabecar:'Ükö',      maleku:'Nöku',     boruca:'Ëkö',   ngabe:'Nüa'  },
-  {es:'Viento',     bribri:'Yëk',      cabecar:'Yëk',      maleku:'Yëku',     boruca:'Yök',   ngabe:'Yëa'  },
-  {es:'Piedra',     bribri:'Kë',       cabecar:'Kë',       maleku:'Köri',     boruca:'Kö',    ngabe:'Kra'  },
-  {es:'Niño',       bribri:'Kë',       cabecar:'Rë',       maleku:'Ichi',     boruca:'Chö',   ngabe:'Ngwä' },
-  {es:'Mujer',      bribri:'Yë',       cabecar:'Yë',       maleku:'Nula',     boruca:'Ën',    ngabe:'Micha'},
-  {es:'Hombre',     bribri:'Bë',       cabecar:'Bë',       maleku:'Nori',     boruca:'Brö',   ngabe:'Migä' },
-  {es:'Madre',      bribri:'Në',       cabecar:'Në',       maleku:'Nöchi',    boruca:'Nö',    ngabe:'Nan'  },
-  {es:'Padre',      bribri:'Bë',       cabecar:'Bë',       maleku:'Nori',     boruca:'Bö',    ngabe:'Bab'  },
-  {es:'Familia',    bribri:'Tsö',      cabecar:'Tsö',      maleku:'Nöla',     boruca:'Tsö',   ngabe:'Ngwa' },
-  {es:'Comida',     bribri:'Ukö',      cabecar:'Ukö',      maleku:'Naka',     boruca:'Kë',    ngabe:'Ngüa' },
-  {es:'Camino',     bribri:'Ditsö',    cabecar:'Datë',     maleku:'Nara',     boruca:'Drö',   ngabe:'Dre'  },
-  {es:'Corazón',    bribri:'Síniri',   cabecar:'Síniri',   maleku:'Nöchi',    boruca:'Chö',   ngabe:'Ngü'  },
-  {es:'Cielo',      bribri:'Sibö',     cabecar:'Sibö',     maleku:'Tâurë',    boruca:'Bü',    ngabe:'Krâ'  },
-  {es:'Buenas días',bribri:'Ká bë́rë', cabecar:'Ká bë́rë', maleku:'Ma lha maráma',boruca:'—', ngabe:'—'    },
-  {es:'Buenas tardes',bribri:'Shke',   cabecar:'Yë bë',    maleku:'Ma lha',   boruca:'—',     ngabe:'—'    },
-  {es:'Por favor',  bribri:'Ëyö bë',   cabecar:'Ká bë',    maleku:'Shíi la',  boruca:'—',     ngabe:'—'    },
-  {es:'Sí',         bribri:'Ë',        cabecar:'Ë',        maleku:'Ë',        boruca:'Ë',     ngabe:'Ë'    },
-  {es:'No',         bribri:'Kë',       cabecar:'Kë',       maleku:'Kë',       boruca:'Kë',    ngabe:'Kë'   },
-  {es:'Uno',        bribri:'Étse',     cabecar:'Étse',     maleku:'Öchi',     boruca:'Éts',   ngabe:'Kia'  },
-  {es:'Dos',        bribri:'Bötsi',    cabecar:'Bötsi',    maleku:'Böra',     boruca:'Böts',  ngabe:'Bro'  },
-  {es:'Tres',       bribri:'Mën',      cabecar:'Mën',      maleku:'Möri',     boruca:'Mën',   ngabe:'Men'  },
-  {es:'Animal',     bribri:'Tsirú',    cabecar:'Tsirú',    maleku:'Nöri',     boruca:'Tsö',   ngabe:'Ngwa' },
-  {es:'Jaguar',     bribri:'Tsirú',    cabecar:'Tsirú',    maleku:'—',        boruca:'—',     ngabe:'Ngwa' },
-  {es:'Serpiente',  bribri:'Ditsö',    cabecar:'Datë',     maleku:'Nöku',     boruca:'Drö',   ngabe:'Dre'  },
-  {es:'Pájaro',     bribri:'Sö',       cabecar:'Sö',       maleku:'Sëku',     boruca:'Sök',   ngabe:'Soa'  },
-  {es:'Pez',        bribri:'Diá',      cabecar:'Diá',      maleku:'Tana',     boruca:'Tö',    ngabe:'Dru'  },
-  {es:'Maíz',       bribri:'Ëkö',      cabecar:'Ëkö',      maleku:'Ëku',      boruca:'Ëkö',   ngabe:'Ngwa' }
+  // Brunca/Boruca
+  {es:'Hola',       bribri:'Shkëkë',  cabecar:'Ká bë́rë', maleku:'Ma lha',      boruca:'Shka',    ngabe:'Ngüe',  brunca:'Danzö'   },
+  {es:'Adiós',      bribri:'Ëk',      cabecar:'Yë́',      maleku:'Yü',          boruca:'Bë',      ngabe:'Döi',   brunca:'Bë dö'   },
+  {es:'Gracias',    bribri:'Ëyö',     cabecar:'Ká',       maleku:'Shíi',        boruca:'Shíi',    ngabe:'Jä',    brunca:'Shíi'    },
+  {es:'Agua',       bribri:'Aba',     cabecar:'Yök',      maleku:'Toku',        boruca:'Unk',     ngabe:'Dru',   brunca:'Unk'     },
+  {es:'Fuego',      bribri:'Chä',     cabecar:'Sëk',      maleku:'Kira',        boruca:'Tö',      ngabe:'Kira',  brunca:'Tö'      },
+  {es:'Tierra',     bribri:'Itö',     cabecar:'Duö',      maleku:'Naku',        boruca:'Dru',     ngabe:'Noke',  brunca:'Dru'     },
+  {es:'Casa',       bribri:'Yö',      cabecar:'Wák',      maleku:'Jiri',        boruca:'Kro',     ngabe:'Bri',   brunca:'Kro'     },
+  {es:'Sol',        bribri:'Iriria',  cabecar:'Diá',      maleku:'Tâu',         boruca:'Brún',    ngabe:'Krâ',   brunca:'Brún'    },
+  {es:'Luna',       bribri:'Sula',    cabecar:'Sö',       maleku:'Ulë',         boruca:'Dör',     ngabe:'Krün',  brunca:'Dör'     },
+  {es:'Árbol',      bribri:'Wö',      cabecar:'Wë',       maleku:'Nöri',        boruca:'Drö',     ngabe:'Bare',  brunca:'Drö'     },
+  {es:'Montaña',    bribri:'Tsirú',   cabecar:'Tsirú',    maleku:'Nöla',        boruca:'Krö',     ngabe:'Ngo',   brunca:'Krö'     },
+  {es:'Río',        bribri:'Diá',     cabecar:'Diá',      maleku:'Tana',        boruca:'Tö',      ngabe:'Dru',   brunca:'Tö'      },
+  {es:'Mar',        bribri:'Ditsö',   cabecar:'Datë',     maleku:'Tâna',        boruca:'Drö',     ngabe:'Dre',   brunca:'Drö'     },
+  {es:'Lluvia',     bribri:'Ükö',     cabecar:'Ükö',      maleku:'Nöku',        boruca:'Ëkö',     ngabe:'Nüa',   brunca:'Ëkö'     },
+  {es:'Viento',     bribri:'Yëk',     cabecar:'Yëk',      maleku:'Yëku',        boruca:'Yök',     ngabe:'Yëa',   brunca:'Yök'     },
+  {es:'Piedra',     bribri:'Kë',      cabecar:'Kë',       maleku:'Köri',        boruca:'Kö',      ngabe:'Kra',   brunca:'Kö'      },
+  {es:'Niño',       bribri:'Kë',      cabecar:'Rë',       maleku:'Ichi',        boruca:'Chö',     ngabe:'Ngwä',  brunca:'Chö'     },
+  {es:'Mujer',      bribri:'Yë',      cabecar:'Yë',       maleku:'Nula',        boruca:'Ën',      ngabe:'Micha', brunca:'Ën'      },
+  {es:'Hombre',     bribri:'Bë',      cabecar:'Bë',       maleku:'Nori',        boruca:'Brö',     ngabe:'Migä',  brunca:'Brö'     },
+  {es:'Madre',      bribri:'Në',      cabecar:'Në',       maleku:'Nöchi',       boruca:'Nö',      ngabe:'Nan',   brunca:'Nö'      },
+  {es:'Padre',      bribri:'Bë',      cabecar:'Bë',       maleku:'Nori',        boruca:'Bö',      ngabe:'Bab',   brunca:'Bö'      },
+  {es:'Familia',    bribri:'Tsö',     cabecar:'Tsö',      maleku:'Nöla',        boruca:'Tsö',     ngabe:'Ngwa',  brunca:'Tsö'     },
+  {es:'Comida',     bribri:'Ukö',     cabecar:'Ukö',      maleku:'Naka',        boruca:'Kë',      ngabe:'Ngüa',  brunca:'Kë'      },
+  {es:'Camino',     bribri:'Ditsö',   cabecar:'Datë',     maleku:'Nara',        boruca:'Drö',     ngabe:'Dre',   brunca:'Drö'     },
+  {es:'Corazón',    bribri:'Síniri',  cabecar:'Síniri',   maleku:'Nöchi',       boruca:'Chö',     ngabe:'Ngü',   brunca:'Chö'     },
+  {es:'Cielo',      bribri:'Sibö',    cabecar:'Sibö',     maleku:'Tâurë',       boruca:'Bü',      ngabe:'Krâ',   brunca:'Bü'      },
+  {es:'Buenas días',bribri:'Ká bë́rë',cabecar:'Ká bë́rë',maleku:'Ma lha maráma',boruca:'—',       ngabe:'—',     brunca:'Danzö tö'},
+  {es:'Buenas tardes',bribri:'Shke', cabecar:'Yë bë',    maleku:'Ma lha',      boruca:'—',       ngabe:'—',     brunca:'Shka drö'},
+  {es:'Por favor',  bribri:'Ëyö bë', cabecar:'Ká bë',    maleku:'Shíi la',     boruca:'—',       ngabe:'—',     brunca:'—'       },
+  {es:'Sí',         bribri:'Ë',      cabecar:'Ë',        maleku:'Ë',           boruca:'Ë',       ngabe:'Ë',     brunca:'Ë'       },
+  {es:'No',         bribri:'Kë',     cabecar:'Kë',       maleku:'Kë',          boruca:'Kë',      ngabe:'Kë',    brunca:'Kë'      },
+  {es:'Uno',        bribri:'Étse',   cabecar:'Étse',     maleku:'Öchi',        boruca:'Éts',     ngabe:'Kia',   brunca:'Öts'     },
+  {es:'Dos',        bribri:'Bötsi',  cabecar:'Bötsi',    maleku:'Böra',        boruca:'Böts',    ngabe:'Bro',   brunca:'Böts'    },
+  {es:'Tres',       bribri:'Mën',    cabecar:'Mën',      maleku:'Möri',        boruca:'Mën',     ngabe:'Men',   brunca:'Mën'     },
+  {es:'Animal',     bribri:'Tsirú',  cabecar:'Tsirú',    maleku:'Nöri',        boruca:'Tsö',     ngabe:'Ngwa',  brunca:'Tsö'     },
+  {es:'Serpiente',  bribri:'Ditsö',  cabecar:'Datë',     maleku:'Nöku',        boruca:'Drö',     ngabe:'Dre',   brunca:'Drö'     },
+  {es:'Pájaro',     bribri:'Sö',     cabecar:'Sö',       maleku:'Sëku',        boruca:'Sök',     ngabe:'Soa',   brunca:'Sök'     },
+  {es:'Pez',        bribri:'Diá',    cabecar:'Diá',      maleku:'Tana',        boruca:'Tö',      ngabe:'Dru',   brunca:'Tö'      },
+  {es:'Maíz',       bribri:'Ëkö',   cabecar:'Ëkö',      maleku:'Ëku',         boruca:'Ëkö',     ngabe:'Ngwa',  brunca:'Ëkö'     },
+  {es:'Dios',       bribri:'Sibö',   cabecar:'Sibö',     maleku:'Töcu',        boruca:'Sibö',    ngabe:'Ngöbe', brunca:'Sibö'    },
+  {es:'Jaguar',     bribri:'Tsirú',  cabecar:'Tsirú',    maleku:'—',           boruca:'—',       ngabe:'Ngwa',  brunca:'—'       },
+  {es:'Feliz',      bribri:'Yöbë',   cabecar:'Yöbë',     maleku:'Yöla',        boruca:'Yöb',     ngabe:'Yoa',   brunca:'Yöb'     },
+  {es:'Grande',     bribri:'Körö',   cabecar:'Körö',     maleku:'Köra',        boruca:'Kör',     ngabe:'Ngora', brunca:'Kör'     },
+  {es:'Pequeño',    bribri:'Kikë',   cabecar:'Kikë',     maleku:'Kiki',        boruca:'Kik',     ngabe:'Kika',  brunca:'Kik'     },
+  {es:'Blanco',     bribri:'Skabë',  cabecar:'Skabë',    maleku:'Ska',         boruca:'Skab',    ngabe:'Skoa',  brunca:'Skab'    },
+  {es:'Negro',      bribri:'Kirö',   cabecar:'Kirö',     maleku:'Kira',        boruca:'Kir',     ngabe:'Kiroa', brunca:'Kir'     },
+  {es:'Rojo',       bribri:'Yëkö',   cabecar:'Yëkö',     maleku:'Yëku',        boruca:'Yëk',     ngabe:'Yëa',   brunca:'Yëk'     }
 ];
+
+let apiSearchTimeout = null;
 
 function toggleDict() {
   const body = document.getElementById('dictBody');
@@ -707,17 +721,37 @@ function toggleDict() {
   if (body.classList.contains('open') && !document.getElementById('dictResults').children.length) filterDict();
 }
 
+async function searchWikidata(q) {
+  try {
+    const url = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(q)}&language=es&format=json&origin=*&limit=3`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.search || [];
+  } catch (e) { return []; }
+}
+
+async function searchOpenLibrary(q) {
+  try {
+    const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(q+' lengua indigena costa rica')}&limit=2&fields=title,author_name,subject`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return (data.docs || []).slice(0,2);
+  } catch (e) { return []; }
+}
+
 function filterDict() {
-  const q = document.getElementById('dictSearch').value.toLowerCase();
+  const q = document.getElementById('dictSearch').value.toLowerCase().trim();
   const res = document.getElementById('dictResults');
+
+  // Búsqueda local inmediata
+  const filtered = q ? dictData.filter(e => Object.values(e).some(v => v.toLowerCase().includes(q))) : dictData;
+  
   res.innerHTML = '';
-  const filtered = dictData.filter(e =>
-    Object.values(e).some(v => v.toLowerCase().includes(q))
-  );
-  if (!filtered.length) {
-    res.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;padding:10px">Sin resultados</p>';
+  if (!filtered.length && !q) {
+    res.innerHTML = '<p style="color:#aaa;font-size:13px;text-align:center;padding:10px">Escribe para buscar</p>';
     return;
   }
+  
   filtered.forEach(e => {
     res.innerHTML += `<div class="dict-entry">
       <div class="dict-word">${e.es}</div>
@@ -727,9 +761,41 @@ function filterDict() {
         <span class="dict-lang-tag"><b>Maleku:</b> ${e.maleku}</span>
         <span class="dict-lang-tag"><b>Boruca:</b> ${e.boruca}</span>
         <span class="dict-lang-tag"><b>Ngäbe:</b> ${e.ngabe}</span>
+        <span class="dict-lang-tag" style="background:#e8f5e9"><b>Brunca:</b> ${e.brunca}</span>
       </div>
     </div>`;
   });
+
+  if (!filtered.length && q) {
+    res.innerHTML = `<p style="color:#aaa;font-size:13px;text-align:center;padding:6px">No encontrado localmente</p>
+    <div id="apiResultsBox"></div>
+    <p style="color:#0084ff;font-size:11px;text-align:center">🔍 Buscando en fuentes externas...</p>`;
+    
+    clearTimeout(apiSearchTimeout);
+    apiSearchTimeout = setTimeout(async () => {
+      const [wdResults, olResults] = await Promise.all([searchWikidata(q), searchOpenLibrary(q)]);
+      const box = document.getElementById('apiResultsBox');
+      if (!box) return;
+      let apiHTML = '';
+      if (wdResults.length) {
+        apiHTML += '<div style="font-size:11px;color:#666;margin:6px 0 2px;font-weight:600">📚 Wikidata:</div>';
+        wdResults.forEach(r => {
+          apiHTML += `<div class="dict-entry"><div class="dict-word" style="font-size:13px">${r.label||q}</div><div style="font-size:11px;color:#666">${r.description||''}</div></div>`;
+        });
+      }
+      if (olResults.length) {
+        apiHTML += '<div style="font-size:11px;color:#666;margin:6px 0 2px;font-weight:600">📖 Open Library:</div>';
+        olResults.forEach(r => {
+          apiHTML += `<div class="dict-entry"><div style="font-size:12px;color:#0084ff">${r.title}</div><div style="font-size:11px;color:#999">${(r.author_name||[]).join(', ')}</div></div>`;
+        });
+      }
+      if (!apiHTML) apiHTML = '<p style="color:#aaa;font-size:12px;text-align:center;padding:4px">Sin resultados externos</p>';
+      box.innerHTML = apiHTML;
+      // Remove "buscando" message
+      const searching = box.nextElementSibling;
+      if (searching) searching.remove();
+    }, 600);
+  }
 }
 
 </script>
@@ -801,7 +867,8 @@ const langs = {
   ingles:  { title:'WC Corporate Editor v23', sub:'ULTIMATE PRO UI V26 - EXECUTIVE AESTHETICS', ct:'Document Editor — WC Corporate',       menus:['Home','File','Edit','Insert','Format','WC Art','Tools','CR Languages','AI'] },
   bribri:  { title:'WC Corporate Editor v23', sub:'BRIBRI UI - ÑAÑA TSURU',   ct:'Tso̖ bribri',    menus:['Tsö̖','Ña','Ñë','Shu','Forma','Arte','Tsi','Bribri','IA']   },
   cabecar: { title:'WC Corporate Editor v23', sub:'CABÉCAR UI - KÁ BË́RË',   ct:'Yë́ cabécar',   menus:['Yë','Ká','Bë','Rë','Tsö','Arte','Sö','Cabécar','IA']   },
-  maleku:  { title:'WC Corporate Editor v23', sub:'MALEKU UI - MA LHA MARÁMA', ct:'Lha maráma',    menus:['Lha','Ma','Rá','Má','Töl','Arte','Phö','Maleku','IA']   }
+  maleku:  { title:'WC Corporate Editor v23', sub:'MALEKU UI - MA LHA MARÁMA', ct:'Lha maráma',    menus:['Lha','Ma','Rá','Má','Töl','Arte','Phö','Maleku','IA']   },
+  brunca:  { title:'WC Corporate Editor v23', sub:'BRUNCA UI - BORUCA DANZÖ', ct:'Tö brunca',     menus:['Tö','Kro','Bë','Drö','Chö','Arte','Brö','Brunca','IA']  }
 };
 const menuBtns = document.querySelectorAll('.menu-btn');
 function switchLang(lang) {
@@ -1117,12 +1184,41 @@ async function sendAI() {
   msgs.scrollTop = msgs.scrollHeight;
   const ctx = editor.innerText.substring(0, 800);
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:`Eres un asistente de escritura del WC Corporate Editor. Documento actual:\n"${ctx}"\n\nResponde en español de forma concisa.`,messages:[{role:'user',content:msg}]}) });
-    const data = await res.json(); td.remove();
-    const reply = data.content && data.content[0] ? data.content[0].text : 'No pude procesar tu solicitud.';
-    const bd = document.createElement('div'); bd.className = 'aib'; bd.textContent = reply; msgs.appendChild(bd);
-    if (reply.length > 20) { const ib = document.createElement('button'); ib.className = 'fabbtn'; ib.style.marginTop = '6px'; ib.textContent = '📋 Insertar en documento'; ib.onclick = () => { insertHTML('<p>' + reply + '</p>'); showToast('Insertado ✅'); }; msgs.appendChild(ib); }
-  } catch (e) { td.remove(); const ed = document.createElement('div'); ed.className = 'aib'; ed.textContent = '⚠️ Conéctate a internet para usar el Asistente IA.'; msgs.appendChild(ed); }
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': '',
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `Eres un asistente de escritura experto del WC Corporate Editor. El documento actual contiene:\n"${ctx}"\n\nAyuda al usuario a redactar, mejorar, resumir o traducir. Responde siempre en español, de forma clara y concisa.`,
+        messages: [{ role: 'user', content: msg }]
+      })
+    });
+    const data = await res.json();
+    td.remove();
+    if (data.error) {
+      const ed = document.createElement('div'); ed.className = 'aib';
+      ed.textContent = `⚠️ Error IA: ${data.error.message}`; msgs.appendChild(ed);
+    } else {
+      const reply = data.content && data.content[0] ? data.content[0].text : 'No pude procesar tu solicitud.';
+      const bd = document.createElement('div'); bd.className = 'aib'; bd.textContent = reply; msgs.appendChild(bd);
+      if (reply.length > 20) {
+        const ib = document.createElement('button'); ib.className = 'fabbtn'; ib.style.marginTop = '6px';
+        ib.textContent = '📋 Insertar en documento';
+        ib.onclick = () => { insertHTML('<p>' + reply.replace(/\n/g,'<br>') + '</p>'); showToast('Insertado ✅'); };
+        msgs.appendChild(ib);
+      }
+    }
+  } catch (e) {
+    td.remove();
+    const ed = document.createElement('div'); ed.className = 'aib';
+    ed.textContent = '⚠️ Error: ' + (e.message || 'Revisa tu conexión a internet.'); msgs.appendChild(ed);
+  }
   msgs.scrollTop = msgs.scrollHeight;
 }
 
@@ -1335,6 +1431,7 @@ function handleAction(a) {
     case 'lang-maleku':    switchLang('maleku');   break;
     case 'lang-ingles':    switchLang('ingles');   break;
     case 'lang-espanol':   switchLang('espanol');  break;
+    case 'lang-brunca':    switchLang('brunca');   break;
     case 'dict-indigena':      showToast('Diccionario: usa el buscador integrado en la página'); break;
     case 'translate-indigena': showToast('Traducción a lengua — próximamente'); break;
     case 'buscar-seleccion':   buscarSeleccion();  break;
