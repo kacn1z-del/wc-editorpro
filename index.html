@@ -123,6 +123,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #aiInp{flex:1;padding:10px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:14px;outline:none;}
 #aiInp:focus{border-color:#0084ff;}
 #aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
+.ai-quick-btn{background:#f0f7ff;border:1.5px solid #c0d8f0;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:#0066cc;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ai-quick-btn:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
+#aiBox{background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 12px;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;}
+#aiMsgs{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px;min-height:100px;max-height:45vh;}
 #communityBtn{position:fixed;bottom:128px;left:12px;z-index:8000;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(39,174,96,.4);cursor:pointer;line-height:1.4;text-align:center;}
 #communityPanel{display:none;position:fixed;bottom:183px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:60vh;overflow-y:auto;}
 #communityPanel.show{display:block;animation:fadeUp .2s ease;}
@@ -498,12 +502,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <!-- ASISTENTE IA -->
 <div id="aiPanel">
  <div id="aiBox">
-  <h3>🤖 Asistente Inteligente <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:#999">✕</button></h3>
+  <h3 style="display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;color:#0084ff;margin-bottom:10px">
+    🤖 Asistente Inteligente
+    <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:#999">✕</button>
+  </h3>
+
+  <!-- API KEY -->
+  <div id="apiKeyBox" style="background:#fff3cd;border:1px solid #ffc107;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;">
+    <div style="font-weight:600;color:#856404;margin-bottom:6px">🔑 Ingresa tu API Key de Anthropic</div>
+    <div style="display:flex;gap:6px">
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;outline:none;">
+      <button onclick="saveApiKey()" style="background:#0084ff;color:#fff;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600">Guardar</button>
+    </div>
+    <div style="color:#888;font-size:10px;margin-top:5px">Obtén tu key en <a href="https://console.anthropic.com" target="_blank" style="color:#0084ff">console.anthropic.com</a> · Se guarda solo en este dispositivo</div>
+  </div>
+
+  <!-- ACCIONES RÁPIDAS -->
+  <div id="aiQuickActions" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
+    <button class="ai-quick-btn" onclick="aiQuick('resumen')">📝 Resumen</button>
+    <button class="ai-quick-btn" onclick="aiQuick('ensayo')">🎓 Ensayo universitario</button>
+    <button class="ai-quick-btn" onclick="aiQuick('introduccion')">📄 Introducción</button>
+    <button class="ai-quick-btn" onclick="aiQuick('conclusion')">✅ Conclusión</button>
+    <button class="ai-quick-btn" onclick="aiQuick('mejorar')">✨ Mejorar texto</button>
+    <button class="ai-quick-btn" onclick="aiQuick('traducir')">🌐 Traducir</button>
+    <button class="ai-quick-btn" onclick="aiQuick('nuevo')">📄 Documento nuevo</button>
+    <button class="ai-quick-btn" onclick="aiQuick('citas')">📚 Agregar citas APA</button>
+  </div>
+
   <div id="aiMsgs">
-   <div class="aib">¡Hola! Soy tu asistente de escritura. ¿En qué te ayudo hoy?</div>
+   <div class="aib">¡Hola! Soy tu asistente universitario. Puedo escribir ensayos, resúmenes, introducciones y conclusiones de nivel académico. Primero ingresa tu API Key arriba, luego dime en qué te ayudo.</div>
   </div>
   <div id="aiRow">
-   <input type="text" id="aiInp" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendAI()">
+   <input type="text" id="aiInp" placeholder="Escribe tu solicitud..." onkeydown="if(event.key==='Enter')sendAI()">
    <button id="aiSend" onclick="sendAI()">➤</button>
   </div>
  </div>
@@ -1175,53 +1205,157 @@ document.getElementById('fileInputAny').addEventListener('change', function () {
 });
 
 /* ── ASISTENTE IA ── */
-function toggleAI() { document.getElementById('aiPanel').classList.toggle('show'); }
+function toggleAI() {
+  document.getElementById('aiPanel').classList.toggle('show');
+  // Mostrar key guardada si existe
+  const saved = localStorage.getItem('wc-api-key');
+  if (saved) {
+    const box = document.getElementById('apiKeyBox');
+    if (box && box.querySelector('#apiKeyInput')) {
+      box.style.background = '#d4edda';
+      box.style.borderColor = '#27ae60';
+      box.innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key guardada · <button onclick="clearApiKey()" style="background:none;border:none;color:#721c24;cursor:pointer;font-size:12px;text-decoration:underline">Cambiar</button></div>';
+    }
+  }
+}
+function clearApiKey() {
+  localStorage.removeItem('wc-api-key');
+  document.getElementById('apiKeyBox').style.background = '#fff3cd';
+  document.getElementById('apiKeyBox').style.borderColor = '#ffc107';
+  document.getElementById('apiKeyBox').innerHTML = `<div style="font-weight:600;color:#856404;margin-bottom:6px">🔑 Ingresa tu API Key de Anthropic</div>
+    <div style="display:flex;gap:6px">
+      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;outline:none;">
+      <button onclick="saveApiKey()" style="background:#0084ff;color:#fff;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600">Guardar</button>
+    </div>
+    <div style="color:#888;font-size:10px;margin-top:5px">Obtén tu key en <a href="https://console.anthropic.com" target="_blank" style="color:#0084ff">console.anthropic.com</a></div>`;
+}
 async function sendAI() {
-  const inp = document.getElementById('aiInp'); const msg = inp.value.trim(); if (!msg) return; inp.value = '';
-  const msgs = document.getElementById('aiMsgs');
-  const ud = document.createElement('div'); ud.className = 'aiu'; ud.textContent = msg; msgs.appendChild(ud);
-  const td = document.createElement('div'); td.className = 'aitp'; td.textContent = '✍️ Escribiendo...'; msgs.appendChild(td);
-  msgs.scrollTop = msgs.scrollHeight;
-  const ctx = editor.innerText.substring(0, 800);
+  const inp  = document.getElementById('aiInp');
+  const msg  = inp.value.trim();
+  if (!msg) return;
+  inp.value  = '';
+  const key  = localStorage.getItem('wc-api-key') || '';
+  if (!key) {
+    addAIMsg('bot','⚠️ Primero ingresa tu API Key de Anthropic en el campo de arriba.');
+    return;
+  }
+  addAIMsg('user', msg);
+  const td = addAIMsg('bot','✍️ Escribiendo...', true);
+  const ctx = editor.innerText.substring(0, 1200);
+  const systemPrompt = `Eres un asistente académico experto integrado en el WC Corporate Editor. 
+Ayudas a estudiantes y profesionales universitarios con:
+- Ensayos académicos con estructura completa (introducción, desarrollo, conclusión)
+- Resúmenes ejecutivos y académicos
+- Revisión y mejora de textos
+- Citas en formato APA 7ma edición
+- Traducciones profesionales
+- Análisis crítico de documentos
+
+Contenido actual del documento:
+"${ctx}"
+
+IMPORTANTE: Responde siempre en español. Para ensayos y documentos largos, usa formato HTML con etiquetas <h2>, <h3>, <p>, <ul>, <li>. Nivel universitario.`;
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': '',
+        'x-api-key': key,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: `Eres un asistente de escritura experto del WC Corporate Editor. El documento actual contiene:\n"${ctx}"\n\nAyuda al usuario a redactar, mejorar, resumir o traducir. Responde siempre en español, de forma clara y concisa.`,
+        max_tokens: 2000,
+        system: systemPrompt,
         messages: [{ role: 'user', content: msg }]
       })
     });
     const data = await res.json();
     td.remove();
     if (data.error) {
-      const ed = document.createElement('div'); ed.className = 'aib';
-      ed.textContent = `⚠️ Error IA: ${data.error.message}`; msgs.appendChild(ed);
-    } else {
-      const reply = data.content && data.content[0] ? data.content[0].text : 'No pude procesar tu solicitud.';
-      const bd = document.createElement('div'); bd.className = 'aib'; bd.textContent = reply; msgs.appendChild(bd);
-      if (reply.length > 20) {
-        const ib = document.createElement('button'); ib.className = 'fabbtn'; ib.style.marginTop = '6px';
-        ib.textContent = '📋 Insertar en documento';
-        ib.onclick = () => { insertHTML('<p>' + reply.replace(/\n/g,'<br>') + '</p>'); showToast('Insertado ✅'); };
-        msgs.appendChild(ib);
-      }
+      addAIMsg('bot', '⚠️ Error: ' + data.error.message);
+      return;
     }
+    const reply = data.content?.[0]?.text || 'Sin respuesta.';
+    addAIMsg('bot', reply);
+    // Botones de acción
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
+    const b1 = document.createElement('button');
+    b1.className = 'ai-quick-btn';
+    b1.textContent = '📋 Insertar en documento';
+    b1.onclick = () => { insertHTML(reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>'); showToast('Insertado ✅'); };
+    const b2 = document.createElement('button');
+    b2.className = 'ai-quick-btn';
+    b2.textContent = '📄 Abrir en documento nuevo';
+    b2.onclick = () => {
+      if (confirm('¿Abrir en documento nuevo? Se perderá el contenido actual.')) {
+        editor.innerHTML = reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
+        updateStats();
+        toggleAI();
+        showToast('Documento creado ✅');
+      }
+    };
+    const b3 = document.createElement('button');
+    b3.className = 'ai-quick-btn';
+    b3.textContent = '📎 Agregar al final';
+    b3.onclick = () => { editor.innerHTML += reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>'; updateStats(); showToast('Agregado al final ✅'); };
+    btns.appendChild(b1); btns.appendChild(b2); btns.appendChild(b3);
+    document.getElementById('aiMsgs').appendChild(btns);
   } catch (e) {
     td.remove();
-    const ed = document.createElement('div'); ed.className = 'aib';
-    ed.textContent = '⚠️ Error: ' + (e.message || 'Revisa tu conexión a internet.'); msgs.appendChild(ed);
+    addAIMsg('bot', '⚠️ Error de conexión: ' + e.message);
   }
-  msgs.scrollTop = msgs.scrollHeight;
+  document.getElementById('aiMsgs').scrollTop = 99999;
 }
 
+function addAIMsg(type, text, isTemp = false) {
+  const msgs = document.getElementById('aiMsgs');
+  const d = document.createElement('div');
+  d.className = type === 'user' ? 'aiu' : 'aib';
+  if (type === 'bot' && text.includes('<')) {
+    d.innerHTML = text;
+  } else {
+    d.textContent = text;
+  }
+  msgs.appendChild(d);
+  msgs.scrollTop = 99999;
+  return d;
+}
+
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key || !key.startsWith('sk-ant-')) {
+    showToast('⚠️ La key debe empezar con sk-ant-');
+    return;
+  }
+  localStorage.setItem('wc-api-key', key);
+  document.getElementById('apiKeyBox').style.background = '#d4edda';
+  document.getElementById('apiKeyBox').style.borderColor = '#27ae60';
+  document.getElementById('apiKeyBox').innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key guardada correctamente en este dispositivo</div>';
+  showToast('API Key guardada ✅');
+}
+
+function aiQuick(tipo) {
+  const ctx = editor.innerText.substring(0, 800);
+  const prompts = {
+    resumen: 'Escribe un resumen académico profesional del siguiente contenido, con estructura clara y nivel universitario: ' + (ctx || 'Escribe sobre un tema de mi elección'),
+    ensayo: 'Escribe un ensayo académico completo de nivel universitario con: introducción con tesis clara, 3 párrafos de desarrollo con argumentos sólidos y citas APA, y conclusión. Usa HTML con etiquetas h2, h3 y p. Tema: ' + (ctx || prompt('¿Sobre qué tema quieres el ensayo?') || 'Educación en Costa Rica'),
+    introduccion: 'Escribe una introducción académica universitaria para el siguiente texto, con planteamiento del problema, justificación y tesis: ' + (ctx || 'texto del documento'),
+    conclusion: 'Escribe una conclusión académica universitaria para el siguiente texto, resumiendo los puntos clave y proyecciones futuras: ' + (ctx || 'texto del documento'),
+    mejorar: 'Mejora el siguiente texto a nivel universitario, corrigiendo gramática, estilo y cohesión sin cambiar el contenido esencial: ' + (ctx || 'selecciona texto en el editor primero'),
+    traducir: 'Traduce al inglés de forma profesional y académica el siguiente texto: ' + (ctx || 'texto del documento'),
+    nuevo: (() => { const tema = prompt('¿Sobre qué tema quieres el documento?'); return tema ? `Crea un documento académico completo sobre: ${tema}. Incluye título, introducción, desarrollo con subtítulos, conclusión y referencias en formato APA. Usa HTML con h1, h2, h3, p, ul.` : null; })(),
+    citas: 'Agrega citas académicas en formato APA 7ma edición al siguiente texto, buscando fuentes relevantes y reales: ' + (ctx || 'texto del documento'),
+  };
+  const p = prompts[tipo];
+  if (!p) return;
+  document.getElementById('aiInp').value = p;
+  sendAI();
+}
+
+/* ── FAB HERRAMIENTAS 
 /* ── FAB HERRAMIENTAS ── */
 function buildFabPanel() {
   if (fabBuilt) return; fabBuilt = true;
@@ -1410,10 +1544,10 @@ function handleAction(a) {
     case 'open': { const sv = localStorage.getItem('wc-v23'); if (sv) { editor.innerHTML = sv; updateStats(); showToast('Documento cargado ✅'); } else showToast('No hay documento guardado'); break; }
     case 'plantillas':  openModal('modalPlantillas'); break;
     case 'openAI':      toggleAI(); break;
-    case 'aiMejorar':   { const s = window.getSelection().toString(); if (!s) { showToast('Selecciona texto primero'); break; } toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = `Mejora este texto: "${s}"`; }, 300); break; }
-    case 'aiResumen':   toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = 'Resume el documento en 3 puntos clave'; }, 300); break;
-    case 'aiContinuar': toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = 'Continúa escribiendo el documento de forma natural'; }, 300); break;
-    case 'aiTraducir':  toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = 'Traduce al inglés el contenido del documento'; }, 300); break;
+    case 'aiMejorar':   { const s = window.getSelection().toString(); if (!s) { showToast('Selecciona texto primero'); break; } toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = 'Mejora el siguiente texto a nivel universitario: ' + s; sendAI(); }, 400); break; }
+    case 'aiResumen':   toggleAI(); setTimeout(() => aiQuick('resumen'), 300); break;
+    case 'aiContinuar': toggleAI(); setTimeout(() => { document.getElementById('aiInp').value = 'Continúa el siguiente texto de forma natural y coherente, mismo estilo y nivel académico: ' + editor.innerText.substring(0,600); sendAI(); }, 400); break;
+    case 'aiTraducir':  toggleAI(); setTimeout(() => aiQuick('traducir'), 300); break;
     case 'createEnvelope': insertHTML('<div style="border:2px solid #333;border-radius:8px;padding:24px;max-width:400px;margin:10px auto"><p style="font-size:12px;color:#666">Remitente: _______________</p><div style="text-align:center;margin-top:40px"><p><strong>Destinatario:</strong></p><p>_______________<br>_______________</p></div></div>'); showToast('Sobre creado ✅'); break;
     case 'createLabel':  insertHTML('<div style="border:1px dashed #0084ff;border-radius:6px;padding:12px 16px;display:inline-block;margin:6px;min-width:120px;text-align:center;font-size:12px">🏷️ Etiqueta<br>_______________</div>'); showToast('Etiqueta creada ✅'); break;
     case 'startMerge':   showToast('Prepara tu plantilla y usa "Insertar campos"'); break;
