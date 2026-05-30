@@ -89,8 +89,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #fabBtn{position:fixed;bottom:128px;right:12px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.4);cursor:pointer;line-height:1.4;text-align:center;}
 #fabPanel{display:none;position:fixed;bottom:183px;right:8px;left:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto;}
 #fabPanel.show{display:block;animation:fadeUp .2s ease;}
-// --- CONFIGURACIÓN DE LA API ---
-let GEMINI_API_KEY = "TU_API_KEY_DE_GEMINI_AQUÍ";
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+#fabPanel h4{font-size:11px;color:#888;font-weight:700;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.6px;}
 #fabPanel h4:first-child{margin-top:0;}
 .fabrow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;}
 .fabbtn{border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;background:#fafafa;color:#333;font-weight:500;transition:all .15s;}
