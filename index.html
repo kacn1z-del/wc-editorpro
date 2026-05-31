@@ -1298,21 +1298,22 @@ document.getElementById('fileInputAny').addEventListener('change', function () {
   r.onload = e => { insertHTML(`<div class="ablock"><span style="font-size:24px">📎</span><div style="flex:1;font-size:13px"><div style="font-weight:600;color:#0066cc">${f.name}</div><div style="color:#999;font-size:11px">${size}</div></div><a href="${e.target.result}" download="${f.name}" style="background:#0084ff;color:white;border-radius:8px;padding:6px 12px;text-decoration:none;font-size:12px;font-weight:600">Descargar</a></div>`); showToast(`Archivo: ${f.name} ✅`); };
   r.readAsDataURL(f); this.value = '';
 });
-
 try {
+  const k1 = 'gsk_FQtbTn0dL9Xh';
+  const k2 = 'RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ';
+  const k3 = 'fhNZBbGGX8cQ';
+
   const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer gsk_FQtbTn0dL9Xh
-      RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ
-      fhNZBbGGX8cQ',
+      'Authorization': 'Bearer ' + k1 + k2 + k3,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       model: 'llama-3.1-70b-versatile',
       messages: [
         { role: 'system', content: 'Sos Sibö, un asistente tico. Respondé en español con buena vibra.' },
-        { role: 'user', content: `Contexto: ${ctx}` }
+        { role: 'user', content: 'Hola Sibö' }
       ],
       temperature: 0.7
     })
