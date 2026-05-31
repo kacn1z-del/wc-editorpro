@@ -1299,60 +1299,77 @@ document.getElementById('fileInputAny').addEventListener('change', function () {
   r.readAsDataURL(f); this.value = '';
 });
 
-/* ── ASISTENTE IA ── */
-function toggleAI() {
-  document.getElementById('aiPanel').classList.toggle('show');
-}
+try {
+  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer gsk_FQtbTn0dL9Xh
+      RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ
+      fhNZBbGGX8cQ',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'llama-3.1-70b-versatile',
+      messages: [
+        { role: 'system', content: 'Sos Sibö, un asistente tico. Respondé en español con buena vibra.' },
+        { role: 'user', content: `Contexto: ${ctx}` }
+      ],
+      temperature: 0.7
+    })
+  });
 
-async function sendAI() {
-  const inp = document.getElementById('aiInp');
-  const msg = inp.value.trim();
-  if (!msg) return;
-  inp.value = '';
+  const data = await r.json();
 
-  addAIMsg('user', msg);
-  const td = addAIMsg('bot','✦ Sibö está escribiendo...',
-  const ctx = editor.innerText.substring(0, 
-  
-      try {
-    const k1 = 'gsk_';
-    const k2 = 'FQtbTn0dL9XhRDcq9OrvWGdyb3FYt6YQZ5M1x5';
-    const k3 = 'bQfhNZBbGGX8cQ';
-    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + k1 + k2 + k3,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-70b-versatile',
-        messages: [
-          { role: 'system', content: 'Sos Sibö, asistente de WC Corporate Editor. Inspirado en el dios creador Bribri y Cabécar. Profesional, directo, ayudas con redacción académica y corporativa.' },
-          { role: 'user', content: `Contexto: ${ctx}\n\nPetición: ${msg}` }
-        ],
-       temperature: 0.7
-})
-});
-
-if (!r.ok) {
-alert('Error Groq: ' + r.status + ' - ' + r.statusText);
-return;
- }
-const data = await r.json();
-const reply = data.choices[0].message.content;
-alert('Sibö dice: ' + reply);
-if (data.error) {
-td.innerHTML = '❌ Error con Sibö: ' + data.error.message;
- return;
- }
-    td.innerHTML = marked.parse(reply);
-
-  } catch (e) {
-    td.innerHTML = '❌ Error con Sibö: ' + e.message;
+  if (!r.ok) {
+    td.innerHTML = '❌ Error Groq: ' + data.error.message;
+    return;
   }
 
+  const reply = data.choices[0].message.content;
+  td.innerHTML = marked.parse(reply);
+
+} catch (e) {
+  td.innerHTML = '❌ Error con Sibö: ' + e.message;
+}
+    // Botones de acción
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
+
+    const b1 = document.createElement('button');
+    b1.className = 'ai-quick-btn';
+    b1.textContent = '📋 Insertar en documento';
+    b1.onclick = () => {
+      insertHTML(reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>');
+      showToast('Insertado ✅');
+    };
+
+    const b2 = document.createElement('button');
+    b2.className = 'ai-quick-btn';
+    b2.textContent = '📄 Abrir en documento nuevo';
+    b2.onclick = () => openDocWindow(
+      reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>',
+      'Documento generado por Gemini'
+    );
+
+    const b3 = document.createElement('button');
+    b3.className = 'ai-quick-btn';
+    b3.textContent = '📎 Agregar al final';
+    b3.onclick = () => {
+      editor.innerHTML += reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
+      updateStats();
+      showToast('Agregado ✅');
+    };
+
+    btns.appendChild(b1); btns.appendChild(b2); btns.appendChild(b3);
+    document.getElementById('aiMsgs').appendChild(btns);
+  } catch (e) {
+    td.remove();
+    addAIMsg('bot', '⚠️ Error de conexión: ' + e.message);
+  }
   document.getElementById('aiMsgs').scrollTop = 99999;
 }
+
+
 function addAIMsg(type, text, isTemp = false) {
   const msgs = document.getElementById('aiMsgs');
   const d = document.createElement('div');
@@ -1365,6 +1382,19 @@ function addAIMsg(type, text, isTemp = false) {
   msgs.appendChild(d);
   msgs.scrollTop = 99999;
   return d;
+}
+
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key || !key.startsWith('AIza')) {
+    showToast('⚠️ La key de Gemini debe empezar con AIza');
+    return;
+  }
+  localStorage.setItem('wc-gemini-key', key);
+  document.getElementById('apiKeyBox').style.background = '#d4edda';
+  document.getElementById('apiKeyBox').style.borderColor = '#27ae60';
+  document.getElementById('apiKeyBox').innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key guardada correctamente en este dispositivo</div>';
+  showToast('API Key guardada ✅');
 }
 
 function aiQuick(tipo) {
@@ -1786,93 +1816,7 @@ img{max-width:100%;}</style></head><body>${content}</body></html>`;
   a.click();
   showToast('HTML exportado ✅');
 }
-async function sendAI() {
-  const inp = document.getElementById('aiInp');
-  const msg = inp.value.trim();
-  if (!msg) return;
-  inp.value = '';
 
-  addAIMsg('user', msg);
-  const td = addAIMsg('bot','✦ Meta AI está escribiendo...', true);
-  const ctx = editor.innerText.substring(0, 2000);
-
-  const systemPrompt = `Eres un asistente integrado en WC Corporate Editor v23.
-Ayudas a redactar, mejorar, resumir y corregir textos en español.
-Documento actual del usuario: "${ctx}"
-Responde directo y profesional. Para textos largos usa HTML con <h2>, <h3>, <p>, <ul>, <li>.`;
-
-  try {
-    const res = await fetch(LLAMA_CONFIG.api_url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${LLAMA_CONFIG.api_key}`
-      },
-      body: JSON.stringify({
-        model: LLAMA_CONFIG.model,
-        messages: [
-          {role: "system", content: systemPrompt},
-          {role: "user", content: msg}
-        ],
-        temperature: 0.7,
-        max_tokens: 2048
-      })
-    });
-
-    const data = await res.json();
-    td.remove();
-
-    if (data.error) {
-      addAIMsg('bot', '⚠️ Error: ' + data.error.message + '. Revisa tu API Key en console.groq.com');
-      return;
-    }
-
-    const reply = data.choices[0].message.content;
-    addAIMsg('bot', reply);
-
-    const btns = document.createElement('div');
-    btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
-
-    const b1 = document.createElement('button');
-    b1.className = 'ai-quick-btn';
-    b1.textContent = '📋 Insertar en documento';
-    b1.onclick = () => {
-      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
-      insertHTML(html);
-      showToast('Insertado ✅');
-    };
-
-    const b2 = document.createElement('button');
-    b2.className = 'ai-quick-btn';
-    b2.textContent = '📄 Abrir en documento nuevo';
-    b2.onclick = () => {
-      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
-      openDocWindow(html, 'Generado por Meta AI');
-    };
-
-    const b3 = document.createElement('button');
-    b3.className = 'ai-quick-btn';
-    b3.textContent = '📎 Agregar al final';
-    b3.onclick = () => {
-      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
-      editor.innerHTML += html;
-      updateStats();
-      showToast('Agregado ✅');
-    };
-
-    btns.appendChild(b1);
-    btns.appendChild(b2);
-    btns.appendChild(b3);
-    document.getElementById('aiMsgs').appendChild(btns);
-
-  } catch (e) {
-    td.remove();
-    addAIMsg('bot', '⚠️ Error de conexión: ' + e.message);
-  }
-  document.getElementById('aiMsgs').scrollTop = 99999;
-}
-// ===== FIN INTEGRACIÓN =====
-</script>
 /* ── OVERRIDE: plantillas y nuevo abren en docWindow ── */
 function openTemplate(content, name) {
   openDocWindow(content, 'Plantilla: ' + name);
@@ -2144,18 +2088,6 @@ setInterval(() => localStorage.setItem('wc-v23', editor.innerHTML), 30000);
     <button class="exp-cancel" onclick="closeExport()">Cancelar</button>
   </div>
 </div>
-  
-  <script>
-  // ===== INTEGRACIÓN META LLAMA API CON GROQ =====
-  const LLAMA_CONFIG = {
-    api_key: "gsk_" + "7fXRfeHglhfEjYWYJ2XiWGdyb3FYcHLW6jIVxonbvZGp8JtVLEAv",
-    model: "llama-3.1-8b-instant",
-    api_url: "https://api.groq.com/openai/v1/chat/completions"
-  };
-  
-  async function sendAI() {
-    // ... todo el código de la IA
-  }
-  </script>
+
 </body>
 </html>
