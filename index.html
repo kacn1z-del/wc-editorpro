@@ -1318,9 +1318,9 @@ async function sendAI() {
     const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        const k1 = 'gsk_abc123';
-const k2 = 'xyz789uvw456';
-const k3 gsk_7fXRfeНgIhfEjYWYJ2ХiW';
+        const k1 = 'gsk_';
+const k2 = '7fXRfeНgIhfEj';
+const k3 = 'YWYJ2ХiW';
 'Authorization': 'Bearer ' + k1 + k2 + k3,
       },
       body: JSON.stringify({
@@ -1348,8 +1348,6 @@ const data = await r.json();
 
   document.getElementById('aiMsgs').scrollTop = 99999;
 }
-    
-
 function addAIMsg(type, text, isTemp = false) {
   const msgs = document.getElementById('aiMsgs');
   const d = document.createElement('div');
@@ -1362,19 +1360,6 @@ function addAIMsg(type, text, isTemp = false) {
   msgs.appendChild(d);
   msgs.scrollTop = 99999;
   return d;
-}
-
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  if (!key || !key.startsWith('AIza')) {
-    showToast('⚠️ La key de Gemini debe empezar con AIza');
-    return;
-  }
-  localStorage.setItem('wc-gemini-key', key);
-  document.getElementById('apiKeyBox').style.background = '#d4edda';
-  document.getElementById('apiKeyBox').style.borderColor = '#27ae60';
-  document.getElementById('apiKeyBox').innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key guardada correctamente en este dispositivo</div>';
-  showToast('API Key guardada ✅');
 }
 
 function aiQuick(tipo) {
