@@ -1302,118 +1302,53 @@ document.getElementById('fileInputAny').addEventListener('change', function () {
 /* ── ASISTENTE IA ── */
 function toggleAI() {
   document.getElementById('aiPanel').classList.toggle('show');
-  // Mostrar key guardada si existe
-  const saved = localStorage.getItem('wc-gemini-key');
-  if (saved) {
-    const box = document.getElementById('apiKeyBox');
-    if (box && box.querySelector('#apiKeyInput')) {
-      box.style.background = '#d4edda';
-      box.style.borderColor = '#27ae60';
-      box.innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key guardada · <button onclick="clearApiKey()" style="background:none;border:none;color:#721c24;cursor:pointer;font-size:12px;text-decoration:underline">Cambiar</button></div>';
-    }
-  }
 }
-function clearApiKey() {
-  localStorage.removeItem('wc-gemini-key');
-  document.getElementById('apiKeyBox').style.background = '#fff3cd';
-  document.getElementById('apiKeyBox').style.borderColor = '#ffc107';
-  document.getElementById('apiKeyBox').innerHTML = `<div style="font-weight:600;color:#856404;margin-bottom:6px">🔑 Ingresa tu API Key de Anthropic</div>
-    <div style="display:flex;gap:6px">
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-..." style="flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;outline:none;">
-      <button onclick="saveApiKey()" style="background:#0084ff;color:#fff;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600">Guardar</button>
-    </div>
-    <div style="color:#888;font-size:10px;margin-top:5px">Obtén tu key en <a href="https://console.anthropic.com" target="_blank" style="color:#0084ff">console.anthropic.com</a></div>`;
-}
+
 async function sendAI() {
   const inp = document.getElementById('aiInp');
   const msg = inp.value.trim();
   if (!msg) return;
   inp.value = '';
-  const key = localStorage.getItem('wc-gemini-key') || '';
-  if (!key) {
-    addAIMsg('bot','⚠️ Primero ingresa tu API Key de Gemini en el campo de arriba.');
-    return;
-  }
+
   addAIMsg('user', msg);
-  const td = addAIMsg('bot','✦ Gemini está escribiendo...', true);
-  const ctx = editor.innerText.substring(0, 1200);
-
-  /* ── Adaptación del GeminiHandler Unity → JavaScript ─────────────────
-     Original Unity: AskGemini(prompt, textContent, onResult)
-     - url: generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
-     - payload: {"contents":[{"parts":[{"text":"..."}]}]}
-     - Header: Content-Type: application/json
-  ─────────────────────────────────────────────────────────────────────── */
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-
-  const systemContext = `Eres un asistente académico experto integrado en WC Corporate Editor.
-Ayudas con ensayos universitarios, resúmenes, introduciones, conclusiones, citas APA y mejora de textos.
-Documento actual del editor:\n"${ctx}"\n
-Responde siempre en español. Para documentos largos usa HTML con h2, h3, p, ul, li. Nivel universitario.`;
-
-  // Mismo formato de payload que el GeminiHandler de Unity
-  const fullPrompt = systemContext + '\n\nSolicitud del usuario: ' + msg;
-  const jsonPayload = JSON.stringify({
-    contents: [{ parts: [{ text: fullPrompt }] }],
-    generationConfig: { maxOutputTokens: 2048, temperature: 0.7 }
-  });
-
-  try {
-    const res = await fetch(GEMINI_URL, {
+  const td = addAIMsg('bot','✦ Sibö está escribiendo...',
+  const ctx = editor.innerText.substring(0, 
+  
+    try {
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: jsonPayload
+      headers: {
+        const k1 = 'gsk_abc123';
+const k2 = 'xyz789uvw456';
+const k3 gsk_7fXRfeНgIhfEjYWYJ2ХiW';
+'Authorization': 'Bearer ' + k1 + k2 + k3,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-70b-versatile',
+        messages: [
+          { role: 'system', content: 'Sos Sibö, asistente de WC Corporate Editor. Inspirado en el dios creador Bribri y Cabécar. Profesional, directo, ayudas con redacción académica y corporativa.' },
+          { role: 'user', content: `Contexto: ${ctx}\n\nPetición: ${msg}` }
+        ],
+        temperature: 0.7
+      })
     });
-    const data = await res.json();
-    td.remove();
+const data = await r.json();
 
     if (data.error) {
-      addAIMsg('bot', '⚠️ Error Gemini: ' + data.error.message);
+      td.innerHTML = '❌ Error con Sibö: ' + data.error.message;
       return;
     }
 
-    // Extrae el texto de la respuesta (igual que Unity procesa downloadHandler.text)
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Sin respuesta de Gemini.';
-    addAIMsg('bot', reply);
+    const reply = data.choices[0].message.content;
+    td.innerHTML = marked.parse(reply);
 
-    // Botones de acción
-    const btns = document.createElement('div');
-    btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
-
-    const b1 = document.createElement('button');
-    b1.className = 'ai-quick-btn';
-    b1.textContent = '📋 Insertar en documento';
-    b1.onclick = () => {
-      insertHTML(reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>');
-      showToast('Insertado ✅');
-    };
-
-    const b2 = document.createElement('button');
-    b2.className = 'ai-quick-btn';
-    b2.textContent = '📄 Abrir en documento nuevo';
-    b2.onclick = () => openDocWindow(
-      reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>',
-      'Documento generado por Gemini'
-    );
-
-    const b3 = document.createElement('button');
-    b3.className = 'ai-quick-btn';
-    b3.textContent = '📎 Agregar al final';
-    b3.onclick = () => {
-      editor.innerHTML += reply.includes('<') ? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
-      updateStats();
-      showToast('Agregado ✅');
-    };
-
-    btns.appendChild(b1); btns.appendChild(b2); btns.appendChild(b3);
-    document.getElementById('aiMsgs').appendChild(btns);
   } catch (e) {
-    td.remove();
-    addAIMsg('bot', '⚠️ Error de conexión: ' + e.message);
+    td.innerHTML = '❌ Error con Sibö: ' + e.message;
   }
+
   document.getElementById('aiMsgs').scrollTop = 99999;
 }
-
+    
 
 function addAIMsg(type, text, isTemp = false) {
   const msgs = document.getElementById('aiMsgs');
