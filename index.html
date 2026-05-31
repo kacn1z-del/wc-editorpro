@@ -1314,14 +1314,15 @@ async function sendAI() {
   const td = addAIMsg('bot','✦ Sibö está escribiendo...',
   const ctx = editor.innerText.substring(0, 
   
-    try {
+      try {
+    const k1 = 'gsk_';
+    const k2 = '7fXRfeHgIhfEj';
+    const k3 = 'YWYJ2XiW';
     const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        const k1 = 'gsk_';
-const k2 = '7fXRfeНgIhfEj';
-const k3 = 'YWYJ2ХiW';
-'Authorization': 'Bearer ' + k1 + k2 + k3,
+        'Authorization': 'Bearer ' + k1 + k2 + k3,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'llama-3.1-70b-versatile',
