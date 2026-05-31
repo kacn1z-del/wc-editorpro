@@ -589,47 +589,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 </div>
 
-<!-- ASISTENTE IA GEMINI -->
+<!-- SIBÖ - ASISTENTE TICO PARA WC CORPORATE -->
 <div id="aiPanel">
  <div id="aiBox">
   <h3 style="margin-bottom:10px">
-    <span style="font-size:20px">✦</span>
-    <span style="background:linear-gradient(90deg,#4285f4,#34a853,#fbbc05,#ea4335);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:16px;font-weight:700">Asistente Gemini</span>
+    <span style="font-size:20px">🇨🇷</span>
+    <span style="color:#0084ff;font-size:16px;font-weight:700">Pura vida mae, soy Sibö</span>
     <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;font-size:20px;cursor:pointer;color:#999">✕</button>
   </h3>
 
-  <!-- API KEY GEMINI -->
   <div id="apiKeyBox" style="background:#e8f0fe;border:1px solid #4285f4;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;">
-    <div style="font-weight:600;color:#1a73e8;margin-bottom:6px">🔑 Ingresa tu API Key de Google Gemini</div>
+    <div style="font-weight:600;color:#1a73e8;margin-bottom:6px">🔑 API Key de Groq</div>
     <div style="display:flex;gap:6px">
-      <input type="password" id="apiKeyInput" placeholder="AIza..." style="flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;outline:none;">
+      <input type="password" id="apiKeyInput" placeholder="gsk_..." style="flex:1;padding:7px 10px;border:1.5px solid #ddd;border-radius:8px;font-size:13px;outline:none;">
       <button onclick="saveApiKey()" style="background:#4285f4;color:#fff;border:none;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:12px;font-weight:600">Guardar</button>
     </div>
-    <div style="color:#888;font-size:10px;margin-top:5px">Obtén tu key gratis en <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#4285f4">aistudio.google.com</a> · Se guarda solo en este dispositivo</div>
-  </div>
-
-  <!-- ACCIONES RÁPIDAS -->
-  <div id="aiQuickActions" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">
-    <button class="ai-quick-btn" onclick="aiQuick('resumen')">📝 Resumen</button>
-    <button class="ai-quick-btn" onclick="aiQuick('ensayo')">🎓 Ensayo universitario</button>
-    <button class="ai-quick-btn" onclick="aiQuick('introduccion')">📄 Introducción</button>
-    <button class="ai-quick-btn" onclick="aiQuick('conclusion')">✅ Conclusión</button>
-    <button class="ai-quick-btn" onclick="aiQuick('mejorar')">✨ Mejorar texto</button>
-    <button class="ai-quick-btn" onclick="aiQuick('traducir')">🌐 Traducir</button>
-    <button class="ai-quick-btn" onclick="aiQuick('nuevo')">📄 Documento nuevo</button>
-    <button class="ai-quick-btn" onclick="aiQuick('citas')">📚 Agregar citas APA</button>
+    <div style="color:#888;font-size:10px;margin-top:5px">Gratis en <a href="https://console.groq.com/keys" target="_blank" style="color:#4285f4">console.groq.com</a></div>
   </div>
 
   <div id="aiMsgs">
-   <div class="aib">¡Hola! Soy tu asistente universitario. Puedo escribir ensayos, resúmenes, introducciones y conclusiones de nivel académico. Primero ingresa tu API Key arriba, luego dime en qué te ayudo.</div>
+   <div class="aib">Pura vida mae, soy Sibö 🇨🇷 ¿En qué te ayudo con tu documento?</div>
   </div>
   <div id="aiRow">
-   <input type="text" id="aiInp" placeholder="Escribe tu solicitud..." onkeydown="if(event.key==='Enter')sendAI()">
+   <input type="text" id="aiInp" placeholder="Pregúntame algo mae..." onkeydown="if(event.key==='Enter')sendAI()">
    <button id="aiSend" onclick="sendAI()">➤</button>
   </div>
  </div>
 </div>
-
 <!-- MODALES -->
 <div class="mo" id="modalPlantillas"><div class="mb"><h3>Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
 <div class="mo" id="modalWcArte"><div class="mb"><h3>WC Arte</h3><input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto..."><div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div><div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div></div></div>
