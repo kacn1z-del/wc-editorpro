@@ -1285,53 +1285,45 @@ document.getElementById('fileInputImage').addEventListener('change', function ()
   r.onload = e => { insertHTML(`<p><img src="${e.target.result}" style="max-width:100%;border-radius:8px;margin:4px 0" alt="${f.name}"></p>`); showToast('Imagen cargada ✅'); };
   r.readAsDataURL(f); this.value = '';
 });
-document.getElementById('fileInputVideo').addEventListener('change', function () {
+document.getElementById('fileInputAny').addEventListener('change', async function () {
   const f = this.files[0]; if (!f) return;
+  const size = f.size < 1048576? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(1)+' MB';
   const r = new FileReader();
-  r.onload = e => { insertHTML(`<p><video controls style="max-width:100%;border-radius:8px"><source src="${e.target.result}" type="${f.type}"></video></p>`); showToast('Video cargado ✅'); };
+  r.onload = e => { insertHTML(`<div class="ablo"><span style="font-size:24px">📎</span><div style="font-size:12px">${f.name} ${size}</div></div>`); };
   r.readAsDataURL(f); this.value = '';
-});
-document.getElementById('fileInputAny').addEventListener('change', function () {
-  const f = this.files[0]; if (!f) return;
-  const size = f.size < 1048576 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(1)+' MB';
-  const r = new FileReader();
-  r.onload = e => { insertHTML(`<div class="ablock"><span style="font-size:24px">📎</span><div style="flex:1;font-size:13px"><div style="font-weight:600;color:#0066cc">${f.name}</div><div style="color:#999;font-size:11px">${size}</div></div><a href="${e.target.result}" download="${f.name}" style="background:#0084ff;color:white;border-radius:8px;padding:6px 12px;text-decoration:none;font-size:12px;font-weight:600">Descargar</a></div>`); showToast(`Archivo: ${f.name} ✅`); };
-  r.readAsDataURL(f); this.value = '';
-});
-try {
-  const k1 = 'gsk_FQtbTn0dL9Xh';
-  const k2 = 'RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ';
-  const k3 = 'fhNZBbGGX8cQ';
 
-  const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + k1 + k2 + k3,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'llama-3.1-70b-versatile',
-      messages: [
-        { role: 'system', content: 'Sos Sibö, un asistente tico. Respondé en español con buena vibra.' },
-        { role: 'user', content: 'Hola Sibö' }
-      ],
-      temperature: 0.7
-    })
-  });
+  // CÓDIGO DE GROQ - SIBÖ
+  try {
+    const k1 = 'gsk_FQtbTn0dL9Xh';
+    const k2 = 'RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ';
+    const k3 = 'fhNZBbGGX8cQ';
 
-  const data = await resp.json();
+    const resp = await fetch('https://api.allorigins.win/raw?url=https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + k1 + k2 + k3,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-70b-versatile',
+        messages: [
+          { role: 'system', content: 'Sos Sibö, un asistente tico.' },
+          { role: 'user', content: 'Hola' }
+        ]
+      })
+    });
 
-  if (!resp.ok) {
-    alert('Error Groq: ' + data.error.message);
-    return;
+    const data = await resp.json();
+    if (!resp.ok) {
+      alert('Error Groq: ' + data.error.message);
+      return;
+    }
+    alert(data.choices[0].message.content);
+
+  } catch (e) {
+    alert('Error: ' + e.message);
   }
-
-  const reply = data.choices[0].message.content;
-  alert(reply);
-
-} catch (e) {
-  alert('Error con Sibö: ' + e.message);
-}
+});
     // Botones de acción
     const btns = document.createElement('div');
     btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
