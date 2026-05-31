@@ -1861,13 +1861,6 @@ img{max-width:100%;}</style></head><body>${content}</body></html>`;
   a.click();
   showToast('HTML exportado ✅');
 }
-<script>
-const LLAMA_CONFIG = {
-  api_key: "gsk_" + "7fXRfeHglhfEjYWYJ2XiWGdyb3FYcHLW6jIVxonbvZGp8JtVLEAv",
-  model: "llama-3.1-8b-instant",
-  api_url: "https://api.groq.com/openai/v1/chat/completions"
-};
-
 async function sendAI() {
   const inp = document.getElementById('aiInp');
   const msg = inp.value.trim();
@@ -2226,6 +2219,18 @@ setInterval(() => localStorage.setItem('wc-v23', editor.innerHTML), 30000);
     <button class="exp-cancel" onclick="closeExport()">Cancelar</button>
   </div>
 </div>
-
+  
+  <script>
+  // ===== INTEGRACIÓN META LLAMA API CON GROQ =====
+  const LLAMA_CONFIG = {
+    api_key: "gsk_" + "7fXRfeHglhfEjYWYJ2XiWGdyb3FYcHLW6jIVxonbvZGp8JtVLEAv",
+    model: "llama-3.1-8b-instant",
+    api_url: "https://api.groq.com/openai/v1/chat/completions"
+  };
+  
+  async function sendAI() {
+    // ... todo el código de la IA
+  }
+  </script>
 </body>
 </html>
