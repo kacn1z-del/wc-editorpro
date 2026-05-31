@@ -1303,7 +1303,7 @@ try {
   const k2 = 'RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ';
   const k3 = 'fhNZBbGGX8cQ';
 
-  const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const resp = await fetch('https://corsproxy.io/?https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer ' + k1 + k2 + k3,
@@ -1319,18 +1319,18 @@ try {
     })
   });
 
-  const data = await r.json();
+  const data = await resp.json();
 
-  if (!r.ok) {
-    td.innerHTML = '❌ Error Groq: ' + data.error.message;
+  if (!resp.ok) {
+    alert('Error Groq: ' + data.error.message);
     return;
   }
 
   const reply = data.choices[0].message.content;
-  td.innerHTML = marked.parse(reply);
+  alert(reply);
 
 } catch (e) {
-  td.innerHTML = '❌ Error con Sibö: ' + e.message;
+  alert('Error con Sibö: ' + e.message);
 }
     // Botones de acción
     const btns = document.createElement('div');
