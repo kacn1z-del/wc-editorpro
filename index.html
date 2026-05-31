@@ -1293,12 +1293,21 @@ document.getElementById('fileInputAny').addEventListener('change', async functio
   r.readAsDataURL(f); this.value = '';
 
   // CÓDIGO DE GROQ - SIBÖ
+  document.getElementById('fileInputAny').addEventListener('change', async function () {
+  const f = this.files[0]; if (!f) return;
+  const size = f.size < 1048576? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(1)+' MB';
+  const r = new FileReader();
+  r.onload = e => { insertHTML(`<div class="ablo"><span style="font-size:24px">📎</span><div style="font-size:12px">${f.name} ${size}</div></div>`); };
+  r.readAsDataURL(f); this.value = '';
+
   try {
+    alert('Probando Sibö...'); // Para ver si llega hasta aquí
+
     const k1 = 'gsk_FQtbTn0dL9Xh';
     const k2 = 'RDcq9OrvWGdyb3FYt6YQZ5M1x5bQ';
     const k3 = 'fhNZBbGGX8cQ';
 
-    const resp = await fetch('https://api.allorigins.win/raw?url=https://api.groq.com/openai/v1/chat/completions', {
+    const resp = await fetch('https://corsproxy.io/?https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + k1 + k2 + k3,
@@ -1307,7 +1316,7 @@ document.getElementById('fileInputAny').addEventListener('change', async functio
       body: JSON.stringify({
         model: 'llama-3.1-70b-versatile',
         messages: [
-          { role: 'system', content: 'Sos Sibö, un asistente tico.' },
+          { role: 'system', content: 'Sos Sibö, un asistente tico. Responde corto.' },
           { role: 'user', content: 'Hola' }
         ]
       })
@@ -1318,7 +1327,7 @@ document.getElementById('fileInputAny').addEventListener('change', async functio
       alert('Error Groq: ' + data.error.message);
       return;
     }
-    alert(data.choices[0].message.content);
+    alert('Sibö dice: ' + data.choices[0].message.content);
 
   } catch (e) {
     alert('Error: ' + e.message);
