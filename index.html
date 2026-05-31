@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ja<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -1861,7 +1861,100 @@ img{max-width:100%;}</style></head><body>${content}</body></html>`;
   a.click();
   showToast('HTML exportado ✅');
 }
+<script>
+const LLAMA_CONFIG = {
+  api_key: "gsk_" + "7fXRfeHglhfEjYWYJ2XiWGdyb3FYcHLW6jIVxonbvZGp8JtVLEAv",
+  model: "llama-3.1-8b-instant",
+  api_url: "https://api.groq.com/openai/v1/chat/completions"
+};
 
+async function sendAI() {
+  const inp = document.getElementById('aiInp');
+  const msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+
+  addAIMsg('user', msg);
+  const td = addAIMsg('bot','✦ Meta AI está escribiendo...', true);
+  const ctx = editor.innerText.substring(0, 2000);
+
+  const systemPrompt = `Eres un asistente integrado en WC Corporate Editor v23.
+Ayudas a redactar, mejorar, resumir y corregir textos en español.
+Documento actual del usuario: "${ctx}"
+Responde directo y profesional. Para textos largos usa HTML con <h2>, <h3>, <p>, <ul>, <li>.`;
+
+  try {
+    const res = await fetch(LLAMA_CONFIG.api_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${LLAMA_CONFIG.api_key}`
+      },
+      body: JSON.stringify({
+        model: LLAMA_CONFIG.model,
+        messages: [
+          {role: "system", content: systemPrompt},
+          {role: "user", content: msg}
+        ],
+        temperature: 0.7,
+        max_tokens: 2048
+      })
+    });
+
+    const data = await res.json();
+    td.remove();
+
+    if (data.error) {
+      addAIMsg('bot', '⚠️ Error: ' + data.error.message + '. Revisa tu API Key en console.groq.com');
+      return;
+    }
+
+    const reply = data.choices[0].message.content;
+    addAIMsg('bot', reply);
+
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
+
+    const b1 = document.createElement('button');
+    b1.className = 'ai-quick-btn';
+    b1.textContent = '📋 Insertar en documento';
+    b1.onclick = () => {
+      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
+      insertHTML(html);
+      showToast('Insertado ✅');
+    };
+
+    const b2 = document.createElement('button');
+    b2.className = 'ai-quick-btn';
+    b2.textContent = '📄 Abrir en documento nuevo';
+    b2.onclick = () => {
+      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
+      openDocWindow(html, 'Generado por Meta AI');
+    };
+
+    const b3 = document.createElement('button');
+    b3.className = 'ai-quick-btn';
+    b3.textContent = '📎 Agregar al final';
+    b3.onclick = () => {
+      const html = reply.includes('<')? reply : '<p>' + reply.replace(/\n/g,'</p><p>') + '</p>';
+      editor.innerHTML += html;
+      updateStats();
+      showToast('Agregado ✅');
+    };
+
+    btns.appendChild(b1);
+    btns.appendChild(b2);
+    btns.appendChild(b3);
+    document.getElementById('aiMsgs').appendChild(btns);
+
+  } catch (e) {
+    td.remove();
+    addAIMsg('bot', '⚠️ Error de conexión: ' + e.message);
+  }
+  document.getElementById('aiMsgs').scrollTop = 99999;
+}
+// ===== FIN INTEGRACIÓN =====
+</script>
 /* ── OVERRIDE: plantillas y nuevo abren en docWindow ── */
 function openTemplate(content, name) {
   openDocWindow(content, 'Plantilla: ' + name);
