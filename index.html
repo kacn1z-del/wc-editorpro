@@ -1,1135 +1,379 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WC Corporate Editor v20.4</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #0084ff 0%, #ff6b35 100%);
-            padding: 24px 20px 140px 20px;
-            text-align: center;
-            color: white;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .header p {
-            font-size: 12px;
-            opacity: 0.9;
-            letter-spacing: 1px;
-        }
-        
-        .menu-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin: -100px 20px 0 20px;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-        
-        .menu-row {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 16px;
-            position: relative;
-        }
-        
-        .menu-col {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            position: relative;
-        }
-        
-        .menu-item {
-            position: relative;
-        }
-        
-        .menu-btn {
-            background: none;
-            border: none;
-            color: #1a1a1a;
-            font-size: 15px;
-            font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .menu-btn:active {
-            transform: scale(0.95);
-        }
-        
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-            padding: 8px;
-            margin-top: 8px;
-            display: none;
-            z-index: 100;
-            min-width: 200px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .dropdown.show {
-            display: block;
-            animation: fadeIn 0.2s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        
-        .dropdown-item {
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .dropdown-item:hover {
-            background: #f0f7ff;
-        }
-        
-        .dropdown-divider {
-            height: 1px;
-            background: #eee;
-            margin: 4px 8px;
-        }
-        
-        .content {
-            background: #ffffff;
-            padding: 24px 20px 100px 20px;
-            min-height: 500px;
-        }
-        
-        .content-title {
-            font-size: 18px;
-            color: #0066cc;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WC Corporate Editor v23</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;}
+.header{background:linear-gradient(135deg,#0084ff 0%,#ff6b35 100%);padding:28px 20px 130px;text-align:center;color:white;}
+.header h1{font-size:28px;font-weight:700;margin-bottom:6px;letter-spacing:.5px;}
+.header p{font-size:11px;opacity:.9;letter-spacing:1.5px;text-transform:uppercase;}
+.menu-card{background:rgba(255,255,255,.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.3);border-radius:22px;padding:20px 16px;margin:-90px 12px 0;position:relative;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.12);}
+.menu-tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+.menu-item{position:relative;}
+.menu-btn{background:none;border:none;color:#1a1a1a;font-size:15px;font-weight:500;padding:8px 14px;border-radius:10px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.menu-btn:hover,.menu-btn.active{background:rgba(255,255,255,.85);box-shadow:0 2px 10px rgba(0,0,0,.1);}
+.dropdown{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(255,255,255,.97);backdrop-filter:blur(16px);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.15);padding:8px;display:none;z-index:500;min-width:250px;max-height:75vh;overflow-y:auto;}
+.dropdown.show{display:block;animation:fadeIn .18s;}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.dsec{padding:6px 12px 2px;font-size:10px;color:#aaa;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-top:4px;}
+.di{padding:10px 14px;border-radius:10px;cursor:pointer;font-size:14px;transition:background .15s;display:flex;justify-content:space-between;align-items:center;gap:8px;color:#1a1a1a;}
+.di:hover{background:#f0f7ff;}
+.di .ico{font-size:15px;min-width:20px;}
+.di .desc{font-size:10px;color:#aaa;}
+.dib{padding:10px 14px;border-radius:10px;cursor:pointer;transition:background .15s;}
+.dib:hover{background:#f0f7ff;}
+.dib .tit{font-size:14px;font-weight:600;color:#1a1a1a;}
+.dib .desc{font-size:11px;color:#999;margin-top:2px;line-height:1.3;}
+.dd{height:1px;background:#eee;margin:4px 8px;}
+.badge{background:#0084ff;color:white;font-size:10px;padding:2px 7px;border-radius:5px;}
+.content{background:#fff;padding:24px 16px 160px;min-height:500px;}
+.ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
+#wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
+#ruler{display:none;height:22px;background:linear-gradient(#e8e8e8,#f5f5f5);border:1px solid #ddd;border-radius:6px;margin-bottom:8px;font-size:9px;color:#aaa;line-height:22px;padding:0 8px;}
+.tiptap{border:1px solid #e0e0e0;border-radius:14px;padding:18px;min-height:300px;outline:none;font-size:15px;line-height:1.7;}
+.tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
+.tiptap p{margin:6px 0;}.tiptap h1{font-size:2em;margin:16px 0 8px;}.tiptap h2{font-size:1.5em;margin:14px 0 6px;}.tiptap h3{font-size:1.2em;margin:12px 0 4px;}
+.tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
+.tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
+.tiptap td,.tiptap th{border:1px solid #ddd;padding:8px;}
+#dictBox{margin-bottom:16px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;}
+#dictHeader{display:flex;align-items:center;gap:8px;padding:12px 16px;cursor:pointer;background:#f8f9fa;border-bottom:1px solid #eee;}
+#dictHeader h3{font-size:14px;font-weight:600;color:#0066cc;margin:0;flex:1;}
+#dictToggleIcon{font-size:14px;color:#aaa;transition:transform .2s;}
+#dictBody{display:none;padding:12px 16px;}
+#dictBody.open{display:block;}
+#dictSearch{width:100%;padding:9px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;outline:none;margin-bottom:10px;}
+#dictSearch:focus{border-color:#0084ff;}
+#dictResults{max-height:220px;overflow-y:auto;}
+.dict-entry{padding:8px 0;border-bottom:1px solid #f0f0f0;}
+.dict-entry:last-child{border-bottom:none;}
+.dict-word{font-weight:600;color:#0066cc;font-size:14px;margin-bottom:4px;}
+.dict-langs{display:flex;flex-wrap:wrap;gap:5px;}
+.dict-lang-tag{background:#f0f7ff;border-radius:6px;padding:2px 8px;font-size:11px;color:#333;}
+.dict-lang-tag b{color:#0084ff;}
+.footer{background:#fff;padding:10px 16px;border-top:1px solid #eee;position:fixed;bottom:60px;left:0;right:0;z-index:100;}
+.stats{display:flex;justify-content:space-around;font-size:12px;color:#888;margin-bottom:3px;}
+.author{text-align:center;font-size:11px;color:#bbb;}
+.bottom-nav{background:#fff;position:fixed;bottom:0;left:0;right:0;padding:10px 20px;display:flex;justify-content:space-around;box-shadow:0 -2px 10px rgba(0,0,0,.05);border-radius:20px 20px 0 0;z-index:100;}
+.nav-btn{background:none;border:none;padding:8px;cursor:pointer;border-radius:8px;font-size:18px;}
+.nav-btn:hover{background:#f0f0f0;}
+.toast{position:fixed;bottom:140px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:white;padding:10px 20px;border-radius:20px;font-size:13px;opacity:0;transition:opacity .3s;z-index:9999;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;}
+.toast.show{opacity:1;}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9990;align-items:center;justify-content:center;padding:12px;}
+.mo.show{display:flex;}
+.mb{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.mb h3{font-size:17px;font-weight:700;color:#222;margin-bottom:14px;text-align:center;}
+.minput{width:100%;padding:10px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;outline:none;}
+.minput:focus{border-color:#0084ff;}
+.mbtns{display:flex;gap:8px;justify-content:center;margin-top:10px;}
+.btn1{background:#0084ff;color:#fff;border:none;border-radius:10px;padding:10px 22px;cursor:pointer;font-weight:600;font-size:14px;}
+.btn2{background:#f0f0f0;color:#333;border:none;border-radius:10px;padding:10px 22px;cursor:pointer;font-weight:600;font-size:14px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.tcard{border:2px solid #eee;border-radius:10px;padding:10px 8px;cursor:pointer;text-align:center;font-size:12px;font-weight:500;background:none;transition:all .2s;}
+.tcard:hover{border-color:#0084ff;background:#f0f7ff;}
+.tcard .ico{font-size:22px;display:block;margin-bottom:4px;}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;}
+.sbtn{border:2px solid #eee;border-radius:8px;padding:8px 2px;cursor:pointer;text-align:center;font-size:22px;background:none;}
+.sbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.cbtn{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:12px;font-weight:600;background:none;}
+.cbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.cwrap{position:relative;max-width:500px;margin:12px auto;border:1px solid #eee;border-radius:12px;padding:12px;background:#fafafa;}
+.cwrap canvas{width:100%!important;}
+.cdel{position:absolute;top:6px;right:8px;background:#ff4444;color:#fff;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-size:12px;}
+.ablock{display:flex;align-items:center;gap:10px;background:#f0f7ff;border:1px solid rgba(0,132,255,.2);border-radius:10px;padding:10px 14px;margin:6px 0;}
+#fabBtn{position:fixed;bottom:128px;right:12px;z-index:8000;background:linear-gradient(135deg,#0084ff,#ff6b35);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,132,255,.4);cursor:pointer;line-height:1.4;text-align:center;}
+#fabPanel{display:none;position:fixed;bottom:183px;right:8px;left:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto;}
+#fabPanel.show{display:block;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+#fabPanel h4{font-size:11px;color:#888;font-weight:700;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.6px;}
+#fabPanel h4:first-child{margin-top:0;}
+.fabrow{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;}
+.fabbtn{border:1.5px solid #e0e0e0;border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px;background:#fafafa;color:#333;font-weight:500;transition:all .15s;}
+.fabbtn:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
+.cpal{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-bottom:8px;}
+.csw{width:100%;aspect-ratio:1;border-radius:4px;cursor:pointer;border:2px solid transparent;}
+.csw:hover{transform:scale(1.25);border-color:#333;}
+.fbtn{border:1.5px solid #e0e0e0;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:14px;background:#fafafa;color:#333;text-align:left;width:100%;transition:all .15s;}
+.fbtn:hover{background:#f0f7ff;border-color:#0084ff;}
+.cp-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #eee;border-radius:8px;cursor:pointer;margin-bottom:6px;font-size:13px;}
+.cp-item:hover{background:#f0f7ff;}
+.cp-item .cpt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cp-item .cpy{font-size:10px;background:#eee;border-radius:4px;padding:2px 6px;color:#666;}
+.cp-empty{text-align:center;color:#bbb;padding:20px;font-size:13px;}
+.eqbtn{border:2px solid #eee;border-radius:10px;padding:10px;cursor:pointer;text-align:center;font-size:13px;background:none;font-family:'Courier New',monospace;}
+.eqbtn:hover{border-color:#0084ff;background:#f0f7ff;}
+.wcprev{border:2px solid #eee;border-radius:12px;padding:10px;cursor:pointer;text-align:center;font-size:20px;font-weight:900;min-height:56px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.wcprev:hover{border-color:#0084ff;transform:scale(1.02);}
+.bgsw{width:100%;aspect-ratio:1;border-radius:6px;cursor:pointer;border:2px solid transparent;}
+.bgsw:hover{border-color:#333;transform:scale(1.1);}
+#aiPanel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;align-items:flex-end;justify-content:center;}
+#aiPanel.show{display:flex;}
+#aiBox{background:#fff;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:600px;max-height:80vh;display:flex;flex-direction:column;}
+#aiBox h3{font-size:16px;font-weight:700;color:#0084ff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+#aiMsgs{flex:1;overflow-y:auto;margin-bottom:12px;display:flex;flex-direction:column;gap:10px;min-height:120px;}
+.aiu{background:#0084ff;color:#fff;border-radius:16px 16px 4px 16px;padding:10px 14px;align-self:flex-end;max-width:80%;font-size:14px;}
+.aib{background:#f0f7ff;color:#333;border-radius:16px 16px 16px 4px;padding:10px 14px;align-self:flex-start;max-width:90%;font-size:14px;line-height:1.5;}
+.aitp{color:#999;font-size:13px;font-style:italic;padding:6px 14px;}
+#aiRow{display:flex;gap:8px;}
+#aiInp{flex:1;padding:10px 14px;border:1.5px solid #ddd;border-radius:20px;font-size:14px;outline:none;}
+#aiInp:focus{border-color:#0084ff;}
+#aiSend{background:#0084ff;color:#fff;border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:18px;}
+/* Gemini AI Panel */
+#aiPanel{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9995;align-items:flex-end;justify-content:center;}
+#aiPanel.show{display:flex;}
+#aiBox{background:#fff;border-radius:20px 20px 0 0;padding:16px;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;}
+#aiBox h3{font-size:15px;font-weight:700;background:linear-gradient(90deg,#4285f4,#34a853,#fbbc05,#ea4335);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+#aiMsgs{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px;min-height:100px;max-height:45vh;}
+.ai-quick-btn{background:#f0f7ff;border:1.5px solid #c0d8f0;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:#0066cc;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ai-quick-btn:hover{background:#4285f4;color:#fff;border-color:#4285f4;}
+/* Documento separado */
+#docOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9500;align-items:center;justify-content:center;padding:12px;}
+#docOverlay.show{display:flex;}
+#docWindow{background:#fff;border-radius:20px;width:100%;max-width:680px;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden;}
+#docWindow .doc-toolbar{background:#f8f9fa;padding:10px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+#docWindow .doc-toolbar .doc-title{font-size:14px;font-weight:600;color:#333;flex:1;}
+#docWindow .doc-content{flex:1;overflow-y:auto;padding:24px;min-height:300px;}
+#docWindow .doc-editor{outline:none;min-height:400px;font-size:15px;line-height:1.7;width:100%;}
+#docWindow .doc-footer{padding:10px 16px;border-top:1px solid #eee;display:flex;gap:8px;justify-content:flex-end;background:#f8f9fa;}
+/* Anotacion inteligente - firma */
+#annotationOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9800;align-items:center;justify-content:center;padding:12px;}
+#annotationOverlay.show{display:flex;}
+#annotationBox{background:#fff;border-radius:20px;width:100%;max-width:500px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+#annotationBox h3{font-size:15px;font-weight:700;color:#333;margin-bottom:12px;text-align:center;}
+#signCanvas{width:100%;height:220px;border:2px dashed #0084ff;border-radius:12px;cursor:crosshair;touch-action:none;background:#fafafa;}
+.sign-toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;}
+.sign-color{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;}
+.sign-color.active{border-color:#333;transform:scale(1.2);}
+.sign-size{background:#f0f0f0;border:1px solid #ddd;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;}
+.sign-size.active{background:#0084ff;color:#fff;border-color:#0084ff;}
+/* Modal Exportar */
+#exportOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9600;align-items:flex-end;justify-content:center;}
+#exportOverlay.show{display:flex;}
+#exportBox{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:0 0 20px;overflow:hidden;}
+#exportBox .exp-title{padding:16px 20px 10px;font-size:16px;font-weight:700;color:#333;border-bottom:1px solid #eee;text-align:center;}
+.exp-item{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background .15s;}
+.exp-item:hover{background:#f0f7ff;}
+.exp-item:last-child{border-bottom:none;}
+.exp-item .exp-left{display:flex;align-items:center;gap:12px;}
+.exp-item .exp-icon{font-size:22px;width:36px;text-align:center;}
+.exp-item .exp-name{font-size:15px;font-weight:500;color:#1a1a1a;}
+.exp-item .exp-desc{font-size:11px;color:#999;margin-top:1px;}
+.exp-item .exp-arrow{color:#ccc;font-size:14px;}
+.exp-cancel{margin:10px 16px 0;width:calc(100% - 32px);padding:12px;background:#f0f0f0;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;color:#333;}
+.exp-cancel:hover{background:#e0e0e0;}
 
-        #wordart-banner {
-            display: none;
-            text-align: center;
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 4px;
-            text-shadow: none;
-            margin-bottom: 12px;
-            animation: wordartPulse 2s ease-in-out infinite;
-        }
-        @keyframes wordartPulse {
-            0%,100%{filter:drop-shadow(0 0 6px rgba(0,132,255,.5));}
-            50%{filter:drop-shadow(0 0 18px rgba(255,107,53,.7));}
-        }
-        
-        .tiptap {
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 16px;
-            min-height: 300px;
-            outline: none;
-        }
-        
-        .tiptap:focus {
-            border-color: #0084ff;
-        }
-        
-        .tiptap p { margin: 8px 0; }
-        .tiptap h1, .tiptap h2, .tiptap h3 { margin: 16px 0 8px 0; }
-        .tiptap ul, .tiptap ol { padding-left: 24px; margin: 8px 0; }
-        
-        .footer {
-            background: #ffffff;
-            padding: 16px 20px;
-            border-top: 1px solid #eee;
-            position: fixed;
-            bottom: 60px;
-            left: 0;
-            right: 0;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        
-        .author {
-            text-align: center;
-            font-size: 12px;
-            color: #999;
-        }
-        
-        .bottom-nav {
-            background: #ffffff;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .nav-btn {
-            background: none;
-            border: none;
-            padding: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-        
-        .nav-btn:hover { background: #f0f0f0; }
-        
-        .toast {
-            position: fixed;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
-        }
-        
-        .toast.show { opacity: 1; }
-        
-        .badge {
-            background: #0084ff;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        #colorModal {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.4);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-        }
-        #colorModal.show { display:flex; }
-        #colorModal .modal-box {
-            background:#fff;
-            border-radius:16px;
-            padding:24px;
-            text-align:center;
-            box-shadow:0 8px 32px rgba(0,0,0,.2);
-        }
-        #colorModal h3 { margin-bottom:16px; color:#333; }
-        #colorPicker { width:80px; height:40px; border:none; cursor:pointer; }
-        #colorModal .modal-btns { margin-top:16px; display:flex; gap:8px; justify-content:center; }
-        #colorModal button {
-            padding:8px 20px; border:none; border-radius:8px; cursor:pointer; font-weight:600;
-        }
-        #btnApplyColor { background:#0084ff; color:#fff; }
-        #btnCancelColor { background:#eee; color:#333; }
-
-        #wordartModal {
-            display:none;
-            position:fixed;
-            inset:0;
-            background:rgba(0,0,0,.4);
-            z-index:9999;
-            align-items:center;
-            justify-content:center;
-        }
-        #wordartModal.show { display:flex; }
-        #wordartModal .modal-box {
-            background:#fff;
-            border-radius:16px;
-            padding:24px;
-            text-align:center;
-            min-width:300px;
-            box-shadow:0 8px 32px rgba(0,0,0,.2);
-        }
-        #wordartModal h3 { margin-bottom:12px; color:#333; }
-        #wordartText {
-            width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;
-            font-size:15px; margin-bottom:12px;
-        }
-        #wordartPreview {
-            font-size:28px;
-            font-weight:900;
-            background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            background-clip:text;
-            letter-spacing:3px;
-            margin-bottom:12px;
-            min-height:44px;
-        }
-        #wordartModal .modal-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-        #btnInsertWordArt { background:#0084ff; color:#fff; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
-        #btnCancelWordArt { background:#eee; color:#333; border:none; border-radius:8px; padding:8px 20px; cursor:pointer; font-weight:600; }
-        .wordart-presets {
-            display:grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap:8px;
-            margin-top:12px;
-        }
-        .wordart-preset {
-            border:none;
-            border-radius:10px;
-            padding:10px 8px;
-            cursor:pointer;
-            font-size:12px;
-            font-weight:700;
-            color:#333;
-            background:#f3f3f3;
-        }
-    </style>
+.ai-quick-btn{background:#f0f7ff;border:1.5px solid #c0d8f0;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:#0066cc;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.ai-quick-btn:hover{background:#0084ff;color:#fff;border-color:#0084ff;}
+#aiBox{background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 12px;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;}
+#aiMsgs{flex:1;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px;min-height:100px;max-height:45vh;}
+#communityBtn{position:fixed;bottom:128px;left:12px;z-index:8000;background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(39,174,96,.4);cursor:pointer;line-height:1.4;text-align:center;}
+#communityPanel{display:none;position:fixed;bottom:183px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:60vh;overflow-y:auto;}
+#communityPanel.show{display:block;animation:fadeUp .2s ease;}
+#communityPanel h4{font-size:13px;color:#27ae60;font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+#communityList{list-style:none;padding:0;}
+#communityList li{margin-bottom:8px;font-size:12px;padding:8px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;}
+.popup.hidden{display:none;}
+.popup{position:fixed;top:20%;left:50%;transform:translateX(-50%);width:90%;max-width:380px;background:#fff;border:1px solid #ddd;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9998;}
+.popup-content{padding:20px;}
+.popup-content h3{font-size:15px;color:#0066cc;margin-bottom:8px;}
+.close-btn{float:right;cursor:pointer;font-size:20px;color:#aaa;background:none;border:none;}
+#popupResults{list-style:none;padding:0;}
+#popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
+.statusbar{position:fixed;bottom:60px;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>WC Corporate Editor v20.4</h1>
-        <p>ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA</p>
-    </div>
-    
-    <div class="menu-card">
-        <div class="menu-row">
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="inicio">Inicio</button>
-                <div class="dropdown" id="menu-inicio">
-                    <div class="dropdown-item" data-action="new">Nuevo documento</div>
-                    <div class="dropdown-item" data-action="open">Abrir reciente</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="dashboard">Panel principal</div>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="archivo">Archivo</button>
-                <div class="dropdown" id="menu-archivo">
-                    <div class="dropdown-item" data-action="save">Guardar <span class="badge">Ctrl+S</span></div>
-                    <div class="dropdown-item" data-action="saveAs">Guardar como...</div>
-                    <div class="dropdown-item" data-action="export">Exportar PDF</div>
-                    <div class="dropdown-item" data-action="exportDocx">Exportar Word</div>
-                    <div class="dropdown-item" data-action="exportHtml">Exportar HTML</div>
-                    <div class="dropdown-item" data-action="exportTxt">Exportar TXT</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="print">Imprimir</div>
-                    <div class="dropdown-item" data-action="share">Compartir documento</div>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="editar">Editar</button>
-                <div class="dropdown" id="menu-editar">
-                    <div class="dropdown-item" data-action="undo">Deshacer <span class="badge">Ctrl+Z</span></div>
-                    <div class="dropdown-item" data-action="redo">Rehacer <span class="badge">Ctrl+Y</span></div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="cut">Cortar</div>
-                    <div class="dropdown-item" data-action="copy">Copiar</div>
-                    <div class="dropdown-item" data-action="paste">Pegar</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="find">Buscar y reemplazar</div>
-                    <div class="dropdown-item" data-action="selectAll">Seleccionar todo</div>
-                    <div class="dropdown-item" data-action="trackChanges">Control de cambios</div>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="insertar">Insertar</button>
-                <div class="dropdown" id="menu-insertar">
-                    <div class="dropdown-item" data-action="image">Imagen</div>
-                    <div class="dropdown-item" data-action="table">Tabla</div>
-                    <div class="dropdown-item" data-action="link">Enlace</div>
-                    <div class="dropdown-item" data-action="emoji">Emoji</div>
-                    <div class="dropdown-item" data-action="wordart">WC Arte (WordArt)</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="pageBreak">Salto de página</div>
-                    <div class="dropdown-item" data-action="header">Encabezado</div>
-                    <div class="dropdown-item" data-action="footer">Pie de página</div>
-                    <div class="dropdown-item" data-action="pageNumber">Numeración de páginas</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="shape">Forma</div>
-                    <div class="dropdown-item" data-action="chart">Gráfico</div>
-                    <div class="dropdown-item" data-action="video">Video</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="menu-col">
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="herramientas">Herramientas</button>
-                <div class="dropdown" id="menu-herramientas">
-                    <div class="dropdown-item" data-action="spellcheck">Corrector ortográfico</div>
-                    <div class="dropdown-item" data-action="wordcount">Contar palabras</div>
-                    <div class="dropdown-item" data-action="translate">Traducir</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="dict">Diccionario</div>
-                    <div class="dropdown-item" data-action="trackChanges">Control de cambios</div>
-                    <div class="dropdown-item" data-action="autoCorrect">Autocorrección</div>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="formato">Formato</button>
-                <div class="dropdown" id="menu-formato">
-                    <div class="dropdown-item" data-action="bold">Negrita <span class="badge">Ctrl+B</span></div>
-                    <div class="dropdown-item" data-action="italic">Cursiva <span class="badge">Ctrl+I</span></div>
-                    <div class="dropdown-item" data-action="underline">Subrayado <span class="badge">Ctrl+U</span></div>
-                    <div class="dropdown-item" data-action="strike">Tachado</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="h1">Título 1</div>
-                    <div class="dropdown-item" data-action="h2">Título 2</div>
-                    <div class="dropdown-item" data-action="h3">Título 3</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="bulletList">Lista con viñetas</div>
-                    <div class="dropdown-item" data-action="orderedList">Lista numerada</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="alignLeft">Alinear izquierda</div>
-                    <div class="dropdown-item" data-action="alignCenter">Centrar</div>
-                    <div class="dropdown-item" data-action="alignRight">Alinear derecha</div>
-                    <div class="dropdown-item" data-action="alignJustify">Justificar</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="fontSize">Tamaño de fuente</div>
-                    <div class="dropdown-item" data-action="fontColor">Color de texto</div>
-                    <div class="dropdown-item" data-action="lineSpacing">Interlineado</div>
-                    <div class="dropdown-item" data-action="indent">Sangría</div>
-                    <div class="dropdown-item" data-action="outdent">Quitar sangría</div>
-                    <div class="dropdown-item" data-action="wordart">WC Arte (WordArt)</div>
-                </div>
-            </div>
 
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="pagina">Diseño de página</button>
-                <div class="dropdown" id="menu-pagina">
-                    <div class="dropdown-item" data-action="marginNormal">Márgenes normales</div>
-                    <div class="dropdown-item" data-action="marginNarrow">Márgenes estrechos</div>
-                    <div class="dropdown-item" data-action="marginWide">Márgenes amplios</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="orientPortrait">Orientación vertical</div>
-                    <div class="dropdown-item" data-action="orientLandscape">Orientación horizontal</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="sizeA4">Tamaño A4</div>
-                    <div class="dropdown-item" data-action="sizeLetter">Tamaño Carta</div>
-                    <div class="dropdown-item" data-action="sizeLegal">Tamaño Oficio</div>
-                </div>
-            </div>
-            
-            <div class="menu-item">
-                <button class="menu-btn" data-menu="lenguas">Lenguas Indígenas CR</button>
-                <div class="dropdown" id="menu-lenguas">
-                    <div class="dropdown-item" data-action="insert-bribri">Bribri</div>
-                    <div class="dropdown-item" data-action="insert-cabecar">Cabécar</div>
-                    <div class="dropdown-item" data-action="insert-maleku">Maleku</div>
-                    <div class="dropdown-item" data-action="insert-boruca">Boruca</div>
-                    <div class="dropdown-item" data-action="insert-teribe">Térraba/Teribe</div>
-                    <div class="dropdown-item" data-action="insert-guaymi">Ngäbe/Guaymí</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="lang-bribri">Editor en Bribri</div>
-                    <div class="dropdown-item" data-action="lang-cabecar">Editor en Cabécar</div>
-                    <div class="dropdown-item" data-action="lang-maleku">Editor en Maleku</div>
-                    <div class="dropdown-item" data-action="lang-ingles">Editor en English</div>
-                    <div class="dropdown-item" data-action="lang-espanol">Editor en Español</div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item" data-action="dict-indigena">Diccionario indígena</div>
-                    <div class="dropdown-item" data-action="translate-indigena">Traducir a lengua</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="content">
-        <div class="content-title" id="contentTitle">📋 Diccionario 300 palabras - Lenguas Indígenas CR</div>
-        <div id="wordart-banner"></div>
-        <div id="editor"></div>
-    </div>
-    
-    <div class="footer">
-        <div class="stats">
-            <span id="wordCount">✓ 0 palabras</span>
-            <span id="charCount">✓ 0 caracteres</span>
-            <span>✓ Auto-guardado activo</span>
-        </div>
-        <div class="author">Por Keny Chinchilla Navarro</div>
-    </div>
-    
-    <div class="bottom-nav">
-        <button class="nav-btn" id="btnBack">←</button>
-        <button class="nav-btn" id="btnForward">→</button>
-        <button class="nav-btn" id="btnShare">↑</button>
-        <button class="nav-btn" id="btnSave">💾</button>
-        <button class="nav-btn" id="btnCopy">⧉</button>
-    </div>
-    
-    <div class="toast" id="toast"></div>
+<div class="header">
+  <h1 id="editorTitle">WC Corporate Editor v23</h1>
+  <p id="editorSub">ULTIMATE PRO UI V26 - ESTÉTICA EJECUTIVA</p>
+</div>
 
-    <div id="colorModal">
-        <div class="modal-box">
-            <h3>🎨 Color de texto</h3>
-            <input type="color" id="colorPicker" value="#0084ff">
-            <div class="modal-btns">
-                <button id="btnApplyColor">Aplicar</button>
-                <button id="btnCancelColor">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="wordartModal">
-        <div class="modal-box">
-            <h3>✨ WC Arte</h3>
-            <input type="text" id="wordartText" placeholder="Escribe tu texto aquí..." maxlength="60">
-            <div id="wordartPreview">Vista previa</div>
-            <div class="wordart-presets">
-                <button class="wordart-preset" data-style="1">1. Clásico</button>
-                <button class="wordart-preset" data-style="2">2. Fluido</button>
-                <button class="wordart-preset" data-style="3">3. Neon</button>
-                <button class="wordart-preset" data-style="4">4. Solar</button>
-                <button class="wordart-preset" data-style="5">5. Marina</button>
-                <button class="wordart-preset" data-style="6">6. Fuego</button>
-                <button class="wordart-preset" data-style="7">7. Pastel</button>
-                <button class="wordart-preset" data-style="8">8. Elegante</button>
-                <button class="wordart-preset" data-style="9">9. Bosque</button>
-                <button class="wordart-preset" data-style="10">10. Glitch</button>
-            </div>
-            <div class="modal-btns" style="margin-top:12px;">
-                <button id="btnInsertWordArt">Insertar</button>
-                <button id="btnCancelWordArt">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <input type="file" id="imageFileInput" accept="image/*" hidden>
-    <input type="file" id="videoFileInput" accept="video/*" hidden>
-
-    <script type="module">
-        import { Editor } from 'https://esm.sh/@tiptap/core@2.6.6'
-        import StarterKit from 'https://esm.sh/@tiptap/starter-kit@2.6.6'
-        import Underline from 'https://esm.sh/@tiptap/extension-underline@2.6.6'
-        import TextAlign from 'https://esm.sh/@tiptap/extension-text-align@2.6.6'
-        import TextStyle from 'https://esm.sh/@tiptap/extension-text-style@2.6.6'
-        import Color from 'https://esm.sh/@tiptap/extension-color@2.6.6'
-        
-        const editor = new Editor({
-            element: document.querySelector('#editor'),
-            extensions: [
-                StarterKit,
-                Underline,
-                TextAlign.configure({ types: ['heading', 'paragraph'] }),
-                TextStyle,
-                Color,
-            ],
-            content: `
-                <h2>Lenguas Indígenas de Costa Rica</h2>
-                <p><strong>Bribri:</strong> Hola = Shkëkë</p>
-                <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
-                <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
-                <p><strong>Boruca:</strong> Gracias = Shíi</p>
-                <p><strong>Térraba:</strong> Agua = Di</p>
-                <p><strong>Ngäbe:</strong> Casa = Ju</p>
-                <p><br></p>
-                <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
-            `,
-            onUpdate: () => updateStats(),
-        });
-        
-        function updateStats() {
-            const text = editor.getText();
-            const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
-            const chars = text.length;
-            document.getElementById('wordCount').textContent = `✓ ${words} palabras`;
-            document.getElementById('charCount').textContent = `✓ ${chars} caracteres`;
-        }
-        
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        let trackChangesOn = false;
-
-        function insertWordArtBanner(text, style = 1) {
-            const banner = document.getElementById('wordart-banner');
-            const styles = {
-                1: 'linear-gradient(90deg,#ff6b35,#0084ff)',
-                2: 'linear-gradient(90deg,#9b59b6,#27ae60)',
-                3: 'linear-gradient(90deg,#00c6ff,#0072ff)',
-                4: 'linear-gradient(90deg,#f7971e,#ffd200)',
-                5: 'linear-gradient(90deg,#0f2027,#2c5364)',
-                6: 'linear-gradient(90deg,#ff512f,#f09819)',
-                7: 'linear-gradient(90deg,#ffafbd,#ffc3a0)',
-                8: 'linear-gradient(90deg,#232526,#414345)',
-                9: 'linear-gradient(90deg,#11998e,#38ef7d)',
-                10: 'linear-gradient(90deg,#8e2de2,#4a00e0)',
-            };
-            banner.textContent = text;
-            banner.style.background = styles[style] || styles[1];
-            banner.style.webkitBackgroundClip = 'text';
-            banner.style.backgroundClip = 'text';
-            banner.style.webkitTextFillColor = 'transparent';
-            banner.style.display = 'block';
-        }
-
-        const wordartModal = document.getElementById('wordartModal');
-        const wordartText  = document.getElementById('wordartText');
-        const wordartPrev  = document.getElementById('wordartPreview');
-        let currentWordArtStyle = 1;
-
-        wordartText.addEventListener('input', () => {
-            wordartPrev.textContent = wordartText.value || 'Vista previa';
-        });
-
-        document.querySelectorAll('.wordart-preset').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentWordArtStyle = Number(btn.dataset.style);
-                showToast(`WC Arte estilo ${currentWordArtStyle}`);
-            });
-        });
-
-        document.getElementById('btnInsertWordArt').onclick = () => {
-            const txt = wordartText.value.trim();
-            if (txt) {
-                insertWordArtBanner(txt, currentWordArtStyle);
-                showToast('WC Arte insertado ✨');
-            }
-            wordartModal.classList.remove('show');
-            wordartText.value = '';
-            wordartPrev.textContent = 'Vista previa';
-            currentWordArtStyle = 1;
-        };
-        document.getElementById('btnCancelWordArt').onclick = () => {
-            wordartModal.classList.remove('show');
-            wordartText.value = '';
-            wordartPrev.textContent = 'Vista previa';
-            currentWordArtStyle = 1;
-        };
-
-        const colorModal = document.getElementById('colorModal');
-        document.getElementById('btnApplyColor').onclick = () => {
-            const color = document.getElementById('colorPicker').value;
-            editor.chain().focus().setColor(color).run();
-            colorModal.classList.remove('show');
-            showToast('Color aplicado');
-        };
-        document.getElementById('btnCancelColor').onclick = () => {
-            colorModal.classList.remove('show');
-        };
-
-        const uiLangs = {
-            espanol: {
-                title: '📋 Diccionario 300 palabras - Lenguas Indígenas CR',
-                header: 'WC Corporate Editor v20.4',
-                sub: 'ULTIMATE PRO UI v26 - ESTÉTICA EJECUTIVA',
-            },
-            ingles: {
-                title: '📋 300-word Dictionary - Indigenous Languages CR',
-                header: 'WC Corporate Editor v20.4',
-                sub: 'ULTIMATE PRO UI v26 - EXECUTIVE AESTHETICS',
-            },
-            bribri: {
-                title: '📋 Ña tsuru 300 bribri - Lenguas Indígenas CR',
-                header: 'WC Corporate Editor v20.4',
-                sub: 'BRIBRI UI - ESTÉTICA INDÍGENA',
-            },
-            cabecar: {
-                title: '📋 Cabécar 300 yë́ - Lenguas Indígenas CR',
-                header: 'WC Corporate Editor v20.4',
-                sub: 'CABÉCAR UI - ESTÉTICA INDÍGENA',
-            },
-            maleku: {
-                title: '📋 Maleku 300 lhamaráma - Lenguas Indígenas CR',
-                header: 'WC Corporate Editor v20.4',
-                sub: 'MALEKU UI - ESTÉTICA INDÍGENA',
-            },
-        };
-
-        function switchLang(lang) {
-            const ui = uiLangs[lang] || uiLangs.espanol;
-            document.getElementById('contentTitle').textContent = ui.title;
-            document.querySelector('.header h1').textContent = ui.header;
-            document.querySelector('.header p').textContent = ui.sub;
-            document.documentElement.lang = lang === 'ingles' ? 'en' : 'es';
-
-            const langContent = {
-                espanol: `
-                    <h2>Lenguas Indígenas de Costa Rica</h2>
-                    <p><strong>Bribri:</strong> Hola = Shkëkë</p>
-                    <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
-                    <p><strong>Maleku:</strong> Buenas tardes = Ma lha maráma</p>
-                    <p><strong>Boruca:</strong> Gracias = Shíi</p>
-                    <p><strong>Térraba:</strong> Agua = Di</p>
-                    <p><strong>Ngäbe:</strong> Casa = Ju</p>
-                    <p><br></p>
-                    <p>Escribe aquí o usa el menú "Lenguas Indígenas CR" para insertar palabras...</p>
-                `,
-                ingles: `
-                    <h2>Indigenous Languages of Costa Rica</h2>
-                    <p><strong>Bribri:</strong> Hello = Shkëkë</p>
-                    <p><strong>Cabécar:</strong> Good morning = Ká bë́rë</p>
-                    <p><strong>Maleku:</strong> Good afternoon = Ma lha maráma</p>
-                    <p><strong>Boruca:</strong> Thank you = Shíi</p>
-                    <p><strong>Térraba:</strong> Water = Di</p>
-                    <p><strong>Ngäbe:</strong> House = Ju</p>
-                    <p><br></p>
-                    <p>Type here or use the "Indigenous Languages CR" menu to insert words...</p>
-                `,
-                bribri: `
-                    <h2>Tsuru Bribri</h2>
-                    <p><strong>Shkëkë:</strong> Hola</p>
-                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
-                    <p><strong>Shíi:</strong> Gracias</p>
-                    <p><br></p>
-                    <p>Ño' wé a'i, tesá aquí...</p>
-                `,
-                cabecar: `
-                    <h2>Cabécar</h2>
-                    <p><strong>Ká bë́rë:</strong> Buenos días</p>
-                    <p><strong>Shkëkë:</strong> Hola</p>
-                    <p><strong>Shíi:</strong> Gracias</p>
-                    <p><br></p>
-                    <p>Escribe aquí...</p>
-                `,
-                maleku: `
-                    <h2>Maleku</h2>
-                    <p><strong>Ma lha maráma:</strong> Buenas tardes</p>
-                    <p><strong>Shíi:</strong> Gracias</p>
-                    <p><br></p>
-                    <p>Escribe aquí...</p>
-                `,
-            };
-
-            editor.commands.setContent(langContent[lang] || langContent.espanol);
-            updateStats();
-            showToast(`Idioma: ${lang.charAt(0).toUpperCase() + lang.slice(1)}`);
-        }
-
-        function openImagePicker() {
-            document.getElementById('imageFileInput').click();
-        }
-
-        function openVideoPicker() {
-            document.getElementById('videoFileInput').click();
-        }
-
-        function fileToDataURL(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        document.getElementById('imageFileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const dataUrl = await fileToDataURL(file);
-            editor.chain().focus().insertContent(`<p><img src="${dataUrl}" alt="${file.name}" style="max-width:100%;height:auto"></p>`).run();
-            showToast('Imagen insertada desde archivo');
-            e.target.value = '';
-        });
-
-        document.getElementById('videoFileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const url = URL.createObjectURL(file);
-            editor.chain().focus().insertContent(`<p><video controls style="max-width:100%;height:auto"><source src="${url}" type="${file.type}"></video></p>`).run();
-            showToast('Video insertado desde archivo');
-            e.target.value = '';
-        });
-        
-        document.querySelectorAll('.menu-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const menuId = 'menu-' + btn.dataset.menu;
-                const dropdown = document.getElementById(menuId);
-                document.querySelectorAll('.dropdown').forEach(d => {
-                    if (d !== dropdown) d.classList.remove('show');
-                });
-                dropdown.classList.toggle('show');
-            });
-        });
-        
-        document.addEventListener('click', () => {
-            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
-        });
-        
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const action = item.dataset.action;
-                handleAction(action);
-                item.closest('.dropdown').classList.remove('show');
-            });
-        });
-        
-        async function copyText(text) {
-            try {
-                await navigator.clipboard.writeText(text);
-                return true;
-            } catch {
-                return false;
-            }
-        }
-
-        function pasteText() {
-            showToast('Pegar depende del permiso del navegador');
-        }
-
-        function handleAction(action) {
-            switch(action) {
-                case 'bold': editor.chain().focus().toggleBold().run(); break;
-                case 'italic': editor.chain().focus().toggleItalic().run(); break;
-                case 'underline': editor.chain().focus().toggleUnderline().run(); break;
-                case 'strike': editor.chain().focus().toggleStrike().run(); break;
-                case 'h1': editor.chain().focus().toggleHeading({ level: 1 }).run(); break;
-                case 'h2': editor.chain().focus().toggleHeading({ level: 2 }).run(); break;
-                case 'h3': editor.chain().focus().toggleHeading({ level: 3 }).run(); break;
-                case 'bulletList': editor.chain().focus().toggleBulletList().run(); break;
-                case 'orderedList': editor.chain().focus().toggleOrderedList().run(); break;
-                case 'alignLeft': editor.chain().focus().setTextAlign('left').run(); showToast('Alineado a la izquierda'); break;
-                case 'alignCenter': editor.chain().focus().setTextAlign('center').run(); showToast('Centrado'); break;
-                case 'alignRight': editor.chain().focus().setTextAlign('right').run(); showToast('Alineado a la derecha'); break;
-                case 'alignJustify': editor.chain().focus().setTextAlign('justify').run(); showToast('Justificado'); break;
-                case 'indent': editor.chain().focus().sinkListItem('listItem').run(); showToast('Sangría aplicada'); break;
-                case 'outdent': editor.chain().focus().liftListItem('listItem').run(); showToast('Sangría quitada'); break;
-                case 'fontColor':
-                    colorModal.classList.add('show');
-                    break;
-                case 'fontSize': {
-                    const size = prompt('Tamaño de fuente (ej: 18px, 1.5em):', '16px');
-                    if (size) {
-                        editor.chain().focus().setMark('textStyle', { fontSize: size }).run();
-                        showToast(`Tamaño: ${size}`);
-                    }
-                    break;
-                }
-                case 'lineSpacing': {
-                    const choice = prompt(`Interlineado:\n1 = simple\n1.15 = predeterminado\n1.5 = doble\n2 = doble amplio\n\nEscribe el valor:`, '1.5');
-                    if (choice) {
-                        const el = document.querySelector('.tiptap');
-                        if (el) el.style.lineHeight = choice;
-                        showToast(`Interlineado: ${choice}`);
-                    }
-                    break;
-                }
-                case 'wordart':
-                    wordartModal.classList.add('show');
-                    wordartText.focus();
-                    break;
-                case 'undo': editor.chain().focus().undo().run(); break;
-                case 'redo': editor.chain().focus().redo().run(); break;
-                case 'cut': document.execCommand('cut'); break;
-                case 'copy':
-                    copyText(editor.getText()).then(ok => showToast(ok ? 'Copiado ✅' : 'No se pudo copiar'));
-                    break;
-                case 'paste':
-                    pasteText();
-                    break;
-                case 'selectAll': editor.chain().focus().selectAll().run(); showToast('Todo seleccionado'); break;
-                case 'find': {
-                    const term = prompt('Buscar texto:');
-                    if (!term) break;
-                    const replacement = prompt(`Reemplazar "${term}" por:`);
-                    if (replacement === null) break;
-                    const html = editor.getHTML().split(term).join(replacement);
-                    editor.commands.setContent(html);
-                    showToast(`"${term}" → "${replacement}"`);
-                    break;
-                }
-                case 'trackChanges':
-                    trackChangesOn = !trackChangesOn;
-                    showToast(`Control de cambios: ${trackChangesOn ? 'ACTIVADO 🟢' : 'DESACTIVADO 🔴'}`);
-                    break;
-                case 'autoCorrect':
-                    showToast('Autocorrección activa');
-                    break;
-                case 'save':
-                    localStorage.setItem('wc-editor', editor.getHTML());
-                    showToast('Documento guardado 💾');
-                    break;
-                case 'saveAs': {
-                    const name = prompt('Nombre del archivo:', 'documento');
-                    if (name) {
-                        localStorage.setItem('wc-editor-' + name, editor.getHTML());
-                        showToast(`Guardado como: ${name}`);
-                    }
-                    break;
-                }
-                case 'export':
-                    window.print();
-                    showToast('Abriendo impresión/PDF...');
-                    break;
-                case 'exportDocx':
-                    showToast('Exportar Word: copia el texto y pégalo en Word');
-                    break;
-                case 'exportHtml': {
-                    const blob = new Blob([editor.getHTML()], { type: 'text/html' });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'documento.html';
-                    a.click();
-                    showToast('HTML descargado ✅');
-                    break;
-                }
-                case 'exportTxt': {
-                    const blob = new Blob([editor.getText()], { type: 'text/plain' });
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = 'documento.txt';
-                    a.click();
-                    showToast('TXT descargado ✅');
-                    break;
-                }
-                case 'print':
-                    window.print();
-                    break;
-                case 'share':
-                    if (navigator.share) {
-                        navigator.share({ title: 'WC Editor', text: editor.getText() });
-                    } else {
-                        copyText(editor.getText()).then(() => showToast('Texto copiado al portapapeles para compartir'));
-                    }
-                    break;
-                case 'image': {
-                    const choice = prompt('Escribe "archivo" para seleccionar imagen o pega una URL:', 'archivo');
-                    if (choice && choice.toLowerCase() === 'archivo') {
-                        openImagePicker();
-                    } else if (choice) {
-                        editor.chain().focus().insertContent(`<p><img src="${choice}" style="max-width:100%;height:auto"></p>`).run();
-                        showToast('Imagen insertada por enlace');
-                    }
-                    break;
-                }
-                case 'table':
-                    editor.chain().focus().insertContent('<table border="1" style="border-collapse:collapse;width:100%"><tr><td style="padding:8px">Celda 1</td><td style="padding:8px">Celda 2</td></tr><tr><td style="padding:8px">Celda 3</td><td style="padding:8px">Celda 4</td></tr></table>').run();
-                    showToast('Tabla insertada');
-                    break;
-                case 'link': {
-                    const url = prompt('URL del enlace:');
-                    if (url) {
-                        editor.chain().focus().insertContent(`<a href="${url}">${url}</a>`).run();
-                        showToast('Enlace insertado');
-                    }
-                    break;
-                }
-                case 'emoji': {
-                    const emojis = ['😀','🎉','✅','⚠️','📋','🌿','🦋','🌺','💡','🔥'];
-                    const e = emojis[Math.floor(Math.random() * emojis.length)];
-                    editor.chain().focus().insertContent(e).run();
-                    showToast(`Emoji insertado: ${e}`);
-                    break;
-                }
-                case 'pageBreak':
-                    editor.chain().focus().insertContent('<hr>').run();
-                    showToast('Salto de página insertado');
-                    break;
-                case 'header': {
-                    const h = prompt('Texto del encabezado:');
-                    if (h) {
-                        editor.chain().focus().insertContentAt(0, `<p style="border-bottom:2px solid #0084ff;padding-bottom:8px;font-weight:bold;text-align:center">${h}</p>`).run();
-                        showToast('Encabezado insertado');
-                    }
-                    break;
-                }
-                case 'footer': {
-                    const f = prompt('Texto del pie de página:');
-                    if (f) {
-                        editor.chain().focus().insertContent(`<p style="border-top:2px solid #0084ff;padding-top:8px;font-weight:bold;text-align:center;margin-top:40px">${f}</p>`).run();
-                        showToast('Pie de página insertado');
-                    }
-                    break;
-                }
-                case 'pageNumber':
-                    editor.chain().focus().insertContent('<p style="text-align:center;color:#666">— Página 1 —</p>').run();
-                    showToast('Número de página insertado');
-                    break;
-                case 'shape':
-                    editor.chain().focus().insertContent('<div style="width:100px;height:100px;background:linear-gradient(135deg,#0084ff,#ff6b35);border-radius:8px;display:inline-block;margin:8px"></div>').run();
-                    showToast('Forma insertada');
-                    break;
-                case 'chart':
-                    editor.chain().focus().insertContent('<div style="border:1px solid #ddd;border-radius:8px;padding:16px;text-align:center;color:#666;margin:8px 0">📊 [Gráfico — inserta datos aquí]</div>').run();
-                    showToast('Espacio de gráfico insertado');
-                    break;
-                case 'video': {
-                    const choice = prompt('Escribe "archivo" para seleccionar video o pega una URL:', 'archivo');
-                    if (choice && choice.toLowerCase() === 'archivo') {
-                        openVideoPicker();
-                    } else if (choice) {
-                        editor.chain().focus().insertContent(`<p><a href="${choice}" target="_blank">▶ Ver video</a></p>`).run();
-                        showToast('Video insertado por enlace');
-                    }
-                    break;
-                }
-                case 'new':
-                    editor.commands.setContent('<p></p>');
-                    showToast('Nuevo documento');
-                    break;
-                case 'wordcount':
-                    showToast(`Total: ${editor.getText().trim().split(/\s+/).filter(w=>w).length} palabras`);
-                    break;
-                case 'spellcheck': {
-                    const el = document.querySelector('.tiptap');
-                    if (el) el.spellcheck = true;
-                    showToast('Corrector ortográfico activado');
-                    break;
-                }
-                case 'translate':
-                    showToast('Función de traducción próximamente');
-                    break;
-                case 'dict':
-                    showToast('Diccionario disponible en el menú "Lenguas Indígenas CR"');
-                    break;
-                case 'marginNormal':
-                    document.querySelector('.content').style.padding = '24px 20px 100px 20px';
-                    showToast('Márgenes normales');
-                    break;
-                case 'marginNarrow':
-                    document.querySelector('.content').style.padding = '12px 12px 100px 12px';
-                    showToast('Márgenes estrechos');
-                    break;
-                case 'marginWide':
-                    document.querySelector('.content').style.padding = '36px 30px 100px 30px';
-                    showToast('Márgenes amplios');
-                    break;
-                case 'orientPortrait':
-                    document.body.style.transform = 'none';
-                    showToast('Orientación vertical');
-                    break;
-                case 'orientLandscape':
-                    document.body.style.transform = 'rotate(90deg)';
-                    showToast('Orientación horizontal');
-                    break;
-                case 'sizeA4':
-                    document.querySelector('.content').style.maxWidth = '210mm';
-                    showToast('Tamaño A4');
-                    break;
-                case 'sizeLetter':
-                    document.querySelector('.content').style.maxWidth = '216mm';
-                    showToast('Tamaño Carta');
-                    break;
-                case 'sizeLegal':
-                    document.querySelector('.content').style.maxWidth = '216mm';
-                    showToast('Tamaño Oficio');
-                    break;
-                case 'insert-bribri':
-                    editor.chain().focus().insertContent('<p><strong>Bribri:</strong> Shkëkë</p>').run();
-                    showToast('Palabra Bribri insertada');
-                    break;
-                case 'insert-cabecar':
-                    editor.chain().focus().insertContent('<p><strong>Cabécar:</strong> Ká bë́rë</p>').run();
-                    showToast('Palabra Cabécar insertada');
-                    break;
-                case 'insert-maleku':
-                    editor.chain().focus().insertContent('<p><strong>Maleku:</strong> Ma lha maráma</p>').run();
-                    showToast('Palabra Maleku insertada');
-                    break;
-                case 'insert-boruca':
-                    editor.chain().focus().insertContent('<p><strong>Boruca:</strong> Shíi</p>').run();
-                    showToast('Palabra Boruca insertada');
-                    break;
-                case 'insert-teribe':
-                    editor.chain().focus().insertContent('<p><strong>Térraba/Teribe:</strong> Di</p>').run();
-                    showToast('Palabra Térraba/Teribe insertada');
-                    break;
-                case 'insert-guaymi':
-                    editor.chain().focus().insertContent('<p><strong>Ngäbe/Guaymí:</strong> Ju</p>').run();
-                    showToast('Palabra Ngäbe/Guaymí insertada');
-                    break;
-                case 'lang-bribri':
-                    switchLang('bribri');
-                    break;
-                case 'lang-cabecar':
-                    switchLang('cabecar');
-                    break;
-                case 'lang-maleku':
-                    switchLang('maleku');
-                    break;
-                case 'lang-ingles':
-                    switchLang('ingles');
-                    break;
-                case 'lang-espanol':
-                    switchLang('espanol');
-                    break;
-                case 'dict-indigena':
-                    switchLang('espanol');
-                    showToast('Diccionario indígena activo');
-                    break;
-                case 'translate-indigena':
-                    showToast('Traducción indígena próximamente');
-                    break;
-                case 'dashboard':
-                    showToast('Panel principal');
-                    break;
-                case 'open':
-                    showToast('Abrir reciente pendiente');
-                    break;
-                default:
-                    showToast(`Acción no implementada: ${action}`);
-            }
-            updateStats();
-        }
-
-        document.getElementById('btnBack').onclick = () => history.back();
-        document.getElementById('btnForward').onclick = () => history.forward();
-        document.getElementById('btnShare').onclick = () => handleAction('share');
-        document.getElementById('btnSave').onclick = () => handleAction('save');
-        document.getElementById('btnCopy').onclick = () => handleAction('copy');
-
-        updateStats();
-    </script>
-</body>
-</html>
+<div class="menu-card">
+ <div class="menu-tabs">
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="inicio">Inicio</button>
+   <div class="dropdown" id="menu-inicio">
+    <div class="dsec">Documento</div>
+    <div class="di" data-action="new"><span class="ico">📄</span><div>Nuevo documento</div></div>
+    <div class="di" data-action="open"><span class="ico">📂</span><div>Abrir reciente</div></div>
+    <div class="di" data-action="plantillas"><span class="ico">📋</span><div>Plantillas (10)</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Portapapeles</div>
+    <div class="dib" data-action="portapapeles"><div class="tit">Portapapeles</div><div class="desc">Historial de copiar, cortar y pegar.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Estilos</div>
+    <div class="di" data-action="estiloNormal"><span class="ico">📝</span><div>Normal</div></div>
+    <div class="di" data-action="estiloTitulo"><span class="ico">🔤</span><div>Título principal</div></div>
+    <div class="di" data-action="estiloSubtitulo"><span class="ico">🔡</span><div>Subtítulo</div></div>
+    <div class="di" data-action="estiloCita"><span class="ico">💬</span><div>Cita destacada</div></div>
+    <div class="di" data-action="estiloIntensivo"><span class="ico">⚡</span><div>Énfasis intenso</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="archivo">Archivo</button>
+   <div class="dropdown" id="menu-archivo">
+    <div class="dsec">Guardar</div>
+    <div class="di" data-action="save"><span class="ico">💾</span><div>Guardar</div><span class="badge">Ctrl+S</span></div>
+    <div class="di" data-action="saveAs"><span class="ico">📁</span><div>Guardar como...</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Exportar</div>
+    <div class="di" data-action="exportHtml"><span class="ico">🌐</span><div>Exportar HTML</div></div>
+    <div class="di" data-action="exportTxt"><span class="ico">📃</span><div>Exportar TXT</div></div>
+    <div class="di" data-action="export"><span class="ico">🖨️</span><div>Imprimir / PDF</div></div>
+    <div class="dd"></div>
+    <div class="di" data-action="share"><span class="ico">📤</span><div>Compartir</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="editar">Editar</button>
+   <div class="dropdown" id="menu-editar">
+    <div class="dsec">Acciones</div>
+    <div class="di" data-action="undo"><span class="ico">↩</span><div>Deshacer</div><span class="badge">Ctrl+Z</span></div>
+    <div class="di" data-action="redo"><span class="ico">↪</span><div>Rehacer</div><span class="badge">Ctrl+Y</span></div>
+    <div class="dd"></div>
+    <div class="dsec">Portapapeles</div>
+    <div class="di" data-action="cut"><span class="ico">✂️</span><div>Cortar</div><span class="badge">Ctrl+X</span></div>
+    <div class="di" data-action="copy"><span class="ico">📋</span><div>Copiar</div><span class="badge">Ctrl+C</span></div>
+    <div class="di" data-action="paste"><span class="ico">📌</span><div>Pegar</div><span class="badge">Ctrl+V</span></div>
+    <div class="di" data-action="selectAll"><span class="ico">⬛</span><div>Seleccionar todo</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Edición avanzada</div>
+    <div class="dib" data-action="find"><div class="tit">Buscar y reemplazar</div><div class="desc">Cambia una palabra en todo el documento.</div></div>
+    <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div>Control de cambios</div></div>
+    <div class="di" data-action="addComment"><span class="ico">💬</span><div>Agregar comentario</div></div>
+    <div class="di" data-action="comparar"><span class="ico">⚖️</span><div>Comparar versiones</div></div>
+    <div class="di" data-action="proteger"><span class="ico">🔒</span><div>Proteger documento</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="insertar">Insertar</button>
+   <div class="dropdown" id="menu-insertar">
+    <div class="dsec">Ilustraciones</div>
+    <div class="dib" data-action="insertImage"><div class="tit">Imagen / Foto</div><div class="desc">Desde tu galería o archivo del dispositivo.</div></div>
+    <div class="di" data-action="insertShape"><span class="ico">🔷</span><div>Formas (20)</div></div>
+    <div class="di" data-action="insertChart"><span class="ico">📊</span><div>Gráficos (10)</div></div>
+    <div class="dib" data-action="tableToChart"><div class="tit">Convertir tabla → gráfico</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Multimedia</div>
+    <div class="dib" data-action="insertVideo"><div class="tit">Video</div></div>
+    <div class="di" data-action="insertFile"><span class="ico">📎</span><div>Archivo adjunto</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Vínculos</div>
+    <div class="dib" data-action="insertLink"><div class="tit">Enlace</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Encabezado y pie</div>
+    <div class="di" data-action="insertHeader"><span class="ico">⬆️</span><div>Encabezado</div></div>
+    <div class="di" data-action="insertFooter"><span class="ico">⬇️</span><div>Pie de página</div></div>
+    <div class="di" data-action="pageNumber"><span class="ico">🔢</span><div>Numeración de páginas</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Texto y arte</div>
+    <div class="di" data-action="insertTable"><span class="ico">🗃️</span><div>Tabla</div></div>
+    <div class="di" data-action="insertEmoji"><span class="ico">😀</span><div>Emoji</div></div>
+    <div class="di" data-action="insertColumns"><span class="ico">▦</span><div>Columnas</div></div>
+    <div class="di" data-action="pageBreak"><span class="ico">📄</span><div>Salto de página</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Símbolos y ecuaciones</div>
+    <div class="dib" data-action="insertEquation"><div class="tit">Ecuación</div><div class="desc">Editor de ecuaciones matemáticas.</div></div>
+    <div class="di" data-action="insertSymbol"><span class="ico">Ω</span><div>Símbolo especial</div></div>
+    <div class="di" data-action="insertFootnote"><span class="ico">¹</span><div>Nota al pie</div></div>
+    <div class="di" data-action="insertSignature"><span class="ico">✍️</span><div>Firma / Anotación inteligente</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="formato">Formato</button>
+   <div class="dropdown" id="menu-formato">
+    <div class="dsec">Fuente</div>
+    <div class="di" data-action="bold"><span class="ico"><b>N</b></span><div>Negrita</div><span class="badge">Ctrl+B</span></div>
+    <div class="di" data-action="italic"><span class="ico"><i>C</i></span><div>Cursiva</div><span class="badge">Ctrl+I</span></div>
+    <div class="di" data-action="underline"><span class="ico"><u>S</u></span><div>Subrayado</div><span class="badge">Ctrl+U</span></div>
+    <div class="di" data-action="strike"><span class="ico"><s>T</s></span><div>Tachado</div></div>
+    <div class="di" data-action="fontColor"><span class="ico">🎨</span><div>Color de texto</div></div>
+    <div class="di" data-action="fontSize"><span class="ico">🔡</span><div>Tamaño de fuente</div></div>
+    <div class="di" data-action="fontFamily"><span class="ico">🔤</span><div>Tipo de letra</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Párrafo</div>
+    <div class="di" data-action="bulletList"><span class="ico">•</span><div>Lista con viñetas</div></div>
+    <div class="di" data-action="orderedList"><span class="ico">1.</span><div>Lista numerada</div></div>
+    <div class="di" data-action="alignLeft"><span class="ico">⬅</span><div>Alinear izquierda</div></div>
+    <div class="di" data-action="alignCenter"><span class="ico">≡</span><div>Centrar</div></div>
+    <div class="di" data-action="alignRight"><span class="ico">➡</span><div>Alinear derecha</div></div>
+    <div class="di" data-action="alignJustify"><span class="ico">☰</span><div>Justificar</div></div>
+    <div class="di" data-action="lineSpacing"><span class="ico">↕</span><div>Interlineado</div></div>
+    <div class="di" data-action="indent"><span class="ico">→</span><div>Sangría →</div></div>
+    <div class="di" data-action="outdent"><span class="ico">←</span><div>Sangría ←</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Títulos</div>
+    <div class="di" data-action="h1"><span class="ico">H1</span><div>Título 1</div></div>
+    <div class="di" data-action="h2"><span class="ico">H2</span><div>Título 2</div></div>
+    <div class="di" data-action="h3"><span class="ico">H3</span><div>Título 3</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="wcarte">WC Arte</button>
+   <div class="dropdown" id="menu-wcarte">
+    <div class="dib" data-action="wcarte"><div class="tit">WC Arte libre</div><div class="desc">Letras con estilos especiales.</div></div>
+    <div class="dib" data-action="wcarte-galeria"><div class="tit">Galería CR</div><div class="desc">Animales, bosques y bandera de Costa Rica.</div></div>
+    <div class="dib" data-action="wcarte-letras"><div class="tit">Estilos de letras</div><div class="desc">12 estilos: Fuego, Océano, Bosque, Galaxia y más.</div></div>
+   </div>
+  </div>
+  <div class="menu-item">
+   <button class="menu-btn" data-menu="herramientas">Herramientas</button>
+   <div class="dropdown" id="menu-herramientas">
+    <div class="dsec">Revisión</div>
+    <div class="dib" data-action="spellcheck"><div class="tit">Ortografía y gramática</div></div>
+    <div class="di" data-action="wordcount"><span class="ico">🔢</span><div>Contar palabras</div></div>
+    <div class="dib" data-action="translateDoc"><div class="tit">Traducir</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Diseño de página</div>
+    <div class="dib" data-action="pageBackground"><div class="tit">Color de fondo</div></div>
+    <div class="di" data-action="pageBorder"><span class="ico">🔲</span><div>Borde de página</div></div>
+    <div class="di" data-action="marginNormal"><span class="ico">📏</span><div>Márgenes normales</div></div>
+    <div class="di" data-action="marginNarrow"><span class="ico">📏</span><div>Márgenes estrechos</div></div>
+    <div class="di" data-action="marginWide"><span class="ico">📏</span><div>Márgenes amplios</div></div>
+    <div class="di" data-action="orientPortrait"><span class="ico">📄</span><div>Orientación vertical</div></div>
+    <div class="di" data-action="orientLandscape"><span class="ico">📋</span><div>Orientación horizontal</div></div>
+    <div class="di" data-action="sizeA4"><span class="ico">📄</span><div>Tamaño A4</div></div>
+    <div class="di" data-action="sizeLetter"><span class="ico">📄</span><div>Tamaño Carta</div></div>
+    <div class="di" data-action="sizeLegal"><span class="ico">📄</span><div>Tamaño Oficio</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Seguimiento</div>
+    <div class="dib" data-action="trackChanges"><div class="tit">Control de cambios</div></div>
+    <div class="di" data-action="acceptChange"><span class="ico">✅</span><div>Aceptar cambio</div></div>
+    <div class="di" data-action="rejectChange"><span class="ico">❌</span><div>Rechazar cambio</div></div>
+    <div class="dib" data-action="comparar"><div class="tit">Comparar versiones</div></div>
+    <div class="dib" data-action="proteger"><div class="tit">Proteger documento</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Vista</div>
+    <div class="dib" data-action="vistaLectura"><div class="tit">Vista de lectura</div></div>
+    <div class="dib" data-action="vistaImpresion"><div class="tit">Diseño de impresión</div></div>
+    <div class="dib" data-action="toggleRuler"><div class="tit">Regla</div></div>
+    <div class="di" data-action="toggleGrid"><span class="ico">⊞</span><div>Cuadrícula</div></div>
+    <div class="di" data-action="zoom75"><span class="ico">🔎</span><div>Zoom 75%</div></div>
+    <div class="di" data-action="zoom100"><span class="ico">🔍</span><div>Zoom 100%</div></div>
+    <div class="di" data-action="zoom150"><span class="ico">🔍</span><div>Zoom 150%</div></div>
+    <div class="dib" data-action="macros"><div class="tit">Macros</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Formatos del documento</div>
+    <div class="dib" data-action="docFormatProfesional"><div class="tit">Profesional</div><div class="desc">Arial 12pt, espaciado 1.15.</div></div>
+    <div class="dib" data-action="docFormatAcademico"><div class="tit">Académico</div><div class="desc">Times New Roman 12pt, doble espacio.</div></div>
+    <div class="dib" data-action="docFormatCreativo"><div class="tit">Creativo</div><div class="desc">Georgia 13pt, colores vibrantes.</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Referencias</div>
+    <div class="dib" data-action="insertTOC"><div class="tit">Tabla de contenido</div></div>
+    <div class="dib" data-action="insertFootnote"><div class="tit">Nota al pie</div></div>
+    <div class="dib" data-action="insertCitation"><div class="tit">Insertar cita</div></div>
+    <div class="di" data-action="insertBibliography"><span class="ico">📚</span><div>Bibliografía</div></div>
+    <div class="di" data-action="insertCaptionImg"><span class="ico">🖼️</span><div>Título de imagen</div></div>
+    <div class="dib" data-action="insertIndex"><div class="tit">Índice analítico</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Correos</div>
+    <div class="dib" data-action="createEnvelope"><div class="tit">Crear sobre</div></div>
+    <div class="dib" data-action="createLabel"><div class="tit">Crear etiqueta</div></div>
+    <div class="dib" data-action="startMerge"><div class="tit">Iniciar combinación</div></div>
+    <div class="dib" data-actio
