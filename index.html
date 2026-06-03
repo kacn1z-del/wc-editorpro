@@ -30,12 +30,60 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dib .desc{font-size:11px;color:#999;margin-top:2px;line-height:1.3;}
 .dd{height:1px;background:#eee;margin:4px 8px;}
 .badge{background:#0084ff;color:white;font-size:10px;padding:2px 7px;border-radius:5px;}
-.content{background:#fff;padding:24px 16px 160px;min-height:500px;}
-.ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
+.content{background:#c8c8c8;padding:0;min-height:500px;}
+.ctitle{display:none;}
 #wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
 #ruler{display:none;height:22px;background:linear-gradient(#e8e8e8,#f5f5f5);border:1px solid #ddd;border-radius:6px;margin-bottom:8px;font-size:9px;color:#aaa;line-height:22px;padding:0 8px;}
-.tiptap{border:1px solid #e0e0e0;border-radius:14px;padding:18px;min-height:300px;outline:none;font-size:15px;line-height:1.7;}
-.tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
+/* ── PÁGINA ESTILO WORD/PAGES ── */
+.page-canvas{background:#c8c8c8;padding:28px 20px;min-height:100vh;}
+.page-sheet{
+  background:#fff;
+  width:816px;
+  max-width:100%;
+  min-height:1056px;
+  margin:0 auto 40px;
+  padding:96px 96px 96px 96px;
+  box-shadow:0 4px 24px rgba(0,0,0,.22),0 1px 4px rgba(0,0,0,.12);
+  border-radius:2px;
+  position:relative;
+  box-sizing:border-box;
+}
+.page-sheet::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:4px;
+  background:linear-gradient(90deg,#0084ff,#ff6b35);
+  border-radius:2px 2px 0 0;
+}
+.tiptap{
+  outline:none;
+  min-height:864px;
+  font-size:12pt;
+  font-family:'Calibri','Segoe UI','Helvetica Neue',Arial,sans-serif;
+  line-height:1.8;
+  color:#111;
+  caret-color:#0084ff;
+}
+.tiptap:focus{outline:none;}
+.tiptap p{margin:0 0 8pt 0;}
+.tiptap h1{font-size:26pt;font-weight:700;margin:18pt 0 6pt;color:#1a1a1a;line-height:1.2;}
+.tiptap h2{font-size:18pt;font-weight:600;margin:14pt 0 4pt;color:#1f3864;}
+.tiptap h3{font-size:13pt;font-weight:600;margin:10pt 0 3pt;color:#2f5496;}
+.tiptap ul,.tiptap ol{margin:4pt 0 4pt 24pt;padding:0;}
+.tiptap li{margin:2pt 0;}
+.tiptap table{border-collapse:collapse;width:100%;margin:10pt 0;}
+.tiptap table td,.tiptap table th{border:1px solid #bbb;padding:5pt 8pt;font-size:11pt;}
+.tiptap table th{background:#dce6f1;font-weight:600;}
+.tiptap blockquote{border-left:3px solid #2f5496;margin:10pt 0 10pt 20pt;padding:4pt 12pt;color:#444;font-style:italic;background:#f7f9fc;}
+/* regla */
+#ruler{background:#e8e8e8;border-bottom:1px solid #c0c0c0;color:#666;font-size:11px;padding:3px 0;text-align:center;letter-spacing:2px;display:none;}
+/* página footer info */
+.page-info{position:absolute;bottom:36px;left:96px;right:96px;display:flex;justify-content:space-between;font-size:9pt;color:#aaa;border-top:1px solid #e8e8e8;padding-top:6pt;}
+@media(max-width:900px){
+  .page-sheet{padding:48px 28px;min-height:auto;}
+  .page-info{left:28px;right:28px;}
+}
 .tiptap p{margin:6px 0;}.tiptap h1{font-size:2em;margin:16px 0 8px;}.tiptap h2{font-size:1.5em;margin:14px 0 6px;}.tiptap h3{font-size:1.2em;margin:12px 0 4px;}
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
 .tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
@@ -176,6 +224,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
 .statusbar{position:fixed;bottom:60px;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
 </style>
+  <!-- Librerías exportación -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -453,8 +505,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
  </div>
  <div id="wordart-banner"></div>
  <div id="ruler">◀ 0cm &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 6 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 12 &nbsp;&nbsp;&nbsp; 14 ▶</div>
- <div id="mediaZone"></div>
- <div id="editor" class="tiptap" contenteditable="true" spellcheck="true">
+ <div class="page-canvas" id="pageCanvas">
+  <div class="page-sheet" id="pageSheet">
+   <div id="mediaZone"></div>
+   <div id="editor" class="tiptap" contenteditable="true" spellcheck="true">
   <h2>Lenguas Indígenas de Costa Rica</h2>
   <p><strong>Bribri:</strong> Hola = Shkëkë</p>
   <p><strong>Cabécar:</strong> Buenos días = Ká bë́rë</p>
@@ -464,6 +518,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <p><strong>Ngäbe:</strong> Casa = Ju</p>
   <p>Escribe aquí o usa el menú para insertar contenido...</p>
  </div>
+   <div class="page-info">
+     <span id="pageAuthor">WC Corporate Editor v24</span>
+     <span id="pageDate"></span>
+     <span>Página 1</span>
+   </div>
+  </div>
+ </div>
 </div>
 
 <div class="footer">
@@ -471,6 +532,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <span id="wordCount">✓ 0 palabras</span>
   <span id="charCount">✓ 0 caracteres</span>
   <span id="trackStatus">✓ Auto-guardado activo</span>
+ </div>
+ <div style="display:flex;align-items:center;gap:6px;">
+  <button onclick="zoomPage(-0.1)" style="background:#e8e8e8;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-size:14px;font-weight:700" title="Alejar">−</button>
+  <span style="font-size:12px;color:#666;min-width:36px;text-align:center" id="zoomLabel">100%</span>
+  <button onclick="zoomPage(0.1)" style="background:#e8e8e8;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;font-size:14px;font-weight:700" title="Acercar">+</button>
  </div>
  <div class="author">Por Keny Chinchilla Navarro</div>
 </div>
@@ -2225,12 +2291,36 @@ document.getElementById('fileInputAny').addEventListener('change', function() {
 
 function toggleAI() {
   const panel = document.getElementById('aiPanel');
+  const wasOpen = panel.classList.contains('show');
   panel.classList.toggle('show');
+
+  // Mensaje bienvenida Sibö — solo la primera vez
+  if (!wasOpen && !panel.dataset.greeted) {
+    panel.dataset.greeted = '1';
+    setTimeout(() => {
+      const msgs = document.getElementById('aiMsgs');
+      if (msgs && msgs.children.length === 0) {
+        addAIMsg('bot',
+          '<div style="line-height:1.7">' +
+          '<div style="font-size:16px;font-weight:700;color:#1a237e;margin-bottom:6px">¡Hola! Soy Sibö ✦</div>' +
+          '<div style="font-size:12px;color:#555;margin-bottom:10px;font-style:italic;border-left:3px solid #4caf50;padding-left:8px">' +
+          'Inspirado en el dios creador de los pueblos Bribri y Cabécar, traigo sabiduría para tus textos.' +
+          '</div>' +
+          '<div style="font-size:13px;color:#333;margin-bottom:10px">' +
+          'Puedo redactar, corregir, hacer resúmenes de nivel universitario y crear contenido profesional.' +
+          '</div>' +
+          '<div style="font-size:13px;color:#0084ff;font-weight:600">¿Qué vamos a crear hoy? 🌿</div>' +
+          '</div>'
+        );
+      }
+    }, 300);
+  }
+
   // Mostrar estado de la key guardada
   const saved = localStorage.getItem('wc-groq-key');
   if (saved) {
     const box = document.getElementById('apiKeyBox');
-    if (box && box.querySelector('#apiKeyInput')) {
+    if (box && box.querySelector && box.querySelector('#apiKeyInput')) {
       box.style.background = '#d4edda';
       box.style.borderColor = '#27ae60';
       box.innerHTML = '<div style="color:#155724;font-weight:600;font-size:13px">✅ API Key de Groq guardada · <button onclick="clearApiKey()" style="background:none;border:none;color:#721c24;cursor:pointer;font-size:12px;text-decoration:underline">Cambiar</button></div>';
@@ -2537,9 +2627,9 @@ function handleAction(a) {
     case 'marginWide':   document.querySelector('.content').style.padding='40px 60px 160px'; showToast('Márgenes amplios'); break;
     case 'orientPortrait':  editor.style.minWidth=''; showToast('Orientación vertical'); break;
     case 'orientLandscape': editor.style.minWidth='700px'; showToast('Orientación horizontal'); break;
-    case 'sizeA4':     editor.style.maxWidth='794px'; showToast('A4'); break;
-    case 'sizeLetter': editor.style.maxWidth='816px'; showToast('Carta'); break;
-    case 'sizeLegal':  editor.style.maxWidth='816px'; editor.style.minHeight='1056px'; showToast('Oficio'); break;
+    case 'sizeA4':     setPageSize('794px','1123px','A4'); break;
+    case 'sizeLetter': setPageSize('816px','1056px','Carta'); break;
+    case 'sizeLegal':  setPageSize('816px','1344px','Legal'); break;'816px'; editor.style.minHeight='1056px'; showToast('Oficio'); break;
     case 'docFormatProfesional': editor.style.cssText+='font-family:Arial,sans-serif;font-size:14px;line-height:1.15;'; showToast('Formato Profesional ✅'); break;
     case 'docFormatAcademico':   editor.style.cssText+="font-family:'Times New Roman',serif;font-size:14px;line-height:2;"; showToast('Formato Académico ✅'); break;
     case 'docFormatCreativo':    editor.style.cssText+='font-family:Georgia,serif;font-size:15px;line-height:1.5;'; showToast('Formato Creativo ✅'); break;
@@ -2684,18 +2774,112 @@ function closeExport() { document.getElementById('exportOverlay').classList.remo
 
 function exportAs(format) {
   closeExport();
+  const title = (editor.innerText.trim().split('\n')[0] || 'documento').slice(0,40).replace(/[<>:"/\\|?*]/g,'');
   const textOnly = editor.innerText;
-  const title = 'documento';
   switch(format) {
-    case 'pdf': { const win=window.open('','_blank'); win.document.write(getCleanHTML()); win.document.close(); win.focus(); setTimeout(()=>{win.print();showToast('📄 Usa "Guardar como PDF" en el diálogo');},600); break; }
-    case 'word': { const wordHTML=`<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><meta name=ProgId content=Word.Document><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;margin:2.5cm;line-height:1.5;}h1{font-size:16pt;font-weight:bold;}h2{font-size:14pt;font-weight:bold;}h3{font-size:12pt;font-weight:bold;}p{margin:6pt 0;}table{border-collapse:collapse;width:100%;}td,th{border:1pt solid #ccc;padding:6pt;}</style></head><body>${editor.innerHTML}</body></html>`; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+wordHTML],{type:'application/msword'})); a.download=title+'.doc'; a.click(); showToast('📝 Word descargado ✅'); break; }
-    case 'rtf': { const rtf=`{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0 Arial;}}\n\\f0\\fs24\n${textOnly.replace(/\n/g,'\\par\n')}\n}`; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([rtf],{type:'application/rtf'})); a.download=title+'.rtf'; a.click(); showToast('📋 RTF descargado ✅'); break; }
-    case 'txt': { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([textOnly],{type:'text/plain;charset=utf-8'})); a.download=title+'.txt'; a.click(); showToast('📃 TXT descargado ✅'); break; }
-    case 'html': { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([getCleanHTML()],{type:'text/html;charset=utf-8'})); a.download=title+'.html'; a.click(); showToast('🌐 HTML descargado ✅'); break; }
-    case 'odt': { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([getCleanHTML()],{type:'application/vnd.oasis.opendocument.text'})); a.download=title+'.odt'; a.click(); showToast('📂 ODT descargado ✅'); break; }
-    case 'epub': { const epub=`<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Documento</title><style>body{font-family:serif;font-size:1em;margin:1em;line-height:1.6;}h1,h2,h3{font-weight:bold;}p{margin:0.5em 0;}</style></head><body>${editor.innerHTML}</body></html>`; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([epub],{type:'application/epub+zip'})); a.download=title+'.epub'; a.click(); showToast('📚 EPUB descargado ✅'); break; }
+
+    case 'pdf': {
+      showToast('Generando PDF...');
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      const margin = 18;
+      const usableW = pageW - margin*2;
+      const clone = document.createElement('div');
+      clone.innerHTML = editor.innerHTML;
+      clone.style.cssText = 'position:fixed;top:-9999px;left:0;width:750px;padding:30px;background:#fff;font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.6;color:#111;';
+      document.body.appendChild(clone);
+      html2canvas(clone,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(canvas=>{
+        document.body.removeChild(clone);
+        const ratio = canvas.width / canvas.height;
+        const imgW = usableW;
+        const imgH = imgW / ratio;
+        let y = margin;
+        let srcY = 0;
+        let first = true;
+        const pageImgH = pageH - margin*2;
+        const srcPageH = (pageImgH / imgH) * canvas.height;
+        while(srcY < canvas.height) {
+          if(!first){doc.addPage();y=margin;}
+          first=false;
+          const sliceH = Math.min(srcPageH, canvas.height-srcY);
+          const sc = document.createElement('canvas');
+          sc.width = canvas.width;
+          sc.height = sliceH;
+          sc.getContext('2d').drawImage(canvas,0,srcY,canvas.width,sliceH,0,0,canvas.width,sliceH);
+          const renderH = (sliceH/canvas.height)*imgH;
+          doc.addImage(sc.toDataURL('image/jpeg',0.92),'JPEG',margin,y,imgW,renderH);
+          srcY += sliceH;
+        }
+        const tot = doc.internal.getNumberOfPages();
+        for(let p=1;p<=tot;p++){
+          doc.setPage(p);doc.setFontSize(8);doc.setTextColor(150);
+          doc.text('WC Corporate Editor v24',margin,pageH-8);
+          doc.text('Pag '+p+'/'+tot,pageW-margin-14,pageH-8);
+        }
+        doc.save(title+'.pdf');
+        showToast('PDF descargado');
+      }).catch(e=>{showToast('Error PDF: '+e.message);console.error(e);});
+      break;
+    }
+
+    case 'word': {
+      const wh = '<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><meta name="ProgId" content="Word.Document"><meta name="Generator" content="WC Corporate Editor v24"><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]--><title>'+title+'</title><style>@page{size:21cm 29.7cm;margin:2.5cm;}body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5;color:#111;}h1{font-size:18pt;color:#1f3864;margin:12pt 0 6pt;}h2{font-size:14pt;color:#2f5496;margin:10pt 0 4pt;}h3{font-size:12pt;margin:8pt 0 3pt;}p{margin:0 0 6pt;}table{border-collapse:collapse;width:100%;margin:8pt 0;}td,th{border:1pt solid #bbb;padding:5pt 8pt;}th{background:#dce6f1;font-weight:bold;}blockquote{border-left:3pt solid #2f5496;margin:8pt 0 8pt 20pt;padding:4pt 12pt;color:#444;font-style:italic;}</style></head><body>'+editor.innerHTML+'</body></html>';
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob(['\ufeff'+wh],{type:'application/msword;charset=utf-8'}));
+      a.download=title+'.doc';a.click();URL.revokeObjectURL(a.href);
+      showToast('Word descargado');
+      break;
+    }
+
+    case 'rtf': {
+      let body='';
+      textOnly.split('\n').forEach(l=>{body+=l.replace(/[\\{}]/g,'\\$&')+'\\par\n';});
+      const rtf='{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\fswiss Calibri;}}\n\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440\n\\f0\\fs24\\sl360\\slmult1\n'+body+'}';
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([rtf],{type:'application/rtf'}));
+      a.download=title+'.rtf';a.click();URL.revokeObjectURL(a.href);
+      showToast('RTF descargado');
+      break;
+    }
+
+    case 'txt': {
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([textOnly],{type:'text/plain;charset=utf-8'}));
+      a.download=title+'.txt';a.click();URL.revokeObjectURL(a.href);
+      showToast('TXT descargado');
+      break;
+    }
+
+    case 'html': {
+      const full='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title+'</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;color:#111;}h1{font-size:2em;color:#1f3864;}h2{font-size:1.5em;color:#2f5496;}table{border-collapse:collapse;width:100%;}td,th{border:1px solid #ccc;padding:6px 10px;}th{background:#dce6f1;}</style></head><body>'+editor.innerHTML+'</body></html>';
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([full],{type:'text/html;charset=utf-8'}));
+      a.download=title+'.html';a.click();URL.revokeObjectURL(a.href);
+      showToast('HTML descargado');
+      break;
+    }
+
+    case 'odt': {
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([getCleanHTML()],{type:'application/vnd.oasis.opendocument.text'}));
+      a.download=title+'.odt';a.click();URL.revokeObjectURL(a.href);
+      showToast('ODT descargado');
+      break;
+    }
+
+    case 'epub': {
+      const epub='<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>'+title+'</title><style>body{font-family:serif;font-size:1em;margin:1em;line-height:1.6;}h1,h2,h3{font-weight:bold;}p{margin:0.5em 0;}</style></head><body>'+editor.innerHTML+'</body></html>';
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([epub],{type:'application/epub+zip'}));
+      a.download=title+'.epub';a.click();URL.revokeObjectURL(a.href);
+      showToast('EPUB descargado');
+      break;
+    }
   }
 }
+
 
 /* ── ARRANQUE ── */
 const saved = localStorage.getItem('wc-v24');
@@ -2703,6 +2887,35 @@ if (saved) editor.innerHTML = saved;
 updateStats();
 renderCommunityPanel();
 setInterval(()=>localStorage.setItem('wc-v24',editor.innerHTML), 30000);
+
+// Fecha en pie de página
+(function(){
+  const el = document.getElementById('pageDate');
+  if(el) el.textContent = new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'});
+})();
+
+// Zoom de página
+let _pageZoom = 1;
+function zoomPage(delta) {
+  _pageZoom = Math.min(2, Math.max(0.4, _pageZoom + delta));
+  const pct = Math.round(_pageZoom*100);
+  document.getElementById('pageSheet').style.transform = 'scale(' + _pageZoom + ')';
+  document.getElementById('pageSheet').style.transformOrigin = 'top center';
+  document.getElementById('pageCanvas').style.paddingTop = (_pageZoom > 1 ? (28 + (_pageZoom-1)*600) : 28) + 'px';
+  document.getElementById('pageCanvas').style.paddingBottom = (_pageZoom > 1 ? ((_pageZoom-1)*600) : 28) + 'px';
+  const lbl = document.getElementById('zoomLabel');
+  if(lbl) lbl.textContent = pct + '%';
+  showToast('Zoom: ' + pct + '%');
+}
+
+// Tamaño de página
+function setPageSize(w, h, name) {
+  const s = document.getElementById('pageSheet');
+  s.style.width = w;
+  s.style.minHeight = h;
+  showToast('Tamaño ' + name + ' ✅');
+}
+
 
 /* ── NUEVAS FUNCIONES v24 ── */
 
@@ -2811,119 +3024,109 @@ function maqCitaDestacada() {
 // ── TRADUCCIÓN A LENGUAS INDÍGENAS ──
 async function aiTraducirIndigena() {
   const key = localStorage.getItem('wc-groq-key');
-  if (!key) { openModal('apiKeyBox'); return; }
+  if (!key) { toggleAI(); showToast('⚠️ Primero ingresá tu API Key de Groq en el panel IA'); return; }
 
   const lenguas = ['bribri','cabecar','maleku','boruca','ngabe','brunca'];
-  const nombreLenguas = {
-    bribri:'Bribri',cabecar:'Cabécar',maleku:'Maleku',
-    boruca:'Boruca',ngabe:'Ngäbe',brunca:'Brunca'
-  };
+  const nombreLenguas = {bribri:'Bribri',cabecar:'Cabécar',maleku:'Maleku',boruca:'Boruca',ngabe:'Ngäbe',brunca:'Brunca'};
 
+  // Guardar texto ANTES del await
   const sel = window.getSelection();
-  const texto = sel && sel.toString().trim() ? sel.toString() : '';
-  if (!texto) { showToast('Selecciona texto para traducir'); return; }
+  const texto = (sel && sel.toString().trim()) ? sel.toString() : editor.innerText.slice(0, 400);
+  if (!texto.trim()) { showToast('Selecciona texto para traducir'); return; }
+  saveSelection();
 
-  // Primero buscar palabra por palabra en el diccionario local
+  // Buscar en diccionario local primero
   const palabras = texto.toLowerCase().split(/\s+/);
-  let dictResult = {};
-  lenguas.forEach(l => dictResult[l] = []);
-
+  const dictHits = {};
+  lenguas.forEach(l => { dictHits[l] = []; });
   palabras.forEach(pal => {
-    const found = dictData.find(e => e.es.toLowerCase() === pal);
+    const found = dictData.find(e => e.es && e.es.toLowerCase() === pal);
     if (found) {
-      lenguas.forEach(l => {
-        if (found[l] && found[l] !== '—') {
-          dictResult[l].push(found[l]);
-        }
-      });
+      lenguas.forEach(l => { if (found[l] && found[l] !== '—') dictHits[l].push(found[l]); });
     }
   });
 
-  // Construir contexto del diccionario para Llama
-  const dictContext = lenguas.map(l => {
-    const words = dictResult[l];
-    return words.length ? `${nombreLenguas[l]}: ${words.join(' ')}` : '';
-  }).filter(Boolean).join('\n');
+  const dictContext = lenguas.map(l => dictHits[l].length ? nombreLenguas[l] + ': ' + dictHits[l].join(', ') : '').filter(Boolean).join(' | ');
 
-  showToast('🦙 Traduciendo a lenguas indígenas...');
+  showToast('🌿 Traduciendo a lenguas indígenas...');
 
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
       body: JSON.stringify({
         model: 'llama-3.1-70b-versatile',
         max_tokens: 1200,
         messages: [
-          { role: 'system', content: `Sos un lingüista especializado en lenguas indígenas de Costa Rica: Bribri, Cabécar, Maleku, Boruca, Ngäbe y Brunca. 
-Tenés acceso a este diccionario de referencia con palabras encontradas en el texto:
-${dictContext || '(ninguna coincidencia directa)'}
-
-Tu tarea: traducir el texto al Bribri usando las palabras del diccionario como base. Si una palabra no está en el diccionario, usa tu conocimiento lingüístico para aproximarla o usa una descripción en Bribri. Sé transparente indicando qué es traducción directa vs aproximación.
-
-Formato de respuesta (JSON puro, sin markdown):
-{
-  "bribri": "...",
-  "cabecar": "...",
-  "maleku": "...",
-  "nota": "Palabras del diccionario usadas: X. Aproximaciones: Y."
-}` },
-          { role: 'user', content: `Texto a traducir: "${texto}"` }
+          { role: 'system', content: 'Sos un lingüista de lenguas indígenas de Costa Rica (Bribri, Cabécar, Maleku, Boruca, Ngäbe, Brunca). Diccionario de referencia encontrado: ' + (dictContext || 'ninguna coincidencia directa') + '. Traducí al Bribri y Cabécar. Respondé SOLO con JSON sin markdown: {"bribri":"...","cabecar":"...","nota":"palabras del diccionario usadas vs aproximaciones"}' },
+          { role: 'user', content: 'Texto: "' + texto + '"' }
         ]
       })
     });
-
     const data = await res.json();
-    let raw = data.choices?.[0]?.message?.content || '{}';
+    let raw = (data.choices && data.choices[0] && data.choices[0].message) ? data.choices[0].message.content : '{}';
     raw = raw.replace(/```json|```/g,'').trim();
-
     let trad = {};
-    try { trad = JSON.parse(raw); } catch(e) { trad = { bribri: raw, nota: '' }; }
+    try { trad = JSON.parse(raw); } catch(e) { trad = {bribri: raw, nota:''}; }
 
-    const html = `<div style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #4caf50;border-radius:10px;padding:14px 18px;margin:10px 0">
-      <div style="font-size:12px;color:#2e7d32;font-weight:700;margin-bottom:8px">🌿 Traducción a Lenguas Indígenas CR — Sibö 🦙</div>
-      <div style="font-size:12px;color:#555;background:#fff;border-radius:6px;padding:4px 8px;margin-bottom:6px"><i>"${texto}"</i></div>
-      ${trad.bribri ? `<div style="margin:4px 0"><span style="background:#1b5e20;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;font-weight:600">Bribri</span> <span style="font-size:14px">${trad.bribri}</span></div>` : ''}
-      ${trad.cabecar ? `<div style="margin:4px 0"><span style="background:#33691e;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;font-weight:600">Cabécar</span> <span style="font-size:14px">${trad.cabecar}</span></div>` : ''}
-      ${trad.maleku ? `<div style="margin:4px 0"><span style="background:#558b2f;color:#fff;border-radius:10px;padding:2px 7px;font-size:11px;font-weight:600">Maleku</span> <span style="font-size:14px">${trad.maleku}</span></div>` : ''}
-      ${trad.nota ? `<div style="margin-top:8px;font-size:11px;color:#777;font-style:italic">📝 ${trad.nota}</div>` : ''}
-    </div><p></p>`;
+    const bloque = '<div style="background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:2px solid #4caf50;border-radius:10px;padding:14px 18px;margin:10px 0">'
+      + '<div style="font-size:12px;color:#2e7d32;font-weight:700;margin-bottom:8px">🌿 Lenguas Indígenas CR — Sibö 🦙</div>'
+      + '<div style="font-size:12px;background:#fff;border-radius:6px;padding:4px 8px;margin-bottom:8px;color:#555"><i>"' + texto + '"</i></div>'
+      + (trad.bribri ? '<div style="margin:5px 0"><span style="background:#1b5e20;color:#fff;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700">Bribri</span> <span style="font-size:14px"> ' + trad.bribri + '</span></div>' : '')
+      + (trad.cabecar ? '<div style="margin:5px 0"><span style="background:#33691e;color:#fff;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700">Cabécar</span> <span style="font-size:14px"> ' + trad.cabecar + '</span></div>' : '')
+      + (trad.maleku ? '<div style="margin:5px 0"><span style="background:#558b2f;color:#fff;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:700">Maleku</span> <span style="font-size:14px"> ' + trad.maleku + '</span></div>' : '')
+      + (dictContext ? '<div style="margin-top:8px;font-size:11px;color:#388e3c">📖 Del diccionario: ' + dictContext + '</div>' : '')
+      + (trad.nota ? '<div style="margin-top:4px;font-size:11px;color:#777;font-style:italic">📝 ' + trad.nota + '</div>' : '')
+      + '</div><p></p>';
 
+    editor.focus();
     restoreSelection();
-    insertHTML(html);
+    insertHTML(bloque);
     showToast('🌿 Traducción indígena lista ✅');
   } catch(e) {
-    showToast('Error de conexión con Groq');
+    showToast('Error: ' + e.message);
+    console.error(e);
   }
 }
 
 
 async function aiTraducirIdioma(idioma, nombre) {
   const key = localStorage.getItem('wc-groq-key');
-  if (!key) { openModal('apiKeyBox'); return; }
+  if (!key) { toggleAI(); showToast('⚠️ Primero ingresá tu API Key de Groq en el panel IA'); return; }
+  // Guardar texto ANTES del await (la selección se pierde después)
   const sel = window.getSelection();
-  const texto = sel && sel.toString().trim() ? sel.toString() : editor.innerText.slice(0, 800);
-  if (!texto) { showToast('Selecciona texto para traducir'); return; }
-  showToast(`Traduciendo al ${nombre}... 🌐`);
+  const texto = (sel && sel.toString().trim()) ? sel.toString() : editor.innerText.slice(0, 800);
+  if (!texto.trim()) { showToast('Selecciona texto o escribí algo en el editor'); return; }
+  // Guardar posición del cursor
+  saveSelection();
+  showToast('Traduciendo al ' + nombre + '... 🌐');
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
       body: JSON.stringify({
         model: 'llama-3.1-70b-versatile',
         max_tokens: 1000,
         messages: [
-          { role: 'system', content: `Sos un traductor profesional. Traduce el texto al ${nombre} de forma natural y fluida. Devuelve solo la traducción, sin explicaciones.` },
+          { role: 'system', content: 'Sos un traductor profesional. Traduce al ' + nombre + ' de forma natural. Devolvé SOLO la traducción, sin explicaciones ni comillas.' },
           { role: 'user', content: texto }
         ]
       })
     });
     const data = await res.json();
-    const trad = data.choices?.[0]?.message?.content || 'Error en traducción';
+    const trad = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content)
+      ? data.choices[0].message.content
+      : ('Error: ' + JSON.stringify(data));
+    // Insertar al final del editor
+    editor.focus();
+    const bloque = '<div style="background:#f0fff4;border:1px solid #4caf50;border-radius:8px;padding:10px 14px;margin:8px 0"><span style="font-size:11px;color:#388e3c;font-weight:700">🌐 Traducción al ' + nombre + '</span><br><span style="font-size:14px">' + trad.replace(/\n/g,'<br>') + '</span></div><p></p>';
     restoreSelection();
-    insertHTML(`<div style="background:#f0fff4;border:1px solid #4caf50;border-radius:8px;padding:10px 14px;margin:8px 0"><span style="font-size:11px;color:#388e3c;font-weight:600">🌐 Traducción al ${nombre}</span><br>${trad}</div><p></p>`);
-    showToast(`Traducido al ${nombre} ✅`);
-  } catch(e) { showToast('Error de conexión'); }
+    insertHTML(bloque);
+    showToast('Traducido al ' + nombre + ' ✅');
+  } catch(e) {
+    showToast('Error: ' + e.message);
+    console.error(e);
+  }
 }
 
 </script>
