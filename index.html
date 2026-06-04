@@ -30,60 +30,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .dib .desc{font-size:11px;color:#999;margin-top:2px;line-height:1.3;}
 .dd{height:1px;background:#eee;margin:4px 8px;}
 .badge{background:#0084ff;color:white;font-size:10px;padding:2px 7px;border-radius:5px;}
-.content{background:#c8c8c8;padding:0;min-height:500px;}
-.ctitle{display:none;}
+.content{background:#fff;padding:24px 16px 160px;min-height:500px;}
+.ctitle{font-size:16px;color:#0066cc;font-weight:600;margin-bottom:14px;}
 #wordart-banner{display:none;text-align:center;font-size:36px;font-weight:900;letter-spacing:4px;margin-bottom:12px;padding:10px;border-radius:12px;}
 #ruler{display:none;height:22px;background:linear-gradient(#e8e8e8,#f5f5f5);border:1px solid #ddd;border-radius:6px;margin-bottom:8px;font-size:9px;color:#aaa;line-height:22px;padding:0 8px;}
-/* ── PÁGINA ESTILO WORD/PAGES ── */
-.page-canvas{background:#c8c8c8;padding:28px 20px;min-height:100vh;}
-.page-sheet{
-  background:#fff;
-  width:816px;
-  max-width:100%;
-  min-height:1056px;
-  margin:0 auto 40px;
-  padding:96px 96px 96px 96px;
-  box-shadow:0 4px 24px rgba(0,0,0,.22),0 1px 4px rgba(0,0,0,.12);
-  border-radius:2px;
-  position:relative;
-  box-sizing:border-box;
-}
-.page-sheet::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:4px;
-  background:linear-gradient(90deg,#0084ff,#ff6b35);
-  border-radius:2px 2px 0 0;
-}
-.tiptap{
-  outline:none;
-  min-height:864px;
-  font-size:12pt;
-  font-family:'Calibri','Segoe UI','Helvetica Neue',Arial,sans-serif;
-  line-height:1.8;
-  color:#111;
-  caret-color:#0084ff;
-}
-.tiptap:focus{outline:none;}
-.tiptap p{margin:0 0 8pt 0;}
-.tiptap h1{font-size:26pt;font-weight:700;margin:18pt 0 6pt;color:#1a1a1a;line-height:1.2;}
-.tiptap h2{font-size:18pt;font-weight:600;margin:14pt 0 4pt;color:#1f3864;}
-.tiptap h3{font-size:13pt;font-weight:600;margin:10pt 0 3pt;color:#2f5496;}
-.tiptap ul,.tiptap ol{margin:4pt 0 4pt 24pt;padding:0;}
-.tiptap li{margin:2pt 0;}
-.tiptap table{border-collapse:collapse;width:100%;margin:10pt 0;}
-.tiptap table td,.tiptap table th{border:1px solid #bbb;padding:5pt 8pt;font-size:11pt;}
-.tiptap table th{background:#dce6f1;font-weight:600;}
-.tiptap blockquote{border-left:3px solid #2f5496;margin:10pt 0 10pt 20pt;padding:4pt 12pt;color:#444;font-style:italic;background:#f7f9fc;}
-/* regla */
-#ruler{background:#e8e8e8;border-bottom:1px solid #c0c0c0;color:#666;font-size:11px;padding:3px 0;text-align:center;letter-spacing:2px;display:none;}
-/* página footer info */
-.page-info{position:absolute;bottom:36px;left:96px;right:96px;display:flex;justify-content:space-between;font-size:9pt;color:#aaa;border-top:1px solid #e8e8e8;padding-top:6pt;}
-@media(max-width:900px){
-  .page-sheet{padding:48px 28px;min-height:auto;}
-  .page-info{left:28px;right:28px;}
-}
+.tiptap{border:1px solid #e0e0e0;border-radius:14px;padding:18px;min-height:300px;outline:none;font-size:15px;line-height:1.7;}
+.tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
 .tiptap p{margin:6px 0;}.tiptap h1{font-size:2em;margin:16px 0 8px;}.tiptap h2{font-size:1.5em;margin:14px 0 6px;}.tiptap h3{font-size:1.2em;margin:12px 0 4px;}
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
 .tiptap table{border-collapse:collapse;width:100%;margin:8px 0;}
@@ -288,10 +240,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="dsec">Edición avanzada</div>
     <div class="dib" data-action="find"><div class="tit">Buscar y reemplazar</div><div class="desc">Cambia una palabra en todo el documento.</div></div>
     <div class="di" data-action="trackChanges"><span class="ico">🔄</span><div>Control de cambios</div></div>
+    <div class="di" data-action="trackChangesPanel"><span class="ico">📝</span><div>Ver cambios pendientes</div></div>
     <div class="di" data-action="sugerencias"><span class="ico">✏️</span><div>Modo sugerencias</div></div>
     <div class="di" data-action="addComment"><span class="ico">💬</span><div>Agregar comentario</div></div>
     <div class="di" data-action="verComentarios"><span class="ico">📋</span><div>Ver comentarios</div></div>
-    <div class="di" data-action="colaborar"><span class="ico">🔗</span><div>Colaborar (compartir enlace)</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Colaboración</div>
+    <div class="di" data-action="colaborar"><span class="ico">🔗</span><div>Compartir enlace</div></div>
+    <div class="di" data-action="historialVersiones"><span class="ico">🕐</span><div>Historial de versiones</div></div>
+    <div class="di" data-action="sincronizar"><span class="ico">☁️</span><div>Sincronización automática</div></div>
+    <div class="dd"></div>
+    <div class="dsec">Herramientas avanzadas</div>
+    <div class="di" data-action="correspondenciaMasiva"><span class="ico">📨</span><div>Correspondencia masiva</div></div>
+    <div class="di" data-action="referencias"><span class="ico">📚</span><div>Referencias bibliográficas</div></div>
     <div class="di" data-action="comparar"><span class="ico">⚖️</span><div>Comparar versiones</div></div>
     <div class="di" data-action="proteger"><span class="ico">🔒</span><div>Proteger documento</div></div>
    </div>
@@ -621,6 +582,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="doc-toolbar">
       <span class="doc-title" id="docWindowTitle">📄 Documento nuevo</span>
       <button class="ai-quick-btn" onclick="docWindowPrint()">🖨️ Imprimir</button>
+      <button class="ai-quick-btn" onclick="docWindowExportPdf()">📄 PDF</button>
+      <button class="ai-quick-btn" onclick="docWindowExportWord()">📝 Word</button>
       <button class="ai-quick-btn" onclick="docWindowExportTxt()">📃 TXT</button>
       <button class="ai-quick-btn" onclick="docWindowExportHtml()">🌐 HTML</button>
       <button class="ai-quick-btn" onclick="docWindowInsertMain()">📋 Insertar en editor</button>
@@ -661,7 +624,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <!-- ═══════════════════════════════════════════════════
-     ASISTENTE IA — SIBÖ (Meta Llama 3.1 via Groq)
+     ASISTENTE IA — SIBÖ (Meta Llama 3.3 via Groq)
      ═══════════════════════════════════════════════════ -->
 <div id="aiPanel">
  <div id="aiBox">
@@ -695,7 +658,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 
   <div id="aiMsgs">
-   <div class="aib">Pura vida mae, soy Sibö 🦙🇨🇷 Corro con Meta Llama 3.1 en Groq. ¿En qué te ayudo con tu documento?</div>
+   <div class="aib">Pura vida mae, soy Sibö 🦙🇨🇷 Corro con Meta Llama 3.3 en Groq. ¿En qué te ayudo con tu documento?</div>
   </div>
   <div id="aiRow">
    <input type="text" id="aiInp" placeholder="Pregúntame algo mae..." onkeydown="if(event.key==='Enter')sendAI()">
@@ -705,7 +668,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <!-- MODALES -->
-<div class="mo" id="modalPlantillas"><div class="mb"><h3>Plantillas (10)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
+<div class="mo" id="modalPlantillas"><div class="mb"><h3>Plantillas (25)</h3><div class="g2" id="plantillasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalPlantillas')">Cerrar</button></div></div></div>
 <div class="mo" id="modalWcArte"><div class="mb"><h3>WC Arte</h3><input type="text" class="minput" id="wcArteText" placeholder="Escribe tu texto..."><div id="wcArtePreview" style="font-size:26px;font-weight:900;background:linear-gradient(90deg,#ff6b35,#0084ff,#9b59b6,#27ae60);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;min-height:44px;margin-bottom:12px;letter-spacing:3px;">Vista previa</div><div class="mbtns"><button class="btn1" id="btnInsertWcArte">Insertar</button><button class="btn2" onclick="closeModal('modalWcArte')">Cancelar</button></div></div></div>
 <div class="mo" id="modalWcArteGallery"><div class="mb"><h3>WC Arte — Galería CR</h3><p style="font-size:12px;color:#999;text-align:center;margin-bottom:12px;">Toca un diseño y escribe tu texto</p><div id="wcArteGalleryGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteGallery')">Cerrar</button></div></div></div>
 <div class="mo" id="modalWcArteLetras"><div class="mb"><h3>WC Arte — Estilos de letras</h3><input type="text" class="minput" id="wcArteLetrasText" placeholder="Escribe tu texto..."><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="wcArteLetrasGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalWcArteLetras')">Cerrar</button></div></div></div>
@@ -1912,7 +1875,7 @@ function filterDict() {
 <script>
 /* ============================================================
    MÓDULO PRINCIPAL — WC Corporate Editor v24
-   IA: Meta Llama 3.1 via Groq (sin Gemini)
+   IA: Meta Llama 3.3 via Groq (sin Gemini)
    ============================================================ */
 const editor = document.getElementById('editor');
 const toast  = document.getElementById('toast');
@@ -2002,6 +1965,22 @@ const plantillas = [
   {icon:'📰',name:'Boletín',c:'<div style="background:#0084ff;color:white;padding:16px;border-radius:8px;text-align:center"><h1>BOLETÍN INFORMATIVO</h1><p>Edición Nº 1</p></div><h2>Noticias principales</h2><p>Lorem ipsum dolor sit amet...</p><h2>Eventos próximos</h2><p>• Evento 1: fecha<br>• Evento 2: fecha</p>'},
   {icon:'🌿',name:'Lenguas Indígenas',c:'<h2 style="color:#27ae60;text-align:center">🌿 Diccionario Lenguas Indígenas CR</h2><table border="1" style="border-collapse:collapse;width:100%"><tr style="background:#27ae60;color:white"><th style="padding:8px">Español</th><th style="padding:8px">Bribri</th><th style="padding:8px">Cabécar</th><th style="padding:8px">Maleku</th></tr><tr><td style="padding:8px">Hola</td><td style="padding:8px">Shkëkë</td><td style="padding:8px">Ká bë́rë</td><td style="padding:8px">Ma lha</td></tr><tr><td style="padding:8px">Agua</td><td style="padding:8px">Aba</td><td style="padding:8px">Yök</td><td style="padding:8px">Toku</td></tr><tr><td style="padding:8px">Gracias</td><td style="padding:8px">Ëyö</td><td style="padding:8px">Ká</td><td style="padding:8px">Shíi</td></tr></table>'},
   {icon:'📬',name:'Memorando',c:'<h2 style="text-align:center">MEMORANDO INTERNO</h2><hr><p><strong>PARA:</strong> ___________</p><p><strong>DE:</strong> ___________</p><p><strong>FECHA:</strong> ___________</p><p><strong>ASUNTO:</strong> ___________</p><hr><p>Por este medio me permito informarle que...</p><p style="margin-top:30px">Firma: _______________</p>'}
+,
+  {icon:'📊',name:'Informe financiero',c:'<h1 style="text-align:center;color:#1f3864">INFORME FINANCIERO</h1><p style="text-align:center;color:#666">Período: _____ | Empresa: _____</p><h2>1. Resumen Ejecutivo</h2><p>El presente informe detalla los resultados financieros del período...</p><h2>2. Ingresos</h2><table style="width:100%;border-collapse:collapse"><tr><th style="background:#dce6f1;border:1px solid #bbb;padding:6px">Concepto</th><th style="background:#dce6f1;border:1px solid #bbb;padding:6px">Monto (₡)</th><th style="background:#dce6f1;border:1px solid #bbb;padding:6px">Variación %</th></tr><tr><td style="border:1px solid #bbb;padding:6px">Ventas netas</td><td style="border:1px solid #bbb;padding:6px">0.00</td><td style="border:1px solid #bbb;padding:6px">0%</td></tr></table><h2>3. Egresos</h2><p>Detalle de egresos del período...</p><h2>4. Conclusiones</h2><p>Con base en los datos presentados...</p>'},
+  {icon:'📋',name:'Plan de negocios',c:'<h1 style="color:#1f3864">PLAN DE NEGOCIOS</h1><h2>1. Resumen Ejecutivo</h2><p>Descripción breve del negocio, propuesta de valor y objetivos principales...</p><h2>2. Descripción de la Empresa</h2><p>Misión: <br>Visión: <br>Valores:</p><h2>3. Análisis de Mercado</h2><p>Mercado objetivo:<br>Competencia:<br>Ventaja competitiva:</p><h2>4. Plan de Marketing</h2><p>Estrategia de ventas y canales de distribución...</p><h2>5. Plan Financiero</h2><p>Inversión inicial: ₡<br>Punto de equilibrio:<br>Proyección año 1:</p>'},
+  {icon:'⚖️',name:'Contrato de servicios',c:'<h2 style="text-align:center">CONTRATO DE PRESTACIÓN DE SERVICIOS PROFESIONALES</h2><p style="text-align:center">San José, Costa Rica, _____ de _____ de _____</p><p>Entre <strong>_____</strong>, cédula número _____, en adelante EL CONTRATANTE, y <strong>_____</strong>, cédula número _____, en adelante EL PRESTADOR DE SERVICIOS, se celebra el presente contrato al tenor de las siguientes cláusulas:</p><p><strong>PRIMERA — OBJETO:</strong> El prestador se compromete a...</p><p><strong>SEGUNDA — HONORARIOS:</strong> Se acuerda la suma de ₡_____ pagaderos...</p><p><strong>TERCERA — PLAZO:</strong> El presente contrato tendrá vigencia a partir del...</p><p><strong>CUARTA — CONFIDENCIALIDAD:</strong> Ambas partes se comprometen a...</p><p style="margin-top:60px">_______________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _______________________<br>EL CONTRATANTE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EL PRESTADOR</p>'},
+  {icon:'🎓',name:'Ensayo académico',c:'<h1 style="text-align:center">Título del Ensayo</h1><p style="text-align:center;color:#666">Autor: _____<br>Institución: _____<br>Curso: _____ | Fecha: _____</p><h2>Resumen</h2><p>El presente ensayo aborda la temática de... con el objetivo de... Se concluye que...</p><h2>Introducción</h2><p>En el contexto actual, el tema de _____ reviste especial importancia debido a... El presente trabajo tiene como objetivo principal...</p><h2>Desarrollo</h2><h3>1. Marco Teórico</h3><p>Según [Autor, año], el concepto de _____ se define como...</p><h3>2. Análisis</h3><p>A partir de los elementos teóricos expuestos, es posible señalar que...</p><h2>Conclusiones</h2><p>En síntesis, el análisis realizado permite afirmar que...</p><h2>Referencias</h2><p>Apellido, N. (Año). <em>Título del libro</em>. Editorial.</p>'},
+  {icon:'📰',name:'Comunicado de prensa',c:'<p style="text-align:right;color:#666;font-size:12px">PARA PUBLICACIÓN INMEDIATA</p><h2 style="text-align:center">TÍTULO DEL COMUNICADO EN MAYÚSCULAS</h2><p style="text-align:center;font-style:italic;color:#555">Subtítulo descriptivo del comunicado</p><p><strong>San José, Costa Rica, _____ de _____ de _____.</strong> — [Nombre de la organización] anuncia hoy que...</p><p>El comunicado debe responder a: ¿qué?, ¿quién?, ¿cuándo?, ¿dónde? y ¿por qué?...</p><p>"Incluir una cita directa del vocero principal de la organización, que refuerce el mensaje clave del comunicado", dijo _____, [cargo].</p><h3>Acerca de [Organización]</h3><p>Breve descripción de la empresa u organización...</p><p style="text-align:center">###</p><p style="font-size:12px;color:#666">Contacto de prensa: _____ | Tel: _____ | Email: _____</p>'},
+  {icon:'🏥',name:'Informe médico',c:'<h2 style="text-align:center">INFORME MÉDICO</h2><p><strong>Paciente:</strong> _____ &nbsp; <strong>Cédula:</strong> _____<br><strong>Fecha de nacimiento:</strong> _____ &nbsp; <strong>Expediente:</strong> _____</p><hr><p><strong>Motivo de consulta:</strong> El paciente refiere...</p><p><strong>Antecedentes:</strong> Sin antecedentes patológicos relevantes / ...</p><p><strong>Exploración física:</strong><br>Signos vitales: TA _____ FC _____ FR _____ T°_____<br>Estado general: ...</p><p><strong>Diagnóstico:</strong></p><p><strong>Plan de tratamiento:</strong></p><p><strong>Medicamentos prescritos:</strong></p><p style="margin-top:40px">_______________________<br>Dr./Dra. _____<br>Cédula médica: _____</p>'},
+  {icon:'🏗️',name:'Propuesta técnica',c:'<h1 style="color:#1f3864">PROPUESTA TÉCNICA</h1><p><strong>Proyecto:</strong> _____<br><strong>Cliente:</strong> _____<br><strong>Fecha:</strong> _____<br><strong>Vigencia:</strong> 30 días</p><h2>1. Entendimiento del Problema</h2><p>Tras analizar los requerimientos presentados, entendemos que la necesidad principal es...</p><h2>2. Solución Propuesta</h2><p>Proponemos el desarrollo de _____ que consiste en...</p><h2>3. Metodología</h2><p>La implementación se realizará en las siguientes fases:<br>• Fase 1 — Análisis (X días)<br>• Fase 2 — Desarrollo (X días)<br>• Fase 3 — Pruebas (X días)<br>• Fase 4 — Entrega (X días)</p><h2>4. Inversión</h2><table style="width:100%;border-collapse:collapse"><tr><th style="background:#dce6f1;border:1px solid #bbb;padding:6px">Ítem</th><th style="background:#dce6f1;border:1px solid #bbb;padding:6px">Monto</th></tr><tr><td style="border:1px solid #bbb;padding:6px">Total</td><td style="border:1px solid #bbb;padding:6px">₡ _____</td></tr></table>'},
+  {icon:'📧',name:'Email profesional',c:'<p><strong>Para:</strong> _____@_____.com<br><strong>CC:</strong> _____<br><strong>Asunto:</strong> _____</p><hr><p>Estimado/a _____,</p><p>Espero que este mensaje le encuentre bien. Me dirijo a usted con el propósito de...</p><p>En relación con el tema mencionado, me permito informarle que...</p><p>Quedo a su entera disposición para cualquier consulta adicional.</p><p>Atentamente,</p><p><strong>_____</strong><br>Cargo: _____<br>Tel: _____<br>Email: _____</p>'},
+  {icon:'📑',name:'Resolución administrativa',c:'<h2 style="text-align:center">RESOLUCIÓN N.° _____-_____</h2><p style="text-align:center">San José, a las _____ horas del _____ de _____ de _____</p><p><strong>RESULTANDO:</strong> Que mediante _____...</p><p><strong>CONSIDERANDO:</strong></p><p>I. Que de conformidad con el artículo _____ de la Ley _____...</p><p>II. Que los elementos probatorios demuestran que...</p><p><strong>POR TANTO:</strong></p><p>Con fundamento en las consideraciones expuestas y lo establecido en _____, SE RESUELVE:</p><p>PRIMERO: _____<br>SEGUNDO: _____<br>TERCERO: Notifíquese.</p><p style="margin-top:40px">_______________________<br>Firma y sello</p>'},
+  {icon:'🌿',name:'Documento Bribri',c:'<h1 style="text-align:center;color:#1b5e20">DOCUMENTO EN BRIBRI</h1><p style="text-align:center;font-style:italic;color:#388e3c">Lengua del pueblo Bribri — Talamanca, Costa Rica</p><h2>Saludo / Dë̈körë</h2><p><strong>Bribri:</strong> Ëköl bë (Buenos días)<br><strong>Bribri:</strong> Ëyö (Gracias)<br><strong>Bribri:</strong> Dör bë yë (¿Cómo estás?)</p><h2>Contenido</h2><p>Escribí aquí el contenido en Bribri o bilingüe español-Bribri...</p><h2>Palabras clave</h2><p>Usá el diccionario integrado de 1009 palabras para complementar este documento.</p>'},
+  {icon:'📃',name:'Carta de recomendación',c:'<p style="text-align:right">San José, _____ de _____ de _____</p><p>A quien corresponda:</p><p>Por medio de la presente, me es grato recomendar al señor/señora <strong>_____</strong>, portador(a) de la cédula de identidad número _____, quien se desempeñó como _____ en nuestra organización durante el período comprendido entre _____ y _____.</p><p>Durante su permanencia en nuestra institución, demostró ser una persona de alta calidad humana y profesional, destacando en...</p><p>Por las razones expuestas, recomiendo ampliamente a _____ para el puesto o proceso que corresponda, ya que estoy seguro/a de que realizará una labor excelente.</p><p>En caso de requerir información adicional, estoy a su disposición.</p><p style="margin-top:40px">Atentamente,<br>_____<br>Cargo: _____<br>Institución: _____<br>Tel: _____</p>'},
+  {icon:'🧾',name:'Factura comercial',c:'<h2 style="text-align:center">FACTURA COMERCIAL</h2><p><strong>Empresa:</strong> _____<br><strong>Cédula jurídica:</strong> _____<br><strong>Fecha:</strong> _____ &nbsp; <strong>N.° Factura:</strong> _____</p><p><strong>Cliente:</strong> _____<br><strong>Cédula:</strong> _____</p><table style="width:100%;border-collapse:collapse;margin-top:12px"><tr><th style="background:#dce6f1;border:1px solid #bbb;padding:7px">Descripción</th><th style="background:#dce6f1;border:1px solid #bbb;padding:7px">Cant.</th><th style="background:#dce6f1;border:1px solid #bbb;padding:7px">Precio unit.</th><th style="background:#dce6f1;border:1px solid #bbb;padding:7px">Total</th></tr><tr><td style="border:1px solid #bbb;padding:7px">Servicio/Producto 1</td><td style="border:1px solid #bbb;padding:7px">1</td><td style="border:1px solid #bbb;padding:7px">₡ 0.00</td><td style="border:1px solid #bbb;padding:7px">₡ 0.00</td></tr><tr><td colspan="3" style="border:1px solid #bbb;padding:7px;text-align:right"><strong>TOTAL</strong></td><td style="border:1px solid #bbb;padding:7px"><strong>₡ 0.00</strong></td></tr></table><p style="font-size:11px;color:#888;margin-top:8px">IVA incluido según Ley 9635</p>'},
+  {icon:'🤝',name:'Acuerdo de confidencialidad',c:'<h2 style="text-align:center">ACUERDO DE CONFIDENCIALIDAD (NDA)</h2><p style="text-align:center">San José, Costa Rica, _____ de _____ de _____</p><p>Las partes: <strong>_____</strong> (LA PARTE DIVULGADORA) y <strong>_____</strong> (LA PARTE RECEPTORA), acuerdan lo siguiente:</p><p><strong>1. INFORMACIÓN CONFIDENCIAL:</strong> Se considera información confidencial toda aquella que sea compartida entre las partes en el marco de _____, incluyendo pero no limitado a: datos financieros, estrategias comerciales, código fuente, bases de datos y cualquier información marcada como confidencial.</p><p><strong>2. OBLIGACIONES:</strong> La Parte Receptora se compromete a: (a) mantener estricta confidencialidad; (b) no divulgar a terceros; (c) usar la información únicamente para los fines pactados.</p><p><strong>3. VIGENCIA:</strong> El presente acuerdo tendrá una duración de _____ años.</p><p><strong>4. PENALIDADES:</strong> El incumplimiento generará responsabilidad civil y penal conforme a la legislación costarricense.</p><p style="margin-top:50px">_______________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _______________________<br>PARTE DIVULGADORA &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PARTE RECEPTORA</p>'},
+  {icon:'📅',name:'Agenda de reunión',c:'<h2>AGENDA DE REUNIÓN</h2><p><strong>Fecha:</strong> _____ &nbsp; <strong>Hora:</strong> _____ &nbsp; <strong>Lugar/Plataforma:</strong> _____<br><strong>Convoca:</strong> _____ &nbsp; <strong>Participantes:</strong> _____</p><hr><h3>Orden del día</h3><ol><li><strong>[00:00 – 00:10]</strong> Bienvenida y verificación de quórum</li><li><strong>[00:10 – 00:30]</strong> Revisión de acuerdos de reunión anterior</li><li><strong>[00:30 – 01:00]</strong> Punto principal: _____</li><li><strong>[01:00 – 01:15]</strong> Asuntos varios</li><li><strong>[01:15 – 01:30]</strong> Acuerdos y cierre</li></ol><h3>Documentos de apoyo</h3><p>• _____ (adjunto)<br>• _____</p>'},
+  {icon:'🔬',name:'Informe de investigación',c:'<h1 style="text-align:center">INFORME DE INVESTIGACIÓN</h1><p style="text-align:center;color:#666">Investigador(es): _____<br>Institución: _____ | Fecha: _____</p><h2>Resumen / Abstract</h2><p>El presente estudio tuvo como objetivo... Se empleó una metodología... Los principales hallazgos indican que...</p><h2>1. Introducción</h2><p>Planteamiento del problema:<br>Justificación:<br>Objetivos:</p><h2>2. Marco Teórico</h2><p>Revisión de literatura relevante...</p><h2>3. Metodología</h2><p>Tipo de investigación:<br>Muestra:<br>Instrumentos:</p><h2>4. Resultados</h2><p>Los datos obtenidos muestran que...</p><h2>5. Discusión y Conclusiones</h2><p>Con base en los resultados obtenidos...</p><h2>Referencias</h2><p>APA 7ma edición...</p>'},
 ];
 const pg = document.getElementById('plantillasGrid');
 plantillas.forEach(p => {
@@ -2285,7 +2264,7 @@ document.getElementById('fileInputAny').addEventListener('change', function() {
 });
 
 /* ════════════════════════════════════════════════════
-   ASISTENTE IA — SIBÖ · Meta Llama 3.1 via Groq
+   ASISTENTE IA — SIBÖ · Meta Llama 3.3 via Groq
    (Gemini eliminado completamente)
    ════════════════════════════════════════════════════ */
 
@@ -2301,15 +2280,15 @@ function toggleAI() {
       const msgs = document.getElementById('aiMsgs');
       if (msgs && msgs.children.length === 0) {
         addAIMsg('bot',
-          '<div style="line-height:1.7">' +
-          '<div style="font-size:16px;font-weight:700;color:#1a237e;margin-bottom:6px">¡Hola! Soy Sibö ✦</div>' +
-          '<div style="font-size:12px;color:#555;margin-bottom:10px;font-style:italic;border-left:3px solid #4caf50;padding-left:8px">' +
+          '<div style="line-height:1.8;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif">' +
+          '<div style="font-size:17px;font-weight:700;color:#0084ff;margin-bottom:6px">¡Hola! Soy Sibö ✦</div>' +
+          '<div style="font-size:13px;color:#555;font-style:italic;border-left:3px solid #27ae60;padding-left:10px;margin-bottom:10px;line-height:1.6">' +
           'Inspirado en el dios creador de los pueblos Bribri y Cabécar, traigo sabiduría para tus textos.' +
           '</div>' +
-          '<div style="font-size:13px;color:#333;margin-bottom:10px">' +
-          'Puedo redactar, corregir, hacer resúmenes de nivel universitario y crear contenido profesional.' +
+          '<div style="font-size:13px;color:#333;margin-bottom:10px;line-height:1.6">' +
+          'Puedo redactar, corregir, resúmenes de nivel universitario y crear contenido profesional.' +
           '</div>' +
-          '<div style="font-size:13px;color:#0084ff;font-weight:600">¿Qué vamos a crear hoy? 🌿</div>' +
+          '<div style="font-size:13px;font-weight:600;color:#ff6b35">¿Qué vamos a crear hoy? 🌿</div>' +
           '</div>'
         );
       }
@@ -2383,7 +2362,7 @@ async function sendAI() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.1-70b-versatile',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           {
             role: 'system',
@@ -2461,7 +2440,7 @@ async function sendAI() {
 function addAIMsg(type, text, isTemp=false) {
   const msgs = document.getElementById('aiMsgs');
   const d = document.createElement('div');
-  d.className = type==='user' ? 'aiu' : 'aib';
+  d.className = type==='user' ? 'ai-msg-user' : 'ai-msg-bot';
   if (type==='bot' && text.includes('<')) d.innerHTML = text;
   else d.textContent = text;
   msgs.appendChild(d);
@@ -2544,6 +2523,11 @@ document.querySelectorAll('.dropdown').forEach(dd => {
 function handleAction(a) {
   switch(a) {
     case 'aiTraducirIndigena': aiTraducirIndigena(); break;
+    case 'trackChangesPanel':  verCambiosPendientes(); break;
+    case 'historialVersiones': abrirHistorial(); break;
+    case 'sincronizar':        sincronizarDoc(); break;
+    case 'correspondenciaMasiva': abrirCorrespondenciaMasiva(); break;
+    case 'referencias':        abrirReferencias(); break;
     case 'sugerencias':     toggleSugerencias(); break;
     case 'verComentarios':  verComentarios(); break;
     case 'colaborar':       colaborar(); break;
@@ -2708,6 +2692,57 @@ function docWindowPrint() {
   const win = window.open('','_blank');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;margin:2.5cm;font-size:12pt;line-height:1.6;}h1,h2,h3{color:#333;}table{border-collapse:collapse;width:100%;}td,th{border:1px solid #ddd;padding:8px;}@media print{body{margin:1cm;}}</style></head><body>${content}</body></html>`);
   win.document.close(); win.focus(); setTimeout(()=>win.print(),500);
+}
+function docWindowExportPdf() {
+  const dwe = document.getElementById('docWindowEditor');
+  const title = (document.getElementById('docWindowTitle').textContent || 'documento').replace(/[📄\s]/g,'').trim().slice(0,40) || 'documento';
+  showToast('Generando PDF...');
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+  const pageW = doc.internal.pageSize.getWidth();
+  const pageH = doc.internal.pageSize.getHeight();
+  const margin = 18;
+  const usableW = pageW - margin*2;
+  const clone = document.createElement('div');
+  clone.innerHTML = dwe.innerHTML;
+  clone.style.cssText = 'position:fixed;top:-9999px;left:0;width:750px;padding:30px;background:#fff;font-family:Calibri,Arial,sans-serif;font-size:11pt;line-height:1.6;color:#111;';
+  document.body.appendChild(clone);
+  html2canvas(clone,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(function(canvas){
+    document.body.removeChild(clone);
+    const imgW = usableW;
+    const imgH = (canvas.height * imgW) / canvas.width;
+    let srcY = 0; let first = true;
+    const pageImgH = pageH - margin*2;
+    const srcPageH = (pageImgH / imgH) * canvas.height;
+    while(srcY < canvas.height) {
+      if(!first){doc.addPage();}
+      first=false;
+      const sliceH = Math.min(srcPageH, canvas.height-srcY);
+      const sc = document.createElement('canvas');
+      sc.width = canvas.width; sc.height = sliceH;
+      sc.getContext('2d').drawImage(canvas,0,srcY,canvas.width,sliceH,0,0,canvas.width,sliceH);
+      const renderH = (sliceH/canvas.height)*imgH;
+      doc.addImage(sc.toDataURL('image/jpeg',0.92),'JPEG',margin,margin,imgW,renderH);
+      srcY += sliceH;
+    }
+    doc.save(title+'.pdf');
+    showToast('PDF descargado ✅');
+  }).catch(function(e){ showToast('Error PDF: '+e.message); });
+}
+function docWindowExportWord() {
+  const content = document.getElementById('docWindowEditor').innerHTML;
+  const title = (document.getElementById('docWindowTitle').textContent || 'documento').replace(/[📄\s]/g,'').trim().slice(0,40) || 'documento';
+  const wh = '<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'
+    + '<head><meta charset="utf-8"><meta name="ProgId" content="Word.Document">'
+    + '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->'
+    + '<title>'+title+'</title>'
+    + '<style>@page{size:21cm 29.7cm;margin:2.5cm;}body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5;color:#111;}h1{font-size:18pt;color:#1f3864;margin:12pt 0 6pt;}h2{font-size:14pt;color:#2f5496;margin:10pt 0 4pt;}h3{font-size:12pt;margin:8pt 0 3pt;}p{margin:0 0 6pt;}table{border-collapse:collapse;width:100%;margin:8pt 0;}td,th{border:1pt solid #bbb;padding:5pt 8pt;}th{background:#dce6f1;font-weight:bold;}</style>'
+    + '</head><body>'+content+'</body></html>';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff'+wh],{type:'application/msword;charset=utf-8'}));
+  a.download = title+'.doc';
+  a.click(); URL.revokeObjectURL(a.href);
+  showToast('Word descargado ✅');
 }
 function docWindowExportTxt() {
   const text = document.getElementById('docWindowEditor').innerText;
@@ -3055,7 +3090,7 @@ async function aiTraducirIndigena() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
       body: JSON.stringify({
-        model: 'llama-3.1-70b-versatile',
+        model: 'llama-3.3-70b-versatile',
         max_tokens: 1200,
         messages: [
           { role: 'system', content: 'Sos un lingüista de lenguas indígenas de Costa Rica (Bribri, Cabécar, Maleku, Boruca, Ngäbe, Brunca). Diccionario de referencia encontrado: ' + (dictContext || 'ninguna coincidencia directa') + '. Traducí al Bribri y Cabécar. Respondé SOLO con JSON sin markdown: {"bribri":"...","cabecar":"...","nota":"palabras del diccionario usadas vs aproximaciones"}' },
@@ -3105,7 +3140,7 @@ async function aiTraducirIdioma(idioma, nombre) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
       body: JSON.stringify({
-        model: 'llama-3.1-70b-versatile',
+        model: 'llama-3.3-70b-versatile',
         max_tokens: 1000,
         messages: [
           { role: 'system', content: 'Sos un traductor profesional. Traduce al ' + nombre + ' de forma natural. Devolvé SOLO la traducción, sin explicaciones ni comillas.' },
@@ -3129,7 +3164,167 @@ async function aiTraducirIdioma(idioma, nombre) {
   }
 }
 
+
+/* ── HISTORIAL DE VERSIONES ── */
+const _versiones = [];
+function guardarVersion(etiqueta) {
+  _versiones.push({
+    ts: new Date().toLocaleString('es-CR'),
+    label: etiqueta || 'Versión ' + (_versiones.length + 1),
+    html: editor.innerHTML,
+    palabras: editor.innerText.trim().split(/\s+/).filter(Boolean).length
+  });
+  if (_versiones.length > 50) _versiones.shift();
+  showToast('Versión guardada ✅');
+}
+function abrirHistorial() {
+  if (_versiones.length === 0) { showToast('Sin versiones guardadas. Usá Ctrl+S para guardar.'); return; }
+  const lista = _versiones.slice().reverse().map(function(v,i) {
+    return '<div onclick="restaurarVersion(' + (_versiones.length-1-i) + ')" style="padding:10px 14px;border-radius:8px;cursor:pointer;border:1px solid #e0e0e0;margin-bottom:6px;background:#fff">' +
+      '<div style="font-weight:600;font-size:13px">' + v.label + '</div>' +
+      '<div style="font-size:11px;color:#888">' + v.ts + ' — ' + v.palabras + ' palabras</div></div>';
+  }).join('');
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9500;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;padding:24px;width:400px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:16px">' +
+    '<h3 style="font-size:16px;font-weight:700">Historial de versiones</h3>' +
+    '<button onclick="this.closest(\'div[style]\').parentElement.remove()" style="background:#f5f5f5;border:none;border-radius:8px;padding:4px 10px;cursor:pointer">X</button></div>' +
+    lista + '</div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+}
+function restaurarVersion(idx) {
+  if (confirm('Restaurar esta version? El contenido actual se perdera.')) {
+    editor.innerHTML = _versiones[idx].html;
+    showToast('Version restaurada OK');
+    document.querySelectorAll('div[style*="z-index:9500"]').forEach(function(el){el.remove();});
+  }
+}
+setInterval(function(){ guardarVersion('Auto ' + new Date().toLocaleTimeString('es-CR')); }, 300000);
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey||e.metaKey) && e.key==='s') {
+    e.preventDefault();
+    guardarVersion();
+    localStorage.setItem('wc-v24', editor.innerHTML);
+    showToast('Guardado OK');
+  }
+});
+
+/* ── SINCRONIZACIÓN ── */
+var _syncInterval = null;
+function sincronizarDoc() {
+  if (_syncInterval) {
+    clearInterval(_syncInterval); _syncInterval = null;
+    showToast('Sincronizacion desactivada');
+    document.getElementById('trackStatus').textContent = 'Auto-guardado activo';
+  } else {
+    _syncInterval = setInterval(function(){
+      localStorage.setItem('wc-v24', editor.innerHTML);
+      document.getElementById('trackStatus').textContent = 'Sync ' + new Date().toLocaleTimeString('es-CR');
+    }, 15000);
+    showToast('Sincronizacion automatica ON (15s)');
+  }
+}
+
+/* ── VER CAMBIOS ── */
+function verCambiosPendientes() {
+  const changes = Array.from(editor.querySelectorAll('ins,del'));
+  if (changes.length === 0) { showToast('Sin cambios pendientes'); return; }
+  let html = '<ul style="padding-left:20px">';
+  changes.forEach(function(el) {
+    const tipo = el.tagName==='INS' ? 'Insercion' : 'Eliminacion';
+    html += '<li style="margin:6px 0;font-size:13px"><strong>' + tipo + ':</strong> ' + el.innerText.slice(0,60) + '</li>';
+  });
+  html += '</ul>';
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9500;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = '<div style="background:#fff;border-radius:16px;padding:24px;width:420px;max-height:80vh;overflow-y:auto">' +
+    '<h3 style="font-size:15px;font-weight:700;margin-bottom:14px">Cambios pendientes (' + changes.length + ')</h3>' + html +
+    '<div style="display:flex;gap:8px;margin-top:16px">' +
+    '<button onclick="editor.querySelectorAll(\'del\').forEach(function(e){e.remove();});editor.querySelectorAll(\'ins\').forEach(function(e){e.replaceWith(e.innerText);});showToast(\'Cambios aceptados\');this.closest(\'div[style*=9500]\').remove()" style="flex:1;padding:9px;background:#27ae60;color:#fff;border:none;border-radius:9px;cursor:pointer;font-weight:600">Aceptar todos</button>' +
+    '<button onclick="this.closest(\'div[style*=9500]\').remove()" style="flex:1;padding:9px;background:#f5f5f5;border:none;border-radius:9px;cursor:pointer">Cerrar</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+}
+
+/* ── CORRESPONDENCIA MASIVA ── */
+function abrirCorrespondenciaMasiva() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9500;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = '<div style="background:#fff;border-radius:18px;padding:24px;width:480px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:12px">' +
+    '<h3 style="font-size:16px;font-weight:700">Correspondencia masiva</h3>' +
+    '<button onclick="this.closest(\'div[style*=9500]\').remove()" style="background:#f5f5f5;border:none;border-radius:8px;padding:4px 10px;cursor:pointer">X</button></div>' +
+    '<p style="font-size:12px;color:#888;margin-bottom:12px">Usa los campos <strong>{{nombre}}</strong>, <strong>{{empresa}}</strong>, <strong>{{cargo}}</strong> en el documento.</p>' +
+    '<label style="font-size:12px;font-weight:600">Destinatarios (nombre,empresa,cargo — uno por linea)</label>' +
+    '<textarea id="corrMasivaData" style="width:100%;height:100px;margin:6px 0 14px;padding:8px;border:1px solid #e0e0e0;border-radius:8px;font-size:12px;resize:vertical" placeholder="Juan Perez,ACME,Gerente\nMaria Lopez,Tech SA,Directora"></textarea>' +
+    '<button onclick="ejecutarCorrespondencia()" style="width:100%;padding:11px;background:#0084ff;color:#fff;border:none;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600">Generar documentos Word</button>' +
+    '</div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+}
+function ejecutarCorrespondencia() {
+  const raw = document.getElementById('corrMasivaData').value.trim();
+  if (!raw) { showToast('Ingresa los destinatarios'); return; }
+  const lines = raw.split('\n').filter(Boolean);
+  const base = editor.innerHTML;
+  lines.forEach(function(line, i) {
+    const parts = line.split(',').map(function(s){return s.trim();});
+    const nombre = parts[0]||''; const empresa = parts[1]||''; const cargo = parts[2]||'';
+    const html = base.replace(/\{\{nombre\}\}/gi,nombre).replace(/\{\{empresa\}\}/gi,empresa).replace(/\{\{cargo\}\}/gi,cargo);
+    const blob = new Blob(['\ufeff<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>'+html+'</body></html>'],{type:'application/msword'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'carta_' + (nombre||i+1) + '.doc';
+    setTimeout(function(){ a.click(); URL.revokeObjectURL(a.href); }, i*400);
+  });
+  showToast(lines.length + ' documentos generados OK');
+  document.querySelectorAll('div[style*="z-index:9500"]').forEach(function(el){el.remove();});
+}
+
+/* ── REFERENCIAS BIBLIOGRÁFICAS ── */
+function abrirReferencias() {
+  const modal = document.createElement('div');
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9500;display:flex;align-items:center;justify-content:center';
+  modal.innerHTML = '<div style="background:#fff;border-radius:18px;padding:24px;width:480px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.35)">' +
+    '<div style="display:flex;justify-content:space-between;margin-bottom:16px">' +
+    '<h3 style="font-size:16px;font-weight:700">Referencias bibliograficas APA 7</h3>' +
+    '<button onclick="this.closest(\'div[style*=9500]\').remove()" style="background:#f5f5f5;border:none;border-radius:8px;padding:4px 10px;cursor:pointer">X</button></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">' +
+    '<div><label style="font-size:11px;color:#666;font-weight:600">Autor(es)</label><br><input id="refAutor" placeholder="Apellido, N." style="width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin-top:3px"></div>' +
+    '<div><label style="font-size:11px;color:#666;font-weight:600">Año</label><br><input id="refAnio" placeholder="2024" style="width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin-top:3px"></div></div>' +
+    '<label style="font-size:11px;color:#666;font-weight:600">Titulo</label><br><input id="refTitulo" placeholder="Titulo del libro o articulo" style="width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin:3px 0 10px">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">' +
+    '<div><label style="font-size:11px;color:#666;font-weight:600">Editorial/Revista</label><br><input id="refEditorial" placeholder="Editorial" style="width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin-top:3px"></div>' +
+    '<div><label style="font-size:11px;color:#666;font-weight:600">URL (opcional)</label><br><input id="refUrl" placeholder="https://..." style="width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:12px;margin-top:3px"></div></div>' +
+    '<div style="display:flex;gap:8px;margin-bottom:12px">' +
+    '<button onclick="insertarRef(\'libro\')" style="flex:1;padding:8px;background:#f0f7ff;border:1px solid #0084ff;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:#0084ff">Libro</button>' +
+    '<button onclick="insertarRef(\'articulo\')" style="flex:1;padding:8px;background:#f0fff4;border:1px solid #27ae60;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:#27ae60">Articulo</button>' +
+    '<button onclick="insertarRef(\'web\')" style="flex:1;padding:8px;background:#fff8f0;border:1px solid #f59e0b;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;color:#b45309">Web</button></div>' +
+    '<div id="refPreview" style="background:#f8f9fa;border-radius:8px;padding:10px;font-size:12px;color:#555;min-height:36px;font-style:italic">La referencia aparecera aqui...</div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
+}
+function insertarRef(tipo) {
+  const autor = document.getElementById('refAutor').value.trim()||'Autor, A.';
+  const anio  = document.getElementById('refAnio').value.trim()||'s.f.';
+  const titulo = document.getElementById('refTitulo').value.trim()||'Titulo';
+  const editorial = document.getElementById('refEditorial').value.trim();
+  const url = document.getElementById('refUrl').value.trim();
+  var ref = '';
+  if (tipo==='libro') ref = autor+' ('+anio+'). <em>'+titulo+'</em>. '+(editorial||'Editorial')+'.';
+  else if (tipo==='articulo') ref = autor+' ('+anio+'). '+titulo+'. <em>'+(editorial||'Revista')+'</em>.';
+  else ref = autor+' ('+anio+'). <em>'+titulo+'</em>. Recuperado de '+(url||editorial||'URL');
+  document.getElementById('refPreview').innerHTML = ref;
+  editor.focus();
+  restoreSelection();
+  insertHTML('<p style="padding-left:36px;text-indent:-36px;font-size:11pt">'+ref+'</p>');
+  showToast('Referencia APA insertada OK');
+}
+
+
 </script>
 </body>
 </html>
-
