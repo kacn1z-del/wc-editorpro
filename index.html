@@ -2422,12 +2422,51 @@ function actualizarVistaEncabezados(){
 try{ setTimeout(cargarDiccionario, 1500); }catch(e){}
 </script>
 <script src="wc-v25-loader-smart.js"></script>
-{
-  "rules": {
-    ".read": true,
-    ".write": true
+<!-- Colaboración en tiempo real (Firebase) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXGs0ioh5FPONAgw26xLB7Nca4lq8T_K8",
+    authDomain: "wc-corporate-editor.firebaseapp.com",
+    databaseURL: "https://wc-corporate-editor-default-rtdb.firebaseio.com",
+    projectId: "wc-corporate-editor",
+    storageBucket: "wc-corporate-editor.firebasestorage.app",
+    messagingSenderId: "884314588173",
+    appId: "1:884314588173:web:627e9a2ea50ce9b4238144"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const roomId = "sala1";
+  const docRef = ref(db, 'docs/' + roomId);
+  const editor = document.getElementById('editor');
+
+  if (editor) {
+    let isLocalChange = false;
+    let timeout;
+
+    onValue(docRef, (snap) => {
+      if (isLocalChange) return;
+      const remoteContent = snap.val();
+      if (remoteContent !== null && remoteContent !== editor.innerHTML) {
+        editor.innerHTML = remoteContent;
+      }
+    });
+
+    editor.addEventListener('input', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        isLocalChange = true;
+        set(docRef, editor.innerHTML).then(() => {
+          setTimeout(() => isLocalChange = false, 300);
+        });
+      }, 500);
+    });
   }
-}
+</script>
 
 </body>
 </html>
