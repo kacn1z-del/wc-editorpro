@@ -2701,6 +2701,228 @@ try{ setTimeout(cargarDiccionario, 1500); }catch(e){}
     initWcTools();
   }
 </script>
+<!-- Panel Kanban + Temporizador -->
+<style>
+  #wcToolsFab{position:fixed;bottom:90px;right:16px;z-index:9999;width:54px;height:54px;border-radius:50%;background:#3b82f6;color:#fff;font-size:22px;border:none;box-shadow:0 4px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
+  #wcToolsPanel{position:fixed;bottom:0;left:0;right:0;max-height:75vh;background:#1e1e1e;color:#eee;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,.5);z-index:9999;display:none;flex-direction:column;font-family:sans-serif}
+  #wcToolsPanel.open{display:flex}
+  #wcToolsTabs{display:flex;border-bottom:1px solid #333}
+  #wcToolsTabs button{flex:1;padding:12px;background:none;border:none;color:#aaa;font-weight:bold}
+  #wcToolsTabs button.active{color:#3b82f6;border-bottom:2px solid #3b82f6}
+  #wcToolsBody{padding:12px;overflow-y:auto}
+  #wcToolsClose{position:absolute;top:8px;right:12px;background:none;border:none;color:#aaa;font-size:20px}
+
+  .wcKanbanCols{display:flex;gap:8px;overflow-x:auto}
+  .wcKanbanCol{flex:1;min-width:140px;background:#262626;border-radius:8px;padding:8px}
+  .wcKanbanCol h4{margin:0 0 8px;font-size:13px;color:#888;text-transform:uppercase}
+  .wcKanbanCard{background:#333;border-radius:6px;padding:8px;margin-bottom:6px;font-size:14px}
+  .wcKanbanCard .actions{display:flex;justify-content:space-between;margin-top:6px;font-size:13px}
+  .wcKanbanCard button{background:none;border:none;color:#aaa;font-size:15px;padding:2px 6px}
+  #wcKanbanInput{display:flex;gap:6px;margin-bottom:10px}
+  #wcKanbanInput input{flex:1;padding:8px;border-radius:6px;border:none;background:#333;color:#eee}
+  #wcKanbanInput button{padding:8px 12px;border-radius:6px;border:none;background:#3b82f6;color:#fff}
+
+  #wcTimerDisplay{font-size:48px;text-align:center;font-weight:bold;margin:16px 0;font-family:monospace}
+  .wcTimerBtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .wcTimerBtns button{padding:10px 16px;border-radius:8px;border:none;background:#333;color:#eee;font-size:15px}
+  .wcTimerBtns button.primary{background:#3b82f6}
+  #wcTimerPresets{display:flex;gap:6px;justify-content:center;margin-top:12px}
+  #wcTimerPresets button{padding:6px 10px;border-radius:6px;border:none;background:#262626;color:#aaa}
+</style>
+
+<button id="wcToolsFab">🛠️</button>
+
+<div id="wcToolsPanel">
+  <button id="wcToolsClose">✕</button>
+  <div id="wcToolsTabs">
+    <button data-tab="kanban" class="active">📋 Kanban</button>
+    <button data-tab="timer">⏱️ Temporizador</button>
+  </div>
+  <div id="wcToolsBody">
+    <div id="wcTabKanban">
+      <div id="wcKanbanInput">
+        <input type="text" id="wcKanbanNewTask" placeholder="Nueva tarea...">
+        <button id="wcKanbanAddBtn">Agregar</button>
+      </div>
+      <div class="wcKanbanCols">
+        <div class="wcKanbanCol" data-col="pendiente"><h4>Pendiente</h4><div class="wcKanbanList"></div></div>
+        <div class="wcKanbanCol" data-col="progreso"><h4>En progreso</h4><div class="wcKanbanList"></div></div>
+        <div class="wcKanbanCol" data-col="hecho"><h4>Hecho</h4><div class="wcKanbanList"></div></div>
+      </div>
+    </div>
+    <div id="wcTabTimer" style="display:none">
+      <div id="wcTimerDisplay">25:00</div>
+      <div id="wcTimerPresets">
+        <button data-min="5">5m</button>
+        <button data-min="10">10m</button>
+        <button data-min="15">15m</button>
+        <button data-min="25">25m</button>
+        <button data-min="60">60m</button>
+      </div>
+      <div class="wcTimerBtns" style="margin-top:14px">
+        <button id="wcTimerStart" class="primary">▶ Iniciar</button>
+        <button id="wcTimerPause">⏸ Pausar</button>
+        <button id="wcTimerReset">⟲ Reiniciar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  function initWcTools() {
+    const fab = document.getElementById('wcToolsFab');
+    const panel = document.getElementById('wcToolsPanel');
+    const closeBtn = document.getElementById('wcToolsClose');
+    const tabs = document.querySelectorAll('#wcToolsTabs button');
+
+    fab.addEventListener('click', () => panel.classList.toggle('open'));
+    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('wcTabKanban').style.display = tab.dataset.tab === 'kanban' ? 'block' : 'none';
+        document.getElementById('wcTabTimer').style.display = tab.dataset.tab === 'timer' ? 'block' : 'none';
+      });
+    });
+
+    const dbInstance = window.__wcFirebaseDb;
+    const kanbanRef = dbInstance ? ref(dbInstance, 'kanban/sala1') : null;
+    let kanbanData = { pendiente: [], progreso: [], hecho: [] };
+    let isLocalKanbanChange = false;
+
+    function renderKanban() {
+      document.querySelectorAll('.wcKanbanCol').forEach(col => {
+        const colName = col.dataset.col;
+        const list = col.querySelector('.wcKanbanList');
+        list.innerHTML = '';
+        (kanbanData[colName] || []).forEach((task, idx) => {
+          const card = document.createElement('div');
+          card.className = 'wcKanbanCard';
+          card.innerHTML = `<div>${task}</div><div class="actions">
+            ${colName !== 'pendiente' ? '<button data-action="left">←</button>' : '<span></span>'}
+            <button data-action="del">🗑️</button>
+            ${colName !== 'hecho' ? '<button data-action="right">→</button>' : '<span></span>'}
+          </div>`;
+          card.querySelector('[data-action="del"]')?.addEventListener('click', () => {
+            kanbanData[colName].splice(idx, 1);
+            saveKanban();
+          });
+          card.querySelector('[data-action="left"]')?.addEventListener('click', () => {
+            const order = ['pendiente','progreso','hecho'];
+            const prev = order[order.indexOf(colName) - 1];
+            kanbanData[colName].splice(idx, 1);
+            kanbanData[prev].push(task);
+            saveKanban();
+          });
+          card.querySelector('[data-action="right"]')?.addEventListener('click', () => {
+            const order = ['pendiente','progreso','hecho'];
+            const next = order[order.indexOf(colName) + 1];
+            kanbanData[colName].splice(idx, 1);
+            kanbanData[next].push(task);
+            saveKanban();
+          });
+          list.appendChild(card);
+        });
+      });
+    }
+
+    function saveKanban() {
+      renderKanban();
+      if (kanbanRef) {
+        isLocalKanbanChange = true;
+        set(kanbanRef, kanbanData).then(() => setTimeout(() => isLocalKanbanChange = false, 300));
+      } else {
+        localStorage.setItem('wcKanban', JSON.stringify(kanbanData));
+      }
+    }
+
+    if (kanbanRef) {
+      onValue(kanbanRef, (snap) => {
+        if (isLocalKanbanChange) return;
+        const val = snap.val();
+        if (val) { kanbanData = val; renderKanban(); }
+      });
+    } else {
+      const saved = localStorage.getItem('wcKanban');
+      if (saved) kanbanData = JSON.parse(saved);
+      renderKanban();
+    }
+
+    document.getElementById('wcKanbanAddBtn').addEventListener('click', () => {
+      const input = document.getElementById('wcKanbanNewTask');
+      const val = input.value.trim();
+      if (!val) return;
+      kanbanData.pendiente.push(val);
+      input.value = '';
+      saveKanban();
+    });
+
+    let totalSeconds = 25 * 60;
+    let remaining = totalSeconds;
+    let timerInterval = null;
+    const display = document.getElementById('wcTimerDisplay');
+
+    function updateDisplay() {
+      const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+      const s = (remaining % 60).toString().padStart(2, '0');
+      display.textContent = `${m}:${s}`;
+    }
+    updateDisplay();
+
+    document.querySelectorAll('#wcTimerPresets button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        totalSeconds = parseInt(btn.dataset.min) * 60;
+        remaining = totalSeconds;
+        updateDisplay();
+      });
+    });
+
+    document.getElementById('wcTimerStart').addEventListener('click', () => {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        remaining--;
+        updateDisplay();
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.frequency.value = 880;
+            osc.connect(ctx.destination);
+            osc.start();
+            setTimeout(() => osc.stop(), 600);
+          } catch(e) {}
+          alert('⏱️ ¡Tiempo terminado!');
+        }
+      }, 1000);
+    });
+
+    document.getElementById('wcTimerPause').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    });
+
+    document.getElementById('wcTimerReset').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      remaining = totalSeconds;
+      updateDisplay();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWcTools);
+  } else {
+    initWcTools();
+  }
+</script>
 
 </body>
 </html>
