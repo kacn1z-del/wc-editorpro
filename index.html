@@ -2427,6 +2427,7 @@ try{ setTimeout(cargarDiccionario, 1500); }catch(e){}
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+
   const firebaseConfig = {
     apiKey: "AIzaSyBXGs0ioh5FPONAgw26xLB7Nca4lq8T_K8",
     authDomain: "wc-corporate-editor.firebaseapp.com",
@@ -2438,7 +2439,8 @@ try{ setTimeout(cargarDiccionario, 1500); }catch(e){}
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+  const db = getDatabase(app);window.__wcFirebaseDb = db;
+
 
   const roomId = "sala1";
   const docRef = ref(db, 'docs/' + roomId);
