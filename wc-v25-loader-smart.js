@@ -12,9 +12,9 @@
   }
   function init(){
     load('wc-v25-bundle1.js',0,function(){
-      load('wc-v25-bundle2.js',300,function(){
-        load('wc-v25-bundle3.js',800,function(){
-          load('wc-v25-bundle4.js',1200,function(){
+      load('wc-v25-bundle2.js', 100, function(){
+   load('wc-v25-bundle3.js', 200, function(){
+     load('wc-v25-bundle4.js', 300, function(){
             console.log('WC Editor v25 OK');
           });
         });
