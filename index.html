@@ -1842,7 +1842,7 @@ function handleAction(a) {
     case 'autocomplete': showToast('El teclado iOS sugiere palabras automáticamente'); break;
     case 'versionHistory': var sv=localStorage.getItem('wc-v23'); if(sv){openDocWindow(sv,'Versión guardada');}else showToast('No hay versión guardada'); break;
     case 'compareVersions': showToast('Guardá primero con Archivo → Guardar'); break;
-    case 'textToSpeech': var ttsTxt=window.getSelection().toString()||document.getElementById('editor').innerText.substring(0,500); if(!ttsTxt.trim()){showToast('Selecciona texto primero');break;} window.speechSynthesis.cancel(); var utt=new SpeechSynthesisUtterance(ttsTxt); utt.lang='es-CR'; window.speechSynthesis.speak(utt); showToast('Leyendo texto... 🔊'); break;
+    default: showToast(a);
     case 'wordView': var edWV=document.getElementById('editor'); edWV.style.maxWidth='21.59cm'; edWV.style.margin='24px auto'; edWV.style.padding='2.54cm'; edWV.style.background='#fff'; showToast('Vista estilo Word ✅'); break;
     case 'ruler': var rl=document.getElementById('ruler'); rl.style.display=rl.style.display==='none'?'block':'none'; showToast('Regla '+(rl.style.display==='none'?'oculta':'visible')); break;
     case 'columnsMode': insertHTML('<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:14px 0"><div style="border:1px dashed #ccc;padding:12px;border-radius:8px;min-height:100px">Columna 1...</div><div style="border:1px dashed #ccc;padding:12px;border-radius:8px;min-height:100px">Columna 2...</div></div><p></p>'); showToast('Columnas insertadas ✅'); break;
