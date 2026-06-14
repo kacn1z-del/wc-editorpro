@@ -12,7 +12,6 @@
 <script>
 if(window.pdfjsLib){ window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
 </script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -63,7 +62,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 }
 @media(max-width:800px){.tiptap{width:100%;padding:1.4cm 1.1cm;min-height:auto;margin:12px auto;box-shadow:0 2px 12px rgba(0,0,0,0.12);}}
 .tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
-
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
 
 .tiptap td,
@@ -580,7 +578,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <button id="fabBtn" onclick="toggleFab()">⚡ Herramientas<br><span style="font-size:10px;opacity:.85">Corporativas y de Formato</span></button>
 <button id="communityBtn" onclick="toggleCommunity()">🌿 Validación<br><span style="font-size:10px;opacity:.85">comunitaria</span></button>
-
+<button id="styleBtn" onclick="toggleStylePanel()" style="position:fixed;top:12px;left:12px;z-index:8000;background:linear-gradient(135deg,#1a2942,#0084ff);color:#fff;border:none;border-radius:50px;padding:8px 12px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer">💼 Diseños<br><span style="font-size:10px;opacity:.85">corporativos</span></button><div id="stylePanel" style="display:none;position:fixed;top:60px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7999;padding:16px;max-height:72vh;overflow-y:auto"><h4 style="font-size:13px;color:#1a2942;font-weight:700;margin-bottom:12px">💼 Diseños Corporativos</h4><button onclick="var e=document.getElementById('editor');e.style.fontFamily='Arial,sans-serif';e.style.fontSize='14px';e.style.color='#1a1a1a';e.style.background='#ffffff';showToast('Profesional ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #1a2942;border-radius:8px;background:#f8f9fa;cursor:pointer;font-size:13px;font-weight:600;color:#1a2942">📋 Profesional</button><button onclick="var e=document.getElementById('editor');e.style.fontFamily='Georgia,serif';e.style.color='#ffffff';e.style.background='#1a1a1a';showToast('Negro Elegante ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #1a1a1a;border-radius:8px;background:#1a1a1a;cursor:pointer;font-size:13px;font-weight:600;color:#ffffff">⬛ Negro Elegante</button><button onclick="var e=document.getElementById('editor');e.style.fontFamily='Arial,sans-serif';e.style.color='#ffffff';e.style.background='linear-gradient(135deg,#003da5,#ce1126)';showToast('Costa Rica ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #003da5;border-radius:8px;background:linear-gradient(135deg,#003da5,#ce1126);
 <!-- Panel Herramientas -->
 <div id="fabPanel">
  <h4>✏️ Formato rápido</h4>
