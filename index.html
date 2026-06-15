@@ -12,7 +12,6 @@
 <script>
 if(window.pdfjsLib){ window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
 </script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -63,9 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 }
 @media(max-width:800px){.tiptap{width:100%;padding:1.4cm 1.1cm;min-height:auto;margin:12px auto;box-shadow:0 2px 12px rgba(0,0,0,0.12);}}
 .tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
-
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
-
 .tiptap td,
 #dictBox{margin-bottom:16px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;}
 #dictHeader{display:flex;align-items:center;gap:8px;padding:12px 16px;cursor:pointer;background:#f8f9fa;border-bottom:1px solid #eee;}
@@ -219,14 +216,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #popupResults{list-style:none;padding:0;}
 #popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
 .statusbar{position:fixed;bottom:60px;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
-
 .dw-fmt{background:#fff;border:1px solid #dcdce0;border-radius:6px;padding:5px 9px;font-size:13px;cursor:pointer;color:#333;min-width:30px;transition:all .15s}
 .dw-fmt:hover{background:#0084ff;color:#fff;border-color:#0084ff}
 .dw-fmt:active{transform:scale(0.95)}
-
 #menuBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;display:none;opacity:0;transition:opacity .3s;}
 #menuBackdrop.show{display:block;opacity:1;}
-
 .tiptap p{margin:0 0 8pt 0;line-height:1.08;}
 .tiptap h1{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:16pt;font-weight:400;color:#2E74B5;margin:12pt 0 0 0;line-height:1.08;}
 .tiptap h2{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:13pt;font-weight:400;color:#2E74B5;margin:10pt 0 0 0;line-height:1.08;}
@@ -238,7 +232,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tiptap table{border-collapse:collapse;width:100%;margin:0 0 8pt 0;}
 .tiptap td,.tiptap th{border:0.5pt solid #000;padding:0.05cm 0.19cm;vertical-align:top;}
 .tiptap a{color:#0563C1;text-decoration:underline;}
-
 .doc-editor p{margin:0 0 8pt 0;line-height:1.08;}
 .doc-editor h1{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:16pt;font-weight:400;color:#2E74B5;margin:12pt 0 0 0;}
 .doc-editor h2{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:13pt;font-weight:400;color:#2E74B5;margin:10pt 0 0 0;}
@@ -246,7 +239,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .doc-editor blockquote{margin:0 0 8pt 0;padding-left:0.6cm;font-style:italic;color:#404040;}
 .doc-editor table{border-collapse:collapse;width:100%;margin:0 0 8pt 0;}
 .doc-editor td,.doc-editor th{border:0.5pt solid #000;padding:0.05cm 0.19cm;}
-
 /* ── PAGINACIÓN VISUAL ESTILO WORD ── */
 #editorPageWrap{position:relative;}
 #editorPageWrap .page-break-line{
@@ -271,7 +263,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <h1 id="editorTitle">WC Corporate Editor v24</h1>
   <p id="editorSub">ULTIMATE PRO UI V26 - ESTÉTICA EJECUTIVA</p>
 </div>
-
 <div class="menu-card">
  <div class="menu-tabs">
   <div class="menu-item">
@@ -583,6 +574,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #corpStyleBtn{position:fixed;top:90px;left:12px;z-index:8000;background:linear-gradient(135deg,#1a1a1a,#d4af37);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.35);cursor:pointer;line-height:1.4;text-align:center}
 #corpStylePanel{display:none;position:fixed;top:142px;left:8px;background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.2);z-index:7999;padding:12px;width:200px}
 #corpStylePanel button{width:100%;margin-bottom:6px;text-align:left;border-radius:8px;border:1.5px solid #e0e0e0;padding:8px 10px;font-size:13px;font-weight:600;cursor:pointer}
+<button id="corpStyleBtn" onclick="toggleCorpStyle()">🎨 Estilo<br>Corporativo</button>
+<div id="corpStylePanel">
+  <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase">Elige un estilo</div>
+  <button style="background:#1a1a1a;color:#fff" onclick="aplicarEstiloCorp('negro')">⬛ Negro Elegante</button>
+  <button style="background:linear-gradient(135deg,#fff8e1,#d4af37);color:#5a4500" onclick="aplicarEstiloCorp('dorado')">✨ Dorado Premium</button>
+  <button style="background:linear-gradient(180deg,#003da5,#fff 50%,#ce1126);color:#1a1a1a" onclick="aplicarEstiloCorp('cr')">🇨🇷 Costa Rica</button>
+  <button style="background:#c0392b;color:#fff" onclick="aplicarEstiloCorp('rojo')">🟥 Rojo Corporativo</button>
+  <button style="background:#f0f0f0;color:#333" onclick="aplicarEstiloCorp('normal')">↺ Restablecer</button>
+</div>
 
 #editor.corp-negro{background:#1a1a1a;color:#f0f0f0;border-color:#333}
 #editor.corp-negro h1,#editor.corp-negro h2,#editor.corp-negro h3{color:#d4af37}
