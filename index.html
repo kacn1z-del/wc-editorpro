@@ -12,6 +12,7 @@
 <script>
 if(window.pdfjsLib){ window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -62,7 +63,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 }
 @media(max-width:800px){.tiptap{width:100%;padding:1.4cm 1.1cm;min-height:auto;margin:12px auto;box-shadow:0 2px 12px rgba(0,0,0,0.12);}}
 .tiptap:focus{border-color:#0084ff;box-shadow:0 0 0 3px rgba(0,132,255,.1);}
+
 .tiptap ul,.tiptap ol{padding-left:24px;margin:6px 0;}
+
 .tiptap td,
 #dictBox{margin-bottom:16px;border:1px solid #e8e8e8;border-radius:14px;overflow:hidden;background:#fff;}
 #dictHeader{display:flex;align-items:center;gap:8px;padding:12px 16px;cursor:pointer;background:#f8f9fa;border-bottom:1px solid #eee;}
@@ -216,11 +219,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 #popupResults{list-style:none;padding:0;}
 #popupResults li{padding:5px 0;border-bottom:1px solid #f0f0f0;font-size:13px;}
 .statusbar{position:fixed;bottom:60px;left:0;width:100%;background:#f5f5f5;padding:4px 10px;font-size:11px;border-top:1px solid #e0e0e0;z-index:99;color:#888;}
+
 .dw-fmt{background:#fff;border:1px solid #dcdce0;border-radius:6px;padding:5px 9px;font-size:13px;cursor:pointer;color:#333;min-width:30px;transition:all .15s}
 .dw-fmt:hover{background:#0084ff;color:#fff;border-color:#0084ff}
 .dw-fmt:active{transform:scale(0.95)}
+
 #menuBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:999;display:none;opacity:0;transition:opacity .3s;}
 #menuBackdrop.show{display:block;opacity:1;}
+
 .tiptap p{margin:0 0 8pt 0;line-height:1.08;}
 .tiptap h1{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:16pt;font-weight:400;color:#2E74B5;margin:12pt 0 0 0;line-height:1.08;}
 .tiptap h2{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:13pt;font-weight:400;color:#2E74B5;margin:10pt 0 0 0;line-height:1.08;}
@@ -232,6 +238,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .tiptap table{border-collapse:collapse;width:100%;margin:0 0 8pt 0;}
 .tiptap td,.tiptap th{border:0.5pt solid #000;padding:0.05cm 0.19cm;vertical-align:top;}
 .tiptap a{color:#0563C1;text-decoration:underline;}
+
 .doc-editor p{margin:0 0 8pt 0;line-height:1.08;}
 .doc-editor h1{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:16pt;font-weight:400;color:#2E74B5;margin:12pt 0 0 0;}
 .doc-editor h2{font-family:'Calibri Light','Calibri','Carlito',sans-serif;font-size:13pt;font-weight:400;color:#2E74B5;margin:10pt 0 0 0;}
@@ -239,6 +246,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .doc-editor blockquote{margin:0 0 8pt 0;padding-left:0.6cm;font-style:italic;color:#404040;}
 .doc-editor table{border-collapse:collapse;width:100%;margin:0 0 8pt 0;}
 .doc-editor td,.doc-editor th{border:0.5pt solid #000;padding:0.05cm 0.19cm;}
+
 /* ── PAGINACIÓN VISUAL ESTILO WORD ── */
 #editorPageWrap{position:relative;}
 #editorPageWrap .page-break-line{
@@ -263,6 +271,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <h1 id="editorTitle">WC Corporate Editor v24</h1>
   <p id="editorSub">ULTIMATE PRO UI V26 - ESTÉTICA EJECUTIVA</p>
 </div>
+
 <div class="menu-card">
  <div class="menu-tabs">
   <div class="menu-item">
@@ -571,42 +580,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <button id="fabBtn" onclick="toggleFab()">⚡ Herramientas<br><span style="font-size:10px;opacity:.85">Corporativas y de Formato</span></button>
 <button id="communityBtn" onclick="toggleCommunity()">🌿 Validación<br><span style="font-size:10px;opacity:.85">comunitaria</span></button>
-#corpStyleBtn{position:fixed;top:90px;left:12px;z-index:8000;background:linear-gradient(135deg,#1a1a1a,#d4af37);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.35);cursor:pointer;line-height:1.4;text-align:center}
-#corpStylePanel{display:none;position:fixed;top:142px;left:8px;background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.2);z-index:7999;padding:12px;width:200px}
-#corpStylePanel button{width:100%;margin-bottom:6px;text-align:left;border-radius:8px;border:1.5px solid #e0e0e0;padding:8px 10px;font-size:13px;font-weight:600;cursor:pointer}
-<button id="corpStyleBtn" onclick="toggleCorpStyle()">🎨 Estilo<br>Corporativo</button>
-<div id="corpStylePanel">
-  <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase">Elige un estilo</div>
-  <button style="background:#1a1a1a;color:#fff" onclick="aplicarEstiloCorp('negro')">⬛ Negro Elegante</button>
-  <button style="background:linear-gradient(135deg,#fff8e1,#d4af37);color:#5a4500" onclick="aplicarEstiloCorp('dorado')">✨ Dorado Premium</button>
-  <button style="background:linear-gradient(180deg,#003da5,#fff 50%,#ce1126);color:#1a1a1a" onclick="aplicarEstiloCorp('cr')">🇨🇷 Costa Rica</button>
-  <button style="background:#c0392b;color:#fff" onclick="aplicarEstiloCorp('rojo')">🟥 Rojo Corporativo</button>
-  <button style="background:#f0f0f0;color:#333" onclick="aplicarEstiloCorp('normal')">↺ Restablecer</button>
-</div>
-
-<style>
-#corpStyleBtn{position:fixed;top:90px;left:12px;z-index:8000;background:linear-gradient(135deg,#1a1a1a,#d4af37);color:#fff;border:none;border-radius:50px;padding:10px 14px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.35);cursor:pointer;line-height:1.4;text-align:center}
-#corpStylePanel{display:none;position:fixed;top:142px;left:8px;background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.2);z-index:7999;padding:12px;width:200px}
-#corpStylePanel button{width:100%;margin-bottom:6px;text-align:left;border-radius:8px;border:1.5px solid #e0e0e0;padding:8px 10px;font-size:13px;font-weight:600;cursor:pointer}
-#editor.corp-negro{background:#1a1a1a;color:#f0f0f0;border-color:#333}
-#editor.corp-negro h1,#editor.corp-negro h2,#editor.corp-negro h3{color:#d4af37}
-#editor.corp-dorado{background:#fffdf5;color:#3a2e00;border-color:#d4af37}
-#editor.corp-dorado h1,#editor.corp-dorado h2,#editor.corp-dorado h3{color:#b8860b}
-#editor.corp-cr{background:#ffffff;border-color:#003da5}
-#editor.corp-cr h1,#editor.corp-cr h2{color:#003da5}
-#editor.corp-cr h3{color:#ce1126}
-#editor.corp-rojo{background:#fffafa;border-color:#c0392b}
-#editor.corp-rojo h1,#editor.corp-rojo h2,#editor.corp-rojo h3{color:#c0392b}
-</style>
-
-<button id="corpStyleBtn" onclick="toggleCorpStyle()">🎨 Estilo<br>Corporativo</button>
-<div id="corpStylePanel">
-  <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase">Elige un estilo</div>
-  <button style="background:#1a1a1a;color:#fff" onclick="aplicarEstiloCorp('negro')">⬛ Negro Elegante</button>
-  <button style="background:linear-gradient(135deg,#fff8e1,#d4af37);color:#5a4500" onclick="aplicarEstiloCorp('dorado')">✨ Dorado Premium</button>
-  <button style="background:linear-gradient(180deg,#003da5,#fff 50%,#ce1126);color:#1a1a1a" onclick="aplicarEstiloCorp('cr')">🇨🇷 Costa Rica</button>
-  <button style="background:#c0392b;color:#fff" onclick="aplicarEstiloCorp('rojo')">🟥 Rojo Corporativo</button>
-  <button style="background:#f0f0f0;color:#333" onclick="aplicarEstiloCorp('normal')">↺ Restablecer</button>
+<!-- DISEÑOS CORPORATIVOS -->
+<button id="styleBtn" onclick="toggleStylePanel()" style="position:fixed;top:70px;left:12px;z-index:8000;background:linear-gradient(135deg,#1a2942,#0084ff);color:#fff;border:none;border-radius:50px;padding:8px 12px;font-size:11px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.3);cursor:pointer;line-height:1.4;text-align:center;">💼 Diseños<br><span style="font-size:10px;opacity:.85">corporativos</span></button>
+<div id="stylePanel" style="display:none;position:fixed;top:130px;left:8px;right:8px;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.2);z-index:7998;padding:16px;max-height:72vh;overflow-y:auto;">
+<h4 style="font-size:13px;color:#1a2942;font-weight:700;margin-bottom:12px">💼 Diseños Corporativos</h4>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='font-family:Arial,sans-serif!important;font-size:14px!important;color:#1a1a1a!important;background:#ffffff!important;';toggleStylePanel();showToast('Profesional ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #1a2942;border-radius:8px;background:#f8f9fa;cursor:pointer;font-size:13px;font-weight:600;color:#1a2942">📋 Profesional</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='font-family:Georgia,serif!important;color:#ffffff!important;background:#1a1a1a!important;';toggleStylePanel();showToast('Negro Elegante ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #1a1a1a;border-radius:8px;background:#1a1a1a;cursor:pointer;font-size:13px;font-weight:600;color:#ffffff">⬛ Negro Elegante</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='color:#ffffff!important;background:linear-gradient(135deg,#003da5,#ce1126)!important;';toggleStylePanel();showToast('Costa Rica ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #003da5;border-radius:8px;background:linear-gradient(135deg,#003da5,#ce1126);cursor:pointer;font-size:13px;font-weight:600;color:#ffffff">🇨🇷 Costa Rica</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='color:#ffffff!important;background:#ce1126!important;';toggleStylePanel();showToast('Rojo Corporativo ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #ce1126;border-radius:8px;background:#ce1126;cursor:pointer;font-size:13px;font-weight:600;color:#ffffff">🔴 Rojo Corporativo</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='color:#1a1a1a!important;background:linear-gradient(135deg,#ffd700,#f39c12)!important;';toggleStylePanel();showToast('Dorado Premium ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #f39c12;border-radius:8px;background:linear-gradient(135deg,#ffd700,#f39c12);cursor:pointer;font-size:13px;font-weight:600;color:#1a1a1a">⭐ Dorado Premium</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText+='color:#ffffff!important;background:linear-gradient(135deg,#003da5,#0084ff)!important;';toggleStylePanel();showToast('Azul Corporativo ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #003da5;border-radius:8px;background:linear-gradient(135deg,#003da5,#0084ff);cursor:pointer;font-size:13px;font-weight:600;color:#ffffff">🔵 Azul Corporativo</button>
+<button onclick="var e=document.getElementById('editor');e.style.cssText='';toggleStylePanel();showToast('Restablecido ✅')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border:2px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:#666">⬜ Restablecer</button>
+<button onclick="toggleStylePanel()" style="width:100%;padding:10px;border:none;border-radius:10px;background:#f0f0f0;cursor:pointer;font-size:14px;font-weight:600;margin-top:4px">✕ Cerrar</button>
 </div>
 
 <!-- Panel Herramientas -->
@@ -2456,6 +2441,21 @@ function actualizarVistaEncabezados(){
 }
 
 try{ setTimeout(cargarDiccionario, 1500); }catch(e){}
+</script>
+<script>
+function toggleStylePanel(){
+  var p=document.getElementById('stylePanel');
+  if(p.style.display==='block'){ p.style.display='none'; }
+  else { p.style.display='block'; }
+}
+document.addEventListener('click',function(e){
+  var btn=document.getElementById('styleBtn');
+  var panel=document.getElementById('stylePanel');
+  if(!panel||!btn) return;
+  if(btn.contains(e.target)) return;
+  if(panel.contains(e.target)) return;
+  panel.style.display='none';
+},true);
 </script>
 <script src="wc-v25-loader-smart.js"></script>
 <!-- Colaboración en tiempo real (Firebase) -->
