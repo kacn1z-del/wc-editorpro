@@ -852,6 +852,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <button class="btn2" onclick="closeModal('modalImagenIA')">Cerrar</button>
 </div>
 </div></div>
+<div class="mo" id="modalLiquidacion"><div class="mb"><h3>💼 Liquidación Laboral CR</h3>
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">Salario mensual (₡)</label>
+<input type="number" class="minput" id="liqSalario" placeholder="Ej: 450000" inputmode="decimal">
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">Fecha de ingreso</label>
+<input type="date" class="minput" id="liqFechaIngreso">
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">Fecha de salida</label>
+<input type="date" class="minput" id="liqFechaSalida">
+<label style="font-size:12px;color:#666;display:block;margin-bottom:6px">Motivo del cese</label>
+<div class="g2" style="margin-bottom:12px;" id="liqMotivoGrid">
+<button class="tcard liq-motivo active" data-motivo="injustificado" onclick="selectLiqMotivo('injustificado',this)"><span class="ico">⚖️</span>Despido sin causa</button>
+<button class="tcard liq-motivo" data-motivo="justificado" onclick="selectLiqMotivo('justificado',this)"><span class="ico">🚫</span>Despido con causa</button>
+<button class="tcard liq-motivo" data-motivo="renuncia" onclick="selectLiqMotivo('renuncia',this)"><span class="ico">📤</span>Renuncia voluntaria</button>
+</div>
+<div id="liqResultado" style="background:#f0f7ff;border-radius:10px;padding:14px;margin-bottom:12px;font-size:13px;color:#333;display:none"></div>
+<div class="mbtns">
+<button class="btn1" onclick="calcularLiquidacion()">Calcular</button>
+<button class="btn2" id="liqInsertarBtn" onclick="insertarLiquidacion()" style="display:none">Insertar en documento</button>
+<button class="btn2" onclick="closeModal('modalLiquidacion')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalEmailAsistente"><div class="mb"><h3>📧 Respuestas de correo</h3>
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">Correo recibido (pega el texto o resume de qué trata)</label>
+<textarea class="minput" id="emailRecibido" placeholder="Ej: El cliente pregunta si podemos extender el plazo de entrega..." rows="3"></textarea>
+<label style="font-size:12px;color:#666;display:block;margin-bottom:6px">Tono de la respuesta</label>
+<div class="g2" style="margin-bottom:10px;" id="emailTonoGrid">
+<button class="tcard email-tono active" data-tono="formal" onclick="selectEmailTono('formal',this)"><span class="ico">🎩</span>Formal</button>
+<button class="tcard email-tono" data-tono="cordial" onclick="selectEmailTono('cordial',this)"><span class="ico">🤝</span>Cordial</button>
+<button class="tcard email-tono" data-tono="firme" onclick="selectEmailTono('firme',this)"><span class="ico">📌</span>Firme</button>
+<button class="tcard email-tono" data-tono="disculpa" onclick="selectEmailTono('disculpa',this)"><span class="ico">🙏</span>Disculpa</button>
+</div>
+<textarea class="minput" id="emailIntencion" placeholder="¿Qué querés responder o lograr con esta respuesta? (opcional, ayuda a Sibö)" rows="2"></textarea>
+<div class="mbtns">
+<button class="btn1" onclick="generarRespuestaCorreo()">Generar con Sibö</button>
+<button class="btn2" onclick="closeModal('modalEmailAsistente')">Cerrar</button>
+</div>
+</div></div>
 <div class="mo" id="modalEquation"><div class="mb"><h3>Editor de ecuaciones</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div><textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea><div class="mbtns"><button class="btn1" onclick="insertCustomEquation()">Insertar</button><button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button></div></div></div>
 <div class="mo" id="modalSymbol"><div class="mb"><h3>Símbolos especiales</h3><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div></div></div>
 <div class="mo" id="modalPortapapeles"><div class="mb"><h3>Portapapeles</h3><p style="font-size:12px;color:#888;margin-bottom:12px;">Toca un elemento para pegarlo.</p><div id="clipboardList"></div><div class="mbtns"><button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Limpiado')">Limpiar</button><button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button></div></div></div>
@@ -1618,6 +1654,10 @@ function aiQuick(tipo) {
     reciboTimbre: 'Genera un modelo de recibo de timbre fiscal de Costa Rica en formato de documento, con espacios para: nombre del emisor, nombre del receptor, monto en colones, concepto del pago, número de timbre fiscal, fecha y firma. Usa HTML con tabla y estructura formal típica costarricense.',
     contratoHoras: 'Genera un modelo de contrato de trabajo por horas conforme a la legislación laboral de Costa Rica, con cláusulas para: identificación de las partes, objeto del contrato, tarifa por hora en colones, horario, duración, obligaciones de ambas partes, y firma. Usa HTML con encabezados y estructura legal formal costarricense.',
     denunciaLaboral: 'Genera un modelo de denuncia laboral ante el Ministerio de Trabajo y Seguridad Social (MTSS) de Costa Rica, con espacios para: datos del denunciante, datos del patrono denunciado, hechos denunciados, fundamento legal aplicable, y petitoria. Usa HTML con estructura formal de documento legal costarricense.',
+    facturaElectronica: 'Genera un modelo de factura electrónica de Costa Rica en formato de documento de texto (no XML real), siguiendo la estructura del esquema v4.3 de Hacienda: datos del emisor (nombre, cédula jurídica, domicilio fiscal), datos del receptor, número de consecutivo, fecha de emisión, detalle de bienes/servicios con cantidad, precio unitario, IVA y total, y condición de venta. Usa HTML con tabla. Aclara al inicio que es un modelo de referencia y no sustituye la factura electrónica oficial generada por un sistema certificado ante Hacienda.',
+    contratoArrendamiento: 'Genera un modelo de contrato de arrendamiento de Costa Rica conforme a la Ley N° 7527 (Ley General de Arrendamientos Urbanos y Suburbanos), con cláusulas para: identificación de arrendador y arrendatario, descripción del inmueble, monto de renta en colones, plazo, depósito de garantía, obligaciones de las partes, y firma. Usa HTML con estructura legal formal costarricense.',
+    estatutosSA: 'Genera un modelo de estatutos de Sociedad Anónima conforme al Código de Comercio de Costa Rica, con cláusulas para: denominación social, domicilio, objeto social, capital social y acciones, órganos de administración (junta directiva, fiscalía), duración, y disposiciones generales. Usa HTML con estructura legal formal costarricense tipo escritura.',
+    licitacionPublica: 'Genera un modelo de cartel de licitación pública de Costa Rica conforme a la Ley N° 7494 (Contratación Administrativa) y el sistema SICOP, con secciones para: objeto de la contratación, especificaciones técnicas, requisitos de admisibilidad, criterios de evaluación, plazo de entrega, y condiciones generales. Usa HTML con estructura formal de documento administrativo costarricense.',
   };
   const p = prompts[tipo];
   if (!p) return;
@@ -1803,6 +1843,172 @@ function insertarImagenIA() {
   showToast('Imagen insertada ✅');
 }
 
+var liqMotivoActual = 'injustificado';
+var liqUltimoResultado = null;
+
+function selectLiqMotivo(motivo, btn) {
+  liqMotivoActual = motivo;
+  document.querySelectorAll('.liq-motivo').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('liqResultado').style.display = 'none';
+  document.getElementById('liqInsertarBtn').style.display = 'none';
+}
+
+function diasPreavisoCR(anios) {
+  if (anios < (3/12)) return 0;
+  if (anios < 0.5) return 1;
+  if (anios < 1) return 15;
+  return 30;
+}
+
+function diasCesantiaCR(anios) {
+  if (anios < (3/12)) return 0;
+  if (anios < 1) return 7;
+  const tablaPorAnio = [19.5,20,20.5,21,21.25,21.5,22,22.25,22.5,22.75,23];
+  let total = 0;
+  const aniosCompletos = Math.min(Math.floor(anios), 8);
+  for (let i = 0; i < aniosCompletos; i++) {
+    total += tablaPorAnio[Math.min(i, tablaPorAnio.length-1)];
+  }
+  const fraccion = anios - Math.floor(anios);
+  if (Math.floor(anios) < 8 && fraccion > 0) {
+    total += tablaPorAnio[Math.min(Math.floor(anios), tablaPorAnio.length-1)] * fraccion;
+  }
+  return total;
+}
+
+function calcularLiquidacion() {
+  const salario = parseFloat(document.getElementById('liqSalario').value);
+  const fIngresoStr = document.getElementById('liqFechaIngreso').value;
+  const fSalidaStr = document.getElementById('liqFechaSalida').value;
+  if (isNaN(salario) || salario <= 0) { showToast('Ingresa un salario válido'); return; }
+  if (!fIngresoStr || !fSalidaStr) { showToast('Ingresa ambas fechas'); return; }
+  const fIngreso = new Date(fIngresoStr);
+  const fSalida = new Date(fSalidaStr);
+  if (fSalida <= fIngreso) { showToast('La fecha de salida debe ser posterior al ingreso'); return; }
+
+  const msPorDia = 1000*60*60*24;
+  const diasTotales = (fSalida - fIngreso) / msPorDia;
+  const anios = diasTotales / 365.25;
+  const salarioDiario = salario / 30;
+
+  let diasPreaviso = 0, diasCesantia = 0;
+  if (liqMotivoActual === 'injustificado') {
+    diasPreaviso = diasPreavisoCR(anios);
+    diasCesantia = diasCesantiaCR(anios);
+  } else if (liqMotivoActual === 'justificado') {
+    diasPreaviso = 0;
+    diasCesantia = 0;
+  } else if (liqMotivoActual === 'renuncia') {
+    diasPreaviso = 0;
+    diasCesantia = 0;
+  }
+
+  const montoPreaviso = salarioDiario * diasPreaviso;
+  const montoCesantia = salarioDiario * diasCesantia;
+
+  const mesesTrabajados = diasTotales / 30;
+  const diasVacacionesProporcional = mesesTrabajados * (12/12);
+  const montoVacaciones = salarioDiario * Math.min(diasVacacionesProporcional, mesesTrabajados);
+  const vacacionesFinal = salarioDiario * (mesesTrabajados * 1);
+
+  const total = montoPreaviso + montoCesantia + vacacionesFinal;
+
+  liqUltimoResultado = {
+    salario, fIngresoStr, fSalidaStr, anios, motivo: liqMotivoActual,
+    diasPreaviso, montoPreaviso, diasCesantia, montoCesantia,
+    diasVacaciones: mesesTrabajados, montoVacaciones: vacacionesFinal, total
+  };
+
+  let html = `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Tiempo laborado:</span><strong>${anios.toFixed(2)} años</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Preaviso (${diasPreaviso} días):</span><strong>${formatoColones(montoPreaviso)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Cesantía (${diasCesantia.toFixed(1)} días):</span><strong>${formatoColones(montoCesantia)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>Vacaciones proporcionales:</span><strong>${formatoColones(vacacionesFinal)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;border-top:1px solid #cfe2ff;padding-top:6px;margin-top:4px"><span style="font-weight:700">Total estimado:</span><strong style="color:#0084ff">${formatoColones(total)}</strong></div>`;
+  if (liqMotivoActual !== 'injustificado') {
+    html += `<div style="margin-top:8px;font-size:11px;color:#999">* En despido con causa justificada o renuncia voluntaria, no proceden preaviso ni cesantía según el Código de Trabajo. Solo se reconocen vacaciones proporcionales pendientes.</div>`;
+  }
+
+  document.getElementById('liqResultado').innerHTML = html;
+  document.getElementById('liqResultado').style.display = 'block';
+  document.getElementById('liqInsertarBtn').style.display = 'inline-block';
+}
+
+function insertarLiquidacion() {
+  if (!liqUltimoResultado) return;
+  const r = liqUltimoResultado;
+  const motivoLabel = r.motivo === 'injustificado' ? 'Despido sin causa justificada' : (r.motivo === 'justificado' ? 'Despido con causa justificada' : 'Renuncia voluntaria');
+  const html = `<h2 style="text-align:center;color:#1a2942">LIQUIDACIÓN LABORAL — COSTA RICA</h2>
+<p><strong>Salario mensual:</strong> ${formatoColones(r.salario)}</p>
+<p><strong>Fecha de ingreso:</strong> ${r.fIngresoStr}</p>
+<p><strong>Fecha de salida:</strong> ${r.fSalidaStr}</p>
+<p><strong>Tiempo laborado:</strong> ${r.anios.toFixed(2)} años</p>
+<p><strong>Motivo del cese:</strong> ${motivoLabel}</p>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:13px"><tr style="background:#0084ff;color:#fff"><th style="padding:8px;text-align:left">Concepto</th><th style="padding:8px;text-align:right">Monto</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">Preaviso (${r.diasPreaviso} días)</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.montoPreaviso)}</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">Cesantía (${r.diasCesantia.toFixed(1)} días)</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.montoCesantia)}</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">Vacaciones proporcionales</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.montoVacaciones)}</td></tr>
+<tr style="font-weight:700;background:#f0f7ff"><td style="border:1px solid #ddd;padding:8px">TOTAL</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.total)}</td></tr></table>
+<p style="font-size:11px;color:#999">Cálculo de referencia conforme al Código de Trabajo de Costa Rica (artículo 28-29). No constituye asesoría legal; se recomienda validar con un profesional en derecho laboral antes de formalizar el pago.</p>`;
+  insertHTML(html);
+  closeModal('modalLiquidacion');
+  showToast('Liquidación insertada ✅');
+}
+
+var emailTonoActual = 'formal';
+
+function selectEmailTono(tono, btn) {
+  emailTonoActual = tono;
+  document.querySelectorAll('.email-tono').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function generarRespuestaCorreo() {
+  const recibido = document.getElementById('emailRecibido').value.trim();
+  const intencion = document.getElementById('emailIntencion').value.trim();
+  if (!recibido) { showToast('Describe o pega el correo recibido'); return; }
+
+  const key = localStorage.getItem('wc-groq-key');
+  if (!key) {
+    showToast('⚠️ Configura tu API Key de Groq en Sibö IA primero');
+    toggleAI();
+    return;
+  }
+
+  const tonoLabels = { formal: 'formal y profesional', cordial: 'cordial y cercano pero profesional', firme: 'firme y directo sin ser grosero', disculpa: 'de disculpa, empático y conciliador' };
+  const prompt = `Escribe una respuesta de correo electrónico en español, tono ${tonoLabels[emailTonoActual]}, en formato de carta formal con saludo inicial y despedida cordial. Correo recibido o contexto: "${recibido}". ${intencion ? 'Lo que se quiere lograr o responder: '+intencion+'.' : ''} No incluyas asunto, solo el cuerpo de la carta con saludo y firma genérica al final como "[Tu nombre]".`;
+
+  closeModal('modalEmailAsistente');
+  showToast('🦙 Sibö está redactando tu correo...');
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          { role: 'system', content: 'Sos un asistente experto en redacción de correos formales en español de Costa Rica. Respondes solo con el cuerpo de la carta, sin explicaciones adicionales, sin markdown, en párrafos separados por saltos de línea dobles.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 600
+      })
+    });
+    const data = await res.json();
+    if (data.error) { showToast('⚠️ Error: ' + data.error.message); return; }
+    const reply = data?.choices?.[0]?.message?.content || '';
+    if (!reply) { showToast('Sin respuesta de Sibö'); return; }
+
+    const parrafos = reply.split(/\n\s*\n/).filter(p => p.trim()).map(p => `<p style="margin:0 0 16pt 0">${p.trim().replace(/\n/g,'<br>')}</p>`).join('');
+    const cartaHTML = `<div style="font-family:Georgia,'Times New Roman',serif;font-size:12pt;line-height:1.8;max-width:16cm;margin:24px auto;padding:1.5cm 0">${parrafos}</div>`;
+    insertHTML(cartaHTML);
+    showToast('Respuesta insertada con estilo carta ✅');
+  } catch(e) {
+    showToast('⚠️ Error de conexión: ' + e.message);
+  }
+}
+
 function showKeywordDensity() {
   const text = editor.innerText.toLowerCase().replace(/[^a-záéíóúñü\s]/gi, ' ');
   const stopwords = ['de','la','que','el','en','y','a','los','del','se','las','por','un','para','con','no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando','muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno','les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo','otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar','estas','algunas','algo','nosotros'];
@@ -1928,6 +2134,12 @@ function handleAction(a) {
     case 'contratoHoras': toggleAI(); setTimeout(()=>aiQuick('contratoHoras'),300); break;
     case 'denunciaLaboral': toggleAI(); setTimeout(()=>aiQuick('denunciaLaboral'),300); break;
     case 'imagenIA': openModal('modalImagenIA'); break;
+    case 'facturaElectronica': toggleAI(); setTimeout(()=>aiQuick('facturaElectronica'),300); break;
+    case 'contratoArrendamiento': toggleAI(); setTimeout(()=>aiQuick('contratoArrendamiento'),300); break;
+    case 'estatutosSA': toggleAI(); setTimeout(()=>aiQuick('estatutosSA'),300); break;
+    case 'licitacionPublica': toggleAI(); setTimeout(()=>aiQuick('licitacionPublica'),300); break;
+    case 'liquidacionLaboral': openModal('modalLiquidacion'); break;
+    case 'emailAssistant': openModal('modalEmailAsistente'); break;
     case 'translateDoc': toggleAI(); setTimeout(()=>{document.getElementById('aiInp').value='Traduce al inglés el contenido del documento';},300); break;
     case 'acceptChange': showToast('Cambio aceptado ✅'); break;
     case 'rejectChange': showToast('Cambio rechazado ❌'); break;
@@ -1939,7 +2151,16 @@ function handleAction(a) {
     case 'zoom100':   editor.style.transform='scale(1)';   editor.style.transformOrigin='top left'; showToast('Zoom: 100%'); break;
     case 'zoom150':   editor.style.transform='scale(1.5)'; editor.style.transformOrigin='top left'; showToast('Zoom: 150%'); break;
     case 'macros':    showToast('Ctrl+B Negrita | Ctrl+I Cursiva | Ctrl+U Subrayado | Ctrl+Z Deshacer | Ctrl+S Guardar'); break;
-    case 'new':       openDocWindow('<p>Escribe aquí tu nuevo documento...</p>','Documento nuevo'); break;
+    case 'new': {
+      const tieneContenido = editor.innerText.trim().length > 0;
+      if (tieneContenido && !confirm('¿Crear un documento nuevo? Se perderá el contenido actual si no lo has guardado.')) break;
+      editor.innerHTML = '<p>Escribe aquí tu nuevo documento...</p>';
+      document.getElementById('contentTitle').textContent = 'Documento nuevo — WC Corporate';
+      updateStats();
+      updatePageBreaks();
+      showToast('📄 Documento nuevo creado ✅');
+      break;
+    }
     case 'open': { const sv=localStorage.getItem('wc-v23'); if(sv){editor.innerHTML=sv;updateStats();showToast('Documento cargado ✅');}else showToast('No hay documento guardado'); break; }
     case 'plantillas':  openModal('modalPlantillas'); break;
     case 'openAI':      toggleAI(); break;
