@@ -888,6 +888,78 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <button class="btn2" onclick="closeModal('modalEmailAsistente')">Cerrar</button>
 </div>
 </div></div>
+<div class="mo" id="modalQR"><div class="mb"><h3>📱 Código QR</h3>
+<input type="text" class="minput" id="qrTexto" placeholder="URL o texto a codificar... ej: https://wc-corporate.cr">
+<div id="qrPreviewWrap" style="display:none;text-align:center;margin:14px 0">
+<img id="qrPreview" style="border-radius:8px;border:1px solid #eee;padding:8px;background:#fff">
+</div>
+<div class="mbtns">
+<button class="btn1" onclick="generarQR()">Generar</button>
+<button class="btn2" id="qrInsertarBtn" onclick="insertarQR()" style="display:none">Insertar en documento</button>
+<button class="btn2" onclick="closeModal('modalQR')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalOrgChart"><div class="mb"><h3>🏢 Organigrama</h3>
+<p style="font-size:11px;color:#999;margin-bottom:8px">Una persona/cargo por línea. Usa una tabulación o "-" al inicio para indicar nivel inferior.</p>
+<textarea class="minput" id="orgTexto" placeholder="Gerente General
+- Gerente de Ventas
+- Gerente de Finanzas
+-- Contador
+-- Tesorero" rows="6"></textarea>
+<div class="mbtns">
+<button class="btn1" onclick="generarOrgChart()">Insertar organigrama</button>
+<button class="btn2" onclick="closeModal('modalOrgChart')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalRentaCCSS"><div class="mb"><h3>🏛️ Renta e Impuesto al Salario CR 2026</h3>
+<label style="font-size:12px;color:#666;display:block;margin-bottom:4px">Salario bruto mensual (₡)</label>
+<input type="number" class="minput" id="rentaSalario" placeholder="Ej: 1500000" inputmode="decimal">
+<label style="font-size:12px;color:#666;display:block;margin-bottom:6px">Créditos fiscales</label>
+<div style="display:flex;gap:10px;margin-bottom:12px;align-items:center">
+<label style="font-size:13px;flex:1">👶 Hijos dependientes: <input type="number" id="rentaHijos" value="0" min="0" style="width:50px;padding:4px;border:1px solid #ddd;border-radius:6px;margin-left:6px"></label>
+</div>
+<div style="display:flex;gap:10px;margin-bottom:12px;align-items:center">
+<label style="font-size:13px"><input type="checkbox" id="rentaConyuge"> 💍 Tiene crédito por cónyuge sin ingresos</label>
+</div>
+<div id="rentaResultado" style="background:#f0f7ff;border-radius:10px;padding:14px;margin-bottom:12px;font-size:13px;color:#333;display:none"></div>
+<div class="mbtns">
+<button class="btn1" onclick="calcularRentaCCSS()">Calcular</button>
+<button class="btn2" id="rentaInsertarBtn" onclick="insertarRentaCCSS()" style="display:none">Insertar en documento</button>
+<button class="btn2" onclick="closeModal('modalRentaCCSS')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalTraductorIndigena"><div class="mb"><h3>🌿 Traductor lenguas indígenas CR</h3>
+<input type="text" class="minput" id="tradPalabra" placeholder="Escribe una palabra en español..." onkeyup="if(event.key==='Enter')buscarTraduccionIndigena()">
+<div id="tradResultado" style="background:#f0fff4;border-radius:10px;padding:14px;margin-bottom:12px;font-size:14px;color:#333;display:none"></div>
+<div class="mbtns">
+<button class="btn1" onclick="buscarTraduccionIndigena()">Buscar</button>
+<button class="btn2" id="tradInsertarBtn" onclick="insertarTraduccionIndigena()" style="display:none">Insertar en documento</button>
+<button class="btn2" onclick="closeModal('modalTraductorIndigena')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalComentarios"><div class="mb"><h3>💬 Comentarios</h3>
+<div id="comentariosLista" style="margin-bottom:12px;font-size:13px;color:#333;max-height:240px;overflow-y:auto"></div>
+<textarea class="minput" id="comentarioTexto" placeholder="Escribe tu comentario sobre el texto seleccionado o el documento..." rows="2"></textarea>
+<div class="mbtns">
+<button class="btn1" onclick="agregarComentario()">💬 Agregar comentario</button>
+<button class="btn2" onclick="closeModal('modalComentarios')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalVersiones"><div class="mb"><h3>🕐 Historial de versiones</h3>
+<div id="versionesLista" style="margin-bottom:12px;font-size:13px;color:#333;max-height:280px;overflow-y:auto"></div>
+<div class="mbtns">
+<button class="btn1" onclick="guardarVersionActual()">💾 Guardar versión actual</button>
+<button class="btn2" onclick="closeModal('modalVersiones')">Cerrar</button>
+</div>
+</div></div>
+<div class="mo" id="modalBookmarks"><div class="mb"><h3>📌 Marcadores y referencias</h3>
+<div id="bookmarksLista" style="margin-bottom:12px;font-size:13px;color:#333;max-height:240px;overflow-y:auto"></div>
+<input type="text" class="minput" id="bookmarkNombre" placeholder="Nombre del marcador (ej: Sección de precios)">
+<div class="mbtns">
+<button class="btn1" onclick="agregarMarcador()">📌 Agregar marcador aquí</button>
+<button class="btn2" onclick="closeModal('modalBookmarks')">Cerrar</button>
+</div>
+</div></div>
 <div class="mo" id="modalEquation"><div class="mb"><h3>Editor de ecuaciones</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;" id="equationGrid"></div><textarea class="minput" id="customEquation" placeholder="Escribe tu ecuación: E = mc²" rows="2"></textarea><div class="mbtns"><button class="btn1" onclick="insertCustomEquation()">Insertar</button><button class="btn2" onclick="closeModal('modalEquation')">Cerrar</button></div></div></div>
 <div class="mo" id="modalSymbol"><div class="mb"><h3>Símbolos especiales</h3><div style="display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;" id="symbolGrid"></div><div class="mbtns"><button class="btn2" onclick="closeModal('modalSymbol')">Cerrar</button></div></div></div>
 <div class="mo" id="modalPortapapeles"><div class="mb"><h3>Portapapeles</h3><p style="font-size:12px;color:#888;margin-bottom:12px;">Toca un elemento para pegarlo.</p><div id="clipboardList"></div><div class="mbtns"><button class="btn2" onclick="clipboardHistory=[];renderClipboard();showToast('Limpiado')">Limpiar</button><button class="btn2" onclick="closeModal('modalPortapapeles')">Cerrar</button></div></div></div>
@@ -1658,6 +1730,17 @@ function aiQuick(tipo) {
     contratoArrendamiento: 'Genera un modelo de contrato de arrendamiento de Costa Rica conforme a la Ley N° 7527 (Ley General de Arrendamientos Urbanos y Suburbanos), con cláusulas para: identificación de arrendador y arrendatario, descripción del inmueble, monto de renta en colones, plazo, depósito de garantía, obligaciones de las partes, y firma. Usa HTML con estructura legal formal costarricense.',
     estatutosSA: 'Genera un modelo de estatutos de Sociedad Anónima conforme al Código de Comercio de Costa Rica, con cláusulas para: denominación social, domicilio, objeto social, capital social y acciones, órganos de administración (junta directiva, fiscalía), duración, y disposiciones generales. Usa HTML con estructura legal formal costarricense tipo escritura.',
     licitacionPublica: 'Genera un modelo de cartel de licitación pública de Costa Rica conforme a la Ley N° 7494 (Contratación Administrativa) y el sistema SICOP, con secciones para: objeto de la contratación, especificaciones técnicas, requisitos de admisibilidad, criterios de evaluación, plazo de entrega, y condiciones generales. Usa HTML con estructura formal de documento administrativo costarricense.',
+    actaReunion: 'Genera un modelo de acta de reunión de Costa Rica, con secciones para: fecha y hora, lugar, lista de asistentes, orden del día, desarrollo de los temas tratados, acuerdos adoptados, y espacio de firmas. Usa HTML con estructura formal de acta corporativa costarricense.',
+    cartaPoder: 'Genera un modelo de carta poder notarial de Costa Rica, con espacios para: datos del otorgante, datos del apoderado, facultades otorgadas, vigencia, y espacio para firma y notas notariales. Usa HTML con estructura formal legal costarricense.',
+    declaracionJurada: 'Genera un modelo de declaración jurada de Costa Rica, con espacios para: datos del declarante (nombre, cédula), objeto de la declaración, texto de los hechos declarados bajo juramento, advertencia de responsabilidad por falsedad, fecha y firma. Usa HTML con estructura formal legal costarricense.',
+    ndaContract: 'Genera un modelo de contrato de confidencialidad (NDA) de Costa Rica, con cláusulas para: identificación de las partes, definición de información confidencial, obligaciones de confidencialidad, duración, excepciones, penalidades por incumplimiento, y firma. Usa HTML con estructura legal formal costarricense.',
+    correosInst: 'Genera un modelo de correo institucional formal de Costa Rica, con encabezado de saludo protocolario, cuerpo claro y conciso, y despedida formal apropiada para comunicación entre instituciones o empresas costarricenses. Usa HTML con párrafos bien estructurados.',
+    cvGenerator: 'Genera un modelo de currículum vitae profesional adaptado al formato costarricense, con secciones para: datos personales, perfil profesional, experiencia laboral, educación, habilidades, e idiomas. Usa HTML con encabezados claros y estructura profesional.',
+    budgetGen: 'Genera un modelo de presupuesto comercial de Costa Rica en formato de documento, con secciones para: datos de la empresa, datos del cliente, detalle de productos o servicios con cantidad, precio unitario, subtotal, IVA y total en colones, condiciones de pago, y vigencia de la oferta. Usa HTML con tabla.',
+    hashtagSEO: 'Genera 15 hashtags relevantes y optimizados para SEO en redes sociales (Instagram, LinkedIn y TikTok) sobre el siguiente contenido o tema, agrupados por plataforma: '+(ctx||'pregúntame sobre qué tema quieres los hashtags'),
+    contractAI: 'Genera un modelo de contrato general adaptado a la legislación de Costa Rica para el siguiente propósito o contexto, con cláusulas de identificación de partes, objeto, obligaciones, plazo, y firma: '+(ctx||'describe en el editor para qué tipo de contrato necesitas ayuda, o indícamelo aquí en el chat'),
+    autocompletar: 'Continúa el siguiente texto de forma natural y coherente con el mismo estilo y tono, escribiendo solo 2-3 frases más de continuación (no repitas el texto original, solo la continuación): '+(ctx||'escribe algo en el editor primero para que pueda continuar tu idea'),
+    ortografia: 'Revisa la ortografía y gramática del siguiente texto en español y devuelve el texto corregido completo, manteniendo el mismo contenido y sentido, solo corrigiendo errores: '+(ctx||'selecciona o escribe texto en el editor primero'),
   };
   const p = prompts[tipo];
   if (!p) return;
@@ -2009,6 +2092,571 @@ async function generarRespuestaCorreo() {
   }
 }
 
+var qrUltimaUrl = '';
+
+function generarQR() {
+  const texto = document.getElementById('qrTexto').value.trim();
+  if (!texto) { showToast('Escribe el texto o URL primero'); return; }
+  const encoded = encodeURIComponent(texto);
+  const url = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encoded}`;
+  document.getElementById('qrPreview').src = url;
+  document.getElementById('qrPreviewWrap').style.display = 'block';
+  document.getElementById('qrInsertarBtn').style.display = 'inline-block';
+  qrUltimaUrl = url;
+}
+
+function insertarQR() {
+  if (!qrUltimaUrl) return;
+  insertHTML(`<p style="text-align:center"><img src="${qrUltimaUrl}" style="border-radius:6px;margin:8px 0" alt="Código QR"></p>`);
+  closeModal('modalQR');
+  showToast('Código QR insertado ✅');
+}
+
+function generarOrgChart() {
+  const texto = document.getElementById('orgTexto').value.trim();
+  if (!texto) { showToast('Escribe la estructura primero'); return; }
+  const lineas = texto.split('\n').filter(l => l.trim());
+  let html = '<div style="margin:16px 0">';
+  lineas.forEach(linea => {
+    const nivel = (linea.match(/^-+/) || [''])[0].length;
+    const texto2 = linea.replace(/^-+\s*/, '').trim();
+    const indent = nivel * 28;
+    const colores = ['#0084ff','#27ae60','#f39c12','#9b59b6'];
+    const color = colores[Math.min(nivel, colores.length-1)];
+    html += `<div style="margin-left:${indent}px;margin-bottom:6px;display:flex;align-items:center;gap:8px">`;
+    if (nivel > 0) html += `<span style="color:#ccc">└</span>`;
+    html += `<div style="background:${color};color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;display:inline-block">${texto2}</div></div>`;
+  });
+  html += '</div>';
+  insertHTML(html);
+  closeModal('modalOrgChart');
+  showToast('Organigrama insertado ✅');
+}
+
+var rentaUltimoResultado = null;
+
+function calcularImpuestoSalario(salarioBruto) {
+  const tramos = [
+    {hasta: 918000, tasa: 0},
+    {hasta: 1347000, tasa: 0.10},
+    {hasta: 2364000, tasa: 0.15},
+    {hasta: 4727000, tasa: 0.20},
+    {hasta: Infinity, tasa: 0.25}
+  ];
+  let impuesto = 0;
+  let anterior = 0;
+  for (const t of tramos) {
+    if (salarioBruto > anterior) {
+      const base = Math.min(salarioBruto, t.hasta) - anterior;
+      impuesto += base * t.tasa;
+      anterior = t.hasta;
+    } else break;
+  }
+  return impuesto;
+}
+
+function calcularRentaCCSS() {
+  const salario = parseFloat(document.getElementById('rentaSalario').value);
+  if (isNaN(salario) || salario <= 0) { showToast('Ingresa un salario válido'); return; }
+  const hijos = parseInt(document.getElementById('rentaHijos').value) || 0;
+  const conyuge = document.getElementById('rentaConyuge').checked;
+
+  const ccssObrero = salario * 0.1083;
+  const ccssSEM = salario * 0.055;
+  const ccssIVM = salario * 0.0433;
+  const ccssBP = salario * 0.01;
+
+  const ccssPatronal = salario * 0.2683;
+
+  let impuestoBruto = calcularImpuestoSalario(salario);
+  const creditoHijos = hijos * 1710;
+  const creditoConyuge = conyuge ? 2590 : 0;
+  const totalCreditos = creditoHijos + creditoConyuge;
+  const impuestoNeto = Math.max(0, impuestoBruto - totalCreditos);
+
+  const salarioNeto = salario - ccssObrero - impuestoNeto;
+  const costoPatronal = salario + ccssPatronal;
+
+  rentaUltimoResultado = { salario, ccssObrero, ccssSEM, ccssIVM, ccssBP, ccssPatronal, impuestoBruto, totalCreditos, impuestoNeto, salarioNeto, costoPatronal, hijos, conyuge };
+
+  let html = `<div style="font-weight:700;color:#0084ff;margin-bottom:8px">💼 Deducciones del trabajador</div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:3px"><span>CCSS obrero (10.83%):</span><strong>${formatoColones(ccssObrero)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:3px"><span>Impuesto al salario (bruto):</span><strong>${formatoColones(impuestoBruto)}</strong></div>`;
+  if (totalCreditos > 0) html += `<div style="display:flex;justify-content:space-between;margin-bottom:3px;color:#27ae60"><span>Créditos fiscales:</span><strong>-${formatoColones(totalCreditos)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>Impuesto al salario (neto):</span><strong>${formatoColones(impuestoNeto)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;border-top:1px solid #cfe2ff;padding-top:6px;margin-bottom:10px"><span style="font-weight:700">Salario neto a recibir:</span><strong style="color:#27ae60">${formatoColones(salarioNeto)}</strong></div>`;
+  html += `<div style="font-weight:700;color:#0084ff;margin-bottom:8px">🏢 Costo para el patrono</div>`;
+  html += `<div style="display:flex;justify-content:space-between;margin-bottom:3px"><span>CCSS patronal (26.83%):</span><strong>${formatoColones(ccssPatronal)}</strong></div>`;
+  html += `<div style="display:flex;justify-content:space-between;border-top:1px solid #cfe2ff;padding-top:6px"><span style="font-weight:700">Costo laboral total:</span><strong style="color:#0084ff">${formatoColones(costoPatronal)}</strong></div>`;
+  html += `<div style="margin-top:10px;font-size:11px;color:#999">* Tramos del Impuesto al Salario y porcentajes CCSS vigentes desde el 1 de enero de 2026 (Decreto 45333-H). Cálculo de referencia; consulte un contador para casos específicos.</div>`;
+
+  document.getElementById('rentaResultado').innerHTML = html;
+  document.getElementById('rentaResultado').style.display = 'block';
+  document.getElementById('rentaInsertarBtn').style.display = 'inline-block';
+}
+
+function insertarRentaCCSS() {
+  if (!rentaUltimoResultado) return;
+  const r = rentaUltimoResultado;
+  const html = `<h2 style="text-align:center;color:#1a2942">PLANILLA Y RETENCIONES — COSTA RICA 2026</h2>
+<p><strong>Salario bruto mensual:</strong> ${formatoColones(r.salario)}</p>
+<table style="border-collapse:collapse;width:100%;margin:14px 0;font-size:13px"><tr style="background:#0084ff;color:#fff"><th style="padding:8px;text-align:left">Concepto</th><th style="padding:8px;text-align:right">Monto</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">CCSS obrero (10.83%)</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.ccssObrero)}</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">Impuesto al salario (neto de créditos)</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.impuestoNeto)}</td></tr>
+<tr style="font-weight:700;background:#e8f8ee"><td style="border:1px solid #ddd;padding:8px">Salario neto a recibir</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.salarioNeto)}</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px">CCSS patronal (26.83%)</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.ccssPatronal)}</td></tr>
+<tr style="font-weight:700;background:#f0f7ff"><td style="border:1px solid #ddd;padding:8px">Costo laboral total para el patrono</td><td style="border:1px solid #ddd;padding:8px;text-align:right">${formatoColones(r.costoPatronal)}</td></tr></table>
+<p style="font-size:11px;color:#999">Cálculo de referencia conforme al Decreto Ejecutivo N° 45333-H (tramos de renta 2026) y porcentajes vigentes de la CCSS desde el 1 de enero de 2026. No constituye asesoría tributaria o laboral oficial; se recomienda validar con un contador antes de formalizar la planilla.</p>`;
+  insertHTML(html);
+  closeModal('modalRentaCCSS');
+  showToast('Planilla insertada ✅');
+}
+
+var tradUltimoResultado = null;
+
+async function buscarTraduccionIndigena() {
+  const palabra = document.getElementById('tradPalabra').value.trim().toLowerCase();
+  if (!palabra) { showToast('Escribe una palabra primero'); return; }
+  document.getElementById('tradResultado').innerHTML = '<span style="color:#888">🔍 Buscando...</span>';
+  document.getElementById('tradResultado').style.display = 'block';
+
+  try {
+    await cargarDiccionario();
+  } catch(e) {}
+
+  if (!dictData || !dictData.length) {
+    document.getElementById('tradResultado').innerHTML = '<span style="color:#e74c3c">No se pudo cargar el diccionario. Verifica tu conexión.</span>';
+    return;
+  }
+
+  const encontrado = dictData.find(row => (row['Español']||'').toLowerCase().trim() === palabra);
+  if (!encontrado) {
+    document.getElementById('tradResultado').innerHTML = `<span style="color:#888">No se encontró "${palabra}" en el diccionario. Intenta con otra palabra.</span>`;
+    document.getElementById('tradInsertarBtn').style.display = 'none';
+    return;
+  }
+
+  const lenguas = ['Bribri','Cabécar','Maleku','Ngäbe','Boruca','Térraba'];
+  let html = `<div style="font-weight:700;margin-bottom:8px;color:#27ae60">🇨🇷 ${encontrado['Español']}</div>`;
+  lenguas.forEach(l => {
+    const val = encontrado[l];
+    if (val) html += `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="color:#666">${l}:</span><strong>${val}</strong></div>`;
+  });
+  document.getElementById('tradResultado').innerHTML = html;
+  tradUltimoResultado = encontrado;
+  document.getElementById('tradInsertarBtn').style.display = 'inline-block';
+}
+
+function insertarTraduccionIndigena() {
+  if (!tradUltimoResultado) return;
+  const r = tradUltimoResultado;
+  const lenguas = ['Bribri','Cabécar','Maleku','Ngäbe','Boruca','Térraba'];
+  let html = `<table style="border-collapse:collapse;margin:10px 0;font-size:13px"><tr style="background:#27ae60;color:#fff"><th style="padding:6px 12px;text-align:left">Español</th><th style="padding:6px 12px;text-align:left">${r['Español']}</th></tr>`;
+  lenguas.forEach(l => {
+    if (r[l]) html += `<tr><td style="border:1px solid #ddd;padding:6px 12px">${l}</td><td style="border:1px solid #ddd;padding:6px 12px">${r[l]}</td></tr>`;
+  });
+  html += '</table>';
+  insertHTML(html);
+  closeModal('modalTraductorIndigena');
+  showToast('Traducción insertada ✅');
+}
+
+var wcBookmarks = [];
+var wcComentarios = [];
+var wcFootnoteCount = 0;
+
+function generarTOCReal() {
+  const headers = editor.querySelectorAll('h1,h2,h3,h4');
+  if (!headers.length) { showToast('No hay títulos (H1-H4) en el documento todavía'); return; }
+  let html = '<div style="border:1px solid #ddd;border-radius:10px;padding:16px;margin:12px 0" id="wcTocBlock"><h3 style="color:#0084ff;margin-bottom:10px">📑 Tabla de contenido</h3>';
+  headers.forEach((h, i) => {
+    if (!h.id) h.id = 'wc-toc-' + i;
+    const nivel = parseInt(h.tagName.substring(1));
+    const indent = (nivel - 1) * 16;
+    const texto = h.textContent.trim() || '(Sin título)';
+    html += `<div style="margin-left:${indent}px;font-size:13px;color:#444;margin-bottom:4px"><a href="#${h.id}" style="color:#0084ff;text-decoration:none">${texto}</a></div>`;
+  });
+  html += '</div>';
+  insertHTML(html);
+  showToast(`Tabla de contenido generada (${headers.length} títulos) ✅`);
+}
+
+function abrirBookmarks() {
+  openModal('modalBookmarks');
+  renderBookmarks();
+}
+function renderBookmarks() {
+  const cont = document.getElementById('bookmarksLista');
+  if (!wcBookmarks.length) { cont.innerHTML = '<div style="color:#999;text-align:center;padding:12px">Sin marcadores todavía</div>'; return; }
+  cont.innerHTML = wcBookmarks.map((b,i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-bottom:1px solid #eee"><a href="#${b.id}" onclick="closeModal('modalBookmarks')" style="color:#0084ff;text-decoration:none">📌 ${b.nombre}</a><button onclick="eliminarMarcador(${i})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:16px">✕</button></div>`).join('');
+}
+function agregarMarcador() {
+  const nombre = document.getElementById('bookmarkNombre').value.trim();
+  if (!nombre) { showToast('Escribe un nombre para el marcador'); return; }
+  const id = 'wc-bookmark-' + Date.now();
+  insertHTML(`<span id="${id}"></span>`);
+  wcBookmarks.push({ id, nombre });
+  document.getElementById('bookmarkNombre').value = '';
+  renderBookmarks();
+  showToast('Marcador agregado 📌');
+}
+function eliminarMarcador(i) {
+  wcBookmarks.splice(i, 1);
+  renderBookmarks();
+}
+
+function abrirComentarios() {
+  openModal('modalComentarios');
+  renderComentarios();
+}
+function renderComentarios() {
+  const cont = document.getElementById('comentariosLista');
+  if (!wcComentarios.length) { cont.innerHTML = '<div style="color:#999;text-align:center;padding:12px">Sin comentarios todavía</div>'; return; }
+  cont.innerHTML = wcComentarios.map((c,i) => `<div style="background:#fffbe6;border-radius:8px;padding:10px;margin-bottom:8px"><div style="font-size:12px;color:#999;margin-bottom:4px">${c.fecha}</div><div>${c.texto}</div><button onclick="eliminarComentario(${i})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:12px;margin-top:4px">Eliminar</button></div>`).join('');
+}
+function agregarComentario() {
+  const texto = document.getElementById('comentarioTexto').value.trim();
+  if (!texto) { showToast('Escribe un comentario primero'); return; }
+  wcComentarios.push({ texto, fecha: new Date().toLocaleString('es-CR') });
+  document.getElementById('comentarioTexto').value = '';
+  renderComentarios();
+  showToast('Comentario agregado 💬');
+}
+function eliminarComentario(i) {
+  wcComentarios.splice(i, 1);
+  renderComentarios();
+}
+
+function insertarNotaPie() {
+  const fn = prompt('Texto de la nota al pie:');
+  if (!fn) return;
+  wcFootnoteCount++;
+  const n = wcFootnoteCount;
+  insertHTML(`<sup style="color:#0084ff">[${n}]</sup>`);
+  let footer = document.getElementById('wcFootnotesBlock');
+  if (!footer) {
+    insertHTML(`<div id="wcFootnotesBlock"><hr style="border:none;border-top:1px solid #ddd;margin:20px 0 8px"></div>`);
+    footer = document.getElementById('wcFootnotesBlock');
+  }
+  const nota = document.createElement('p');
+  nota.style.cssText = 'font-size:11px;color:#666;margin:2px 0';
+  nota.innerHTML = `[${n}] ${fn}`;
+  footer.appendChild(nota);
+  showToast('Nota al pie agregada ✅');
+}
+
+var wcVersiones = [];
+
+function abrirVersiones() {
+  openModal('modalVersiones');
+  renderVersiones();
+}
+function renderVersiones() {
+  const cont = document.getElementById('versionesLista');
+  if (!wcVersiones.length) { cont.innerHTML = '<div style="color:#999;text-align:center;padding:12px">Sin versiones guardadas. Guarda la actual para empezar.</div>'; return; }
+  cont.innerHTML = wcVersiones.map((v,i) => {
+    const palabras = v.html.replace(/<[^>]+>/g,' ').trim().split(/\s+/).filter(Boolean).length;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #eee">
+      <div><div style="font-weight:600">${v.nombre}</div><div style="font-size:11px;color:#999">${v.fecha} · ${palabras} palabras</div></div>
+      <div style="display:flex;gap:6px">
+        <button onclick="restaurarVersion(${i})" style="background:#0084ff;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer">Restaurar</button>
+        <button onclick="eliminarVersion(${i})" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-size:14px">✕</button>
+      </div></div>`;
+  }).join('');
+}
+function guardarVersionActual() {
+  const nombre = prompt('Nombre para esta versión (ej: Borrador inicial):', `Versión ${wcVersiones.length+1}`);
+  if (!nombre) return;
+  wcVersiones.push({ nombre, html: editor.innerHTML, fecha: new Date().toLocaleString('es-CR') });
+  renderVersiones();
+  showToast('Versión guardada 💾');
+}
+function restaurarVersion(i) {
+  if (!confirm(`¿Restaurar "${wcVersiones[i].nombre}"? Se perderá el contenido actual no guardado.`)) return;
+  editor.innerHTML = wcVersiones[i].html;
+  updateStats();
+  updatePageBreaks();
+  closeModal('modalVersiones');
+  showToast('Versión restaurada ✅');
+}
+function eliminarVersion(i) {
+  wcVersiones.splice(i, 1);
+  renderVersiones();
+}
+function compararVersionesActual() {
+  if (wcVersiones.length < 1) { showToast('Guarda al menos una versión primero para comparar'); return; }
+  const ultima = wcVersiones[wcVersiones.length - 1];
+  const palabrasActual = editor.innerText.trim().split(/\s+/).filter(Boolean).length;
+  const palabrasAnterior = ultima.html.replace(/<[^>]+>/g,' ').trim().split(/\s+/).filter(Boolean).length;
+  const diferencia = palabrasActual - palabrasAnterior;
+  const signo = diferencia >= 0 ? '+' : '';
+  alert(`Comparando con "${ultima.nombre}" (${ultima.fecha}):\n\nPalabras actuales: ${palabrasActual}\nPalabras en esa versión: ${palabrasAnterior}\nDiferencia: ${signo}${diferencia} palabras`);
+}
+
+var wcModoAnterior = null;
+
+function activarZenMode() {
+  document.querySelectorAll('.header, .menu-card, .status-bar, #wcToolsFab').forEach(el => el.style.display = 'none');
+  editor.style.maxWidth = '700px';
+  editor.style.boxShadow = 'none';
+  editor.style.border = 'none';
+  document.querySelector('.content').style.background = '#fafafa';
+  let salir = document.getElementById('wcZenExit');
+  if (!salir) {
+    salir = document.createElement('button');
+    salir.id = 'wcZenExit';
+    salir.textContent = '✕ Salir del modo Zen';
+    salir.style.cssText = 'position:fixed;top:14px;right:14px;z-index:99999;background:#1a2942;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2)';
+    salir.onclick = salirZenMode;
+    document.body.appendChild(salir);
+  }
+  showToast('🧘 Modo Zen activado');
+}
+function salirZenMode() {
+  document.querySelectorAll('.header, .menu-card, .status-bar, #wcToolsFab').forEach(el => el.style.display = '');
+  editor.style.maxWidth = '';
+  editor.style.boxShadow = '';
+  editor.style.border = '';
+  document.querySelector('.content').style.background = '';
+  const salir = document.getElementById('wcZenExit');
+  if (salir) salir.remove();
+  showToast('Modo Zen desactivado');
+}
+
+function activarModoInmersivo() {
+  document.querySelectorAll('.header, .menu-card, .status-bar, #wcToolsFab').forEach(el => el.style.display = 'none');
+  document.querySelector('.content').style.background = '#1a1a1a';
+  editor.style.background = '#1a1a1a';
+  editor.style.color = '#e8e8e8';
+  editor.style.maxWidth = '680px';
+  editor.style.fontSize = '14pt';
+  editor.style.lineHeight = '1.9';
+  editor.style.boxShadow = 'none';
+  editor.style.border = 'none';
+  let salir = document.getElementById('wcZenExit');
+  if (!salir) {
+    salir = document.createElement('button');
+    salir.id = 'wcZenExit';
+    salir.textContent = '✕ Salir';
+    salir.style.cssText = 'position:fixed;top:14px;right:14px;z-index:99999;background:#444;color:#fff;border:none;border-radius:20px;padding:8px 16px;font-size:13px;cursor:pointer';
+    salir.onclick = salirModoInmersivo;
+    document.body.appendChild(salir);
+  }
+  showToast('📖 Lectura inmersiva activada');
+}
+function salirModoInmersivo() {
+  document.querySelectorAll('.header, .menu-card, .status-bar, #wcToolsFab').forEach(el => el.style.display = '');
+  document.querySelector('.content').style.background = '';
+  editor.style.background = '';
+  editor.style.color = '';
+  editor.style.maxWidth = '';
+  editor.style.fontSize = '';
+  editor.style.lineHeight = '';
+  editor.style.boxShadow = '';
+  editor.style.border = '';
+  const salir = document.getElementById('wcZenExit');
+  if (salir) salir.remove();
+}
+
+function activarModoPresentacion() {
+  const headers = editor.querySelectorAll('h1');
+  if (!headers.length) { showToast('Agrega títulos H1 para dividir tu documento en diapositivas'); return; }
+  const slides = [];
+  let actual = null;
+  editor.childNodes.forEach(node => {
+    if (node.nodeType === 1 && node.tagName === 'H1') {
+      actual = { titulo: node.textContent, contenido: [] };
+      slides.push(actual);
+    } else if (actual) {
+      actual.contenido.push(node.outerHTML || node.textContent || '');
+    }
+  });
+  if (!slides.length) { showToast('No se pudo generar la presentación'); return; }
+
+  let idx = 0;
+  const overlay = document.createElement('div');
+  overlay.id = 'wcPresOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#0d1b2a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center';
+  function render() {
+    const s = slides[idx];
+    overlay.innerHTML = `
+      <div style="max-width:800px">
+        <h1 style="font-size:32px;margin-bottom:24px;color:#fff">${s.titulo}</h1>
+        <div style="font-size:16px;line-height:1.6;color:#cdd6e0">${s.contenido.join('')}</div>
+      </div>
+      <div style="position:absolute;bottom:20px;display:flex;gap:14px;align-items:center">
+        <button id="wcPresPrev" style="background:#fff;color:#0d1b2a;border:none;border-radius:20px;padding:8px 16px;cursor:pointer">⬅ Anterior</button>
+        <span style="color:#9ab">${idx+1} / ${slides.length}</span>
+        <button id="wcPresNext" style="background:#fff;color:#0d1b2a;border:none;border-radius:20px;padding:8px 16px;cursor:pointer">Siguiente ➡</button>
+      </div>
+      <button id="wcPresExit" style="position:absolute;top:16px;right:16px;background:none;border:1px solid #fff;color:#fff;border-radius:20px;padding:6px 14px;cursor:pointer">✕ Salir</button>`;
+    document.getElementById('wcPresPrev').onclick = () => { if (idx>0) { idx--; render(); } };
+    document.getElementById('wcPresNext').onclick = () => { if (idx<slides.length-1) { idx++; render(); } };
+    document.getElementById('wcPresExit').onclick = () => overlay.remove();
+  }
+  render();
+  document.body.appendChild(overlay);
+  showToast('🎬 Modo presentación activado');
+}
+
+function abrirWcTools(tab) {
+  const panel = document.getElementById('wcToolsPanel');
+  panel.classList.add('open');
+  const tabBtn = document.querySelector(`#wcToolsTabs button[data-tab="${tab}"]`);
+  if (tabBtn) tabBtn.click();
+}
+
+function buscarEnDocumento() {
+  const termino = prompt('Buscar en el documento:');
+  if (!termino) return;
+  const texto = editor.innerText;
+  const regex = new RegExp(termino, 'gi');
+  const coincidencias = texto.match(regex);
+  if (!coincidencias) { showToast(`No se encontró "${termino}"`); return; }
+
+  document.querySelectorAll('.wc-search-hl').forEach(el => {
+    el.outerHTML = el.innerHTML;
+  });
+  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+  const nodos = [];
+  let n;
+  while (n = walker.nextNode()) nodos.push(n);
+  let total = 0;
+  nodos.forEach(nodo => {
+    if (regex.test(nodo.textContent)) {
+      const span = document.createElement('span');
+      span.innerHTML = nodo.textContent.replace(new RegExp(termino, 'gi'), m => { total++; return `<mark class="wc-search-hl" style="background:#fff59d">${m}</mark>`; });
+      nodo.parentNode.replaceChild(span, nodo);
+    }
+  });
+  showToast(`${coincidencias.length} coincidencia(s) resaltada(s) ✅`);
+}
+
+function dictarAudioAlEditor() {
+  const SRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SRec) { showToast('Tu navegador no soporta dictado por voz'); return; }
+  const rec = new SRec();
+  rec.lang = 'es-CR';
+  rec.continuous = true;
+  rec.interimResults = false;
+  let activo = true;
+  rec.onresult = (e) => {
+    let textoFinal = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) textoFinal += e.results[i][0].transcript + ' ';
+    }
+    if (textoFinal.trim()) insertHTML(`<span>${textoFinal.trim()} </span>`);
+  };
+  rec.onerror = () => { activo = false; showToast('Error en el dictado'); };
+  rec.onend = () => {
+    if (activo) { try { rec.start(); } catch(e){} }
+    else {
+      const btn = document.getElementById('wcDictadoStop');
+      if (btn) btn.remove();
+    }
+  };
+  rec.start();
+  showToast('🎙️ Dictando... habla ahora');
+
+  const stopBtn = document.createElement('button');
+  stopBtn.id = 'wcDictadoStop';
+  stopBtn.textContent = '⏹ Detener dictado';
+  stopBtn.style.cssText = 'position:fixed;bottom:90px;left:16px;z-index:99999;background:#e74c3c;color:#fff;border:none;border-radius:20px;padding:10px 18px;font-size:13px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2)';
+  stopBtn.onclick = () => { activo = false; rec.stop(); stopBtn.remove(); showToast('Dictado detenido'); };
+  document.body.appendChild(stopBtn);
+}
+
+function guardarEnNube() {
+  try {
+    const datos = { html: editor.innerHTML, fecha: new Date().toISOString(), titulo: document.getElementById('contentTitle')?.textContent || 'Documento' };
+    localStorage.setItem('wc-cloud-backup', JSON.stringify(datos));
+    showToast('☁️ Guardado localmente en este dispositivo (sin servidor en la nube real)');
+  } catch(e) {
+    showToast('⚠️ No se pudo guardar: ' + e.message);
+  }
+}
+
+function abrirWhatsappBusiness() {
+  const mensaje = prompt('Escribe el mensaje para enviar por WhatsApp Business (o describe qué necesitas y Sibö te ayuda):');
+  if (!mensaje) return;
+  const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, '_blank');
+}
+
+function exportarHTMLPrincipal() {
+  const contenido = editor.innerHTML;
+  const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Documento</title><style>body{font-family:Calibri,Arial,sans-serif;margin:2.5cm;font-size:12pt;line-height:1.5;color:#000}h1,h2,h3{color:#1a2942}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:8px}</style></head><body>${contenido}</body></html>`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([full],{type:'text/html'}));
+  a.download = 'documento.html'; a.click();
+  showToast('HTML descargado ✅');
+}
+
+function exportarMarkdownPrincipal() {
+  let html = editor.innerHTML;
+  let md = html
+    .replace(/<h1[^>]*>(.*?)<\/h1>/gi, '\n# $1\n')
+    .replace(/<h2[^>]*>(.*?)<\/h2>/gi, '\n## $1\n')
+    .replace(/<h3[^>]*>(.*?)<\/h3>/gi, '\n### $1\n')
+    .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+    .replace(/<b>(.*?)<\/b>/gi, '**$1**')
+    .replace(/<em>(.*?)<\/em>/gi, '_$1_')
+    .replace(/<i>(.*?)<\/i>/gi, '_$1_')
+    .replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<[^>]+>/g, '');
+  md = md.replace(/\n{3,}/g, '\n\n').trim();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([md],{type:'text/markdown'}));
+  a.download = 'documento.md'; a.click();
+  showToast('Markdown descargado ✅');
+}
+
+function exportarEPUBPrincipal() {
+  const contenido = editor.innerHTML;
+  const titulo = document.getElementById('contentTitle')?.textContent || 'Documento';
+  const html = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="UTF-8"/><title>${titulo}</title></head><body>${contenido}</body></html>`;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([html],{type:'application/xhtml+xml'}));
+  a.download = 'documento.xhtml';
+  a.click();
+  showToast('Exportado en formato compatible con EPUB (XHTML) ✅. Para .epub completo, usa un conversor como Calibre.');
+}
+
+var wcSpeechUtterance = null;
+
+function leerDocumentoEnVoz() {
+  if (!window.speechSynthesis) { showToast('Tu navegador no soporta texto a voz'); return; }
+  if (wcSpeechUtterance && speechSynthesis.speaking) {
+    speechSynthesis.cancel();
+    showToast('Lectura detenida');
+    const btn = document.getElementById('wcTtsStop');
+    if (btn) btn.remove();
+    return;
+  }
+  const texto = editor.innerText.trim();
+  if (!texto) { showToast('El documento está vacío'); return; }
+  wcSpeechUtterance = new SpeechSynthesisUtterance(texto);
+  wcSpeechUtterance.lang = 'es-CR';
+  wcSpeechUtterance.rate = 1;
+  wcSpeechUtterance.onend = () => {
+    const btn = document.getElementById('wcTtsStop');
+    if (btn) btn.remove();
+  };
+  speechSynthesis.speak(wcSpeechUtterance);
+  showToast('🔊 Leyendo documento...');
+
+  let stopBtn = document.getElementById('wcTtsStop');
+  if (!stopBtn) {
+    stopBtn = document.createElement('button');
+    stopBtn.id = 'wcTtsStop';
+    stopBtn.textContent = '⏹ Detener lectura';
+    stopBtn.style.cssText = 'position:fixed;bottom:90px;left:16px;z-index:99999;background:#0084ff;color:#fff;border:none;border-radius:20px;padding:10px 18px;font-size:13px;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2)';
+    stopBtn.onclick = () => { speechSynthesis.cancel(); stopBtn.remove(); };
+    document.body.appendChild(stopBtn);
+  }
+}
+
 function showKeywordDensity() {
   const text = editor.innerText.toLowerCase().replace(/[^a-záéíóúñü\s]/gi, ' ');
   const stopwords = ['de','la','que','el','en','y','a','los','del','se','las','por','un','para','con','no','una','su','al','lo','como','más','pero','sus','le','ya','o','este','sí','porque','esta','entre','cuando','muy','sin','sobre','también','me','hasta','hay','donde','quien','desde','todo','nos','durante','todos','uno','les','ni','contra','otros','ese','eso','ante','ellos','e','esto','mí','antes','algunos','qué','unos','yo','otro','otras','otra','él','tanto','esa','estos','mucho','quienes','nada','muchos','cual','poco','ella','estar','estas','algunas','algo','nosotros'];
@@ -2140,6 +2788,65 @@ function handleAction(a) {
     case 'licitacionPublica': toggleAI(); setTimeout(()=>aiQuick('licitacionPublica'),300); break;
     case 'liquidacionLaboral': openModal('modalLiquidacion'); break;
     case 'emailAssistant': openModal('modalEmailAsistente'); break;
+    case 'actaReunion': toggleAI(); setTimeout(()=>aiQuick('actaReunion'),300); break;
+    case 'cartaPoder': toggleAI(); setTimeout(()=>aiQuick('cartaPoder'),300); break;
+    case 'declaracionJurada': toggleAI(); setTimeout(()=>aiQuick('declaracionJurada'),300); break;
+    case 'ndaContract': toggleAI(); setTimeout(()=>aiQuick('ndaContract'),300); break;
+    case 'correosInst': toggleAI(); setTimeout(()=>aiQuick('correosInst'),300); break;
+    case 'cvGenerator': toggleAI(); setTimeout(()=>aiQuick('cvGenerator'),300); break;
+    case 'budgetGen': toggleAI(); setTimeout(()=>aiQuick('budgetGen'),300); break;
+    case 'premTemplates': openModal('modalPlantillas'); break;
+    case 'wordView': editor.style.background='#fff'; editor.style.maxWidth='794px'; editor.style.transform='scale(1)'; document.querySelector('.content').style.background='#e8e8ec'; showToast('Vista estilo Word activada ✅'); break;
+    case 'ruler': { const r=document.getElementById('ruler'); r.style.display=r.style.display==='none'?'block':'none'; showToast(`Regla ${r.style.display==='none'?'oculta':'visible'}`); break; }
+    case 'columnsMode': openModal('modalColumns'); break;
+    case 'printPreview': editor.style.background='#fff'; editor.style.maxWidth='794px'; window.print(); break;
+    case 'stylesPanel': toggleStylePanel(); break;
+    case 'docTheme': { const e=document.getElementById('editor'); const h=document.querySelector('.header'); const temas=[{bg:'#ffffff',head:'linear-gradient(135deg,#0084ff,#ff6b35)'},{bg:'#fdf6e3',head:'linear-gradient(135deg,#b58900,#cb4b16)'},{bg:'#f0f4f8',head:'linear-gradient(135deg,#2c3e50,#3498db)'},{bg:'#fff5f5',head:'linear-gradient(135deg,#e74c3c,#c0392b)'}]; const idx=Math.floor(Math.random()*temas.length); e.style.background=temas[idx].bg; if(h) h.style.background=temas[idx].head; showToast('Tema del documento aplicado 🌈'); break; }
+    case 'pageBG': openModal('modalBackground'); break;
+    case 'shapesPanel': openModal('modalShapes'); break;
+    case 'tableGen': openModal('modalColumns'); insertHTML('<table style="border-collapse:collapse;width:100%;margin:8px 0"><tr><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 1</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 2</th><th style="border:1px solid #ddd;padding:8px;background:#f0f7ff">Col 3</th></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr><tr><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td><td style="border:1px solid #ddd;padding:8px">Dato</td></tr></table><p></p>'); closeModal('modalColumns'); showToast('Tabla avanzada insertada ✅'); break;
+    case 'orgChart': openModal('modalOrgChart'); break;
+    case 'signatureCanvas': openAnnotation(); break;
+    case 'qrGenerator': openModal('modalQR'); break;
+    case 'rentaCalc': openModal('modalRentaCCSS'); break;
+    case 'ccssPlanilla': openModal('modalRentaCCSS'); break;
+    case 'docChatbot': toggleAI(); break;
+    case 'aiAssist': toggleAI(); break;
+    case 'docSummarizer': toggleAI(); setTimeout(()=>aiQuick('resumen'),300); break;
+    case 'plagDetector': toggleAI(); setTimeout(()=>aiQuick('originalidad'),300); break;
+    case 'questionGen': toggleAI(); setTimeout(()=>aiQuick('preguntas'),300); break;
+    case 'sentimentDetector': toggleAI(); setTimeout(()=>aiQuick('sentimiento'),300); break;
+    case 'factChecker': toggleAI(); setTimeout(()=>aiQuick('factcheck'),300); break;
+    case 'hashtagSEO': toggleAI(); setTimeout(()=>aiQuick('hashtagSEO'),300); break;
+    case 'contractAI': toggleAI(); setTimeout(()=>aiQuick('contractAI'),300); break;
+    case 'traductorIndigena': openModal('modalTraductorIndigena'); break;
+    case 'docTranslator': toggleAI(); setTimeout(()=>aiQuick('traducir'),300); break;
+    case 'tocPanel': generarTOCReal(); break;
+    case 'bookmarks': abrirBookmarks(); break;
+    case 'headerFooter': abrirConfigEncabezado('header'); break;
+    case 'pageNumbers': abrirConfigEncabezado('pagenum'); break;
+    case 'footnotes': insertarNotaPie(); break;
+    case 'comments': abrirComentarios(); break;
+    case 'versionHistory': abrirVersiones(); break;
+    case 'compareVersions': compararVersionesActual(); break;
+    case 'zenMode': activarZenMode(); break;
+    case 'immersive': activarModoInmersivo(); break;
+    case 'presMode': activarModoPresentacion(); break;
+    case 'meetingTimer': abrirWcTools('timer'); break;
+    case 'tasksPanel': abrirWcTools('kanban'); break;
+    case 'tabsMode': showToast('Por ahora usa "📂 Abrir" para trabajar con otro documento; el modo multidocumento está en desarrollo'); break;
+    case 'searchHistory': buscarEnDocumento(); break;
+    case 'freeImages': openModal('modalImagenIA'); break;
+    case 'pdfReader': wcAbrirArchivo('editor'); break;
+    case 'audioTranscript': dictarAudioAlEditor(); break;
+    case 'cloudSave': guardarEnNube(); break;
+    case 'whatsappBiz': abrirWhatsappBusiness(); break;
+    case 'htmlExport': exportarHTMLPrincipal(); break;
+    case 'mdExport': exportarMarkdownPrincipal(); break;
+    case 'epubExport': exportarEPUBPrincipal(); break;
+    case 'autocomplete': toggleAI(); setTimeout(()=>aiQuick('autocompletar'),300); break;
+    case 'spellCheck': toggleAI(); setTimeout(()=>aiQuick('ortografia'),300); break;
+    case 'textToSpeech': leerDocumentoEnVoz(); break;
     case 'translateDoc': toggleAI(); setTimeout(()=>{document.getElementById('aiInp').value='Traduce al inglés el contenido del documento';},300); break;
     case 'acceptChange': showToast('Cambio aceptado ✅'); break;
     case 'rejectChange': showToast('Cambio rechazado ❌'); break;
@@ -3196,5 +3903,4 @@ document.addEventListener('click',function(e){
 
 </body>
 </html>
-
 
