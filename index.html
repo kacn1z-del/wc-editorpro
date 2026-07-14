@@ -311,6 +311,213 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <script src="wc-v25-features44.js" defer></script>
 <script src="wc-v25-features45.js" defer></script>
 <script src="wc-v25-patch.js" defer></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXGs0ioh5FPONAgw26xLB7Nca4lq8T_K8",
+    authDomain: "wc-corporate-editor.firebaseapp.com",
+    databaseURL: "https://wc-corporate-editor-default-rtdb.firebaseio.com",
+    projectId: "wc-corporate-editor",
+    storageBucket: "wc-corporate-editor.firebasestorage.app",
+    messagingSenderId: "884314588173",
+    appId: "1:884314588173:web:627e9a2ea50ce9b4238144"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);window.__wcFirebaseDb = db;
+
+
+  const roomId = localStorage.getItem('wc-fb-room') || 'sala1';
+  const docRef = ref(db, 'docs/' + roomId);
+  const editor = document.getElementById('editor');
+
+  if (editor) {
+    let isLocalChange = false;
+    let timeout;
+
+    onValue(docRef, (snap) => {
+      if (isLocalChange) return;
+      const remoteContent = snap.val();
+      if (remoteContent !== null && remoteContent !== editor.innerHTML) {
+        editor.innerHTML = remoteContent;
+      }
+    });
+
+    editor.addEventListener('input', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        isLocalChange = true;
+        set(docRef, editor.innerHTML).then(() => {
+          setTimeout(() => isLocalChange = false, 300);
+        });
+      }, 500);
+    });
+  }
+</script>
+<script type="module">
+  // Reutiliza db y roomId del script de Firebase anterior si existen,
+  // si no, crea su propia conexión a la misma sala "sala1"
+  import { ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  function initWcTools() {
+    const fab = document.getElementById('wcToolsFab');
+    const panel = document.getElementById('wcToolsPanel');
+    const closeBtn = document.getElementById('wcToolsClose');
+    const tabs = document.querySelectorAll('#wcToolsTabs button');
+
+    fab.addEventListener('click', () => panel.classList.toggle('open'));
+    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('wcTabKanban').style.display = tab.dataset.tab === 'kanban' ? 'block' : 'none';
+        document.getElementById('wcTabTimer').style.display = tab.dataset.tab === 'timer' ? 'block' : 'none';
+      });
+    });
+
+    // ---------- KANBAN (sincronizado vía Firebase) ----------
+    const dbInstance = window.__wcFirebaseDb; // viene del script anterior
+    const kanbanRef = dbInstance ? ref(dbInstance, 'kanban/sala1') : null;
+    let kanbanData = { pendiente: [], progreso: [], hecho: [] };
+    let isLocalKanbanChange = false;
+
+    function renderKanban() {
+      document.querySelectorAll('.wcKanbanCol').forEach(col => {
+        const colName = col.dataset.col;
+        const list = col.querySelector('.wcKanbanList');
+        list.innerHTML = '';
+        (kanbanData[colName] || []).forEach((task, idx) => {
+          const card = document.createElement('div');
+          card.className = 'wcKanbanCard';
+          card.innerHTML = `<div>${task}</div><div class="actions">
+            ${colName !== 'pendiente' ? '<button data-action="left">←</button>' : '<span></span>'}
+            <button data-action="del">🗑️</button>
+            ${colName !== 'hecho' ? '<button data-action="right">→</button>' : '<span></span>'}
+          </div>`;
+          card.querySelector('[data-action="del"]')?.addEventListener('click', () => {
+            kanbanData[colName].splice(idx, 1);
+            saveKanban();
+          });
+          card.querySelector('[data-action="left"]')?.addEventListener('click', () => {
+            const order = ['pendiente','progreso','hecho'];
+            const prev = order[order.indexOf(colName) - 1];
+            kanbanData[colName].splice(idx, 1);
+            kanbanData[prev].push(task);
+            saveKanban();
+          });
+          card.querySelector('[data-action="right"]')?.addEventListener('click', () => {
+            const order = ['pendiente','progreso','hecho'];
+            const next = order[order.indexOf(colName) + 1];
+            kanbanData[colName].splice(idx, 1);
+            kanbanData[next].push(task);
+            saveKanban();
+          });
+          list.appendChild(card);
+        });
+      });
+    }
+
+    function saveKanban() {
+      renderKanban();
+      if (kanbanRef) {
+        isLocalKanbanChange = true;
+        set(kanbanRef, kanbanData).then(() => setTimeout(() => isLocalKanbanChange = false, 300));
+      } else {
+        localStorage.setItem('wcKanban', JSON.stringify(kanbanData));
+      }
+    }
+
+    if (kanbanRef) {
+      onValue(kanbanRef, (snap) => {
+        if (isLocalKanbanChange) return;
+        const val = snap.val();
+        if (val) { kanbanData = val; renderKanban(); }
+      });
+    } else {
+      const saved = localStorage.getItem('wcKanban');
+      if (saved) kanbanData = JSON.parse(saved);
+      renderKanban();
+    }
+
+    document.getElementById('wcKanbanAddBtn').addEventListener('click', () => {
+      const input = document.getElementById('wcKanbanNewTask');
+      const val = input.value.trim();
+      if (!val) return;
+      kanbanData.pendiente.push(val);
+      input.value = '';
+      saveKanban();
+    });
+
+    // ---------- TEMPORIZADOR ----------
+    let totalSeconds = 25 * 60;
+    let remaining = totalSeconds;
+    let timerInterval = null;
+    const display = document.getElementById('wcTimerDisplay');
+
+    function updateDisplay() {
+      const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+      const s = (remaining % 60).toString().padStart(2, '0');
+      display.textContent = `${m}:${s}`;
+    }
+    updateDisplay();
+
+    document.querySelectorAll('#wcTimerPresets button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        totalSeconds = parseInt(btn.dataset.min) * 60;
+        remaining = totalSeconds;
+        updateDisplay();
+      });
+    });
+
+    document.getElementById('wcTimerStart').addEventListener('click', () => {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        remaining--;
+        updateDisplay();
+        if (remaining <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          // Beep simple
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            osc.frequency.value = 880;
+            osc.connect(ctx.destination);
+            osc.start();
+            setTimeout(() => osc.stop(), 600);
+          } catch(e) {}
+          alert('⏱️ ¡Tiempo terminado!');
+        }
+      }, 1000);
+    });
+
+    document.getElementById('wcTimerPause').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    });
+
+    document.getElementById('wcTimerReset').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      remaining = totalSeconds;
+      updateDisplay();
+    });
+  }
+
+  // Espera a que el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWcTools);
+  } else {
+    initWcTools();
+  }
+</script>
 </head>
 <body>
 <div id="menuBackdrop" onclick="closeAllSheets()"></div>
@@ -4040,52 +4247,7 @@ document.addEventListener('click',function(e){
 },true);
 </script>
 <!-- Colaboración en tiempo real (Firebase) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBXGs0ioh5FPONAgw26xLB7Nca4lq8T_K8",
-    authDomain: "wc-corporate-editor.firebaseapp.com",
-    databaseURL: "https://wc-corporate-editor-default-rtdb.firebaseio.com",
-    projectId: "wc-corporate-editor",
-    storageBucket: "wc-corporate-editor.firebasestorage.app",
-    messagingSenderId: "884314588173",
-    appId: "1:884314588173:web:627e9a2ea50ce9b4238144"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);window.__wcFirebaseDb = db;
-
-
-  const roomId = localStorage.getItem('wc-fb-room') || 'sala1';
-  const docRef = ref(db, 'docs/' + roomId);
-  const editor = document.getElementById('editor');
-
-  if (editor) {
-    let isLocalChange = false;
-    let timeout;
-
-    onValue(docRef, (snap) => {
-      if (isLocalChange) return;
-      const remoteContent = snap.val();
-      if (remoteContent !== null && remoteContent !== editor.innerHTML) {
-        editor.innerHTML = remoteContent;
-      }
-    });
-
-    editor.addEventListener('input', () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        isLocalChange = true;
-        set(docRef, editor.innerHTML).then(() => {
-          setTimeout(() => isLocalChange = false, 300);
-        });
-      }, 500);
-    });
-  }
-</script>
+<!-- Módulo Firebase (doc sync) movido al <head> para carga temprana -->
 <!-- Panel Kanban + Temporizador -->
 <style>
   #wcToolsFab{position:fixed;bottom:90px;right:16px;z-index:9999;width:54px;height:54px;border-radius:50%;background:#3b82f6;color:#fff;font-size:22px;border:none;box-shadow:0 4px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center}
@@ -4157,167 +4319,7 @@ document.addEventListener('click',function(e){
   </div>
 </div>
 
-<script type="module">
-  // Reutiliza db y roomId del script de Firebase anterior si existen,
-  // si no, crea su propia conexión a la misma sala "sala1"
-  import { ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-  function initWcTools() {
-    const fab = document.getElementById('wcToolsFab');
-    const panel = document.getElementById('wcToolsPanel');
-    const closeBtn = document.getElementById('wcToolsClose');
-    const tabs = document.querySelectorAll('#wcToolsTabs button');
-
-    fab.addEventListener('click', () => panel.classList.toggle('open'));
-    closeBtn.addEventListener('click', () => panel.classList.remove('open'));
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('wcTabKanban').style.display = tab.dataset.tab === 'kanban' ? 'block' : 'none';
-        document.getElementById('wcTabTimer').style.display = tab.dataset.tab === 'timer' ? 'block' : 'none';
-      });
-    });
-
-    // ---------- KANBAN (sincronizado vía Firebase) ----------
-    const dbInstance = window.__wcFirebaseDb; // viene del script anterior
-    const kanbanRef = dbInstance ? ref(dbInstance, 'kanban/sala1') : null;
-    let kanbanData = { pendiente: [], progreso: [], hecho: [] };
-    let isLocalKanbanChange = false;
-
-    function renderKanban() {
-      document.querySelectorAll('.wcKanbanCol').forEach(col => {
-        const colName = col.dataset.col;
-        const list = col.querySelector('.wcKanbanList');
-        list.innerHTML = '';
-        (kanbanData[colName] || []).forEach((task, idx) => {
-          const card = document.createElement('div');
-          card.className = 'wcKanbanCard';
-          card.innerHTML = `<div>${task}</div><div class="actions">
-            ${colName !== 'pendiente' ? '<button data-action="left">←</button>' : '<span></span>'}
-            <button data-action="del">🗑️</button>
-            ${colName !== 'hecho' ? '<button data-action="right">→</button>' : '<span></span>'}
-          </div>`;
-          card.querySelector('[data-action="del"]')?.addEventListener('click', () => {
-            kanbanData[colName].splice(idx, 1);
-            saveKanban();
-          });
-          card.querySelector('[data-action="left"]')?.addEventListener('click', () => {
-            const order = ['pendiente','progreso','hecho'];
-            const prev = order[order.indexOf(colName) - 1];
-            kanbanData[colName].splice(idx, 1);
-            kanbanData[prev].push(task);
-            saveKanban();
-          });
-          card.querySelector('[data-action="right"]')?.addEventListener('click', () => {
-            const order = ['pendiente','progreso','hecho'];
-            const next = order[order.indexOf(colName) + 1];
-            kanbanData[colName].splice(idx, 1);
-            kanbanData[next].push(task);
-            saveKanban();
-          });
-          list.appendChild(card);
-        });
-      });
-    }
-
-    function saveKanban() {
-      renderKanban();
-      if (kanbanRef) {
-        isLocalKanbanChange = true;
-        set(kanbanRef, kanbanData).then(() => setTimeout(() => isLocalKanbanChange = false, 300));
-      } else {
-        localStorage.setItem('wcKanban', JSON.stringify(kanbanData));
-      }
-    }
-
-    if (kanbanRef) {
-      onValue(kanbanRef, (snap) => {
-        if (isLocalKanbanChange) return;
-        const val = snap.val();
-        if (val) { kanbanData = val; renderKanban(); }
-      });
-    } else {
-      const saved = localStorage.getItem('wcKanban');
-      if (saved) kanbanData = JSON.parse(saved);
-      renderKanban();
-    }
-
-    document.getElementById('wcKanbanAddBtn').addEventListener('click', () => {
-      const input = document.getElementById('wcKanbanNewTask');
-      const val = input.value.trim();
-      if (!val) return;
-      kanbanData.pendiente.push(val);
-      input.value = '';
-      saveKanban();
-    });
-
-    // ---------- TEMPORIZADOR ----------
-    let totalSeconds = 25 * 60;
-    let remaining = totalSeconds;
-    let timerInterval = null;
-    const display = document.getElementById('wcTimerDisplay');
-
-    function updateDisplay() {
-      const m = Math.floor(remaining / 60).toString().padStart(2, '0');
-      const s = (remaining % 60).toString().padStart(2, '0');
-      display.textContent = `${m}:${s}`;
-    }
-    updateDisplay();
-
-    document.querySelectorAll('#wcTimerPresets button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        totalSeconds = parseInt(btn.dataset.min) * 60;
-        remaining = totalSeconds;
-        updateDisplay();
-      });
-    });
-
-    document.getElementById('wcTimerStart').addEventListener('click', () => {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        remaining--;
-        updateDisplay();
-        if (remaining <= 0) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          // Beep simple
-          try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            osc.frequency.value = 880;
-            osc.connect(ctx.destination);
-            osc.start();
-            setTimeout(() => osc.stop(), 600);
-          } catch(e) {}
-          alert('⏱️ ¡Tiempo terminado!');
-        }
-      }, 1000);
-    });
-
-    document.getElementById('wcTimerPause').addEventListener('click', () => {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    });
-
-    document.getElementById('wcTimerReset').addEventListener('click', () => {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      remaining = totalSeconds;
-      updateDisplay();
-    });
-  }
-
-  // Espera a que el DOM esté listo
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWcTools);
-  } else {
-    initWcTools();
-  }
-</script>
+<!-- Módulo Firebase (kanban/timer) movido al <head> para carga temprana -->
 <button onclick="const r=prompt('Código de sala:',localStorage.getItem('wc-fb-room')||'sala1');if(r){localStorage.setItem('wc-fb-room',r);location.reload();}" style="position:fixed;bottom:200px;right:12px;z-index:8000;background:#e74c3c;color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(231,76,60,.4)" title="Cambiar sala">👥</button>
 
 <!-- wc-v25-bundle1..4, features32..45 y patch.js ahora se cargan
@@ -4326,5 +4328,4 @@ document.addEventListener('click',function(e){
 
 </body>
 </html>
-
 
